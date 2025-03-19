@@ -1,0 +1,881 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    color: whitesmoke
+  }
+  
+ 
+  /* Auth Forms */
+  .auth-container {
+    background: whitesmoke;
+    padding: 20px;
+    width: 300px;
+    margin: 50px auto;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .auth-container h2 {
+    text-align: center;
+    color: black;
+  }
+  
+  .auth-container form {
+    display: flex;
+    flex-direction: column;
+    color: black;
+    font-weight: bold;
+  }
+  
+  .auth-container input {
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .auth-container button {
+    background: purple;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+  }
+
+
+
+
+
+  /* Profile Page Styles */
+.profile-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background: purple;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .profile-info {
+    margin-bottom: 20px;
+  }
+  
+  .profile-pic {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #007bff;
+  }
+  
+  .success-message {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .edit-profile input,
+  .edit-profile textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .edit-profile button {
+    margin-top: 10px;
+    padding: 8px 12px;
+    border: none;
+    background: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .edit-profile button:last-child {
+    background: red;
+  }
+  
+
+/* Single Post Page */
+.single-post-container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  background: purple;
+  color: whitesmoke;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.single-post-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.profile-link{
+  font-size: 1.3em;
+  font-weight: bold;
+  color: aliceblue;
+}
+
+.back-btn {
+  display: block;
+  margin-top: 20px;
+  text-decoration: none;
+  background: black;
+  color: whitesmoke;
+  padding: 8px 12px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+
+
+/* ✅ Edit Post Page */
+.edit-post-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  background-color: whitesmoke;
+  color: black;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.edit-post-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: black;
+}
+
+.edit-post-container input
+ {
+  width: 95%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.edit-post-container textarea
+{
+  width: 82%;
+  padding: 50px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.edit-post-container button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background-color: purple;
+  color: whitesmoke;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.edit-post-container button:hover {
+  background-color: rgb(160, 4, 160);
+}
+
+
+
+
+/* ✅ Comment Section */
+.comment-section {
+  margin-top: 20px;
+  padding: 20px;
+  border-top: 2px solid #ddd;
+  color: whitesmoke;
+}
+
+.comment {
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  color: black;
+  position: relative;
+}
+
+.comment p {
+  margin: 0;
+  font-size: 16px;
+}
+
+.comment small {
+  display: block;
+  font-size: 12px;
+  color: gray;
+}
+
+.replies {
+  margin-top: 10px;
+  padding-left: 25px;
+  border-left: 2px solid #ddd;
+}
+
+.reply {
+  padding: 10px;
+  margin-top: 5px;
+  background-color: #fff;
+  border-radius: 5px;
+}
+
+.reply-box,
+.add-comment {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.reply-box input,
+.add-comment input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.reply-box button,
+.add-comment button {
+  padding: 8px 12px;
+  margin-left: 8px;
+  border: none;
+  background-color: black;
+  color: whitesmoke;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.reply-box button:hover,
+.add-comment button:hover {
+  background-color: rgb(160, 4, 160);
+}
+
+button {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-btn {
+  background-color: black;
+  color: whitesmoke;
+  margin-right: 5px;
+  padding: 5px 15.5px ;
+  border-radius: 4px;
+}
+
+.edit-btn:hover {
+  background-color: rgb(160, 4, 160);
+}
+
+.delete-btn {
+  background-color: black;
+  color: whitesmoke;
+}
+
+.delete-btn:hover {
+  background-color: black;
+}
+
+
+
+
+/* ✅ Rating System */
+.post-rating {
+  margin-top: 20px;
+  padding: 7px;
+  background: black;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.rating-buttons button {
+  margin: 5px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  background-color: whitesmoke;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.rating-buttons button:hover {
+  background-color: orange;
+}
+
+
+
+
+/* ✅ Music Player Styling */
+.music-player {
+  margin-top: 20px;
+  padding: 1px;
+  background: purple;
+  color: whitesmoke;
+  border-radius: 5px;
+  text-align: center;
+}
+
+audio {
+  width: 100%;
+  margin-top: 10px;
+}
+
+
+
+
+/* ✅ New Post Styling */
+.post-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  background-color: purple;
+  color: silver;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.post-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: whitesmoke;
+}
+
+.post-container input,
+.post-container textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  color: black;
+}
+
+.post-container input[type="file"] {
+  border: none;
+  color: black;
+}
+
+.file-upload-section {
+  background-color: #f9f9f9;
+  padding: 10px;
+  color: black;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.post-container button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.post-container button:hover {
+  background-color: black;
+}
+
+
+
+/* ✅ File Upload Section */
+.file-upload-section {
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.file-upload-section label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+
+
+
+
+
+
+
+/* ✅ General Layout */
+.home-layout {
+  display: grid;
+  grid-template-columns: 250px auto 280px; /* Sidebar, Main Content, Subscription */
+  grid-template-rows: auto;
+  height: 100vh;
+  gap: 20px;
+  padding: 20px;
+  background-color: black;
+}
+
+/* ✅ Sidebar (Left Navigation) */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: black;
+  color: whitesmoke;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px #9a2887; /* Add a glow effect */
+  position: sticky;
+  top: 0;
+  height: 100vh; /* ✅ Full height */
+  overflow-y: auto; /* ✅ Prevents sidebar from scrolling */
+}
+
+.sidebar-icon {
+  text-decoration: none;
+  color: whitesmoke;
+  font-size: 18px;
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-icon {
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* ✅ Category Filter */
+.category-dropdown {
+  width: 100%;
+  padding: 8px;
+  background-color: purple;
+  color: whitesmoke;
+  border-radius: 5px;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  outline: none; /* Remove default blue outline */
+  border: 2px solid black; /* Default border */
+  box-shadow: 0px 0px 10px #9a2887; /* Add a glow effect */
+}
+
+
+
+
+.category-dropdownn {
+  display: none;
+  width: 100%;
+  padding: 8px;
+  background-color: purple;
+  color: whitesmoke;
+  border-radius: 5px;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+}
+
+/* ✅ Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  padding: 15px;
+  background-color: black;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar {
+  flex: 1;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  margin-right: 10px;
+
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  background-color: black;
+  gap: 10px;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* ✅ Main Content */
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto; /* ✅ Enables scrolling for blog posts only */
+  height: 100vh; /* ✅ Full height to allow scrolling */
+  scrollbar-width: none; /* ✅ Hides scrollbar for Firefox */
+  -ms-overflow-style: none; /* ✅ Hides scrollbar for IE/Edge */
+}
+
+/* ✅ Hides scrollbar for Chrome, Safari, and Edge */
+.main-content::-webkit-scrollbar {
+  display: none;
+}
+
+
+/* ✅ Blog Post List */
+.posts-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  color: whitesmoke;
+  padding-bottom: 20px; /* ✅ Extra space for smooth scrolling */
+}
+
+.post-card {
+  background-color: purple;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.post-card h3 {
+  font-size: 1.6em;
+  color: whitesmoke;
+}
+
+.post-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* ✅ Subscription Section */
+.subscription-section {
+  background-color: black;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px #9a2887; /* Add a glow effect */
+  text-align: center;
+  position: sticky;
+  top: 0;
+  height: 100vh; /* ✅ Full height */
+  overflow-y: auto; /* ✅ Prevents it from scrolling */
+}
+
+.subscribe-btn {
+  background-color: purple;
+  color: white;
+  border: none;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.subscribe-btn:hover {
+  background-color: #cc0000;
+}
+
+
+
+ /* ✅ Navbar Container */
+ .navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: purple;
+  padding: 15px 30px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  width: 95.3%;
+  z-index: 1000;
+}
+
+/* ✅ Logo Styling */
+.logo {
+  font-size: 35px;
+  font-weight: bold;
+  text-decoration: none;
+  color: whitesmoke;
+}
+
+/* ✅ Navigation Links */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: black;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.nav-links a:hover {
+  background-color: black;
+}
+
+/* ✅ Profile Icon */
+.nav-profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+/* ✅ Logout Button */
+.logout-btn {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: red;
+}
+
+.bottom-nav{
+  display: none;
+}
+
+
+
+
+/* ✅ Responsive Styles for Mobile */
+@media (max-width: 768px) {
+  .home-layout {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+  }
+
+  /* ✅ Hide Sidebar and Subscription Section on Mobile */
+  .sidebar,
+  .subscription-section {
+    display: none;
+  }
+
+  /* ✅ Make Header Sticky */
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 96%;
+    padding: 10px;
+    margin-top: 6em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  /* ✅ Profile Icon at the Top Left */
+  .user-info {
+    display: none;
+  }
+
+   /* ✅ Hide User Avatar on Mobile */
+   .user-avatar {
+    display: none;
+  }
+
+  /* ✅ Navbar: Adjust Profile Icon & Logo */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: purple;
+    padding: 10px;
+  }
+
+  .navbar .logo {
+    font-size: 30px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+  }
+
+  .nav-links .logout-btn {
+    display: none; /* ✅ Hide Logout Button on Mobile */
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* ✅ Search Bar and Category Dropdown */
+  .search-bar {
+    width: 90%;
+    margin: 10px auto;
+    display: block;
+  }
+
+   /* ✅ Show "Select Category" under Search Bar */
+   .category-dropdownn {
+    width: 90%;
+    margin: 5px auto;
+    display: block;
+  }
+
+  /* ✅ Adjust Main Content */
+  .main-content {
+    margin-top: 80px; /* Leave space for the sticky header */
+    margin-bottom: 50px;
+  }
+
+  /* ✅ Bottom Navigation Bar */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: black;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+
+  .bottom-nav a {
+    color: white;
+    font-size: 18px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+
+
+
+/* Navbar Profile Picture */
+.nav-profile-pic {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Default Profile Icon */
+.default-profile-icon {
+  color: white; /* Change to your theme color */
+  width: 32px;
+  height: 32px;
+}
+
+/* Home Page User Avatar */
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Default Icon in Home */
+.user-info .default-profile-icon {
+  color: white;
+  width: 32px;
+  height: 32px;
+}
+
+
+
+
+
+/* Sidebar Styling */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.sidebar-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  transition: background 0.3s ease-in-out;
+}
+
+.sidebar-icon:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ✅ Hide Sidebar on Mobile */
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: -20px 0;
+  background: black;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.nav-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.icon {
+  color: white;
+  transition: transform 0.2s ease-in-out;
+}
+
+.nav-icon:hover .icon,
+.sidebar-icon:hover .icon {
+  transform: scale(1.2);
+}
+
+/* ✅ Hide Bottom Navbar on Desktop */
+@media (min-width: 769px) {
+  .bottom-nav {
+    display: none;
+  }
+}
