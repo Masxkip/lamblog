@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
 
+const API_URL = import.meta.env.VITE_BACKEND_URL;
+
 function EditProfile() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -39,7 +41,7 @@ function EditProfile() {
     }
 
     try {
-      const res = await axios.put(`http://localhost:5000/api/users/${id}`, formData, {
+      const res = await axios.put(`${API_URL}/api/users/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           "Authorization": `Bearer ${token}`,

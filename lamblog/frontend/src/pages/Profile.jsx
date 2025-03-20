@@ -3,6 +3,8 @@ import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
 
+const API_URL = import.meta.env.VITE_BACKEND_URL;
+
 function Profile() {
   const { id } = useParams();
   const { user: loggedInUser } = useContext(AuthContext);
@@ -18,7 +20,7 @@ function Profile() {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/users/${id}`);
+        const response = await axios.get(`${API_URL}/api/users/${id}`);
         setUser(response.data);
         setPosts(response.data.posts);
         setComments(response.data.comments);

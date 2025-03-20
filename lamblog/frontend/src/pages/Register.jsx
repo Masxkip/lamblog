@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_BACKEND_URL;
+
 function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -16,7 +18,7 @@ function Register() {
     setSuccess("");
 
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/register", {
+      const response = await axios.post(`${API_URL}/api/auth/register`, {
         username,
         email,
         password,

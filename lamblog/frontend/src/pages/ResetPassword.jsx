@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_BACKEND_URL;
+
 function ResetPassword() {
   const { token } = useParams(); // Get token from URL
   const navigate = useNavigate();
@@ -21,7 +23,7 @@ function ResetPassword() {
     }
 
     try {
-      const response = await axios.post(`http://localhost:5000/api/auth/reset-password/${token}`, { password });
+      const response = await axios.post(`${API_URL}/api/auth/reset-password/${token}`, { password });
       setMessage(response.data.message);
       setPassword(""); // ✅ Clear fields on success
       setConfirmPassword("");

@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 
+const API_URL = import.meta.env.VITE_BACKEND_URL;
+
 function NewPost() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -34,7 +36,7 @@ function NewPost() {
     if (music) formData.append("music", music);
 
     try {
-      await axios.post("http://localhost:5000/api/posts", formData, {
+      await axios.post(`${API_URL}/api/posts`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           "Authorization": `Bearer ${token}`,
