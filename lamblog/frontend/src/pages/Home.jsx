@@ -138,7 +138,7 @@ function Home() {
         <p>Unlock exclusive posts and features by subscribing.</p>
         <button className="subscribe-btn">Subscribe</button>
         <br /> <br /> <br />
-        <h2>Subscription Button Doesn't Work for Now, Due to This Section Being a F***#n PROP!</h2>
+        <h2>##Subscription Button Doesn't Work, Due to Prop Maintenance.</h2>
       </aside>
 
             {/* ✅ Bottom Navigation for Mobile */}

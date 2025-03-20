@@ -190,15 +190,6 @@ router.post("/:id/rate", verifyToken, async (req, res) => {
     }
   });
 
-
-  router.get("/trending", async (req, res) => {
-    try {
-      const trendingPosts = await Post.find({ category: { $regex: /^trending$/i } }); // ✅ Case-insensitive
-      res.status(200).json(trendingPosts);
-    } catch (error) {
-      res.status(500).json({ message: "Error fetching trending posts" });
-    }
-  });
   
   
   
