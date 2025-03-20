@@ -1,9 +1,10 @@
 import { useEffect, useState, useContext, useCallback } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { UserCircle, Home as HomeIcon, FileText} from "lucide-react";
+import { UserCircle, Home as HomeIcon, FileText } from "lucide-react";
 import AuthContext from "../context/AuthContext";
 
+// ✅ Load API URL from .env
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 function Home() {
@@ -14,7 +15,7 @@ function Home() {
   const [category, setCategory] = useState("");
   const [categories, setCategories] = useState([]);
 
-  // ✅ Fetch regular posts based on search & category
+  // ✅ Fetch posts
   const fetchPosts = useCallback(async () => {
     setLoading(true);
     try {
@@ -30,7 +31,6 @@ function Home() {
     }
     setLoading(false);
   }, [search, category]);
-
 
   // ✅ Fetch categories
   const fetchCategories = useCallback(async () => {
@@ -56,8 +56,6 @@ function Home() {
       
       {/* ✅ Sidebar */}
       <aside className="sidebar">
-
-        {/* 🔹 Category Filter */}
         <h3>#Top Categories</h3>
         <select value={category} onChange={(e) => setCategory(e.target.value)} className="category-dropdown">
           <option value="">All Categories</option>
@@ -66,23 +64,20 @@ function Home() {
           ))}
         </select>
 
-         {/* ✅ Use renamed `HomeIcon` to avoid conflict */}
-      <Link to="/" className="sidebar-icon">
-        <HomeIcon className="icon" size={24} />
-      </Link>
-      <Link to="/new-post" className="sidebar-icon">
-        <FileText className="icon" size={24} />
-      </Link>
-      <Link to={user ? `/profile/${user._id}` : "/login"} className="sidebar-icon">
-      <UserCircle className="default-profile-icon" size={32} />
-      </Link>
-
+        {/* ✅ Sidebar Navigation */}
+        <Link to="/" className="sidebar-icon">
+          <HomeIcon className="icon" size={24} />
+        </Link>
+        <Link to="/new-post" className="sidebar-icon">
+          <FileText className="icon" size={24} />
+        </Link>
+        <Link to={user ? `/profile/${user._id}` : "/login"} className="sidebar-icon">
+          <UserCircle className="default-profile-icon" size={32} />
+        </Link>
       </aside>
 
       {/* ✅ Main Content */}
       <main className="main-content">
-        
-        {/* 🔹 Search Bar in Header */}
         <header className="header">
           <input
             type="text"
@@ -93,13 +88,17 @@ function Home() {
           />
           {user && (
             <div className="user-info">
-          <span>{user.username}</span>
-          {user.profilePicture ? (
-            <img src={user.profilePicture} alt="User" className="user-avatar" />
-          ) : (
-            <UserCircle className="default-profile-icon" size={32} />
-          )}
-        </div>
+              <span>{user.username}</span>
+              {user.profilePicture ? (
+                <img 
+                  src={`${API_URL}/uploads/${user.profilePicture}`} 
+                  alt="User" 
+                  className="user-avatar" 
+                />
+              ) : (
+                <UserCircle className="default-profile-icon" size={32} />
+              )}
+            </div>
           )}
         </header>
 
@@ -110,7 +109,6 @@ function Home() {
           ))}
         </select>
 
-        {/* 🔹 Posts Section */}
         <h2>#SLXXK'S Latest!</h2>
         {loading ? (
           <p>Loading posts...</p>
@@ -121,7 +119,13 @@ function Home() {
             {posts.map((post) => (
               <div key={post._id} className="post-card">
                 <Link to={`/post/${post._id}`}>
-                  {post.image && <img src={post.image} alt="Post" className="post-image" />}
+                  {post.image && (
+                    <img 
+                      src={`${API_URL}/uploads/${post.image}`} 
+                      alt="Post" 
+                      className="post-image" 
+                    />
+                  )}
                   <h3>#{post.title}</h3>
                 </Link>
                 <p>{post.content.substring(0, 100)}...</p>
@@ -136,27 +140,25 @@ function Home() {
 
       {/* ✅ Subscription Section */}
       <aside className="subscription-section">
-        <h2>Subscribe for, SLXXK Premium Content</h2>
+        <h2>Subscribe for SLXXK Premium Content</h2>
         <p>Unlock exclusive posts and features by subscribing.</p>
         <button className="subscribe-btn">Subscribe</button>
         <br /> <br /> <br />
         <h2>##Subscription Button Doesn't Work, Due to Prop Maintenance.</h2>
       </aside>
 
-            {/* ✅ Bottom Navigation for Mobile */}
+      {/* ✅ Bottom Navigation for Mobile */}
       <nav className="bottom-nav">
-         <Link to="/" className="sidebar-icon">
-        <HomeIcon className="icon" size={24} />
-      </Link>
-      <Link to="/new-post" className="sidebar-icon">
-        <FileText className="icon" size={24} />
-      </Link>
-      <Link to={user ? `/profile/${user._id}` : "/login"} className="sidebar-icon">
-      <UserCircle className="default-profile-icon" size={32} />
-      </Link>
+        <Link to="/" className="sidebar-icon">
+          <HomeIcon className="icon" size={24} />
+        </Link>
+        <Link to="/new-post" className="sidebar-icon">
+          <FileText className="icon" size={24} />
+        </Link>
+        <Link to={user ? `/profile/${user._id}` : "/login"} className="sidebar-icon">
+          <UserCircle className="default-profile-icon" size={32} />
+        </Link>
       </nav>
-      
-
     </div>
   );
 }
