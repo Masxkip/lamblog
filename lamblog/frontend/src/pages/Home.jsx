@@ -21,7 +21,7 @@ function Home() {
       if (category) queryParams.push(`category=${category}`);
       const queryString = queryParams.length ? `?${queryParams.join("&")}` : "";
 
-      const response = await axios.get(`http://localhost:5000/api/posts${queryString}`);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/posts${queryString}`);
       setPosts(response.data);
     } catch (err) {
       console.error("Error fetching posts:", err);
@@ -33,7 +33,7 @@ function Home() {
   // ✅ Fetch categories
   const fetchCategories = useCallback(async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/posts");
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/posts`);
       const uniqueCategories = [...new Set(response.data.map((post) => post.category).filter(Boolean))];
       setCategories(uniqueCategories);
     } catch (err) {

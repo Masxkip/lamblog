@@ -39,7 +39,7 @@ function EditProfile() {
     }
 
     try {
-      const res = await axios.put(`http://localhost:5000/api/users/${id}`, formData, {
+      const res = await axios.put(`${import.meta.env.VITE_API_URL}/api/users/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           "Authorization": `Bearer ${token}`,
