@@ -2,7 +2,9 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
+import { UserCircle } from "lucide-react"; // Icon for default profile picture
 
+// ✅ Load API URL from .env
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 function Profile() {
@@ -22,10 +24,10 @@ function Profile() {
       try {
         const response = await axios.get(`${API_URL}/api/users/${id}`);
         setUser(response.data);
-        setPosts(response.data.posts);
-        setComments(response.data.comments);
-        setReplies(response.data.replies);
-        setRatings(response.data.ratings);
+        setPosts(response.data.posts || []);
+        setComments(response.data.comments || []);
+        setReplies(response.data.replies || []);
+        setRatings(response.data.ratings || []);
         setLoading(false);
       } catch (err) {
         console.error("Error fetching profile:", err);
@@ -44,17 +46,34 @@ function Profile() {
   return (
     <div className="profile-container">
       <h2>{user.username}'s Profile</h2>
-      {user.profilePicture && <img src={user.profilePicture} alt="Profile" className="profile-pic" />}
+
+      {/* ✅ Fix Profile Picture Loading */}
+      {user.profilePicture ? (
+        <img 
+          src={`${API_URL}/uploads/${user.profilePicture}`} 
+          alt="Profile" 
+          className="profile-pic" 
+        />
+      ) : (
+        <UserCircle className="default-profile-icon" size={50} /> // Default icon if no profile pic
+      )}
+
       <p><strong>Email:</strong> {user.email}</p>
       <p><strong>Bio:</strong> {user.bio || "No bio available."}</p>
       <p><strong>Location:</strong> {user.location || "Not set"}</p>
-      <p><strong>Website:</strong> {user.website ? <a href={user.website} target="_blank" rel="noopener noreferrer">{user.website}</a> : "Not set"}</p>
+      <p>
+        <strong>Website:</strong> 
+        {user.website ? (
+          <a href={user.website} target="_blank" rel="noopener noreferrer">{user.website}</a>
+        ) : (
+          "Not set"
+        )}
+      </p>
 
-      {/* ✅ Hide Edit Profile button if viewing another user's profile */}
+      {/* ✅ Show Edit Profile button only for the logged-in user */}
       {loggedInUser && loggedInUser._id === user._id && (
-  <button onClick={() => navigate(`/edit-profile/${user._id}`)}>Edit Profile</button>
-)}
-
+        <button onClick={() => navigate(`/edit-profile/${user._id}`)}>Edit Profile</button>
+      )}
 
       {/* ✅ User’s Posts */}
       <h3>Posts by {user.username}</h3>
