@@ -1,12 +1,12 @@
 import { useEffect, useState, useContext, useCallback } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { UserCircle, Home as HomeIcon, FileText } from "lucide-react";
+import { UserCircle, Home as HomeIcon, FileText} from "lucide-react";
 import AuthContext from "../context/AuthContext";
 
 function Home() {
   const { user } = useContext(AuthContext);
-  const [posts, setPosts] = useState([]);  // ✅ Ensure posts is an array
+  const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
@@ -21,33 +21,21 @@ function Home() {
       if (category) queryParams.push(`category=${category}`);
       const queryString = queryParams.length ? `?${queryParams.join("&")}` : "";
 
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/posts${queryString}`);
-
-      // ✅ Ensure response.data is an array before setting state
-      if (Array.isArray(response.data)) {
-        setPosts(response.data);
-      } else {
-        console.error("Unexpected API response:", response.data);
-        setPosts([]); // Prevent error if response is not an array
-      }
+      const response = await axios.get(`http://localhost:5000/api/posts${queryString}`);
+      setPosts(response.data);
     } catch (err) {
       console.error("Error fetching posts:", err);
-      setPosts([]); // Handle errors gracefully
     }
     setLoading(false);
   }, [search, category]);
 
+
   // ✅ Fetch categories
   const fetchCategories = useCallback(async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/posts`);
-      console.log("API Response:", response.data);  // ✅ Debug log
-      if (Array.isArray(response.data)) {
-        const uniqueCategories = [...new Set(response.data.map((post) => post.category).filter(Boolean))];
-        setCategories(uniqueCategories);
-      } else {
-        console.error("Unexpected API response:", response.data);
-      }
+      const response = await axios.get("http://localhost:5000/api/posts");
+      const uniqueCategories = [...new Set(response.data.map((post) => post.category).filter(Boolean))];
+      setCategories(uniqueCategories);
     } catch (err) {
       console.error("Error fetching categories:", err);
     }
@@ -76,16 +64,16 @@ function Home() {
           ))}
         </select>
 
-        {/* ✅ Sidebar Navigation */}
-        <Link to="/" className="sidebar-icon">
-          <HomeIcon className="icon" size={24} />
-        </Link>
-        <Link to="/new-post" className="sidebar-icon">
-          <FileText className="icon" size={24} />
-        </Link>
-        <Link to={user ? `/profile/${user._id}` : "/login"} className="sidebar-icon">
-          <UserCircle className="default-profile-icon" size={32} />
-        </Link>
+         {/* ✅ Use renamed `HomeIcon` to avoid conflict */}
+      <Link to="/" className="sidebar-icon">
+        <HomeIcon className="icon" size={24} />
+      </Link>
+      <Link to="/new-post" className="sidebar-icon">
+        <FileText className="icon" size={24} />
+      </Link>
+      <Link to={user ? `/profile/${user._id}` : "/login"} className="sidebar-icon">
+      <UserCircle className="default-profile-icon" size={32} />
+      </Link>
 
       </aside>
 
@@ -103,13 +91,13 @@ function Home() {
           />
           {user && (
             <div className="user-info">
-              <span>{user.username}</span>
-              {user.profilePicture ? (
-                <img src={user.profilePicture} alt="User" className="user-avatar" />
-              ) : (
-                <UserCircle className="default-profile-icon" size={32} />
-              )}
-            </div>
+          <span>{user.username}</span>
+          {user.profilePicture ? (
+            <img src={user.profilePicture} alt="User" className="user-avatar" />
+          ) : (
+            <UserCircle className="default-profile-icon" size={32} />
+          )}
+        </div>
           )}
         </header>
 
@@ -124,7 +112,9 @@ function Home() {
         <h2>#SLXXK'S Latest!</h2>
         {loading ? (
           <p>Loading posts...</p>
-        ) : Array.isArray(posts) && posts.length > 0 ? ( // ✅ Prevent .map() error
+        ) : posts.length === 0 ? (
+          <p>No posts available.</p>
+        ) : (
           <div className="posts-grid">
             {posts.map((post) => (
               <div key={post._id} className="post-card">
@@ -139,32 +129,32 @@ function Home() {
               </div>
             ))}
           </div>
-        ) : (
-          <p>No posts available.</p>
         )}
       </main>
 
       {/* ✅ Subscription Section */}
       <aside className="subscription-section">
-        <h2>Subscribe for SLXXK Premium Content</h2>
+        <h2>Subscribe for, SLXXK Premium Content</h2>
         <p>Unlock exclusive posts and features by subscribing.</p>
         <button className="subscribe-btn">Subscribe</button>
         <br /> <br /> <br />
         <h2>##Subscription Button Doesn't Work, Due to Prop Maintenance.</h2>
       </aside>
 
-      {/* ✅ Bottom Navigation for Mobile */}
+            {/* ✅ Bottom Navigation for Mobile */}
       <nav className="bottom-nav">
-        <Link to="/" className="sidebar-icon">
-          <HomeIcon className="icon" size={24} />
-        </Link>
-        <Link to="/new-post" className="sidebar-icon">
-          <FileText className="icon" size={24} />
-        </Link>
-        <Link to={user ? `/profile/${user._id}` : "/login"} className="sidebar-icon">
-          <UserCircle className="default-profile-icon" size={32} />
-        </Link>
+         <Link to="/" className="sidebar-icon">
+        <HomeIcon className="icon" size={24} />
+      </Link>
+      <Link to="/new-post" className="sidebar-icon">
+        <FileText className="icon" size={24} />
+      </Link>
+      <Link to={user ? `/profile/${user._id}` : "/login"} className="sidebar-icon">
+      <UserCircle className="default-profile-icon" size={32} />
+      </Link>
       </nav>
+      
+
     </div>
   );
 }

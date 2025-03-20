@@ -13,7 +13,7 @@ function EditPost() {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/posts/${id}`);
+        const response = await axios.get(`http://localhost:5000/api/posts/${id}`);
         setPost(response.data);
         setTitle(response.data.title);
         setContent(response.data.content);
@@ -31,7 +31,7 @@ function EditPost() {
     if (!token) return;
 
     try {
-      await axios.put(`${import.meta.env.VITE_API_URL}/api/posts/${id}`, { title, content }, {
+      await axios.put(`http://localhost:5000/api/posts/${id}`, { title, content }, {
         headers: { "Authorization": `Bearer ${token}` },
       });
 
