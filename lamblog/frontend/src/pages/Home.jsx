@@ -90,14 +90,15 @@ function Home() {
             <div className="user-info">
               <span>{user.username}</span>
               {user.profilePicture ? (
-                <img 
-                  src={`${API_URL}/uploads/${user.profilePicture}`} 
-                  alt="User" 
-                  className="user-avatar" 
-                />
-              ) : (
-                <UserCircle className="default-profile-icon" size={32} />
-              )}
+              <img 
+                src={user.profilePicture.startsWith("http") ? user.profilePicture : `${API_URL}${user.profilePicture}`}  
+                alt="User" 
+                className="user-avatar" 
+              />
+            ) : (
+              <UserCircle className="default-profile-icon" size={32} />
+            )}
+
             </div>
           )}
         </header>
@@ -119,13 +120,14 @@ function Home() {
             {posts.map((post) => (
               <div key={post._id} className="post-card">
                 <Link to={`/post/${post._id}`}>
-                  {post.image && (
-                    <img 
-                      src={`${API_URL}/uploads/${post.image}`} 
-                      alt="Post" 
-                      className="post-image" 
-                    />
-                  )}
+                {post.image && (
+                <img 
+                  src={post.image.startsWith("http") ? post.image : `${API_URL}${post.image}`}  
+                  alt="Post" 
+                  className="post-image" 
+                />
+              )}
+
                   <h3>#{post.title}</h3>
                 </Link>
                 <p>{post.content.substring(0, 100)}...</p>
