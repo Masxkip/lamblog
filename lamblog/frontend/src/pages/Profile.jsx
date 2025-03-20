@@ -47,16 +47,16 @@ function Profile() {
     <div className="profile-container">
       <h2>{user.username}'s Profile</h2>
 
-      {/* ✅ Fix Profile Picture Loading */}
       {user.profilePicture ? (
-        <img 
-          src={`${API_URL}/uploads/${user.profilePicture}`} 
-          alt="Profile" 
-          className="profile-pic" 
-        />
-      ) : (
-        <UserCircle className="default-profile-icon" size={50} /> // Default icon if no profile pic
-      )}
+  <img 
+    src={user.profilePicture.startsWith("http") ? user.profilePicture : `${API_URL}/uploads/${user.profilePicture}`} 
+    alt="Profile" 
+    className="profile-pic" 
+  />
+) : (
+  <UserCircle className="default-profile-icon" size={50} /> // Default icon if no profile pic
+)}
+
 
       <p><strong>Email:</strong> {user.email}</p>
       <p><strong>Bio:</strong> {user.bio || "No bio available."}</p>
