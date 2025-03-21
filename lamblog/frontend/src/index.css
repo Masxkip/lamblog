@@ -4,7 +4,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: black;
-    color: whitesmoke
+    color: whitesmoke;
   }
   
  
@@ -484,6 +484,8 @@ audio {
   border: 1px solid #ddd;
 }
 
+
+
 /* ✅ Header */
 .header {
   display: flex;
@@ -634,6 +636,7 @@ audio {
 
 .nav-links a:hover {
   background-color: black;
+  color: whitesmoke;
 }
 
 /* ✅ Profile Icon */
@@ -657,7 +660,8 @@ audio {
 }
 
 .logout-btn:hover {
-  background-color: red;
+  background-color: purple;
+  color: whitesmoke;
 }
 
 .bottom-nav{
@@ -689,7 +693,7 @@ audio {
     left: 0;
     width: 96%;
     padding: 10px;
-    margin-top: 6em;
+    margin-top: 3.4em;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -761,7 +765,7 @@ audio {
     background-color: black;
     display: flex;
     justify-content: space-around;
-    padding: 10px 0;
+    padding: 0px 0;
     box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.1);
     z-index: 1000;
   }
@@ -775,8 +779,6 @@ audio {
     align-items: center;
   }
 }
-
-
 
 
 /* Navbar Profile Picture */

@@ -120,6 +120,7 @@ function Home() {
             {posts.map((post) => (
               <div key={post._id} className="post-card">
                 <Link to={`/post/${post._id}`}>
+                <Link to={`/profile/${post.author._id}`} className="profile-link">@{post.author.username}</Link>
                 {post.image && (
                 <img 
                   src={post.image.startsWith("http") ? post.image : `${API_URL}${post.image}`}  
@@ -132,7 +133,6 @@ function Home() {
                 </Link>
                 <p>{post.content.substring(0, 100)}...</p>
                 <p><strong>Category:</strong> {post.category || "Uncategorized"}</p>
-                <Link to={`/profile/${post.author._id}`} className="profile-link">@{post.author.username}</Link>
                 <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
               </div>
             ))}
@@ -146,19 +146,19 @@ function Home() {
         <p>Unlock exclusive posts and features by subscribing.</p>
         <button className="subscribe-btn">Subscribe</button>
         <br /> <br /> <br />
-        <h2>##Subscription Button Doesn't Work, Due to Prop Maintenance.</h2>
+        <h2>#Subscription Button Doesn't Work, Due to Prop Maintenance.</h2>
       </aside>
 
       {/* ✅ Bottom Navigation for Mobile */}
       <nav className="bottom-nav">
         <Link to="/" className="sidebar-icon">
-          <HomeIcon className="icon" size={24} />
+          <HomeIcon className="icon" size={21} />
         </Link>
         <Link to="/new-post" className="sidebar-icon">
-          <FileText className="icon" size={24} />
+          <FileText className="icon" size={21} />
         </Link>
         <Link to={user ? `/profile/${user._id}` : "/login"} className="sidebar-icon">
-          <UserCircle className="default-profile-icon" size={32} />
+          <UserCircle className="default-profile-icon" size={24} />
         </Link>
       </nav>
     </div>
