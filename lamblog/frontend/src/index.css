@@ -142,14 +142,22 @@ body {
   background: #6a1bbd;
 }
 
-.logout-btn {
-  background: #ff4444;
-  color: #fff;
+/* ✅ Profile Page Logout Button (Separate Class) */
+.profile-logout-btn {
+  background: #000;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: 0.2s;
 }
 
-.logout-btn:hover {
-  background: #cc0000;
+.profile-logout-btn:hover {
+  background: #333;
 }
+
 
 /* ✅ Section Headers */
 .profile-container h3 {
@@ -228,8 +236,7 @@ body {
     gap: 6px;
   }
 
-  .edit-profile-btn,
-  .logout-btn {
+  .edit-profile-btn {
     padding: 6px 10px;
     font-size: 0.85em;
   }
