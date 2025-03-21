@@ -1,3 +1,4 @@
+/* ===================================================================================== */
 /* Global Styles */
 body {
     font-family: Arial, sans-serif;
@@ -6,8 +7,11 @@ body {
     background-color: black;
     color: whitesmoke;
   }
+/* ===================================================================================== */
   
  
+
+/* ===================================================================================== */
   /* Auth Forms */
   .auth-container {
     background: whitesmoke;
@@ -44,11 +48,11 @@ body {
     border: none;
     cursor: pointer;
   }
+/* ===================================================================================== */
 
 
 
-
-
+/* ===================================================================================== */
   /* Profile Page Styles */
 .profile-container {
     max-width: 600px;
@@ -99,8 +103,11 @@ body {
   .edit-profile button:last-child {
     background: red;
   }
+/* ===================================================================================== */
   
 
+
+/* ===================================================================================== */
 /* Single Post Page */
 .single-post-container {
   max-width: 800px;
@@ -135,9 +142,11 @@ body {
   border-radius: 4px;
   text-align: center;
 }
+/* ===================================================================================== */
 
 
 
+/* ===================================================================================== */
 /* ✅ Edit Post Page */
 .edit-post-container {
   max-width: 600px;
@@ -186,10 +195,11 @@ body {
 .edit-post-container button:hover {
   background-color: rgb(160, 4, 160);
 }
+/* ===================================================================================== */
 
 
 
-
+/* ===================================================================================== */
 /* ✅ Comment Section */
 .comment-section {
   margin-top: 20px;
@@ -289,10 +299,11 @@ button {
 .delete-btn:hover {
   background-color: black;
 }
+/* ===================================================================================== */
 
 
 
-
+/* ===================================================================================== */
 /* ✅ Rating System */
 .post-rating {
   margin-top: 20px;
@@ -315,10 +326,11 @@ button {
 .rating-buttons button:hover {
   background-color: orange;
 }
+/* ===================================================================================== */
 
 
 
-
+/* ===================================================================================== */
 /* ✅ Music Player Styling */
 .music-player {
   margin-top: 20px;
@@ -333,10 +345,11 @@ audio {
   width: 100%;
   margin-top: 10px;
 }
+/* ===================================================================================== */
 
 
 
-
+/* ===================================================================================== */
 /* ✅ New Post Styling */
 .post-container {
   max-width: 600px;
@@ -390,9 +403,11 @@ audio {
 .post-container button:hover {
   background-color: black;
 }
+/* ===================================================================================== */
 
 
 
+/* ===================================================================================== */
 /* ✅ File Upload Section */
 .file-upload-section {
   background-color: #f9f9f9;
@@ -406,14 +421,11 @@ audio {
   display: block;
   margin-bottom: 5px;
 }
+/* ===================================================================================== */
 
 
 
-
-
-
-
-
+/* ===================================================================================== */
 /* ✅ General Layout */
 .home-layout {
   display: grid;
@@ -470,9 +482,6 @@ audio {
   box-shadow: 0px 0px 10px #9a2887; /* Add a glow effect */
 }
 
-
-
-
 .category-dropdownn {
   display: none;
   width: 100%;
@@ -483,8 +492,6 @@ audio {
   margin-top: 10px;
   border: 1px solid #ddd;
 }
-
-
 
 /* ✅ Header */
 .header {
@@ -545,6 +552,7 @@ audio {
   gap: 15px;
   color: whitesmoke;
   padding-bottom: 20px; /* ✅ Extra space for smooth scrolling */
+  text-decoration: none;
 }
 
 .post-card {
@@ -552,11 +560,13 @@ audio {
   padding: 15px;
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
 }
 
 .post-card h3 {
   font-size: 1.6em;
   color: whitesmoke;
+  text-decoration: none;
 }
 
 .post-image {
@@ -592,7 +602,6 @@ audio {
 .subscribe-btn:hover {
   background-color: #cc0000;
 }
-
 
 
  /* ✅ Navbar Container */
@@ -667,9 +676,6 @@ audio {
 .bottom-nav{
   display: none;
 }
-
-
-
 
 /* ✅ Responsive Styles for Mobile */
 @media (max-width: 768px) {
@@ -779,8 +785,11 @@ audio {
     align-items: center;
   }
 }
+/* ===================================================================================== */
 
 
+
+/* ===================================================================================== */
 /* Navbar Profile Picture */
 .nav-profile-pic {
   width: 32px;
@@ -810,10 +819,6 @@ audio {
   width: 32px;
   height: 32px;
 }
-
-
-
-
 
 /* Sidebar Styling */
 .sidebar {
@@ -881,3 +886,4 @@ audio {
     display: none;
   }
 }
+/* ===================================================================================== */
