@@ -537,6 +537,7 @@ audio {
   height: 100vh; /* ✅ Full height to allow scrolling */
   scrollbar-width: none; /* ✅ Hides scrollbar for Firefox */
   -ms-overflow-style: none; /* ✅ Hides scrollbar for IE/Edge */
+  text-decoration: none;
 }
 
 /* ✅ Hides scrollbar for Chrome, Safari, and Edge */
