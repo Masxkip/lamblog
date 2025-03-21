@@ -1,4 +1,4 @@
-/* ===================================================================================== */
+
 /* Global Styles */
 body {
     font-family: Arial, sans-serif;
@@ -537,7 +537,6 @@ audio {
   height: 100vh; /* ✅ Full height to allow scrolling */
   scrollbar-width: none; /* ✅ Hides scrollbar for Firefox */
   -ms-overflow-style: none; /* ✅ Hides scrollbar for IE/Edge */
-  text-decoration: none;
 }
 
 /* ✅ Hides scrollbar for Chrome, Safari, and Edge */
@@ -553,7 +552,6 @@ audio {
   gap: 15px;
   color: whitesmoke;
   padding-bottom: 20px; /* ✅ Extra space for smooth scrolling */
-  text-decoration: none;
 }
 
 .post-card {
@@ -561,13 +559,11 @@ audio {
   padding: 15px;
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  text-decoration: none;
 }
 
 .post-card h3 {
   font-size: 1.6em;
   color: whitesmoke;
-  text-decoration: none;
 }
 
 .post-image {
@@ -888,3 +884,16 @@ audio {
   }
 }
 /* ===================================================================================== */
+
+
+
+/* ✅ Remove underline from all links */
+a, .profile-link {
+  text-decoration: none;
+  color: inherit; /* Keeps the text color consistent */
+}
+
+/* ✅ Optional: Ensure hover effect still works */
+a:hover, .profile-link:hover {
+  color: lightgray; /* Adjust color on hover if needed */
+}
