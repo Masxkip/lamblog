@@ -84,7 +84,7 @@ body {
 
 /* ✅ Profile Picture */
 .profile-pic {
-  width: 120px;  
+  width: 1200px;  
   height: 120px;
   border-radius: 50%;
   object-fit: cover;
@@ -242,7 +242,7 @@ body {
     height: 100px;
   }
 
-  .profile-actions {
+ .profile-actions {
     width: 100%;
     gap: 8px;
   }
@@ -839,7 +839,7 @@ body {
 
 /* ✅ Profile Icon */
 .nav-profile-pic {
-  width: 140px;
+  width: 40px;
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
