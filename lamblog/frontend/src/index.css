@@ -327,15 +327,17 @@ body {
 /* ✅ Back Button */
 .back-btn {
   display: block;
-  margin: 20px auto;
-  padding: 8px 14px;
+  margin: 15px auto;
+  padding: 10px 16px;
   text-decoration: none;
   background: black;
   color: whitesmoke;
   border-radius: 6px;
   text-align: center;
   font-size: 1em;
-  transition: 0.3s;
+  width: 100%; /* ✅ Ensures full width within container */
+  max-width: 95%; /* ✅ Prevents stretching too much */
+  box-sizing: border-box; /* ✅ Ensures proper padding */
 }
 
 .back-btn:hover {
@@ -371,6 +373,9 @@ body {
 
   .back-btn {
     width: 100%;
+    max-width: 100%; /* ✅ Prevents shifting outside the post container */
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 

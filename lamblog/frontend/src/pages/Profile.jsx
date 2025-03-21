@@ -9,7 +9,7 @@ const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 function Profile() {
   const { id } = useParams();
-  const { user: loggedInUser } = useContext(AuthContext);
+  const { user: loggedInUser, logout} = useContext(AuthContext);
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
@@ -18,6 +18,12 @@ function Profile() {
   const [ratings, setRatings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -75,7 +81,7 @@ function Profile() {
       {loggedInUser && loggedInUser._id === user._id && (
         <button onClick={() => navigate(`/edit-profile/${user._id}`)}>Edit Profile</button>
       )}
-
+      <button onClick={handleLogout} className="logout-btn">Logout</button>
       {/* ✅ User’s Posts */}
       <h3>Posts by {user.username}</h3>
       {posts.length > 0 ? (
