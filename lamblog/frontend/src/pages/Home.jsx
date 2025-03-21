@@ -121,6 +121,7 @@ function Home() {
               <div key={post._id} className="post-card">
                 <Link to={`/post/${post._id}`}>
                 <Link to={`/profile/${post.author._id}`} className="profile-link">@{post.author.username}</Link>
+                <br />
                 {post.image && (
                 <img 
                   src={post.image.startsWith("http") ? post.image : `${API_URL}${post.image}`}  
@@ -130,8 +131,9 @@ function Home() {
               )}
 
                   <h3>#{post.title}</h3>
-                </Link>
+                
                 <p>{post.content.substring(0, 100)}...</p>
+                </Link>
                 <p><strong>Category:</strong> {post.category || "Uncategorized"}</p>
                 <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
               </div>
