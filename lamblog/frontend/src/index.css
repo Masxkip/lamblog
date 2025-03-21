@@ -54,55 +54,192 @@ body {
 
 /* ===================================================================================== */
   /* Profile Page Styles */
+/* ✅ Profile Container - X (Twitter) Style */
 .profile-container {
-    max-width: 600px;
-    margin: auto;
-    padding: 20px;
-    background: purple;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
+  max-width: 650px;
+  margin: auto;
+  padding: 20px;
+  background: #3a005c; /* ✅ Dark Purple Theme */
+  color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+/* ✅ Profile Header */
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.profile-header h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+/* ✅ Profile Picture */
+.profile-pic {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ffffff;
+}
+
+.default-profile-icon {
+  color: #ffffff;
+}
+
+/* ✅ User Details */
+.profile-info {
+  margin-top: 10px;
+  font-size: 1em;
+  text-align: center;
+}
+
+.profile-info p {
+  margin: 5px 0;
+}
+
+.profile-info a {
+  color: #ffccff;
+  text-decoration: none;
+}
+
+.profile-info a:hover {
+  text-decoration: underline;
+}
+
+/* ✅ Profile Actions */
+.profile-actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.edit-profile-btn,
+.logout-btn {
+  padding: 8px 14px;
+  font-size: 0.9em;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.edit-profile-btn {
+  background: #8a2be2;
+  color: #fff;
+}
+
+.edit-profile-btn:hover {
+  background: #6a1bbd;
+}
+
+.logout-btn {
+  background: #ff4444;
+  color: #fff;
+}
+
+.logout-btn:hover {
+  background: #cc0000;
+}
+
+/* ✅ Section Headers */
+.profile-container h3 {
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #ffccff;
+  margin-top: 20px;
+  text-align: left;
+  padding-left: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 5px;
+}
+
+/* ✅ User Posts, Comments, Replies, and Ratings */
+.profile-section {
+  margin-top: 15px;
+}
+
+.user-post,
+.user-comment,
+.user-reply,
+.user-rating {
+  padding: 12px;
+  margin-top: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  border-left: 3px solid #ff66ff;
+  text-align: left;
+}
+
+.user-post h4 a,
+.user-comment p a,
+.user-reply p a,
+.user-rating p a {
+  color: #ffccff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.user-post h4 a:hover,
+.user-comment p a:hover,
+.user-reply p a:hover,
+.user-rating p a:hover {
+  text-decoration: underline;
+}
+
+.user-post p,
+.user-comment p,
+.user-reply p,
+.user-rating p {
+  font-size: 1em;
+  margin: 4px 0;
+}
+
+.user-comment small,
+.user-reply small {
+  font-size: 0.85em;
+  color: #bbb;
+}
+
+/* ✅ Mobile Responsive */
+@media screen and (max-width: 768px) {
+  .profile-container {
+    max-width: 95%;
+    padding: 15px;
   }
-  
-  .profile-info {
-    margin-bottom: 20px;
-  }
-  
+
   .profile-pic {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #007bff;
+    width: 70px;
+    height: 70px;
   }
-  
-  .success-message {
-    color: green;
-    font-weight: bold;
+
+  .profile-actions {
+    flex-direction: row;
+    justify-content: center;
+    gap: 6px;
   }
-  
-  .edit-profile input,
-  .edit-profile textarea {
-    width: 100%;
-    padding: 8px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+
+  .edit-profile-btn,
+  .logout-btn {
+    padding: 6px 10px;
+    font-size: 0.85em;
   }
-  
-  .edit-profile button {
-    margin-top: 10px;
-    padding: 8px 12px;
-    border: none;
-    background: #007bff;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
+
+  .profile-container h3 {
+    font-size: 1.2em;
+    padding-left: 5px;
   }
-  
-  .edit-profile button:last-child {
-    background: red;
-  }
+}
+
 /* ===================================================================================== */
   
 
