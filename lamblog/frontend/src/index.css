@@ -839,7 +839,7 @@ body {
 
 /* ✅ Profile Icon */
 .nav-profile-pic {
-  width: 40px;
+  width: 140px;
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
