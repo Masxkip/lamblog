@@ -81,6 +81,7 @@ function Profile() {
       {loggedInUser && loggedInUser._id === user._id && (
         <button onClick={() => navigate(`/edit-profile/${user._id}`)}>Edit Profile</button>
       )}
+      <br />
       <button onClick={handleLogout} className="logout-btn">Logout</button>
       {/* ✅ User’s Posts */}
       <h3>Posts by {user.username}</h3>

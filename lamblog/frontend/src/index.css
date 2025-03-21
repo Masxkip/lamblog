@@ -187,10 +187,13 @@ body {
 /* ✅ Post Actions (Edit & Delete Buttons) */
 .post-actions {
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
   gap: 8px;
+  justify-content: flex-start; /* ✅ Aligns buttons to the left */
+  margin-top: 10px;
 }
 
+/* ✅ Style Edit & Delete Buttons */
 .edit-btn,
 .delete-btn {
   padding: 6px 12px;
@@ -357,14 +360,14 @@ body {
   }
 
   .post-actions {
-    flex-direction: column;
-    align-items: flex-end;
+    justify-content: flex-start; /* ✅ Ensures left alignment */
+    gap: 6px; /* ✅ Smaller gap between buttons */
   }
 
   .edit-btn,
   .delete-btn {
-    width: auto;
-    text-align: center;
+    padding: 5px 10px; /* ✅ Slightly smaller buttons */
+    font-size: 0.8em; /* ✅ Adjust text size */
   }
 
   .comment-section {
