@@ -1,599 +1,587 @@
 
 /* Global Styles */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: black;
-    color: whitesmoke;
-  }
-/* ===================================================================================== */
-  
- 
-
-/* ===================================================================================== */
-  /* Auth Forms */
-  .auth-container {
-    background: whitesmoke;
-    padding: 20px;
-    width: 300px;
-    margin: 50px auto;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .auth-container h2 {
-    text-align: center;
-    color: black;
-  }
-  
-  .auth-container form {
-    display: flex;
-    flex-direction: column;
-    color: black;
-    font-weight: bold;
-  }
-  
-  .auth-container input {
-    margin-bottom: 10px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .auth-container button {
-    background: purple;
-    color: white;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-  }
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  color: whitesmoke;
+}
 /* ===================================================================================== */
 
 
 
 /* ===================================================================================== */
-  /* Profile Page Styles */
+/* Auth Forms */
+.auth-container {
+  background: whitesmoke;
+  padding: 20px;
+  width: 300px;
+  margin: 50px auto;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.auth-container h2 {
+  text-align: center;
+  color: black;
+}
+
+.auth-container form {
+  display: flex;
+  flex-direction: column;
+  color: black;
+  font-weight: bold;
+}
+
+.auth-container input {
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.auth-container button {
+  background: #31004f;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
+/* ===================================================================================== */
+
+
+/* ===================================================================================== */
+/* Profile Page Styles */
 /* ✅ Profile Container - X (Twitter) Style */
 .profile-container {
-  max-width: 650px;
-  margin: auto;
-  padding: 20px;
-  background: #3a005c; /* ✅ Dark Purple Theme */
-  color: #ffffff;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-  text-align: center;
+max-width: 650px;
+margin: auto;
+padding: 20px;
+background: black; /* ✅ Dark Purple Theme */
+color: #ffffff;
+border-radius: 8px;
+border: 1px solid rgba(255, 255, 255, 0.2);
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+text-align: center;
 }
 
 /* ✅ Profile Header */
 .profile-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 10px;
+padding-bottom: 15px;
+border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .profile-header h2 {
-  font-size: 1.5em;
-  font-weight: bold;
+font-size: 1.5em;
+font-weight: bold;
 }
 
 /* ✅ Profile Picture */
 .profile-pic {
-  width: 1200px;  
-  height: 120px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid #ffffff;
+width: 200px;  
+height: 200px;
+border-radius: 50%;
+object-fit: cover;
+border: 4px solid #ffffff;
 }
 
 .default-profile-icon {
-  width: 120px; 
-  height: 120px;
-  color: #ffffff;
+width: 120px; 
+height: 120px;
+color: #ffffff;
 }
 
 /* ✅ User Details */
 .profile-info {
-  margin-top: 10px;
-  font-size: 1em;
-  text-align: center;
+margin-top: 10px;
+font-size: 1em;
+text-align: center;
 }
 
 .profile-info p {
-  margin: 5px 0;
+margin: 5px 0;
+font-size: 2rem;
 }
 
 .profile-info a {
-  color: #ffccff;
-  text-decoration: none;
+color: whitesmoke;
+text-decoration: none;
 }
 
 .profile-info a:hover {
-  text-decoration: underline;
+text-decoration: underline;
 }
 
 /* ✅ Profile Actions */
 .profile-actions {
-  display: flex;
-  flex-direction: column; /* ✅ Stack buttons vertically */
-  align-items: center;
-  gap: 10px; /* ✅ Space between buttons */
-  margin-top: 15px;
-  width: 100%;
+display: flex;
+flex-direction: column; /* ✅ Stack buttons vertically */
+align-items: center;
+gap: 10px; /* ✅ Space between buttons */
+margin-top: 15px;
+width: 100%;
 }
 
 /* ✅ Edit Profile Button */
 .edit-profile-btn {
-  background: #8a2be2;
-  color: #fff;
-  padding: 10px 16px;
-  font-size: 1em;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: 0.2s ease-in-out;
-  width: 90%; /* ✅ Adjust width for better alignment */
-  max-width: 250px;
-  text-align: center;
+background: #8a2be2;
+color: #fff;
+padding: 10px 16px;
+font-size: 1em;
+border: none;
+border-radius: 6px;
+cursor: pointer;
+font-weight: bold;
+transition: 0.2s ease-in-out;
+width: 90%; /* ✅ Adjust width for better alignment */
+max-width: 250px;
+text-align: center;
 }
 
 .edit-profile-btn:hover {
-  background: #6a1bbd;
+background: #6a1bbd;
 }
 
 /* ✅ Logout Button (Now Below Edit Button) */
 .profile-container .logout-btn {
-  background: black;
-  color: white;
-  padding: 10px 16px;
-  font-size: 1em;
-  font-weight: bold;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.2s;
-  box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
-  width: 90%; /* ✅ Same width as edit button */
-  max-width: 250px;
-  text-align: center;
+background: black;
+color: white;
+padding: 10px 16px;
+font-size: 1em;
+font-weight: bold;
+border: none;
+border-radius: 6px;
+cursor: pointer;
+transition: 0.2s;
+box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+width: 90%; /* ✅ Same width as edit button */
+max-width: 250px;
+text-align: center;
 }
 
 .profile-container .logout-btn:hover {
-  background: #222;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+background: #222;
+box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
 }
-
-
 
 /* ✅ Section Headers */
 .profile-container h3 {
-  font-size: 1.3em;
-  font-weight: bold;
-  color: #ffccff;
-  margin-top: 20px;
-  text-align: left;
-  padding-left: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  padding-bottom: 5px;
+font-size: 1.3em;
+font-weight: bold;
+color: whitesmoke;
+margin-top: 20px;
+text-align: left;
+padding-left: 10px;
+border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+padding-bottom: 5px;
 }
 
 /* ✅ User Posts, Comments, Replies, and Ratings */
 .profile-section {
-  margin-top: 15px;
+margin-top: 15px;
 }
 
 .user-post,
 .user-comment,
 .user-reply,
 .user-rating {
-  padding: 12px;
-  margin-top: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  border-left: 3px solid #ff66ff;
-  text-align: left;
+padding: 12px;
+margin-top: 8px;
+background: rgba(255, 255, 255, 0.1);
+border-radius: 8px;
+border-left: 3px solid #222;
+text-align: left;
 }
 
 .user-post h4 a,
 .user-comment p a,
 .user-reply p a,
 .user-rating p a {
-  color: #ffccff;
-  text-decoration: none;
-  font-weight: bold;
+color: whitesmoke;
+text-decoration: none;
+font-weight: bold;
 }
 
 .user-post h4 a:hover,
 .user-comment p a:hover,
 .user-reply p a:hover,
 .user-rating p a:hover {
-  text-decoration: underline;
+text-decoration: underline;
 }
 
 .user-post p,
 .user-comment p,
 .user-reply p,
 .user-rating p {
-  font-size: 1em;
-  margin: 4px 0;
+font-size: 1em;
+margin: 4px 0;
 }
 
 .user-comment small,
 .user-reply small {
-  font-size: 0.85em;
-  color: #bbb;
+font-size: 0.85em;
+color: #bbb;
 }
 
 /* ✅ Mobile Responsive */
 @media screen and (max-width: 768px) {
-  .profile-container {
-    max-width: 95%;
-    padding: 15px;
-  }
+.profile-container {
+  max-width: 95%;
+  padding: 15px;
+}
 
-  .profile-pic {
-    width: 100px; /* ✅ Slightly smaller for mobile */
-    height: 100px;
-  }
+.profile-pic {
+  width: 130px; /* ✅ Slightly smaller for mobile */
+  height: 130px;
+}
 
- .profile-actions {
-    width: 100%;
-    gap: 8px;
-  }
+.profile-actions {
+  width: 100%;
+  gap: 8px;
+}
 
-  .edit-profile-btn,
-  .profile-container .logout-btn {
-    width: 100%; /* ✅ Full width for better stacking */
-    max-width: 100%;
-  }
+.edit-profile-btn,
+.profile-container .logout-btn {
+  width: 100%; /* ✅ Full width for better stacking */
+  max-width: 100%;
+}
 
-  .profile-container h3 {
-    font-size: 1.2em;
-    padding-left: 5px;
-  }
+.profile-container h3 {
+  font-size: 1.2em;
+  padding-left: 5px;
+}
 }
 
 /* ===================================================================================== */
-  
 
 
+
+/* ===================================================================================== */
 /* ✅ Single Post Page - Professional X (Twitter) Style */
 .single-post-container {
-  max-width: 650px;
-  margin: auto;
-  padding: 20px;
-  background: #3a005c; /* ✅ Dark Purple Theme */
-  color: #ffffff;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+max-width: 650px;
+margin: auto;
+padding: 20px;
+background: black; /* ✅ Dark Purple Theme */
+color: #ffffff;
+border-radius: 8px;
+border: 1px solid rgba(255, 255, 255, 0.2);
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
 
 /* ✅ Post Header - X Style */
 .single-post-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 15px;
-}
-
-.profile-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.profile-pic {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #ffffff;
-}
-
-.profile-link {
-  font-size: 1.1em;
-  font-weight: bold;
-  color: #ffccff; /* ✅ Light Purple (Elegant) */
-  text-decoration: none;
-}
-
-.profile-link:hover {
-  color: #ffffff;
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-bottom: 15px;
 }
 
 /* ✅ Post Title */
 .single-post-container h2 {
-  font-size: 1.4em;
-  font-weight: bold;
-  margin-bottom: 10px;
+font-size: 1.4em;
+font-weight: bold;
+margin-bottom: 10px;
 }
 
 /* ✅ Post Image */
 .single-post-image {
-  width: 100%;
-  height: auto;
-  max-height: 400px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-top: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+width: 100%;
+height: auto;
+max-height: 400px;
+object-fit: cover;
+border-radius: 8px;
+margin-top: 10px;
+border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* ✅ Post Content */
 .single-post-container p {
-  font-size: 1.05em;
-  line-height: 1.5;
-  margin: 8px 0;
+font-size: 1.05em;
+line-height: 1.5;
+margin: 8px 0;
 }
 
 /* ✅ Date & Timestamp */
 .post-timestamp {
-  font-size: 0.9em;
-  color: #bbbbbb;
-  margin-bottom: 15px;
+font-size: 0.9em;
+color: #bbbbbb;
+margin-bottom: 15px;
 }
 
 /* ✅ Post Actions (Edit & Delete Buttons) */
 .post-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  justify-content: flex-start; /* ✅ Aligns buttons to the left */
-  margin-top: 10px;
+display: flex;
+align-items: center;
+gap: 8px;
+justify-content: flex-start; /* ✅ Aligns buttons to the left */
+margin-top: 10px;
 }
 
 /* ✅ Style Edit & Delete Buttons */
 .edit-btn,
 .delete-btn {
-  padding: 6px 12px;
-  font-size: 0.9em;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.2s ease-in-out;
+padding: 6px 12px;
+font-size: 0.9em;
+border: none;
+border-radius: 6px;
+cursor: pointer;
+transition: 0.2s ease-in-out;
 }
 
 .edit-btn {
-  background: #8a2be2;
-  color: #fff;
+background: #330152;
+color: #fff;
 }
 
 .edit-btn:hover {
-  background: #6a1bbd;
+background: #8a2be2;
+color: whitesmoke;
 }
 
 .delete-btn {
-  background: #ff4444;
-  color: #fff;
+background: #330152;
+color: #fff;
 }
 
 .delete-btn:hover {
-  background: #cc0000;
+background: #8a2be2;
+color: whitesmoke;
 }
 
 /* ✅ Post Rating System (More Professional) */
 .post-rating {
-  margin-top: 15px;
-  padding: 10px;
-  background: #2b003f;
-  border-radius: 6px;
-  text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+margin-top: 15px;
+padding: 10px;
+background: black;
+border-radius: 6px;
+text-align: center;
+border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .post-rating h3 {
-  color: #ffcc00;
-  font-size: 1.2em;
+color: whitesmoke;
+font-size: 1.2em;
 }
 
 .rating-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 5px;
+display: flex;
+justify-content: center;
+gap: 10px;
+margin-top: 5px;
 }
 
 .rating-buttons button {
-  padding: 6px 10px;
-  border-radius: 4px;
-  border: none;
-  background: #ffcc00;
-  font-size: 1em;
-  cursor: pointer;
-  transition: 0.2s;
+padding: 6px 10px;
+border-radius: 4px;
+border: none;
+background: #222;
+color: whitesmoke;
+font-size: 1em;
+cursor: pointer;
+transition: 0.2s;
 }
 
 .rating-buttons button:hover {
-  background: #ffaa00;
+background: black;
+color: whitesmoke;
 }
 
 /* ✅ Comments Section (Structured Like X) */
 .comment-section {
-  margin-top: 20px;
-  padding: 15px;
-  background: #31004f;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+margin-top: 20px;
+padding: 15px;
+background: #31004f;
+border-radius: 8px;
+border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .comment-section h3 {
-  font-size: 1.3em;
-  font-weight: bold;
-  color: #ffccff;
-  margin-bottom: 10px;
+font-size: 1.3em;
+font-weight: bold;
+color: whitesmoke;
+margin-bottom: 10px;
 }
 
 /* ✅ Comment Box */
 .comment {
-  padding: 12px;
-  margin-top: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  border-left: 3px solid #ff66ff;
+padding: 12px;
+margin-top: 8px;
+background: rgba(255, 255, 255, 0.1);
+border-radius: 8px;
+border-left: 3px solid whitesmoke;
 }
 
 .comment p {
-  font-size: 1em;
+font-size: 1em;
 }
 
 .comment small {
-  font-size: 0.9em;
-  color: #ddd;
+font-size: 0.9em;
+color: #ddd;
 }
 
 /* ✅ Reply & Add Comment Box */
 .reply-box,
 .add-comment {
-  display: flex;
-  align-items: center;
-  margin-top: 10px;
-  gap: 10px;
+display: flex;
+align-items: center;
+margin-top: 10px;
+background-color: transparent; /* ✅ Remove extra whitesmoke background */
+gap: 10px;
+width: 100%;
+max-width: 600px; /* ✅ Prevents stretching too wide */
 }
 
+/* ✅ Comment & Reply Input Fields */
 .reply-box input,
 .add-comment input {
-  flex: 1;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+flex: 1;
+padding: 8px;
+border: 1px solid #ccc;
+border-radius: 5px;
+background-color: whitesmoke; /* ✅ Set background to whitesmoke */
+color: black;
+font-size: 1em;
+width: 100%; /* ✅ Ensure it doesn't overflow */
+max-width: 500px; /* ✅ Prevents stretching */
 }
 
+/* ✅ Placeholder Styling for Better Visibility */
+.reply-box input::placeholder,
+.add-comment input::placeholder {
+color: gray;
+opacity: 0.8;
+}
+
+/* ✅ Ensure Buttons Stay Properly Aligned */
 .reply-box button,
 .add-comment button {
-  padding: 8px 12px;
-  border: none;
-  background: #8a2be2;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.2s;
+padding: 8px 12px;
+border: none;
+background-color: black;
+color: whitesmoke;
+border-radius: 5px;
+cursor: pointer;
+white-space: nowrap; /* ✅ Prevents button text from breaking */
 }
 
 .reply-box button:hover,
 .add-comment button:hover {
-  background: #6a1bbd;
+background-color: #111;
 }
 
 /* ✅ Back Button */
 .back-btn {
-  display: block;
-  margin: 15px auto;
-  padding: 10px 16px;
-  text-decoration: none;
-  background: black;
-  color: whitesmoke;
-  border-radius: 6px;
-  text-align: center;
-  font-size: 1em;
-  width: 100%; /* ✅ Ensures full width within container */
-  max-width: 95%; /* ✅ Prevents stretching too much */
-  box-sizing: border-box; /* ✅ Ensures proper padding */
+display: block;
+margin: 15px auto;
+padding: 10px 16px;
+text-decoration: none;
+background: black;
+color: whitesmoke;
+border-radius: 6px;
+text-align: center;
+font-size: 1em;
+width: 100%; /* ✅ Ensures full width within container */
+max-width: 95%; /* ✅ Prevents stretching too much */
+box-sizing: border-box; /* ✅ Ensures proper padding */
 }
 
 .back-btn:hover {
-  background: #333;
+background: #111;
 }
 
 /* ✅ Responsive Design */
 @media screen and (max-width: 768px) {
-  .single-post-container {
-    max-width: 95%;
-    padding: 15px;
-  }
-
-  .profile-pic {
-    width: 40px;
-    height: 40px;
-  }
-
-  .post-actions {
-    justify-content: flex-start; /* ✅ Ensures left alignment */
-    gap: 6px; /* ✅ Smaller gap between buttons */
-  }
-
-  .edit-btn,
-  .delete-btn {
-    padding: 5px 10px; /* ✅ Slightly smaller buttons */
-    font-size: 0.8em; /* ✅ Adjust text size */
-  }
-
-  .comment-section {
-    padding: 10px;
-  }
-
-  .back-btn {
-    width: 100%;
-    max-width: 100%; /* ✅ Prevents shifting outside the post container */
-    margin-left: 0;
-    margin-right: 0;
-  }
+.single-post-container {
+  max-width: 95%;
+  padding: 15px;
 }
 
+.post-actions {
+  justify-content: flex-start; /* ✅ Ensures left alignment */
+  gap: 6px; /* ✅ Smaller gap between buttons */
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 5px 10px; /* ✅ Slightly smaller buttons */
+  font-size: 0.8em; /* ✅ Adjust text size */
+}
+
+.comment-section {
+  padding: 10px;
+}
+
+.back-btn {
+  width: 100%;
+  max-width: 100%; /* ✅ Prevents shifting outside the post container */
+  margin-left: 0;
+  margin-right: 0;
+}
+}
+/* ===================================================================================== */
 
 
 
 /* ===================================================================================== */
 /* ✅ New Post Styling */
 .post-container {
-  max-width: 600px;
-  margin: auto;
-  padding: 20px;
-  background-color: purple;
-  color: silver;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+max-width: 600px;
+margin: auto;
+padding: 20px;
+background-color: purple;
+color: silver;
+border-radius: 10px;
+box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
 .post-container h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: whitesmoke;
+text-align: center;
+margin-bottom: 20px;
+color: whitesmoke;
 }
 
 .post-container input,
 .post-container textarea {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  color: black;
+width: 100%;
+padding: 10px;
+margin-bottom: 10px;
+border: 1px solid #ccc;
+border-radius: 5px;
+color: black;
 }
 
 .post-container input[type="file"] {
-  border: none;
-  color: black;
+border: none;
+color: black;
 }
 
 .file-upload-section {
-  background-color: #f9f9f9;
-  padding: 10px;
-  color: black;
-  border-radius: 5px;
-  margin-bottom: 10px;
+background-color: #f9f9f9;
+padding: 10px;
+color: black;
+border-radius: 5px;
+margin-bottom: 10px;
 }
 
 .post-container button {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  background-color: black;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
+width: 100%;
+padding: 10px;
+border: none;
+background-color: black;
+color: white;
+border-radius: 5px;
+cursor: pointer;
 }
 
 .post-container button:hover {
-  background-color: black;
+background-color: black;
 }
 /* ===================================================================================== */
 
@@ -602,16 +590,16 @@ body {
 /* ===================================================================================== */
 /* ✅ File Upload Section */
 .file-upload-section {
-  background-color: #f9f9f9;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 10px;
+background-color: #f9f9f9;
+padding: 10px;
+border-radius: 5px;
+margin-bottom: 10px;
 }
 
 .file-upload-section label {
-  font-weight: bold;
-  display: block;
-  margin-bottom: 5px;
+font-weight: bold;
+display: block;
+margin-bottom: 5px;
 }
 /* ===================================================================================== */
 
@@ -620,359 +608,365 @@ body {
 /* ===================================================================================== */
 /* ✅ General Layout */
 .home-layout {
-  display: grid;
-  grid-template-columns: 250px auto 280px; /* Sidebar, Main Content, Subscription */
-  grid-template-rows: auto;
-  height: 100vh;
-  gap: 20px;
-  padding: 20px;
-  background-color: black;
+display: grid;
+grid-template-columns: 250px auto 280px; /* Sidebar, Main Content, Subscription */
+grid-template-rows: auto;
+height: 100vh;
+gap: 20px;
+padding: 20px;
+background-color: black;
 }
 
 /* ✅ Sidebar (Left Navigation) */
 .sidebar {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: black;
-  color: whitesmoke;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px #9a2887; /* Add a glow effect */
-  position: sticky;
-  top: 0;
-  height: 100vh; /* ✅ Full height */
-  overflow-y: auto; /* ✅ Prevents sidebar from scrolling */
+display: flex;
+flex-direction: column;
+align-items: center;
+background-color: black;
+color: whitesmoke;
+padding: 20px;
+border-radius: 10px;
+box-shadow: 0px 0px 10px #6a1bbd; /* Add a glow effect */
+position: sticky;
+top: 0;
+height: 100vh; /* ✅ Full height */
+overflow-y: auto; /* ✅ Prevents sidebar from scrolling */
 }
 
 .sidebar-icon {
-  text-decoration: none;
-  color: whitesmoke;
-  font-size: 18px;
-  margin: 15px 0;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+text-decoration: none;
+color: whitesmoke;
+font-size: 18px;
+margin: 15px 0;
+display: flex;
+align-items: center;
+gap: 10px;
 }
 
 .search-icon {
-  font-size: 22px;
-  cursor: pointer;
+font-size: 22px;
+cursor: pointer;
 }
 
 /* ✅ Category Filter */
 .category-dropdown {
-  width: 100%;
-  padding: 8px;
-  background-color: purple;
-  color: whitesmoke;
-  border-radius: 5px;
-  margin-top: 10px;
-  border: 1px solid #ddd;
-  outline: none; /* Remove default blue outline */
-  border: 2px solid black; /* Default border */
-  box-shadow: 0px 0px 10px #9a2887; /* Add a glow effect */
+width: 100%;
+padding: 8px;
+background-color: #31004f;
+color: whitesmoke;
+border-radius: 5px;
+margin-top: 10px;
+border: 1px solid #ddd;
+outline: none; /* Remove default blue outline */
+border: 2px solid black; /* Default border */
+box-shadow: 0px 0px 10px #8a2be2; /* Add a glow effect */
 }
 
 .category-dropdownn {
-  display: none;
-  width: 100%;
-  padding: 8px;
-  background-color: purple;
-  color: whitesmoke;
-  border-radius: 5px;
-  margin-top: 10px;
-  border: 1px solid #ddd;
+display: none;
+width: 100%;
+padding: 15px;
+background-color: #31004f;
+color: whitesmoke;
+border-radius: 5px;
+box-shadow: 0px 0px 10px #8a2be2;
+border: 2px solid black;
+margin-top: 10px;
 }
 
 /* ✅ Header */
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: bold;
-  padding: 15px;
-  background-color: black;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+display: flex;
+justify-content: space-between;
+align-items: center;
+font-weight: bold;
+padding: 15px;
+background-color: black;
+border: 1px solid #333;
+border-radius: 10px;
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .search-bar {
-  flex: 1;
-  padding: 8px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  margin-right: 10px;
+flex: 1;
+padding: 8px;
+border-radius: 5px;
+border: 1px solid #ddd;
+margin-right: 10px;
 
 }
 
 .user-info {
-  display: flex;
-  align-items: center;
-  background-color: black;
-  gap: 10px;
+display: flex;
+align-items: center;
+background-color: black;
+gap: 10px;
 }
 
 .user-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
+width: 40px;
+height: 40px;
+border-radius: 50%;
+object-fit: cover;
 }
 
 /* ✅ Main Content */
 .main-content {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  overflow-y: auto; /* ✅ Enables scrolling for blog posts only */
-  height: 100vh; /* ✅ Full height to allow scrolling */
-  scrollbar-width: none; /* ✅ Hides scrollbar for Firefox */
-  -ms-overflow-style: none; /* ✅ Hides scrollbar for IE/Edge */
+display: flex;
+flex-direction: column;
+gap: 20px;
+overflow-y: auto; /* ✅ Enables scrolling for blog posts only */
+height: 100vh; /* ✅ Full height to allow scrolling */
+scrollbar-width: none; /* ✅ Hides scrollbar for Firefox */
+-ms-overflow-style: none; /* ✅ Hides scrollbar for IE/Edge */
 }
 
 /* ✅ Hides scrollbar for Chrome, Safari, and Edge */
 .main-content::-webkit-scrollbar {
-  display: none;
+display: none;
 }
 
 
 /* ✅ Blog Post List */
 .posts-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  color: whitesmoke;
-  padding-bottom: 20px; /* ✅ Extra space for smooth scrolling */
+display: flex;
+flex-direction: column;
+gap: 15px;
+color: whitesmoke;
+padding-bottom: 20px; /* ✅ Extra space for smooth scrolling */
 }
 
 .post-card {
-  background-color: purple;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+background-color: #31004f;
+padding: 15px;
+border-radius: 10px;
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .post-card h3 {
-  font-size: 1.6em;
-  color: whitesmoke;
+font-size: 1.6em;
+color: whitesmoke;
 }
 
 .post-image {
-  width: 100%;
-  height: 300px;
-  object-fit: cover;
-  border-radius: 5px;
+width: 100%;
+height: 300px;
+object-fit: cover;
+border-radius: 5px;
 }
 
 /* ✅ Subscription Section */
 .subscription-section {
-  background-color: black;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px #9a2887; /* Add a glow effect */
-  text-align: center;
-  position: sticky;
-  top: 0;
-  height: 100vh; /* ✅ Full height */
-  overflow-y: auto; /* ✅ Prevents it from scrolling */
+background-color: black;
+padding: 20px;
+border-radius: 10px;
+box-shadow: 0px 0px 10px #6a1bbd; /* Add a glow effect */
+text-align: center;
+position: sticky;
+top: 0;
+height: 100vh; /* ✅ Full height */
+overflow-y: auto; /* ✅ Prevents it from scrolling */
 }
 
 .subscribe-btn {
-  background-color: purple;
-  color: white;
-  border: none;
-  padding: 10px;
-  margin-top: 10px;
-  border-radius: 5px;
-  cursor: pointer;
+background-color: #3b025f;
+color: white;
+border: none;
+padding: 10px;
+margin-top: 10px;
+border-radius: 5px;
+cursor: pointer;
 }
 
 .subscribe-btn:hover {
-  background-color: #cc0000;
+background-color: #8a2be2;
 }
 
 
- /* ✅ Navbar Container */
- .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: purple;
-  padding: 15px 30px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 0;
-  width: 95.3%;
-  z-index: 1000;
+/* ✅ Navbar Container */
+.navbar {
+display: flex;
+justify-content: space-between;
+align-items: center;
+background-color: #31004f;
+padding: 15px 30px;
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+position: sticky;
+top: 0;
+width: 95.3%;
+z-index: 1000;
 }
 
 /* ✅ Logo Styling */
 .logo {
-  font-size: 35px;
-  font-weight: bold;
-  text-decoration: none;
-  color: whitesmoke;
+font-size: 35px;
+font-weight: bold;
+text-decoration: none;
+color: whitesmoke;
 }
 
 /* ✅ Navigation Links */
 .nav-links {
-  display: flex;
-  align-items: center;
-  gap: 20px;
+display: flex;
+align-items: center;
+gap: 20px;
 }
 
 .nav-links a {
-  text-decoration: none;
-  color: black;
-  font-size: 16px;
-  font-weight: 500;
-  padding: 8px 12px;
-  border-radius: 5px;
-  transition: background 0.3s ease;
+text-decoration: none;
+color: whitesmoke;
+font-size: 16px;
+font-weight: 500;
+padding: 8px 12px;
+border-radius: 5px;
+transition: background 0.3s ease;
 }
 
 .nav-links a:hover {
-  background-color: black;
-  color: whitesmoke;
+color: silver;
 }
 
 /* ✅ Profile Icon */
 .nav-profile-pic {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  cursor: pointer;
+width: 50px;
+height: 50px;
+border-radius: 60%;
+object-fit: cover;
+cursor: pointer;
 }
 
 /* ✅ Logout Button */
 .logout-btn {
-  background-color: black;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s ease;
+background-color: black;
+color: white;
+border: none;
+padding: 8px 12px;
+border-radius: 5px;
+cursor: pointer;
+transition: background 0.3s ease;
 }
 
 .logout-btn:hover {
-  background-color: purple;
-  color: whitesmoke;
+background-color: #111;
+color: whitesmoke;
 }
 
 .bottom-nav{
-  display: none;
+display: none;
 }
 
 /* ✅ Responsive Styles for Mobile */
 @media (max-width: 768px) {
-  .home-layout {
-    display: flex;
-    flex-direction: column;
-    height: auto;
-    padding: 10px;
-  }
+.home-layout {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  padding: 10px;
+}
 
-  /* ✅ Hide Sidebar and Subscription Section on Mobile */
-  .sidebar,
-  .subscription-section {
-    display: none;
-  }
+/* ✅ Hide Sidebar and Subscription Section on Mobile */
+.sidebar,
+.subscription-section {
+  display: none;
+}
 
-  /* ✅ Make Header Sticky */
-  .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 96%;
-    padding: 10px;
-    margin-top: 3.4em;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 1000;
-  }
+/* ✅ Make Header Sticky */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 96%;
+  height: 6%;
+  padding: 3px;
+  border: none;
+  margin-left: 7px;
+  margin-top: 5.8em;
+  border: 1px solid #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+}
 
-  /* ✅ Profile Icon at the Top Left */
-  .user-info {
-    display: none;
-  }
+/* ✅ Profile Icon at the Top Left */
+.user-info {
+  display: none;
+}
 
-   /* ✅ Hide User Avatar on Mobile */
-   .user-avatar {
-    display: none;
-  }
+ /* ✅ Hide User Avatar on Mobile */
+ .user-avatar {
+  display: none;
+}
 
-  /* ✅ Navbar: Adjust Profile Icon & Logo */
-  .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: purple;
-    padding: 10px;
-  }
+/* ✅ Navbar: Adjust Profile Icon & Logo */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #31004f;
+  padding: 10px;
+}
 
-  .navbar .logo {
-    font-size: 30px;
-    font-weight: bold;
-    color: white;
-    text-decoration: none;
-  }
+.navbar .logo {
+  font-size: 30px;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
 
-  .nav-links .logout-btn {
-    display: none; /* ✅ Hide Logout Button on Mobile */
-  }
+.nav-links .logout-btn {
+  display: none; /* ✅ Hide Logout Button on Mobile */
+}
 
-  .nav-links {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-  /* ✅ Search Bar and Category Dropdown */
-  .search-bar {
-    width: 90%;
-    margin: 10px auto;
-    display: block;
-  }
+/* ✅ Search Bar and Category Dropdown */
+.search-bar {
+  width: 90%;
+  margin: 10px auto;
+  display: block;
+}
 
-   /* ✅ Show "Select Category" under Search Bar */
-   .category-dropdownn {
-    width: 90%;
-    margin: 5px auto;
-    display: block;
-  }
+ /* ✅ Show "Select Category" under Search Bar */
+ .category-dropdownn {
+  width: 90%;
+  margin: 5px auto;
+  display: block;
+}
 
-  /* ✅ Adjust Main Content */
-  .main-content {
-    margin-top: 80px; /* Leave space for the sticky header */
-    margin-bottom: 50px;
-  }
+/* ✅ Adjust Main Content */
+.main-content {
+  margin-top: 80px; /* Leave space for the sticky header */
+  margin-bottom: 70px;
+}
 
-  /* ✅ Bottom Navigation Bar */
-  .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: black;
-    display: flex;
-    justify-content: space-around;
-    padding: 0px 0;
-    box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-  }
+/* ✅ Bottom Navigation Bar */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: black;
+  display: flex;
+  justify-content: space-around;
+  padding: 0px 0;
+  box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
 
-  .bottom-nav a {
-    color: white;
-    font-size: 18px;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+.bottom-nav a {
+  color: white;
+  font-size: 18px;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 }
 /* ===================================================================================== */
 
@@ -981,99 +975,99 @@ body {
 /* ===================================================================================== */
 /* Navbar Profile Picture */
 .nav-profile-pic {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
+width: 45px;
+height: 45px;
+border-radius: 50%;
+object-fit: cover;
 }
 
 /* Default Profile Icon */
 .default-profile-icon {
-  color: white; /* Change to your theme color */
-  width: 32px;
-  height: 32px;
+color: white; /* Change to your theme color */
+width: 32px;
+height: 32px;
 }
 
 /* Home Page User Avatar */
 .user-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
+width: 32px;
+height: 32px;
+border-radius: 50%;
+object-fit: cover;
 }
 
 /* Default Icon in Home */
 .user-info .default-profile-icon {
-  color: white;
-  width: 32px;
-  height: 32px;
+color: white;
+width: 32px;
+height: 32px;
 }
 
 /* Sidebar Styling */
 .sidebar {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  padding: 20px;
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 20px;
+padding: 20px;
 }
 
 .sidebar-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 50px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.1);
-  transition: background 0.3s ease-in-out;
+display: flex;
+align-items: center;
+justify-content: center;
+width: 50px;
+height: 50px;
+border-radius: 10px;
+background-color: #31004f;
+transition: background 0.3s ease-in-out;
 }
 
 .sidebar-icon:hover {
-  background: rgba(255, 255, 255, 0.3);
+background: #6a1bbd;
 }
 
 /* ✅ Hide Sidebar on Mobile */
 @media (max-width: 768px) {
-  .sidebar {
-    display: none;
-  }
+.sidebar {
+  display: none;
+}
 }
 
 /* Bottom Navigation */
 .bottom-nav {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: -20px 0;
-  background: black;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
+display: flex;
+justify-content: space-around;
+align-items: center;
+padding: -20px 0;
+background: black;
+position: fixed;
+bottom: 0;
+width: 100%;
 }
 
 .nav-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 10px;
 }
 
 .icon {
-  color: white;
-  transition: transform 0.2s ease-in-out;
+color: white;
+transition: transform 0.2s ease-in-out;
 }
 
 .nav-icon:hover .icon,
 .sidebar-icon:hover .icon {
-  transform: scale(1.2);
+transform: scale(1.2);
 }
 
 /* ✅ Hide Bottom Navbar on Desktop */
 @media (min-width: 769px) {
-  .bottom-nav {
-    display: none;
-  }
+.bottom-nav {
+  display: none;
+}
 }
 /* ===================================================================================== */
 
@@ -1081,11 +1075,11 @@ body {
 
 /* ✅ Remove underline from all links */
 a, .profile-link {
-  text-decoration: none;
-  color: inherit; /* Keeps the text color consistent */
+text-decoration: none;
+color: inherit; /* Keeps the text color consistent */
 }
 
 /* ✅ Optional: Ensure hover effect still works */
 a:hover, .profile-link:hover {
-  color: lightgray; /* Adjust color on hover if needed */
+color: lightgray; /* Adjust color on hover if needed */
 }
