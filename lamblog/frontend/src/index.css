@@ -693,6 +693,7 @@ padding: 8px;
 border-radius: 5px;
 border: 1px solid #ddd;
 margin-right: 10px;
+font-size: 16px;
 
 }
 
@@ -930,6 +931,7 @@ display: none;
   width: 90%;
   margin: 10px auto;
   display: block;
+  font-size: 16px;
 }
 
  /* ✅ Show "Select Category" under Search Bar */
