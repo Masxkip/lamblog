@@ -414,10 +414,11 @@ color: whitesmoke;
 .comment {
   padding: 12px;
   margin-top: 8px;
-  background: rgba(255, 255, 255, 0.1);
+  background: #31004f; /* 🔥 Unified deep purple */
   border-radius: 8px;
-  border-left: 3px solid black; /* ✅ Changed from white to black */
+  border-left: 3px solid black; /* already applied */
 }
+
 
 /* ✅ Comment Text */
 .comment p {
@@ -507,9 +508,10 @@ color: whitesmoke;
 .reply {
   padding: 10px;
   margin-top: 5px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #31004f; /* 🔥 match comment background */
   border-radius: 5px;
 }
+
 
 
 /* ✅ Back Button */
