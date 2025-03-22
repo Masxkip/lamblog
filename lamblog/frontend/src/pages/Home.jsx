@@ -121,7 +121,7 @@ function Home() {
               <div key={post._id} className="post-card">
                 <Link to={`/post/${post._id}`}>
                 <Link to={`/profile/${post.author._id}`} className="profile-link">@{post.author.username}</Link>
-                <br /> <br />
+                <br /> 
                 {post.image && (
                 <img 
                   src={post.image.startsWith("http") ? post.image : `${API_URL}${post.image}`}  
