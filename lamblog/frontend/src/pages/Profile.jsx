@@ -89,71 +89,78 @@ function Profile() {
 )}
 
       
-      {/* ✅ User’s Posts */}
-      <h3>Posts by {user.username}</h3>
-      {posts.length > 0 ? (
-        <div className="profile-section">
-          {posts.map(post => (
-            <div key={post._id} className="user-post">
-              <h4>
-                <Link to={`/post/${post._id}`}>{post.title}</Link>
-              </h4>
-              <p>{post.content.substring(0, 100)}...</p>
-              <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
-            </div>
-          ))}
+           {/* ✅ User’s Posts */}
+<h3>Posts by {user.username}</h3>
+{posts.length > 0 ? (
+  <div className="profile-section">
+    {posts.map(post => (
+      <Link to={`/post/${post._id}`} key={post._id} className="user-post-link">
+        <div className="user-post">
+          <h4>{post.title}</h4>
+          <p>{post.content.substring(0, 100)}...</p>
+          <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
         </div>
-      ) : (
-        <p>No posts yet.</p>
-      )}
+      </Link>
+    ))}
+  </div>
+) : (
+  <p>No posts yet.</p>
+)}
 
       {/* ✅ Comments by the User */}
-      <h3>Comments by {user.username}</h3>
-      {comments.length > 0 ? (
-        <div className="profile-section">
-          {comments.map(comment => (
-            <div key={comment.postId} className="user-comment">
-              <p><strong>On Post:</strong> <Link to={`/post/${comment.postId}`}>{comment.postTitle}</Link></p>
-              <p>{comment.commentText}</p>
-              <small>{new Date(comment.createdAt).toLocaleString()}</small>
-            </div>
-          ))}
+<h3>Comments by {user.username}</h3>
+{comments.length > 0 ? (
+  <div className="profile-section">
+    {comments.map(comment => (
+      <Link to={`/post/${comment.postId}`} key={comment.postId} className="user-comment-link">
+        <div className="user-comment">
+          <p><strong>On Post:</strong> {comment.postTitle}</p>
+          <p>{comment.commentText}</p>
+          <small>{new Date(comment.createdAt).toLocaleString()}</small>
         </div>
-      ) : (
-        <p>No comments yet.</p>
-      )}
+      </Link>
+    ))}
+  </div>
+) : (
+  <p>No comments yet.</p>
+)}
 
-      {/* ✅ Replies by the User */}
-      <h3>Replies by {user.username}</h3>
-      {replies.length > 0 ? (
-        <div className="profile-section">
-          {replies.map(reply => (
-            <div key={reply.postId} className="user-reply">
-              <p><strong>On Post:</strong> <Link to={`/post/${reply.postId}`}>{reply.postTitle}</Link></p>
-              <p><strong>Replied to:</strong> {reply.commentText}</p>
-              <p>{reply.replyText}</p>
-              <small>{new Date(reply.createdAt).toLocaleString()}</small>
-            </div>
-          ))}
+
+     {/* ✅ Replies by the User */}
+<h3>Replies by {user.username}</h3>
+{replies.length > 0 ? (
+  <div className="profile-section">
+    {replies.map(reply => (
+      <Link to={`/post/${reply.postId}`} key={reply.postId} className="user-reply-link">
+        <div className="user-reply">
+          <p><strong>On Post:</strong> {reply.postTitle}</p>
+          <p><strong>Replied to:</strong> {reply.commentText}</p>
+          <p>{reply.replyText}</p>
+          <small>{new Date(reply.createdAt).toLocaleString()}</small>
         </div>
-      ) : (
-        <p>No replies yet.</p>
-      )}
+      </Link>
+    ))}
+  </div>
+) : (
+  <p>No replies yet.</p>
+)}
 
       {/* ✅ Ratings Given by the User */}
-      <h3>Ratings Given by {user.username}</h3>
-      {ratings.length > 0 ? (
-        <div className="profile-section">
-          {ratings.map(rating => (
-            <div key={rating.postId} className="user-rating">
-              <p><strong>On Post:</strong> <Link to={`/post/${rating.postId}`}>{rating.postTitle}</Link></p>
-              <p>Rated: ⭐ {rating.ratingValue} / 5</p>
-            </div>
-          ))}
+<h3>Ratings Given by {user.username}</h3>
+{ratings.length > 0 ? (
+  <div className="profile-section">
+    {ratings.map(rating => (
+      <Link to={`/post/${rating.postId}`} key={rating.postId} className="user-rating-link">
+        <div className="user-rating">
+          <p><strong>On Post:</strong> {rating.postTitle}</p>
+          <p>Rated: ⭐ {rating.ratingValue} / 5</p>
         </div>
-      ) : (
-        <p>No ratings given yet.</p>
-      )}
+      </Link>
+    ))}
+  </div>
+) : (
+  <p>No ratings given yet.</p>
+)}
     </div>
   );
 }
