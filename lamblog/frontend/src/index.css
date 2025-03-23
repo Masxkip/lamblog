@@ -396,89 +396,125 @@ background: black;
 color: whitesmoke;
 }
 
-/* ✅ Comments Section (Structured Like X) */
+/* ✅ Comment Section Container */
 .comment-section {
-margin-top: 20px;
-padding: 15px;
-background: #31004f;
-border-radius: 8px;
-border: 1px solid rgba(255, 255, 255, 0.2);
+  margin-top: 20px;
+  padding: 15px;
+  background: #31004f;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+/* ✅ Comment Section Header */
 .comment-section h3 {
-font-size: 1.3em;
-font-weight: bold;
-color: whitesmoke;
-margin-bottom: 10px;
+  font-size: 1.3em;
+  font-weight: bold;
+  color: whitesmoke;
+  margin-bottom: 10px;
 }
 
-/* ✅ Comment Box */
+/* ✅ Individual Comment Box */
 .comment {
-padding: 12px;
-margin-top: 8px;
-background: rgba(255, 255, 255, 0.1);
-border-radius: 8px;
-border-left: 3px solid whitesmoke;
+  padding: 12px;
+  margin-top: 8px;
+  background: #31004f; /* 🔥 Unified deep purple */
+  border-radius: 8px;
+  border-left: 3px solid black; /* already applied */
 }
 
+
+/* ✅ Comment Text */
 .comment p {
-font-size: 1em;
+  font-size: 1em;
 }
 
+/* ✅ Comment Timestamp */
 .comment small {
-font-size: 0.9em;
-color: #ddd;
+  font-size: 0.9em;
+  color: #ddd;
 }
 
-/* ✅ Reply & Add Comment Box */
+/* ✅ Reply & Add Comment Input Box Container */
 .reply-box,
 .add-comment {
-display: flex;
-align-items: center;
-margin-top: 10px;
-background-color: transparent; /* ✅ Remove extra whitesmoke background */
-gap: 10px;
-width: 100%;
-max-width: 600px; /* ✅ Prevents stretching too wide */
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  background-color: #31004f; /* ✅ Match comment section background */
+  gap: 10px;
+  width: 100%;
+  max-width: 600px;
+  padding: 10px;
+  border-radius: 8px;
 }
 
 /* ✅ Comment & Reply Input Fields */
 .reply-box input,
 .add-comment input {
-flex: 1;
-padding: 8px;
-border: 1px solid #ccc;
-border-radius: 5px;
-background-color: whitesmoke; /* ✅ Set background to whitesmoke */
-color: black;
-font-size: 1em;
-width: 100%; /* ✅ Ensure it doesn't overflow */
-max-width: 500px; /* ✅ Prevents stretching */
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: whitesmoke;
+  color: black;
+  font-size: 1em;
+  width: 100%;
+  max-width: 500px;
 }
 
-/* ✅ Placeholder Styling for Better Visibility */
+/* ✅ Placeholder Color */
 .reply-box input::placeholder,
 .add-comment input::placeholder {
-color: gray;
-opacity: 0.8;
+  color: gray;
+  opacity: 0.8;
 }
 
-/* ✅ Ensure Buttons Stay Properly Aligned */
+/* ✅ Input Focus Styling */
+.reply-box input:focus,
+.add-comment input:focus {
+  border: 1px solid #8a2be2;
+  outline: none;
+  box-shadow: 0 0 5px rgba(138, 43, 226, 0.5);
+}
+
+/* ✅ Shared Black Button Style (Edit/Delete/Reply/Post) */
+.comment button,
+.reply button,
 .reply-box button,
 .add-comment button {
-padding: 8px 12px;
-border: none;
-background-color: black;
-color: whitesmoke;
-border-radius: 5px;
-cursor: pointer;
-white-space: nowrap; /* ✅ Prevents button text from breaking */
+  padding: 8px 12px;
+  border: none;
+  background-color: black; /* ✅ Black button */
+  color: whitesmoke;
+  border-radius: 5px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-weight: bold;
+  transition: 0.2s;
 }
 
+.comment button:hover,
+.reply button:hover,
 .reply-box button:hover,
 .add-comment button:hover {
-background-color: #111;
+  background-color: #222;
 }
+
+/* ✅ Reply Box for Nested Replies */
+.replies {
+  margin-top: 10px;
+  padding-left: 25px;
+  border-left: 2px solid #555;
+}
+
+/* ✅ Individual Reply Styling */
+.reply {
+  padding: 10px;
+  margin-top: 5px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+}
+
 
 /* ✅ Back Button */
 .back-btn {
