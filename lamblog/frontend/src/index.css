@@ -511,9 +511,10 @@ color: whitesmoke;
 .reply {
   padding: 10px;
   margin-top: 5px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(60, 1, 97, 0.3); /* 🔮 Transparent purple */
   border-radius: 5px;
 }
+
 
 
 /* ✅ Back Button */
