@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import axios from "axios";
+import BottomNav from "../components/BottomNav";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -71,6 +72,7 @@ function Register() {
         </div>
         <button type="submit">Register</button>
       </form>
+      <BottomNav />
     </div>
   );
 }

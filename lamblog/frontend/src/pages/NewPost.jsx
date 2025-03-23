@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
+import BottomNav from "../components/BottomNav";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -112,6 +113,7 @@ function NewPost() {
 
         <button type="submit">Publish</button>
       </form>
+      <BottomNav />
     </div>
   );
 }

@@ -163,6 +163,7 @@ function Home() {
           <UserCircle className="default-profile-icon" size={24} />
         </Link>
       </nav>
+      
     </div>
   );
 }

@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
+import BottomNav from "../components/BottomNav";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -75,6 +76,7 @@ function EditProfile() {
         <input type="file" onChange={(e) => setProfilePic(e.target.files[0])} />
         <button type="submit">Save Changes</button>
       </form>
+      <BottomNav />
     </div>
   );
 }

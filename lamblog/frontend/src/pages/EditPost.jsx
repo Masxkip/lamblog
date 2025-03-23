@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import BottomNav from "../components/BottomNav";
 
 // Get the backend URL from environment variables
 const API_URL = import.meta.env.VITE_BACKEND_URL;
@@ -58,6 +59,7 @@ function EditPost() {
         <textarea value={content} onChange={(e) => setContent(e.target.value)} required />
         <button type="submit">Update Post</button>
       </form>
+      <BottomNav />
     </div>
   );
 }

@@ -7,6 +7,10 @@ body {
   background-color: black;
   color: whitesmoke;
 }
+
+
+
+
 /* ===================================================================================== */
 
 
@@ -20,6 +24,7 @@ body {
   margin: 50px auto;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 60px;
 }
 
 .auth-container h2 {
@@ -42,7 +47,7 @@ body {
 }
 
 .auth-container button {
-  background: #3b025f;
+  background: #6a1bbd;
   color: white;
   padding: 10px;
   border: none;
@@ -57,37 +62,23 @@ body {
 
 /* ===================================================================================== */
 /* Profile Page Styles */
-/* ✅ Profile Container - X (Twitter) Style */
 .profile-container {
 max-width: 650px;
 margin: auto;
 padding: 20px;
-background: black; /* ✅ Dark Purple Theme */
+background: black;
 color: #ffffff;
 border-radius: 8px;
 border: 1px solid rgba(255, 255, 255, 0.2);
 box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 text-align: center;
+word-wrap: break-word;
+overflow-wrap: break-word;          
 }
 
-/* ✅ Profile Header */
-.profile-header {
-display: flex;
-flex-direction: column;
-align-items: center;
-gap: 10px;
-padding-bottom: 15px;
-border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.profile-header h2 {
-font-size: 1.5em;
-font-weight: bold;
-}
-
-/* ✅ Profile Picture */
+/* Profile Picture */
 .profile-pic {
-width: 200px;  
+width: 200px;
 height: 200px;
 border-radius: 50%;
 object-fit: cover;
@@ -95,85 +86,69 @@ border: 4px solid #ffffff;
 }
 
 .default-profile-icon {
-width: 120px; 
+width: 120px;
 height: 120px;
 color: #ffffff;
 }
 
-/* ✅ User Details */
 .profile-info {
 margin-top: 10px;
 font-size: 1em;
 text-align: center;
+word-break: break-word;
+padding: 0 10px;  
 }
 
 .profile-info p {
 margin: 5px 0;
-font-size: 2rem;
+font-size: 1.05rem;
+line-height: 1.5;
+word-break: break-word;
 }
 
 .profile-info a {
 color: whitesmoke;
 text-decoration: none;
+word-break: break-word;
 }
 
 .profile-info a:hover {
 text-decoration: underline;
 }
 
-/* ✅ Profile Actions */
+/* Profile Actions Container */
 .profile-actions {
 display: flex;
-flex-direction: column; /* ✅ Stack buttons vertically */
+flex-direction: column;
 align-items: center;
-gap: 10px; /* ✅ Space between buttons */
+gap: 10px;
 margin-top: 15px;
 width: 100%;
 }
 
-/* ✅ Edit Profile Button */
-.edit-profile-btn {
-background: #8a2be2;
+/* Purple Buttons (Edit & Logout) */
+.profile-container .profile-btn {
+background: #6a1bbd;
 color: #fff;
 padding: 10px 16px;
 font-size: 1em;
-border: none;
-border-radius: 6px;
-cursor: pointer;
-font-weight: bold;
-transition: 0.2s ease-in-out;
-width: 90%; /* ✅ Adjust width for better alignment */
-max-width: 250px;
-text-align: center;
-}
-
-.edit-profile-btn:hover {
-background: #6a1bbd;
-}
-
-/* ✅ Logout Button (Now Below Edit Button) */
-.profile-container .logout-btn {
-background: black;
-color: white;
-padding: 10px 16px;
-font-size: 1em;
 font-weight: bold;
 border: none;
 border-radius: 6px;
 cursor: pointer;
-transition: 0.2s;
-box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
-width: 90%; /* ✅ Same width as edit button */
-max-width: 250px;
+transition: background 0.2s ease-in-out;
+width: 90%;
+max-width: 140px;
 text-align: center;
+margin: 0.5rem auto;
+display: block;
 }
 
-.profile-container .logout-btn:hover {
-background: #222;
-box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+.profile-container .profile-btn:hover {
+background: #8a2be2;
 }
 
-/* ✅ Section Headers */
+/* Section Headings */
 .profile-container h3 {
 font-size: 1.3em;
 font-weight: bold;
@@ -185,7 +160,7 @@ border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 padding-bottom: 5px;
 }
 
-/* ✅ User Posts, Comments, Replies, and Ratings */
+/* ✅ Content Sections */
 .profile-section {
 margin-top: 15px;
 }
@@ -196,10 +171,11 @@ margin-top: 15px;
 .user-rating {
 padding: 12px;
 margin-top: 8px;
-background: rgba(255, 255, 255, 0.1);
+background: rgba(255, 255, 255, 0.08);
 border-radius: 8px;
 border-left: 3px solid #222;
 text-align: left;
+word-break: break-word;
 }
 
 .user-post h4 a,
@@ -218,50 +194,46 @@ font-weight: bold;
 text-decoration: underline;
 }
 
-.user-post p,
-.user-comment p,
-.user-reply p,
-.user-rating p {
-font-size: 1em;
-margin: 4px 0;
-}
-
+/* ✅ Date/Meta Styling */
 .user-comment small,
 .user-reply small {
 font-size: 0.85em;
 color: #bbb;
 }
 
-/* ✅ Mobile Responsive */
+/* ✅ Mobile Styling */
 @media screen and (max-width: 768px) {
 .profile-container {
   max-width: 95%;
   padding: 15px;
+  margin-bottom: 110px;
 }
 
 .profile-pic {
-  width: 130px; /* ✅ Slightly smaller for mobile */
+  width: 130px;
   height: 130px;
 }
 
 .profile-actions {
   width: 100%;
-  gap: 8px;
+  gap: 10px;
 }
 
-.edit-profile-btn,
-.profile-container .logout-btn {
-  width: 100%; /* ✅ Full width for better stacking */
-  max-width: 100%;
+.profile-container .profile-btn {
+  width: 100%;
+  max-width: 28%;
 }
 
 .profile-container h3 {
   font-size: 1.2em;
   padding-left: 5px;
 }
+
+.profile-info p {
+  font-size: 1rem;
+}
 }
 
-/* ===================================================================================== */
 
 
 
@@ -271,6 +243,7 @@ color: #bbb;
 max-width: 650px;
 margin: auto;
 padding: 20px;
+margin-bottom: 100px;
 background: black; /* ✅ Dark Purple Theme */
 color: #ffffff;
 border-radius: 8px;
@@ -339,8 +312,8 @@ transition: 0.2s ease-in-out;
 }
 
 .edit-btn {
-background: #330152;
-color: #fff;
+background: #6a1bbd;
+color: whitesmoke;
 }
 
 .edit-btn:hover {
@@ -349,8 +322,8 @@ color: whitesmoke;
 }
 
 .delete-btn {
-background: #330152;
-color: #fff;
+background: #6a1bbd;
+color: whitesmoke;
 }
 
 .delete-btn:hover {
@@ -398,83 +371,83 @@ color: whitesmoke;
 
 /* ✅ Comment Section Container */
 .comment-section {
-  margin-top: 20px;
-  padding: 15px;
-  background: #31004f;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+margin-top: 20px;
+padding: 15px;
+background: #31004f;
+border-radius: 8px;
+border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* ✅ Comment Section Header */
 .comment-section h3 {
-  font-size: 1.3em;
-  font-weight: bold;
-  color: whitesmoke;
-  margin-bottom: 10px;
+font-size: 1.3em;
+font-weight: bold;
+color: whitesmoke;
+margin-bottom: 10px;
 }
 
 /* ✅ Individual Comment Box */
 .comment {
-  padding: 12px;
-  margin-top: 8px;
-  background: #31004f; /* 🔥 Unified deep purple */
-  border-radius: 8px;
-  border-left: 3px solid black; /* already applied */
+padding: 12px;
+margin-top: 8px;
+background: #31004f; /* 🔥 Unified deep purple */
+border-radius: 8px;
+border-left: 3px solid black; /* already applied */
 }
 
 
 /* ✅ Comment Text */
 .comment p {
-  font-size: 1em;
+font-size: 1em;
 }
 
 /* ✅ Comment Timestamp */
 .comment small {
-  font-size: 0.9em;
-  color: #ddd;
+font-size: 0.9em;
+color: #ddd;
 }
 
 /* ✅ Reply & Add Comment Input Box Container */
 .reply-box,
 .add-comment {
-  display: flex;
-  align-items: center;
-  margin-top: 10px;
-  background-color: #31004f; /* ✅ Match comment section background */
-  gap: 10px;
-  width: 100%;
-  max-width: 600px;
-  padding: 10px;
-  border-radius: 8px;
+display: flex;
+align-items: center;
+margin-top: 10px;
+background-color: #31004f; /* ✅ Match comment section background */
+gap: 10px;
+width: 100%;
+max-width: 600px;
+padding: 10px;
+border-radius: 8px;
 }
 
 /* ✅ Comment & Reply Input Fields */
 .reply-box input,
 .add-comment input {
-  flex: 1;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: whitesmoke;
-  color: black;
-  font-size: 1em;
-  width: 100%;
-  max-width: 500px;
+flex: 1;
+padding: 8px;
+border: 1px solid #ccc;
+border-radius: 5px;
+background-color: whitesmoke;
+color: black;
+font-size: 1em;
+width: 100%;
+max-width: 500px;
 }
 
 /* ✅ Placeholder Color */
 .reply-box input::placeholder,
 .add-comment input::placeholder {
-  color: gray;
-  opacity: 0.8;
+color: gray;
+opacity: 0.8;
 }
 
 /* ✅ Input Focus Styling */
 .reply-box input:focus,
 .add-comment input:focus {
-  border: 1px solid #8a2be2;
-  outline: none;
-  box-shadow: 0 0 5px rgba(138, 43, 226, 0.5);
+border: 1px solid #8a2be2;
+outline: none;
+box-shadow: 0 0 5px rgba(138, 43, 226, 0.5);
 }
 
 /* ✅ Shared Black Button Style (Edit/Delete/Reply/Post) */
@@ -482,40 +455,38 @@ color: whitesmoke;
 .reply button,
 .reply-box button,
 .add-comment button {
-  padding: 8px 12px;
-  border: none;
-  background-color: black; /* ✅ Black button */
-  color: whitesmoke;
-  border-radius: 5px;
-  cursor: pointer;
-  white-space: nowrap;
-  font-weight: bold;
-  transition: 0.2s;
+padding: 8px 12px;
+border: none;
+background-color: black; /* ✅ Black button */
+color: whitesmoke;
+border-radius: 5px;
+cursor: pointer;
+white-space: nowrap;
+font-weight: bold;
+transition: 0.2s;
 }
 
 .comment button:hover,
 .reply button:hover,
 .reply-box button:hover,
 .add-comment button:hover {
-  background-color: #222;
+background-color: #222;
 }
 
 /* ✅ Reply Box for Nested Replies */
 .replies {
-  margin-top: 10px;
-  padding-left: 25px;
-  border-left: 2px solid #555;
+margin-top: 10px;
+padding-left: 25px;
+border-left: 2px solid #555;
 }
 
 /* ✅ Individual Reply Styling */
 .reply {
-  padding: 10px;
-  margin-top: 5px;
-  background-color: rgba(60, 1, 97, 0.3); /* 🔮 Transparent purple */
-  border-radius: 5px;
+padding: 10px;
+margin-top: 5px;
+background-color: rgba(60, 1, 97, 0.3); /* 🔮 Transparent purple */
+border-radius: 5px;
 }
-
-
 
 /* ✅ Back Button */
 .back-btn {
@@ -625,7 +596,7 @@ padding: 12px;
 margin: 12px 0;
 border: 1px solid #555;
 border-radius: 6px;
-background-color: #31004f;
+background-color: #6a1bbd;
 color: whitesmoke;
 font-size: 1em;
 }
@@ -661,7 +632,8 @@ font-size: 0.9em;
 width: 100%;
 padding: 12px;
 margin-top: 20px;
-background-color: #31004f;
+margin-bottom: 60px;
+background-color: #6a1bbd;
 color: whitesmoke;
 border: none;
 border-radius: 6px;
@@ -672,7 +644,7 @@ transition: background 0.3s ease;
 }
 
 .post-container button[type="submit"]:hover {
-background-color: #222;
+background-color: #8a2be2;
 }
 
 /* =========================== */
@@ -757,7 +729,7 @@ padding: 20px;
 border-radius: 10px;
 box-shadow: 0px 0px 10px #6a1bbd; /* Add a glow effect */
 position: sticky;
-top: 0;
+top: 90px;
 height: 100vh; /* ✅ Full height */
 overflow-y: auto; /* ✅ Prevents sidebar from scrolling */
 }
@@ -781,7 +753,7 @@ cursor: pointer;
 .category-dropdown {
 width: 100%;
 padding: 8px;
-background-color: #31004f;
+background-color: #6a1bbd;
 color: whitesmoke;
 border-radius: 5px;
 margin-top: 10px;
@@ -795,7 +767,7 @@ box-shadow: 0px 0px 10px #8a2be2; /* Add a glow effect */
 display: none;
 width: 100%;
 padding: 15px;
-background-color: #31004f;
+background-color: #6a1bbd;
 color: whitesmoke;
 border-radius: 5px;
 box-shadow: 0px 0px 10px #8a2be2;
@@ -900,7 +872,7 @@ overflow-y: auto; /* ✅ Prevents it from scrolling */
 }
 
 .subscribe-btn {
-background-color: #3b025f;
+background-color: #6a1bbd;
 color: white;
 border: none;
 padding: 10px;
@@ -912,7 +884,6 @@ cursor: pointer;
 .subscribe-btn:hover {
 background-color: #8a2be2;
 }
-
 
 /* ✅ Navbar Container */
 .navbar {
@@ -1011,7 +982,7 @@ display: none;
   padding: 3px;
   border: none;
   margin-left: 7px;
-  margin-top: 5.8em;
+  margin-top: 5.35em;
   border: 1px solid #333;
   display: flex;
   justify-content: space-between;
@@ -1067,12 +1038,16 @@ display: none;
   width: 90%;
   margin: 5px auto;
   display: block;
+  margin-top: 70px;
 }
 
 /* ✅ Adjust Main Content */
-.main-content {
-  margin-top: 80px; /* Leave space for the sticky header */
-  margin-bottom: 70px;
+@media (max-width: 768px) {
+  .main-content {
+    height: auto;              /* ✅ Fix scroll cutoff issue */
+    overflow-y: visible;       /* ✅ Ensure natural scroll */
+    padding-bottom: 80px;      /* ✅ Enough space above bottom nav */
+  }
 }
 
 /* ✅ Bottom Navigation Bar */
@@ -1228,6 +1203,7 @@ border: 1px solid #333;
 border-radius: 12px;
 color: whitesmoke;
 box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+
 }
 
 /* ✅ Heading */
@@ -1245,45 +1221,33 @@ text-align: center;
 margin-bottom: 15px;
 }
 
-/* ✅ Input and Textarea */
-.edit-post-container input[type="text"] {
-width: 90%;
-margin: 20px auto;
-display: block;
-padding: 10px;
-margin-right: 19px;
-font-size: 1rem;
-color: black;
-background-color: whitesmoke;
-border: 1px solid #555;
-border-radius: 6px;
-}
-
+.edit-post-container input[type="text"],
 .edit-post-container textarea {
 width: 90%;
+max-width: 100%;               /* ✅ Prevent overflow */
 margin: 20px auto;
 display: block;
 padding: 10px;
-margin-right: 20px;
 font-size: 1rem;
 color: black;
 background-color: whitesmoke;
 border: 1px solid #555;
 border-radius: 6px;
+box-sizing: border-box;        /* ✅ Ensure consistent width across */
 }
 
-/* ✅ Textarea Resizing */
 .edit-post-container textarea {
 resize: vertical;
 min-height: 200px;
 }
+
 
 /* ✅ Button */
 .edit-post-container button[type="submit"] {
 display: block;
 margin: 30px auto 0;
 padding: 10px 25px;
-background: #31004f;
+background: #6a1bbd;
 color: whitesmoke;
 border: none;
 border-radius: 6px;
@@ -1299,6 +1263,7 @@ background-color: #8a2be2;
 @media (max-width: 600px) {
 .edit-post-container {
   padding: 20px;
+  margin-bottom: 100px;
 }
 
 .edit-post-container input,
@@ -1310,6 +1275,7 @@ background-color: #8a2be2;
 /* ===================================================================================== */
 
 
+/* ===================================================================================== */
 /* ✅ Edit Profile Container */
 .edit-profile-container {
 max-width: 800px;
@@ -1330,11 +1296,12 @@ font-size: 2rem;
 font-weight: bold;
 }
 
-/* ✅ Form Fields */
+/* ✅ Make all form fields including textarea use same box-sizing */
 .edit-profile-container input[type="text"],
 .edit-profile-container textarea,
 .edit-profile-container input[type="file"] {
 width: 90%;
+max-width: 100%;                 /* ✅ Prevent from exceeding container */
 margin: 15px auto;
 display: block;
 padding: 12px;
@@ -1343,21 +1310,23 @@ color: black;
 background-color: whitesmoke;
 border: 1px solid #555;
 border-radius: 6px;
+box-sizing: border-box;
+        /* ✅ Ensures padding stays inside width */
 }
 
-/* ✅ Textarea Resize */
+/* ✅ Textarea Consistency */
 .edit-profile-container textarea {
 resize: vertical;
 min-height: 120px;
+overflow: auto;
 
 }
-
 /* ✅ Submit Button */
 .edit-profile-container button[type="submit"] {
 display: block;
 margin: 30px auto 0;
 padding: 10px 25px;
-background-color: #3b025f;
+background-color: #6a1bbd;
 color: whitesmoke;
 border: none;
 border-radius: 6px;
@@ -1373,6 +1342,7 @@ background-color: #8a2be2;
 @media (max-width: 600px) {
 .edit-profile-container {
   padding: 20px;
+  margin-bottom: 100px;
 }
 
 .edit-profile-container input,
@@ -1380,4 +1350,11 @@ background-color: #8a2be2;
   width: 100%;
 }
 }
+/* ===================================================================================== */
+
+
+
+
+
+
 

@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
+import BottomNav from "../components/BottomNav";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -63,6 +64,7 @@ function Login() {
       <p>
         <Link to="/forgot-password">Forgot Password?</Link>
       </p>
+      <BottomNav />
     </div>
   );
 }

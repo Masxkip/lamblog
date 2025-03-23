@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
+import BottomNav from "../components/BottomNav";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -362,6 +363,7 @@ const [error, setError] = useState(null);
         {message && <p className="success-message">{message}</p>}
         <Link to="/" className="back-btn">← Back to Home</Link>
       </div>
+      <BottomNav />
     </div>
   );
 }
