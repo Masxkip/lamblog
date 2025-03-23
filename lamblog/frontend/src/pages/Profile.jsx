@@ -76,12 +76,17 @@ function Profile() {
         )}
       </p>
 
-      {/* ✅ Show Edit Profile button only for the logged-in user */}
-      {loggedInUser && loggedInUser._id === user._id && (
-        <button onClick={() => navigate(`/edit-profile/${user._id}`)}>Edit Profile</button>
-      )}
-
-    <button onClick={handleLogout} className="profile-logout-btn">Logout</button>
+            {/* ✅ Edit & Logout Buttons */}
+{loggedInUser && loggedInUser._id === user._id && (
+  <>
+    <button onClick={() => navigate(`/edit-profile/${user._id}`)} className="profile-btn">
+      Edit Profile
+    </button>
+    <button onClick={handleLogout} className="profile-btn">
+      Logout
+    </button>
+  </>
+)}
 
       
       {/* ✅ User’s Posts */}
