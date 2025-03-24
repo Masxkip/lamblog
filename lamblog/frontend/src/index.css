@@ -1130,7 +1130,7 @@ transition: background 0.3s ease-in-out;
 background: #333;
 }
 
-/* ✅ Hide Sidebar on Mobile */
+/* ✅ Hide Sidebar    on Mobile */
 @media (max-width: 768px) {
 .sidebar {
   display: none;
