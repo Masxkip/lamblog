@@ -79,7 +79,7 @@ width: 200px;
 height: 200px;
 border-radius: 50%;
 object-fit: cover;
-border: 4px solid #ffffff;
+border: 4px solid #222;
 }
 
 .default-profile-icon {
@@ -218,7 +218,7 @@ color: #bbb;
 
 .profile-container .profile-btn {
   width: 100%;
-  max-width: 28%;
+  max-width: 32%;
 }
 
 .profile-container h3 {
@@ -551,6 +551,7 @@ padding: 30px;
 border: 1px solid #333;
 border-radius: 12px;
 box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+margin-bottom: 45px;
 }
 
 .post-container h2 {
