@@ -7,10 +7,6 @@ body {
   background-color: black;
   color: whitesmoke;
 }
-
-
-
-
 /* ===================================================================================== */
 
 
@@ -1126,12 +1122,12 @@ justify-content: center;
 width: 50px;
 height: 50px;
 border-radius: 10px;
-background-color: #31004f;
+background-color: #222;
 transition: background 0.3s ease-in-out;
 }
 
 .sidebar-icon:hover {
-background: #6a1bbd;
+background: #333;
 }
 
 /* ✅ Hide Sidebar on Mobile */
