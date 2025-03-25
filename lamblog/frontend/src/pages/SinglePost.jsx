@@ -359,7 +359,6 @@ const [error, setError] = useState(null);
 )}
 
         {message && <p className="success-message">{message}</p>}
-        <Link to="/" className="back-btn">← Back to Home</Link>
       </div>
       <BottomNav />
     </div>
