@@ -32,7 +32,7 @@ function NewPost() {
     formData.append("title", title);
     formData.append("content", content);
     formData.append("author", user._id);
-    formData.append("category", category === "Other" ? customCategory : category); // Use custom category if "Other" is selected
+    formData.append("category", category === "Other" ? customCategory : category);
     if (image) formData.append("image", image);
     if (music) formData.append("music", music);
 
@@ -76,7 +76,6 @@ function NewPost() {
 
         {/* Category Selection */}
         <div className="file-upload-section">
-          <label>📌 Select Category:</label>
           <select value={category} onChange={(e) => setCategory(e.target.value)} required>
             <option value="">-- Choose a Category --</option>
             {categories.map((cat) => (

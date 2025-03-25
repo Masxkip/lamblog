@@ -62,9 +62,6 @@ function EditProfile() {
   };
 
   return (
-
-    
-
     <div className="edit-profile-container">
       <h2>Edit Profile</h2>
       {message && <p className="success-message">{message}</p>}
