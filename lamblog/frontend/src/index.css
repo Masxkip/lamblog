@@ -157,7 +157,7 @@ border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 padding-bottom: 5px;
 }
 
-/* ✅ Content Sections */
+/* Content Sections */
 .profile-section {
 margin-top: 15px;
 }
@@ -191,14 +191,14 @@ font-weight: bold;
 text-decoration: underline;
 }
 
-/* ✅ Date/Meta Styling */
+/* Date/Meta Styling */
 .user-comment small,
 .user-reply small {
 font-size: 0.85em;
 color: #bbb;
 }
 
-/* ✅ Mobile Styling */
+/* Mobile Styling */
 @media screen and (max-width: 768px) {
 .profile-container {
   max-width: 95%;
@@ -235,20 +235,20 @@ color: #bbb;
 
 
 /* ===================================================================================== */
-/* ✅ Single Post Page - Professional X (Twitter) Style */
+/* Single Post Page */
 .single-post-container {
 max-width: 650px;
 margin: auto;
 padding: 20px;
 margin-bottom: 100px;
-background: black; /* ✅ Dark Purple Theme */
+background: black;
 color: #ffffff;
 border-radius: 8px;
 border: 1px solid rgba(255, 255, 255, 0.2);
 box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
 
-/* ✅ Post Header - X Style */
+/* Post Header - X Style */
 .single-post-header {
 display: flex;
 align-items: center;
@@ -256,14 +256,14 @@ justify-content: space-between;
 margin-bottom: 15px;
 }
 
-/* ✅ Post Title */
+/* Post Title */
 .single-post-container h2 {
 font-size: 1.4em;
 font-weight: bold;
 margin-bottom: 10px;
 }
 
-/* ✅ Post Image */
+/* Post Image */
 .single-post-image {
 width: 100%;
 height: auto;
@@ -274,30 +274,30 @@ margin-top: 10px;
 border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* ✅ Post Content */
+/* Post Content */
 .single-post-container p {
 font-size: 1.05em;
 line-height: 1.5;
 margin: 8px 0;
 }
 
-/* ✅ Date & Timestamp */
+/* Date & Timestamp */
 .post-timestamp {
 font-size: 0.9em;
 color: #bbbbbb;
 margin-bottom: 15px;
 }
 
-/* ✅ Post Actions (Edit & Delete Buttons) */
+/* Post Actions (Edit & Delete Buttons) */
 .post-actions {
 display: flex;
 align-items: center;
 gap: 8px;
-justify-content: flex-start; /* ✅ Aligns buttons to the left */
+justify-content: flex-start;
 margin-top: 10px;
 }
 
-/* ✅ Style Edit & Delete Buttons */
+/* Style Edit & Delete Buttons */
 .edit-btn,
 .delete-btn {
 padding: 6px 12px;
@@ -328,7 +328,7 @@ background: #8a2be2;
 color: whitesmoke;
 }
 
-/* ✅ Post Rating System (More Professional) */
+/* Post Rating System */
 .post-rating {
 margin-top: 15px;
 padding: 10px;
@@ -366,7 +366,7 @@ background: black;
 color: whitesmoke;
 }
 
-/* ✅ Comment Section Container */
+/* Comment Section Container */
 .comment-section {
 margin-top: 20px;
 padding: 15px;
@@ -375,7 +375,7 @@ border-radius: 8px;
 border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* ✅ Comment Section Header */
+/* Comment Section Header */
 .comment-section h3 {
 font-size: 1.3em;
 font-weight: bold;
@@ -383,34 +383,34 @@ color: whitesmoke;
 margin-bottom: 10px;
 }
 
-/* ✅ Individual Comment Box */
+/* Individual Comment Box */
 .comment {
 padding: 12px;
 margin-top: 8px;
-background: #31004f; /* 🔥 Unified deep purple */
+background: #31004f;
 border-radius: 8px;
-border-left: 3px solid black; /* already applied */
+border-left: 3px solid black;
 }
 
 
-/* ✅ Comment Text */
+/* Comment Text */
 .comment p {
 font-size: 1em;
 }
 
-/* ✅ Comment Timestamp */
+/* Comment Timestamp */
 .comment small {
 font-size: 0.9em;
 color: #ddd;
 }
 
-/* ✅ Reply & Add Comment Input Box Container */
+/* Reply & Add Comment Input Box Container */
 .reply-box,
 .add-comment {
 display: flex;
 align-items: center;
 margin-top: 10px;
-background-color: #31004f; /* ✅ Match comment section background */
+background-color: #31004f;
 gap: 10px;
 width: 100%;
 max-width: 600px;
@@ -418,7 +418,7 @@ padding: 10px;
 border-radius: 8px;
 }
 
-/* ✅ Comment & Reply Input Fields */
+/* Comment & Reply Input Fields */
 .reply-box input,
 .add-comment input {
 flex: 1;
@@ -432,14 +432,14 @@ width: 100%;
 max-width: 500px;
 }
 
-/* ✅ Placeholder Color */
+/* Placeholder Color */
 .reply-box input::placeholder,
 .add-comment input::placeholder {
 color: gray;
 opacity: 0.8;
 }
 
-/* ✅ Input Focus Styling */
+/* Input Focus Styling */
 .reply-box input:focus,
 .add-comment input:focus {
 border: 1px solid #8a2be2;
@@ -447,14 +447,14 @@ outline: none;
 box-shadow: 0 0 5px rgba(138, 43, 226, 0.5);
 }
 
-/* ✅ Shared Black Button Style (Edit/Delete/Reply/Post) */
+/* Shared Black Button Style (Edit/Delete/Reply/Post) */
 .comment button,
 .reply button,
 .reply-box button,
 .add-comment button {
 padding: 8px 12px;
 border: none;
-background-color: black; /* ✅ Black button */
+background-color: black;
 color: whitesmoke;
 border-radius: 5px;
 cursor: pointer;
@@ -470,22 +470,22 @@ transition: 0.2s;
 background-color: #222;
 }
 
-/* ✅ Reply Box for Nested Replies */
+/* Reply Box for Nested Replies */
 .replies {
 margin-top: 10px;
 padding-left: 25px;
 border-left: 2px solid #555;
 }
 
-/* ✅ Individual Reply Styling */
+/* Individual Reply Styling */
 .reply {
 padding: 10px;
 margin-top: 5px;
-background-color: rgba(60, 1, 97, 0.3); /* 🔮 Transparent purple */
+background-color: rgba(60, 1, 97, 0.3);
 border-radius: 5px;
 }
 
-/* ✅ Back Button */
+/* Back Button */
 .back-btn {
 display: block;
 margin: 15px auto;
@@ -496,16 +496,16 @@ color: whitesmoke;
 border-radius: 6px;
 text-align: center;
 font-size: 1em;
-width: 100%; /* ✅ Ensures full width within container */
-max-width: 95%; /* ✅ Prevents stretching too much */
-box-sizing: border-box; /* ✅ Ensures proper padding */
+width: 100%; 
+max-width: 95%;
+box-sizing: border-box; 
 }
 
 .back-btn:hover {
 background: #111;
 }
 
-/* ✅ Responsive Design */
+/*] Responsive Design */
 @media screen and (max-width: 768px) {
 .single-post-container {
   max-width: 95%;
@@ -513,14 +513,14 @@ background: #111;
 }
 
 .post-actions {
-  justify-content: flex-start; /* ✅ Ensures left alignment */
-  gap: 6px; /* ✅ Smaller gap between buttons */
+  justify-content: flex-start;
+  gap: 6px;
 }
 
 .edit-btn,
 .delete-btn {
-  padding: 5px 10px; /* ✅ Slightly smaller buttons */
-  font-size: 0.8em; /* ✅ Adjust text size */
+  padding: 5px 10px;
+  font-size: 0.8em;
 }
 
 .comment-section {
@@ -529,7 +529,7 @@ background: #111;
 
 .back-btn {
   width: 100%;
-  max-width: 100%; /* ✅ Prevents shifting outside the post container */
+  max-width: 100%;
   margin-left: 0;
   margin-right: 0;
 }
@@ -539,9 +539,7 @@ background: #111;
 
 
 /* ===================================================================================== */
-/* ================================ */
-/* 📝 New Post (Create Post Page) */
-/* ================================ */
+/* New Post (Create Post Page) */
 .post-container {
 max-width: 600px;
 margin: 40px auto;
@@ -561,7 +559,7 @@ margin-bottom: 25px;
 color: #fff;
 }
 
-/* ✅ Message Feedback */
+/* Message Feedback */
 .success-message {
 text-align: center;
 margin-bottom: 15px;
@@ -574,7 +572,7 @@ align-items: center;
 margin-right: 30px;
 }
 
-/* ✅ Input & Textarea Fields */
+/* Input & Textarea Fields */
 .post-container input[type="text"],
 .post-container textarea,
 .post-container select {
@@ -604,7 +602,7 @@ min-height: 120px;
 resize: vertical;
 }
 
-/* ✅ File Upload Sections */
+/* File Upload Sections */
 .file-upload-section {
 margin-top: 18px;
 border: 1px solid #333;
@@ -617,7 +615,7 @@ margin-bottom: 5px;
 color: #ddd;
 }
 
-/* ✅ File Inputs */
+/* File Inputs */
 .file-upload-section input[type="file"] {
 background-color: transparent;
 color: whitesmoke;
@@ -625,7 +623,7 @@ border: none;
 font-size: 0.9em;
 }
 
-/* ✅ Submit Button */
+/* Submit Button */
 .post-container button[type="submit"] {
 width: 100%;
 padding: 12px;
@@ -645,11 +643,8 @@ transition: background 0.3s ease;
 background-color: #8a2be2;
 }
 
-/* =========================== */
-/* 📱 Responsive Design */
-/* =========================== */
 
-/* ✅ Tablet & Below */
+/* Tablet & Below */
 @media (max-width: 768px) {
 .post-container {
   margin: 20px 15px;
@@ -677,7 +672,7 @@ background-color: #8a2be2;
 }
 }
 
-/* ✅ Small Mobile Devices */
+/* Small Mobile Devices */
 @media (max-width: 480px) {
 .post-container {
   padding: 15px;
@@ -705,7 +700,7 @@ background-color: #8a2be2;
 
 
 /* ===================================================================================== */
-/* ✅ General Layout */
+/* General Layout */
 .home-layout {
 display: grid;
 grid-template-columns: 250px auto 280px; /* Sidebar, Main Content, Subscription */
@@ -716,7 +711,7 @@ padding: 20px;
 background-color: black;
 }
 
-/* ✅ Sidebar (Left Navigation) */
+/*  Sidebar (Left Navigation) */
 .sidebar {
 display: flex;
 flex-direction: column;
@@ -725,11 +720,11 @@ background-color: black;
 color: whitesmoke;
 padding: 20px;
 border-radius: 10px;
-box-shadow: 0px 0px 10px #6a1bbd; /* Add a glow effect */
+box-shadow: 0px 0px 10px #6a1bbd; 
 position: sticky;
 top: 90px;
-height: 100vh; /* ✅ Full height */
-overflow-y: auto; /* ✅ Prevents sidebar from scrolling */
+height: 100vh; 
+overflow-y: auto;
 }
 
 .sidebar-icon {
@@ -747,7 +742,6 @@ font-size: 22px;
 cursor: pointer;
 }
 
-/* ✅ Category Filter */
 .category-dropdown {
 width: 100%;
 padding: 8px;
@@ -756,9 +750,9 @@ color: whitesmoke;
 border-radius: 5px;
 margin-top: 10px;
 border: 1px solid #ddd;
-outline: none; /* Remove default blue outline */
-border: 2px solid black; /* Default border */
-box-shadow: 0px 0px 10px #8a2be2; /* Add a glow effect */
+outline: none;
+border: 2px solid black;
+box-shadow: 0px 0px 10px #8a2be2;
 }
 
 .category-dropdownn {
@@ -773,7 +767,7 @@ border: 2px solid black;
 margin-top: 10px;
 }
 
-/* ✅ Header */
+/* Header */
 .header {
 display: flex;
 justify-content: space-between;
@@ -810,30 +804,30 @@ border-radius: 50%;
 object-fit: cover;
 }
 
-/* ✅ Main Content */
+/* Main Content */
 .main-content {
 display: flex;
 flex-direction: column;
 gap: 20px;
-overflow-y: auto; /* ✅ Enables scrolling for blog posts only */
-height: 100vh; /* ✅ Full height to allow scrolling */
-scrollbar-width: none; /* ✅ Hides scrollbar for Firefox */
--ms-overflow-style: none; /* ✅ Hides scrollbar for IE/Edge */
+overflow-y: auto;
+height: 100vh;
+scrollbar-width: none;
+-ms-overflow-style: none;
 }
 
-/* ✅ Hides scrollbar for Chrome, Safari, and Edge */
+/* Hides scrollbar for Chrome, Safari, and Edge */
 .main-content::-webkit-scrollbar {
 display: none;
 }
 
 
-/* ✅ Blog Post List */
+/* Blog Post List */
 .posts-grid {
 display: flex;
 flex-direction: column;
 gap: 15px;
 color: whitesmoke;
-padding-bottom: 20px; /* ✅ Extra space for smooth scrolling */
+padding-bottom: 20px;
 }
 
 .post-card {
@@ -856,17 +850,17 @@ object-fit: cover;
 border-radius: 5px;
 }
 
-/* ✅ Subscription Section */
+/* Subscription Section */
 .subscription-section {
 background-color: black;
 padding: 20px;
 border-radius: 10px;
-box-shadow: 0px 0px 10px #6a1bbd; /* Add a glow effect */
+box-shadow: 0px 0px 10px #6a1bbd;
 text-align: center;
 position: sticky;
 top: 0;
-height: 100vh; /* ✅ Full height */
-overflow-y: auto; /* ✅ Prevents it from scrolling */
+height: 100vh;
+overflow-y: auto;
 }
 
 .subscribe-btn {
@@ -883,7 +877,7 @@ cursor: pointer;
 background-color: #8a2be2;
 }
 
-/* ✅ Navbar Container */
+/* Navbar Container */
 .navbar {
 display: flex;
 justify-content: space-between;
@@ -897,7 +891,7 @@ width: 95.3%;
 z-index: 1000;
 }
 
-/* ✅ Logo Styling */
+/* Logo Styling */
 .logo {
 font-size: 35px;
 font-weight: bold;
@@ -905,7 +899,7 @@ text-decoration: none;
 color: whitesmoke;
 }
 
-/* ✅ Navigation Links */
+/* Navigation Links */
 .nav-links {
 display: flex;
 align-items: center;
@@ -926,7 +920,7 @@ transition: background 0.3s ease;
 color: silver;
 }
 
-/* ✅ Profile Icon */
+/* Profile Icon */
 .nav-profile-pic {
 width: 50px;
 height: 50px;
@@ -935,7 +929,7 @@ object-fit: cover;
 cursor: pointer;
 }
 
-/* ✅ Logout Button */
+/* Logout Button */
 .logout-btn {
 background-color: black;
 color: white;
@@ -955,7 +949,7 @@ color: whitesmoke;
 display: none;
 }
 
-/* ✅ Responsive Styles for Mobile */
+/* Responsive Styles for Mobile */
 @media (max-width: 768px) {
 .home-layout {
   display: flex;
@@ -964,13 +958,13 @@ display: none;
   padding: 10px;
 }
 
-/* ✅ Hide Sidebar and Subscription Section on Mobile */
+/* Hide Sidebar and Subscription Section on Mobile */
 .sidebar,
 .subscription-section {
   display: none;
 }
 
-/* ✅ Make Header Sticky */
+/* Make Header Sticky */
 .header {
   position: fixed;
   top: 0;
@@ -988,17 +982,17 @@ display: none;
   z-index: 1000;
 }
 
-/* ✅ Profile Icon at the Top Left */
+/* Profile Icon at the Top Left */
 .user-info {
   display: none;
 }
 
- /* ✅ Hide User Avatar on Mobile */
+ /* Hide User Avatar on Mobile */
  .user-avatar {
   display: none;
 }
 
-/* ✅ Navbar: Adjust Profile Icon & Logo */
+/* Navbar: Adjust Profile Icon & Logo */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -1015,7 +1009,7 @@ display: none;
 }
 
 .nav-links .logout-btn {
-  display: none; /* ✅ Hide Logout Button on Mobile */
+  display: none;
 }
 
 .nav-links {
@@ -1024,14 +1018,14 @@ display: none;
   gap: 10px;
 }
 
-/* ✅ Search Bar and Category Dropdown */
+/* Search Bar and Category Dropdown */
 .search-bar {
   width: 90%;
   margin: 10px auto;
   display: block;
 }
 
- /* ✅ Show "Select Category" under Search Bar */
+ /* Show "Select Category" under Search Bar */
  .category-dropdownn {
   width: 90%;
   margin: 5px auto;
@@ -1039,16 +1033,16 @@ display: none;
   margin-top: 70px;
 }
 
-/* ✅ Adjust Main Content */
+/* Adjust Main Content */
 @media (max-width: 768px) {
   .main-content {
-    height: auto;              /* ✅ Fix scroll cutoff issue */
-    overflow-y: visible;       /* ✅ Ensure natural scroll */
-    padding-bottom: 80px;      /* ✅ Enough space above bottom nav */
+    height: auto;    
+    overflow-y: visible; 
+    padding-bottom: 80px;
   }
 }
 
-/* ✅ Bottom Navigation Bar */
+/* Bottom Navigation Bar */
 .bottom-nav {
   position: fixed;
   bottom: 0;
@@ -1087,7 +1081,7 @@ object-fit: cover;
 
 /* Default Profile Icon */
 .default-profile-icon {
-color: white; /* Change to your theme color */
+color: white;
 width: 32px;
 height: 32px;
 }
@@ -1131,7 +1125,7 @@ transition: background 0.3s ease-in-out;
 background: #333;
 }
 
-/* ✅ Hide Sidebar    on Mobile */
+/* Hide Sidebar on Mobile */
 @media (max-width: 768px) {
 .sidebar {
   display: none;
@@ -1167,7 +1161,7 @@ transition: transform 0.2s ease-in-out;
 transform: scale(1.2);
 }
 
-/* ✅ Hide Bottom Navbar on Desktop */
+/* Hide Bottom Navbar on Desktop */
 @media (min-width: 769px) {
 .bottom-nav {
   display: none;
@@ -1177,21 +1171,19 @@ transform: scale(1.2);
 
 
 /* ===================================================================================== */
-/* ✅ Remove underline from all links */
 a, .profile-link {
 text-decoration: none;
-color: inherit; /* Keeps the text color consistent */
+color: inherit; 
 }
 
-/* ✅ Optional: Ensure hover effect still works */
 a:hover, .profile-link:hover {
-color: lightgray; /* Adjust color on hover if needed */
+color: lightgray;
 }
 /* ===================================================================================== */
 
 
 /* ===================================================================================== */
-/* ✅ Edit Post Container */
+/* Edit Post Container */
 .edit-post-container {
 max-width: 800px;
 margin: 40px auto;
@@ -1204,7 +1196,6 @@ box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 
 }
 
-/* ✅ Heading */
 .edit-post-container h2 {
 text-align: center;
 margin-bottom: 25px;
@@ -1212,7 +1203,7 @@ font-size: 2rem;
 font-weight: bold;
 }
 
-/* ✅ Success Message */
+/* Success Message */
 .success-message {
 color: silver;
 text-align: center;
@@ -1222,7 +1213,7 @@ margin-bottom: 15px;
 .edit-post-container input[type="text"],
 .edit-post-container textarea {
 width: 90%;
-max-width: 100%;               /* ✅ Prevent overflow */
+max-width: 100%;             
 margin: 20px auto;
 display: block;
 padding: 10px;
@@ -1231,7 +1222,7 @@ color: black;
 background-color: whitesmoke;
 border: 1px solid #555;
 border-radius: 6px;
-box-sizing: border-box;        /* ✅ Ensure consistent width across */
+box-sizing: border-box;      
 }
 
 .edit-post-container textarea {
@@ -1240,7 +1231,6 @@ min-height: 200px;
 }
 
 
-/* ✅ Button */
 .edit-post-container button[type="submit"] {
 display: block;
 margin: 30px auto 0;
@@ -1257,7 +1247,7 @@ cursor: pointer;
 background-color: #8a2be2;
 }
 
-/* ✅ Responsive Tweaks */
+/* Responsive Tweaks */
 @media (max-width: 600px) {
 .edit-post-container {
   padding: 20px;
@@ -1274,7 +1264,7 @@ background-color: #8a2be2;
 
 
 /* ===================================================================================== */
-/* ✅ Edit Profile Container */
+/* Edit Profile Container */
 .edit-profile-container {
 max-width: 800px;
 margin: 40px auto;
@@ -1286,7 +1276,6 @@ color: whitesmoke;
 box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-/* ✅ Heading */
 .edit-profile-container h2 {
 text-align: center;
 margin-bottom: 25px;
@@ -1294,12 +1283,11 @@ font-size: 2rem;
 font-weight: bold;
 }
 
-/* ✅ Make all form fields including textarea use same box-sizing */
 .edit-profile-container input[type="text"],
 .edit-profile-container textarea,
 .edit-profile-container input[type="file"] {
 width: 90%;
-max-width: 100%;                 /* ✅ Prevent from exceeding container */
+max-width: 100%;               
 margin: 15px auto;
 display: block;
 padding: 12px;
@@ -1309,17 +1297,15 @@ background-color: whitesmoke;
 border: 1px solid #555;
 border-radius: 6px;
 box-sizing: border-box;
-        /* ✅ Ensures padding stays inside width */
 }
 
-/* ✅ Textarea Consistency */
+/* Textarea Consistency */
 .edit-profile-container textarea {
 resize: vertical;
 min-height: 120px;
 overflow: auto;
 
 }
-/* ✅ Submit Button */
 .edit-profile-container button[type="submit"] {
 display: block;
 margin: 30px auto 0;
@@ -1336,7 +1322,6 @@ cursor: pointer;
 background-color: #8a2be2;
 }
 
-/* ✅ Responsive Adjustments */
 @media (max-width: 600px) {
 .edit-profile-container {
   padding: 20px;

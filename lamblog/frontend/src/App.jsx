@@ -8,8 +8,8 @@ import EditProfile from "./pages/EditProfile";
 import NewPost from "./pages/NewPost";
 import SinglePost from "./pages/SinglePost";
 import EditPost from "./pages/EditPost";
-import ForgotPassword from "./pages/ForgotPassword"; // ✅ Import Forgot Password Page
-import ResetPassword from "./pages/ResetPassword"; // ✅ Import Reset Password Page
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import ProtectedRoute from "./context/ProtectedRoute"; 
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
 
-         {/* ✅ Protect Routes */}
+         {/* Protect Routes */}
          <Route 
           path="/profile/:id" 
           element={<ProtectedRoute><Profile /></ProtectedRoute>} 
