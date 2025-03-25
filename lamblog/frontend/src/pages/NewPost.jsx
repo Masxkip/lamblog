@@ -106,7 +106,7 @@ function NewPost() {
 
         {/* Music Upload */}
         <div className="file-upload-section">
-          <label>🎵 Add an Music:</label>
+          <label>🎵 Add Music:</label>
           <input type="file" accept="audio/*" onChange={(e) => setMusic(e.target.files[0])} />
         </div>
 
