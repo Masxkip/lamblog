@@ -5,7 +5,7 @@ import axios from "axios";
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 function ResetPassword() {
-  const { token } = useParams(); // Get token from URL
+  const { token } = useParams();
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -25,17 +25,17 @@ function ResetPassword() {
     try {
       const response = await axios.post(`${API_URL}/api/auth/reset-password/${token}`, { password });
       setMessage(response.data.message);
-      setPassword(""); // ✅ Clear fields on success
+      setPassword(""); // Clear fields on success
       setConfirmPassword("");
 
       setTimeout(() => {
-        navigate("/login"); // ✅ Redirect to login after success
+        navigate("/login"); // Redirect to login after success
       }, 2000);
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong.");
     }
 
-    // ✅ Clear error after 5 seconds
+    // Clear error after 5 seconds
     setTimeout(() => setError(""), 5000);
   };
 

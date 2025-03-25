@@ -23,7 +23,7 @@ function Login() {
       const response = await axios.post(`${API_URL}/api/auth/login`, { email, password });
       const { token, user } = response.data;
       login(user, token);
-      setSuccess(`Welcome, ${user.username}! Redirecting...`);
+      setSuccess(`Welcome, ${user.username}!`);
 
       setTimeout(() => {
         navigate("/");
@@ -60,7 +60,7 @@ function Login() {
         <button type="submit">Login</button>
       </form>
 
-      {/* 🔹 Add Forgot Password Link */}
+      {/* Add Forgot Password Link */}
       <p>
         <Link to="/forgot-password">Forgot Password?</Link>
       </p>

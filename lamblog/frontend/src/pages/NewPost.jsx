@@ -13,11 +13,11 @@ function NewPost() {
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
   const [music, setMusic] = useState(null);
-  const [category, setCategory] = useState(""); // Selected category
-  const [customCategory, setCustomCategory] = useState(""); // Custom category input
+  const [category, setCategory] = useState("");
+  const [customCategory, setCustomCategory] = useState(""); 
   const [message, setMessage] = useState("");
 
-  // 🔹 Predefined categories
+  // Predefined categories
   const categories = ["Technology", "Health", "Lifestyle", "Education", "Business", "Other"];
 
   const handleSubmit = async (e) => {
@@ -74,7 +74,7 @@ function NewPost() {
           required 
         />
 
-        {/* ✅ Category Selection */}
+        {/* Category Selection */}
         <div className="file-upload-section">
           <label>📌 Select Category:</label>
           <select value={category} onChange={(e) => setCategory(e.target.value)} required>
@@ -85,7 +85,7 @@ function NewPost() {
           </select>
         </div>
 
-        {/* ✅ Custom Category Input (Only Shows if "Other" is Selected) */}
+        {/* Custom Category Input (Only Shows if "Other" is Selected) */}
         {category === "Other" && (
           <div className="file-upload-section">
             <label>✏️ Enter Custom Category:</label>
@@ -99,13 +99,13 @@ function NewPost() {
           </div>
         )}
 
-        {/* ✅ Image Upload */}
+        {/* Image Upload */}
         <div className="file-upload-section">
           <label>📷 Choose an image for your post:</label>
           <input type="file" onChange={(e) => setImage(e.target.files[0])} />
         </div>
 
-        {/* ✅ Music Upload */}
+        {/* Music Upload */}
         <div className="file-upload-section">
           <label>🎵 Upload a music file:</label>
           <input type="file" accept="audio/*" onChange={(e) => setMusic(e.target.files[0])} />

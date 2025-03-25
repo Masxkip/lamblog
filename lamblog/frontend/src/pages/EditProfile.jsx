@@ -51,7 +51,7 @@ function EditProfile() {
 
       setMessage("Profile updated successfully!");
 
-      // ✅ Update AuthContext with new profile picture
+      // Update AuthContext with new profile picture
       updateUserProfile(res.data.user);
 
       setTimeout(() => navigate(`/profile/${id}`), 2000);

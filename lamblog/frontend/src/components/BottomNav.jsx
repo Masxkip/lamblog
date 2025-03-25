@@ -1,4 +1,3 @@
-// components/BottomNav.jsx
 import { Link } from "react-router-dom";
 import { UserCircle, Home as HomeIcon, FileText } from "lucide-react";
 import { useContext } from "react";

@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { UserCircle } from "lucide-react"; // Import profile icon
+import { UserCircle } from "lucide-react";
 import AuthContext from "../context/AuthContext";
 
 function Navbar() {

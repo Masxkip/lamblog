@@ -4,7 +4,7 @@ import axios from "axios";
 import { UserCircle, Home as HomeIcon, FileText } from "lucide-react";
 import AuthContext from "../context/AuthContext";
 
-// ✅ Load API URL from .env
+// Load API URL from .env
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 function Home() {
@@ -15,7 +15,7 @@ function Home() {
   const [category, setCategory] = useState("");
   const [categories, setCategories] = useState([]);
 
-  // ✅ Fetch posts
+  // Fetch posts
   const fetchPosts = useCallback(async () => {
     setLoading(true);
     try {
@@ -32,7 +32,7 @@ function Home() {
     setLoading(false);
   }, [search, category]);
 
-  // ✅ Fetch categories
+  // Fetch categories
   const fetchCategories = useCallback(async () => {
     try {
       const response = await axios.get(`${API_URL}/api/posts`);
@@ -54,7 +54,7 @@ function Home() {
   return (
     <div className="home-layout">
       
-      {/* ✅ Sidebar */}
+      {/* Sidebar */}
       <aside className="sidebar">
         <h3>#Top Categories</h3>
         <select value={category} onChange={(e) => setCategory(e.target.value)} className="category-dropdown">
@@ -64,7 +64,7 @@ function Home() {
           ))}
         </select>
 
-        {/* ✅ Sidebar Navigation */}
+        {/* Sidebar Navigation */}
         <Link to="/" className="sidebar-icon">
           <HomeIcon className="icon" size={24} />
         </Link>
@@ -76,7 +76,7 @@ function Home() {
         </Link>
       </aside>
 
-      {/* ✅ Main Content */}
+      {/* Main Content */}
       <main className="main-content">
         <header className="header">
           <input
@@ -142,7 +142,7 @@ function Home() {
         )}
       </main>
 
-      {/* ✅ Subscription Section */}
+      {/* Subscription Section */}
       <aside className="subscription-section">
         <h2>Subscribe for SLXXK Premium Content</h2>
         <p>Unlock exclusive posts and features by subscribing.</p>
@@ -151,7 +151,7 @@ function Home() {
         <h2>#Subscription Button Doesn't Work, Due to Prop Maintenance.</h2>
       </aside>
 
-      {/* ✅ Bottom Navigation for Mobile */}
+      {/* Bottom Navigation for Mobile */}
       <nav className="bottom-nav">
         <Link to="/" className="sidebar-icon">
           <HomeIcon className="icon" size={21} />

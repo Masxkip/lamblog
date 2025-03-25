@@ -5,7 +5,7 @@ import AuthContext from "../context/AuthContext";
 import { UserCircle } from "lucide-react"; // Icon for default profile picture
 import BottomNav from "../components/BottomNav";
 
-// ✅ Load API URL from .env
+// Load API URL from .env
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 function Profile() {
@@ -53,10 +53,10 @@ function Profile() {
     <div className="profile-container">
       <h2>{user.username}'s Profile</h2>
 
-      {/* ✅ Fix Profile Picture Loading */}
+      {/* Fix Profile Picture Loading */}
       {user.profilePicture ? (
         <img 
-          src={`${API_URL}${user.profilePicture}`}  // ✅ Fix: API_URL + relative path
+          src={`${API_URL}${user.profilePicture}`}
           alt="Profile" 
           className="profile-pic" 
         />
@@ -77,7 +77,7 @@ function Profile() {
         )}
       </p>
 
-            {/* ✅ Edit & Logout Buttons */}
+            {/* Edit & Logout Buttons */}
 {loggedInUser && loggedInUser._id === user._id && (
   <>
     <button onClick={() => navigate(`/edit-profile/${user._id}`)} className="profile-btn">
@@ -90,7 +90,7 @@ function Profile() {
 )}
 
       
-           {/* ✅ User’s Posts */}
+           {/* User’s Posts */}
 <h3>Posts by {user.username}</h3>
 {posts.length > 0 ? (
   <div className="profile-section">
@@ -108,7 +108,7 @@ function Profile() {
   <p>No posts yet.</p>
 )}
 
-      {/* ✅ Comments by the User */}
+      {/* Comments by the User */}
 <h3>Comments by {user.username}</h3>
 {comments.length > 0 ? (
   <div className="profile-section">
@@ -127,7 +127,7 @@ function Profile() {
 )}
 
 
-     {/* ✅ Replies by the User */}
+     {/* Replies by the User */}
 <h3>Replies by {user.username}</h3>
 {replies.length > 0 ? (
   <div className="profile-section">
@@ -146,7 +146,7 @@ function Profile() {
   <p>No replies yet.</p>
 )}
 
-      {/* ✅ Ratings Given by the User */}
+      {/* Ratings Given by the User */}
 <h3>Ratings Given by {user.username}</h3>
 {ratings.length > 0 ? (
   <div className="profile-section">

@@ -23,7 +23,7 @@ const [userRating, setUserRating] = useState(null);
 const [error, setError] = useState(null);
 
 
-  // ✅ Fetch comments
+  // Fetch comments
   useEffect(() => {
     const fetchPostAndComments = async () => {
       try {
@@ -44,7 +44,7 @@ const [error, setError] = useState(null);
   }, [id]);
 
 
-  // ✅ Fetch post ratings
+  // Fetch post ratings
   useEffect(() => {
     const fetchRatings = async () => {
       try {
@@ -81,7 +81,7 @@ const [error, setError] = useState(null);
   }, [id]);
   
 
-  // ✅ Handle Deleting a Post
+  // Handle Deleting a Post
   const handleDelete = async () => {
     const token = localStorage.getItem("token");
     if (!token) return;
@@ -98,7 +98,7 @@ const [error, setError] = useState(null);
     }
   };
 
-  // ✅ Handle Adding a Comment
+  // Handle Adding a Comment
   const handleAddComment = async () => {
     if (!newComment.trim()) return;
 
@@ -112,7 +112,7 @@ const [error, setError] = useState(null);
 
       setComments([...comments, {
         ...response.data.comment,
-        author: { _id: user._id, username: user.username }, // ✅ Ensure author ID is included
+        author: { _id: user._id, username: user.username }, // Ensure author ID is included
       }]);
       setNewComment("");
     } catch (err) {
@@ -120,7 +120,7 @@ const [error, setError] = useState(null);
     }
   };
 
-  // ✅ Handle Editing a Comment
+  // Handle Editing a Comment
   const handleEditComment = async (commentId) => {
     if (!editedCommentText.trim()) return;
 
@@ -145,7 +145,7 @@ const [error, setError] = useState(null);
     }
   };
 
-  // ✅ Handle Deleting a Comment
+  // Handle Deleting a Comment
   const handleDeleteComment = async (commentId) => {
     try {
       const token = localStorage.getItem("token");
@@ -159,7 +159,7 @@ const [error, setError] = useState(null);
     }
   };
 
-  // ✅ Handle Adding a Reply
+  // Handle Adding a Reply
   const handleAddReply = async (commentId) => {
     if (!replyText[commentId]?.trim()) return;
 
@@ -193,7 +193,7 @@ const [error, setError] = useState(null);
         headers: { Authorization: `Bearer ${token}` },
       });
   
-      // ✅ Remove reply from state
+      // Remove reply from state
       setComments(
         comments.map((comment) =>
           comment._id === commentId
@@ -217,9 +217,9 @@ const [error, setError] = useState(null);
         { headers: { Authorization: `Bearer ${token}` } }
       );
   
-      setUserRating(rating); // ✅ Save user rating locally
+      setUserRating(rating); // Save user rating locally
   
-      // ✅ Update UI with new average rating
+      // Update UI with new average rating
       setAverageRating((prevAvg) => ((prevAvg * comments.length + rating) / (comments.length + 1)).toFixed(1));
     } catch (err) {
       console.error("Error submitting rating:", err);
@@ -253,10 +253,9 @@ const [error, setError] = useState(null);
         </div>
       )}
 
-       {/* ✅ Display Music Player if Music is Available */}
+       {/* Display Music Player if Music is Available */}
        {post.music && (
         <div className="music-player">
-          <h4>🎵 Listen to Attached Music</h4>
           <audio controls>
           <source src={`${API_URL}${post.music}`} type="audio/mpeg" />
             Your browser does not support the audio element.
@@ -264,11 +263,11 @@ const [error, setError] = useState(null);
         </div>
       )}
 
-      {/* ✅ Post Rating Section (Above Comments) */}
+      {/* Post Rating Section (Above Comments) */}
       <div className="post-rating">
         <h3>Post Rating: ⭐ {averageRating} / 5</h3>
         
-        {/* ✅ Hide stars if user has already rated */}
+        {/* Hide stars if user has already rated */}
         {userRating === null && user ? (
           <div className="rating-buttons">
             {[1, 2, 3, 4, 5].map((star) => (
@@ -280,8 +279,7 @@ const [error, setError] = useState(null);
         )}
       </div>
 
-
-      {/* ✅ Comment Section */}
+      {/* Comment Section */}
       <div className="comment-section">
         <h3>Comments</h3>
 
@@ -315,13 +313,13 @@ const [error, setError] = useState(null);
               </>
             )}
 
-            {/* ✅ Display Replies & Add Reply Input */}
+            {/* Display Replies & Add Reply Input */}
             <div className="replies">
               {comment.replies?.map((reply) => (
                 <div key={reply._id} className="reply">
                   <p><strong>@{reply.author?.username || "Unknown"}:</strong> {reply.text}</p>
                   <small>{reply.createdAt ? new Date(reply.createdAt).toLocaleString() : "Unknown Date"}</small>
-                   {/* ✅ Show Delete Button for Reply Owner Only */}
+                   {/* Show Delete Button for Reply Owner Only */}
                   {user && user._id === reply.author?._id && (
                     <button onClick={() => handleDeleteReply(comment._id, reply._id)}>Delete</button>
                   )}
@@ -345,7 +343,7 @@ const [error, setError] = useState(null);
           </div>
         ))}
 
-        {/* ✅ Add Comment Input */}
+        {/* Add Comment Input */}
 {user ? (
   <div className="add-comment">
     <input
@@ -354,7 +352,7 @@ const [error, setError] = useState(null);
       value={newComment}
       onChange={(e) => setNewComment(e.target.value)}
     />
-    <button onClick={handleAddComment}>Post Comment</button> {/* ✅ Fix: Ensure function is used */}
+    <button onClick={handleAddComment}>Post Comment</button>
   </div>
 ) : (
   <p>Please <Link to="/login">login</Link> to comment.</p>
