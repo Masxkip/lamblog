@@ -605,7 +605,6 @@ resize: vertical;
 /* File Upload Sections */
 .file-upload-section {
 margin-top: 18px;
-border: 1px solid #333;
 }
 
 .file-upload-section label {

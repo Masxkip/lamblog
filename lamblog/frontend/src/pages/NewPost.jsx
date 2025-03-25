@@ -87,7 +87,7 @@ function NewPost() {
         {/* Custom Category Input (Only Shows if "Other" is Selected) */}
         {category === "Other" && (
           <div className="file-upload-section">
-            <label>✏️ Enter Custom Category:</label>
+            <label>Enter Custom Category:</label>
             <input 
               type="text" 
               value={customCategory} 
@@ -100,13 +100,13 @@ function NewPost() {
 
         {/* Image Upload */}
         <div className="file-upload-section">
-          <label>📷 Choose an image for your post:</label>
+          <label>📷 Add an Image:</label>
           <input type="file" onChange={(e) => setImage(e.target.files[0])} />
         </div>
 
         {/* Music Upload */}
         <div className="file-upload-section">
-          <label>🎵 Upload a music file:</label>
+          <label>🎵 Add an Music:</label>
           <input type="file" accept="audio/*" onChange={(e) => setMusic(e.target.files[0])} />
         </div>
 
