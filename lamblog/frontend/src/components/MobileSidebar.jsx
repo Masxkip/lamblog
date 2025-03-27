@@ -1,0 +1,111 @@
+// MobileSidebar.jsx
+import React from "react";
+import { Link } from "react-router-dom";
+import { X } from "lucide-react"; // Close icon
+import CategoryDropdown from "./CategoryDropdown";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useContext } from "react";
+import AuthContext from "../context/AuthContext";
+
+
+
+function MobileSidebar({ isOpen, onClose }) {
+
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [trendingPosts, setTrendingPosts] = useState([]);
+  const { user, logout } = useContext(AuthContext);
+
+
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/posts");
+        const unique = [...new Set(res.data.map((post) => post.category))];
+        setCategories(unique);
+      } catch (err) {
+        console.error("Error fetching categories", err);
+      }
+    };
+  
+    fetchCategories();
+  }, []);
+
+
+  useEffect(() => {
+    const fetchTrending = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/posts/trending/posts");
+        setTrendingPosts(res.data);
+      } catch (err) {
+        console.error("Error fetching trending posts", err);
+      }
+    };
+  
+    fetchTrending();
+  }, []);
+
+
+
+  return (
+    <div className={`mobile-sidebar ${isOpen ? "show" : ""}`}>
+      <button className="close-btn" onClick={onClose}>
+        <X size={24} />
+      </button>
+
+      <div className="mobile-sidebar-content">
+        {/* Placeholder content for now */}
+        <CategoryDropdown
+          categories={categories}
+          selectedCategory={selectedCategory}
+          onSelectCategory={(cat) => {
+            setSelectedCategory(cat);
+            onClose(); // close the sidebar
+            window.location.href = `/?category=${encodeURIComponent(cat)}`;
+          }}
+        />
+
+        <div className="mobile-trending-section">
+          <h3>🔥 Trending Posts</h3>
+          {trendingPosts.map((post) => (
+            <Link
+              to={`/post/${post._id}`}
+              key={post._id}
+              onClick={onClose} // Close sidebar when navigating
+              className="trending-item"
+            >
+              #{post.title}
+            </Link>
+          ))}
+        </div>
+
+
+        <hr style={{ margin: "20px 0", border: "1px solid #444" }} />
+
+<div className="mobile-auth-links">
+  {!user ? (
+    <>
+      <Link to="/login" onClick={onClose} className="auth-link">Login</Link>
+      <Link to="/register" onClick={onClose} className="auth-link">Register</Link>
+    </>
+  ) : (
+    <>
+      <Link to={`/profile/${user._id}`} onClick={onClose} className="auth-link">
+        👤 {user.username}
+      </Link>
+      <button className="auth-link logout" onClick={() => { logout(); onClose(); }}>
+        🚪 Logout
+      </button>
+      <hr style={{ marginTop: "30px", border: "1px solid #444" }} />
+
+    </>
+  )}
+</div>
+      </div>
+    </div>
+  );
+}
+
+export default MobileSidebar;

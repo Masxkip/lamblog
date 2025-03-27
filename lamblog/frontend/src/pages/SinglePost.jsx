@@ -211,23 +211,24 @@ const [error, setError] = useState(null);
   const handleRatePost = async (rating) => {
     try {
       const token = localStorage.getItem("token");
+  
       await axios.post(
-        `${API_URL}/api/posts/${id}/rate`,
+        `http://localhost:5000/api/posts/${id}/rate`,
         { rating },
         { headers: { Authorization: `Bearer ${token}` } }
       );
   
       setUserRating(rating); // Save user rating locally
   
-      // Update UI with new average rating
-      setAverageRating((prevAvg) => ((prevAvg * comments.length + rating) / (comments.length + 1)).toFixed(1));
+      // ✅ Re-fetch updated average rating from backend
+      const ratingsResponse = await axios.get(`http://localhost:5000/api/posts/${id}/ratings`);
+      setAverageRating(ratingsResponse.data.averageRating);
+  
     } catch (err) {
       console.error("Error submitting rating:", err);
     }
   };
   
-
-
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="error-message">{error}</p>;
 
