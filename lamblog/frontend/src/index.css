@@ -1336,6 +1336,284 @@ background-color: #8a2be2;
 
 
 
+/* ===================================================================================== */
+.trending-section {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: black;
+  border-radius: 8px;
+}
+
+.trending-item {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #111;
+  text-decoration: none;
+}
+
+.trending-item:hover {
+  text-decoration: underline;
+  color: whitesmoke;
+}
+
+/* ===================================================================================== */
+
+
+/* ✅ Mobile Sidebar Drawer */
+.mobile-sidebar {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 75%;
+  height: 100%;
+  background-color: black;
+  color: white;
+  padding: 20px;
+  z-index: 2000;
+  transition: left 0.3s ease-in-out;
+  overflow-y: auto;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.2);
+  z-index: 9999; /* VERY HIGH so it stays above everything else */
+}
+
+/* 🔵 Lower z-index for the header */
+.header {
+  z-index: 999;
+}
+
+.mobile-sidebar.show {
+  left: 0;
+}
+
+.mobile-sidebar .close-btn {
+  background: none;
+  color: white;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+.mobile-sidebar-content {
+  margin-top: 40px;
+}
+
+
+
+
+
+/* ✅ Hamburger Icon (Visible on Mobile Only) */
+.hamburger-icon {
+  background: none;
+  border: none;
+  color: white;
+  display: none;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .hamburger-icon {
+    display: block;
+  }
+
+  .logo {
+    margin: 0 auto; /* ✅ Center logo when hamburger and profile are visible */
+  }
+
+  .nav-links a:not(.profile-link),
+.logout-btn {
+  display: none; /* Only hide login/register and logout */
+}
+
+.profile-link {
+  display: block; /* Always show profile icon */
+}
+
+.profile-link img,
+.profile-link svg {
+  display: block;
+}
+
+}
+
+
+/* ✅ Custom Category Dropdown */
+.category-dropdown-custom {
+  margin-bottom: 20px;
+}
+
+.category-label {
+  font-weight: bold;
+  color: whitesmoke;
+  margin-bottom: 8px;
+}
+
+.category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.category-item {
+  background-color: transparent;
+  color: white;
+  border: 1px solid #6a1bbd;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s;
+}
+
+.category-item.active {
+  background-color: #6a1bbd;
+}
+
+.category-item:hover {
+  background-color: #8a2be2;
+}
+
+
+
+
+
+
+/* ✅ Trending List in Mobile Sidebar */
+.mobile-trending-section {
+  margin-top: 30px;
+}
+
+.trending-item {
+  color: #ffffff;
+  text-decoration: none;
+  display: block;
+  margin: 8px 0;
+  padding: 6px 10px;
+  border-left: 4px solid #6a1bbd;
+  background-color: black;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: background 0.2s ease;
+}
+
+.trending-item:hover {
+  background-color: #111;
+}
+
+
+/* ✅ Mobile Sidebar Auth Links */
+.mobile-auth-links {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.auth-link {
+  background: none;
+  padding: 0;
+  border: none;
+  font-weight: 500;
+  color: whitesmoke;
+  text-align: left;
+  font-size: 15px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.auth-link:hover {
+  color: #a682ff;
+}
+
+
+.logout {
+  background-color: #400000;
+  margin-bottom: 30px;
+}
+
+.logout:hover {
+  background-color: #800000;
+}
+
+
+
+
+
+/* ✅ Custom Category Dropdown */
+.category-dropdown-custom {
+  margin-bottom: 20px;
+}
+
+.category-label {
+  font-weight: bold;
+  color: whitesmoke;
+  margin-bottom: 8px;
+}
+
+.category-scroll-wrapper {
+  max-height: 160px;  /* Adjust this value to control height */
+  overflow-y: auto;
+  padding-right: 5px;  /* Optional: Adds a little space on the right side */
+  scrollbar-width: thin;  /* Firefox */
+}
+
+.category-scroll-wrapper::-webkit-scrollbar {
+  width: 5px;  /* Width of the scrollbar */
+}
+
+.category-scroll-wrapper::-webkit-scrollbar-thumb {
+  background: #6a1bbd;
+  border-radius: 10px;
+}
+
+/* ✅ Category Button Style */
+.category-item {
+  background-color: transparent;
+  color: white;
+  border: 1px solid #6a1bbd;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s;
+}
+
+.category-item.active {
+  background-color: #6a1bbd;
+}
+
+.category-item:hover {
+  background-color: #8a2be2;
+}
+
+
+
+
+/* ✅ Hide Scrollbar Outlines in Sidebar & Subscription */
+.sidebar,
+.subscription-section,
+.mobile-sidebar {
+  scrollbar-width: none;            /* Firefox */
+  -ms-overflow-style: none;         /* Internet Explorer & Edge */
+}
+
+.sidebar::-webkit-scrollbar,
+.subscription-section::-webkit-scrollbar,
+.mobile-sidebar::-webkit-scrollbar {
+  display: none;                    /* Chrome, Safari, Opera */
+}
+
+
+.sidebar,
+.subscription-section {
+  overflow-y: auto;
+  max-height: 100vh;
+}
+
+
+
 
 
 
