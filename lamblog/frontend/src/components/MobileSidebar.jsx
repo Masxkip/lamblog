@@ -9,6 +9,8 @@ import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 
 
+const API_URL = import.meta.env.VITE_BACKEND_URL;
+
 
 function MobileSidebar({ isOpen, onClose }) {
 
@@ -22,7 +24,7 @@ function MobileSidebar({ isOpen, onClose }) {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/posts");
+        const res = await axios.get(`${API_URL}/api/posts`);
         const unique = [...new Set(res.data.map((post) => post.category))];
         setCategories(unique);
       } catch (err) {
@@ -37,7 +39,7 @@ function MobileSidebar({ isOpen, onClose }) {
   useEffect(() => {
     const fetchTrending = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/posts/trending/posts");
+        const res = await axios.get(`${API_URL}/api/posts/trending/posts`);
         setTrendingPosts(res.data);
       } catch (err) {
         console.error("Error fetching trending posts", err);
