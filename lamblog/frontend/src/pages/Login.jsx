@@ -21,7 +21,7 @@ function Login() {
     setSuccess("");
 
     try {
-      const response = await axios.post(`${API_URL}:5000/api/auth/login`, { email, password });
+      const response = await axios.post(`${API_URL}/api/auth/login`, { email, password });
       const { token, user } = response.data;
       login(user, token);
       setSuccess(`Welcome, ${user.username}!`);
