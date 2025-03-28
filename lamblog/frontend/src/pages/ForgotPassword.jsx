@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
@@ -18,38 +18,49 @@ function ForgotPassword() {
     try {
       const response = await axios.post(`${API_URL}/api/auth/forgot-password`, { email });
       setMessage(response.data.message);
-      setEmail(""); // Clear email field after success
+      setEmail("");
 
-      // Redirect to login after 3 seconds
       setTimeout(() => {
         navigate("/login");
       }, 3000);
-
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong.");
     }
 
-    // Clear error after 5 seconds
     setTimeout(() => setError(""), 5000);
   };
 
   return (
-    <div className="auth-container">
-      <h2>Forgot Password</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {message && <p style={{ color: "green" }}>{message} Redirecting to login...</p>} {/* Show redirect message */}
-      <form onSubmit={handleForgotPassword}>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+    <div className="auth-wrapper">
+      <div className="auth-box">
+        {/* Left side content */}
+        <div className="auth-info">
+          <h3>Remembered your password?</h3>
+          <Link to="/login" className="auth-link">Sign in</Link>
         </div>
-        <button type="submit">Send Reset Link</button>
-      </form>
+
+        {/* Right side form */}
+        <div className="auth-form">
+          <h2>Forgot Password</h2>
+
+          {error && <p className="error-message">{error}</p>}
+          {message && <p className="success-message">{message} Redirecting to login...</p>}
+
+          <form onSubmit={handleForgotPassword}>
+            <div className="form-control">
+              <label>Email:</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+
+            <button type="submit" className="auth-button">Send Reset Link</button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }

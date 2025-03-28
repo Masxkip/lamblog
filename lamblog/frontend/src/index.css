@@ -1613,8 +1613,236 @@ background-color: #8a2be2;
 }
 
 
+/* ✅ Verify Page Container */
+.verify-container {
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 30px 25px;
+  background-color: #0e0e0e;
+  color: whitesmoke;
+  border-radius: 10px;
+  box-shadow: 0 0 12px #6a1bbd;
+  text-align: center;
+}
+
+/* ✅ Inputs Styling */
+.verify-container input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 5px;
+  color: whitesmoke;
+  font-size: 16px;
+}
+
+/* ✅ Verify Button */
+.verify-container button[type="submit"] {
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  background-color: #6a1bbd;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.verify-container button[type="submit"]:hover {
+  background-color: #8a2be2;
+}
+
+/* ✅ Resend Button */
+.verify-container button[type="button"] {
+  font-size: 14px;
+  margin-top: 10px;
+  background: none;
+  border: none;
+  color: #00aaff;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* ✅ Messages */
+.success-message {
+  color: #00ff88;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.error-message {
+  color: #ff4b4b;
+  margin-top: 15px;
+  font-weight: bold;
+}
 
 
 
 
 
+
+
+
+/* 🌌 Wrapper & Container */
+.auth-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  min-height: 100vh;
+  background: #000;
+}
+
+.auth-box {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  max-width: 800px;
+  border: 2px solid #5b00b7;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(91, 0, 183, 0.6);
+  background: #111;
+  overflow: hidden;
+  flex-wrap: wrap;
+}
+
+/* 🧭 Left Side */
+.auth-info {
+  flex: 1;
+  background: #1a1a1a;
+  color: white;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 2px solid #333;
+}
+
+.auth-info h3 {
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.auth-link {
+  color: #a78bfa;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* 📝 Right Side Form */
+.auth-form {
+  flex: 2;
+  padding: 2rem;
+  color: white;
+}
+
+.auth-form h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* 🧩 Form Controls */
+.form-control {
+  margin-bottom: 1rem;
+}
+
+.form-control label {
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.form-control input {
+  width: 100%;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  background-color: whitesmoke;
+  color: white;
+  font-size: 1rem;
+}
+
+/* 👁️ Password Toggle */
+.password-field {
+  position: relative;
+}
+
+.password-field input {
+  padding-right: 40px;
+}
+
+.eye-icon {
+  position: absolute;
+  top: 75%;
+  right: 12px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: black;
+}
+
+/* 🚀 Submit Button */
+.auth-button {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #5b00b7;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.auth-button:hover {
+  background-color: #9333ea;
+}
+
+/* ✅ Message Styles */
+.success-message {
+  color: lime;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .auth-box {
+    flex-direction: column;
+    border-radius: 12px;
+  }
+
+  .auth-info {
+    border-right: none;
+    border-bottom: 1px solid #333;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .auth-form {
+    padding: 1.5rem;
+  }
+}
+
+.form-control input {
+  width: 100%;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  background-color: whitesmoke;
+  color: black;
+  font-size: 1rem;
+}

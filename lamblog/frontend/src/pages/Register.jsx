@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import { Eye, EyeOff } from "lucide-react";
 import BottomNav from "../components/BottomNav";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
@@ -9,6 +10,7 @@ function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
@@ -27,49 +29,66 @@ function Register() {
 
       setSuccess(response.data.message);
 
-      // Redirect to login after 2 seconds
+      // Redirect to verify email
       navigate("/verify-email", { state: { email } });
-
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed");
     }
   };
 
   return (
-    <div className="auth-container">
-      <h2>Register</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {success && <p style={{ color: "green" }}>{success}</p>}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
+    <div className="auth-wrapper">
+      <div className="auth-box">
+        {/* ✅ Left-side content */}
+        <div className="auth-info">
+          <h3>Already have an account?</h3>
+          <Link to="/login" className="auth-link">Sign in</Link>
         </div>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+
+        {/* ✅ Form side */}
+        <div className="auth-form">
+          <h2>Register</h2>
+          {error && <p className="error-message">{error}</p>}
+          {success && <p className="success-message">{success}</p>}
+
+          <form onSubmit={handleSubmit}>
+          <div className="form-control">
+  <label>Username:</label>
+  <input
+    type="text"
+    value={username}
+    onChange={(e) => setUsername(e.target.value)}
+    required
+  />
+</div>
+
+<div className="form-control">
+  <label>Email:</label>
+  <input
+    type="email"
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+    required
+  />
+</div>
+
+<div className="form-control password-field">
+  <label>Password:</label>
+  <input
+    type={showPassword ? "text" : "password"}
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    required
+  />
+  <span className="eye-icon" onClick={() => setShowPassword(!showPassword)}>
+    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+  </span>
+</div>
+            <button type="submit" className="auth-button">Register</button>
+          </form>
         </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Register</button>
-      </form>
+      </div>
+
       <BottomNav />
     </div>
   );
