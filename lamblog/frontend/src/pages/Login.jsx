@@ -25,7 +25,9 @@ function Login() {
       login(user, token);
       setSuccess(`Welcome, ${user.username}!`);
 
-      navigate("/verify-email", { state: { email } });
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
     }
