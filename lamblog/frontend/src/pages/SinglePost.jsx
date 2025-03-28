@@ -213,7 +213,7 @@ const [error, setError] = useState(null);
       const token = localStorage.getItem("token");
   
       await axios.post(
-        `http://localhost:5000/api/posts/${id}/rate`,
+        `${API_URL}/api/posts/${id}/rate`,
         { rating },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -221,7 +221,7 @@ const [error, setError] = useState(null);
       setUserRating(rating); // Save user rating locally
   
       // ✅ Re-fetch updated average rating from backend
-      const ratingsResponse = await axios.get(`http://localhost:5000/api/posts/${id}/ratings`);
+      const ratingsResponse = await axios.get(`${API_URL}/api/posts/${id}/ratings`);
       setAverageRating(ratingsResponse.data.averageRating);
   
     } catch (err) {
