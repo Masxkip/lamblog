@@ -25,14 +25,19 @@ function Home() {
       if (search) queryParams.push(`search=${search}`);
       if (category) queryParams.push(`category=${category}`);
       const queryString = queryParams.length ? `?${queryParams.join("&")}` : "";
-
+  
       const response = await axios.get(`${API_URL}/api/posts${queryString}`);
-      setPosts(response.data);
+  
+      // ✅ Sort posts by createdAt (newest first)
+      const sortedPosts = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  
+      setPosts(sortedPosts);
     } catch (err) {
       console.error("Error fetching posts:", err);
     }
     setLoading(false);
   }, [search, category]);
+  
 
   // ✅ Fetch categories
   const fetchCategories = useCallback(async () => {
