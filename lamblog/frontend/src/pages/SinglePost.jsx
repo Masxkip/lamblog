@@ -236,7 +236,7 @@ const [error, setError] = useState(null);
     <div className="single-post-container">
       <h2>#{post.title}</h2>
       {post.image && (
-      <img src={`${API_URL}/${post.image}`} alt="Post" className="single-post-image" />
+      <img src={`${API_URL}${post.image}`} alt="Post" className="single-post-image" />
       
     )}
       <p>{post.content}</p>
@@ -261,7 +261,7 @@ const [error, setError] = useState(null);
           <h4></h4>
           <br />
           <audio controls>
-          <source src={`${API_URL}/${post.music}`} type="audio/mpeg" />
+          <source src={`${API_URL}${post.music}`} type="audio/mpeg" />
             Your browser does not support the audio element.
           </audio>
         </div>
