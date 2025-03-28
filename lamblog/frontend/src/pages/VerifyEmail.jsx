@@ -50,15 +50,13 @@ function VerifyEmail() {
         />
         <button type="submit">Verify</button>
 
-        <button type="submit">Verify</button>
-
 <p style={{ marginTop: "10px" }}>
   Didn’t get a code?{" "}
   <button
     type="button"
     onClick={async () => {
       try {
-        const res = await axios.post("http://localhost:5000/api/auth/resend-code", {
+        const res = await axios.post(`${API_URL}/api/auth/resend-code`, {
           email,
         });
         setMessage(res.data.message);
