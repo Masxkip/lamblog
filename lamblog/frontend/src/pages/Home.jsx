@@ -134,7 +134,7 @@ function Home() {
                 <br /> 
                 {post.image && (
                 <img 
-                  src={post.image.startsWith("http") ? post.image : `${API_URL}${post.image}`}  
+                src={post.image?.startsWith("http") ? post.image : `${API_URL}/${post.image}`} 
                   alt="Post" 
                   className="post-image" 
                 />
