@@ -236,9 +236,13 @@ const [error, setError] = useState(null);
     <div className="single-post-container">
       <h2>#{post.title}</h2>
       {post.image && (
-      <img src={`${API_URL}${post.image}`} alt="Post" className="single-post-image" />
+        <img
+          src={post.image.startsWith("http") ? post.image : `${API_URL}/${post.image}`}
+          alt="Post"
+          className="single-post-image"
+        />
+      )}
       
-    )}
       <p>{post.content}</p>
       <p>
       <strong>@</strong> 
