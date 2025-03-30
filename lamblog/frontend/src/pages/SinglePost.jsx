@@ -259,17 +259,15 @@ const [error, setError] = useState(null);
         </div>
       )}
 
-       {/* Display Music Player if Music is Available */}
-       {post.music && (
-        <div className="music-player">
-          <h4></h4>
-          <br />
-          <audio controls>
-          <source src={`${API_URL}/uploads/${post.music}`} type="audio/mpeg" />
-            Your browser does not support the audio element.
-          </audio>
-        </div>
-      )}
+{post.music && (
+  <div className="music-player">
+    <audio controls>
+      <source src={post.music} type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+  </div>
+)}
+
 
       {/* Post Rating Section (Above Comments) */}
       <div className="post-rating">
