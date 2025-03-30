@@ -1334,6 +1334,82 @@ background-color: #8a2be2;
 /* ===================================================================================== */
 
 
+/* ✅ Prevent horizontal scroll on mobile */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+}
+
+
+
+/* Sticky search + avatar header */
+.header {
+  position: sticky; /* adjust this based on your navbar height */
+  z-index: 999;
+  background-color: black;
+  padding: 15px;
+  border-bottom: 1px solid #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Optional: shadow for floating effect */
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #444;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .header {
+    top: -40px; /* slightly less if navbar is smaller on mobile */
+    width: 100%;
+    padding: 10px;
+  }
+}
+
+
+
+.header {
+  position: sticky;
+  top: -7px; /* <-- Adjust this to match your navbar height */
+  z-index: 999;
+  background-color: black;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #333;
+  border-radius: 0%;
+}
+
+
+@media (max-width: 768px) {
+  .header {
+    position: sticky;
+    top: 48px; /* Adjust to your navbar height on mobile */
+    width: 100%;
+    z-index: 1000;
+    background-color: black;
+    padding: 10px;
+    margin: 0;
+    border: none;
+  }
+}
+
+
+
 
 /* ===================================================================================== */
 /* ✅ Trending Section Styling - now hugging the left side */
@@ -1814,84 +1890,3 @@ background-color: #8a2be2;
   color: black;
   font-size: 1rem;
 }
-
-
-
-/* ✅ Prevent horizontal scroll on mobile */
-* {
-  box-sizing: border-box;
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-  max-width: 100%;
-}
-
-
-
-/* Sticky search + avatar header */
-.header {
-  position: sticky; /* adjust this based on your navbar height */
-  z-index: 999;
-  background-color: black;
-  padding: 15px;
-  border-bottom: 1px solid #333;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* Optional: shadow for floating effect */
-.header::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: #444;
-}
-
-/* Mobile adjustments */
-@media (max-width: 768px) {
-  .header {
-    top: -40px; /* slightly less if navbar is smaller on mobile */
-    width: 100%;
-    padding: 10px;
-  }
-}
-
-
-
-.header {
-  position: sticky;
-  top: -7px; /* <-- Adjust this to match your navbar height */
-  z-index: 999;
-  background-color: black;
-  padding: 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #333;
-  border-radius: 0%;
-}
-
-
-
-
-
-@media (max-width: 768px) {
-  .header {
-    position: sticky;
-    top: 81px; /* Adjust to your navbar height on mobile */
-    width: 100%;
-    z-index: 1000;
-    background-color: black;
-    padding: 10px;
-    margin: 0;
-    border: none;
-  }
-}
-
-
