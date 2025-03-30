@@ -39,8 +39,8 @@ function Login() {
       <div className="auth-box">
         {/* Left side content */}
         <div className="auth-info">
-          <h3>Don’t have an account?</h3>
-          <Link to="/register" className="auth-link">Register one today</Link>
+          <h3>Don’t have an account? Register one Today</h3>
+          <Link to="/register" className="auth-link">Register</Link>
         </div>
 
         {/* Right side form */}

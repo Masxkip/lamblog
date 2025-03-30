@@ -39,6 +39,7 @@ function Navbar() {
       </>
     ) : (
       <>
+        <Link to="/new-post" >Create a Post</Link>
         <Link to={`/profile/${user._id}`} className="profile-link">
           {user.profilePicture ? (
             <img

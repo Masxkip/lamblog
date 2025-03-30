@@ -35,8 +35,8 @@ function ForgotPassword() {
       <div className="auth-box">
         {/* Left side content */}
         <div className="auth-info">
-          <h3>Remembered your password?</h3>
-          <Link to="/login" className="auth-link">Sign in</Link>
+        <h3>Don’t have an account? Register one Today</h3>
+        <Link to="/register" className="auth-link">Register</Link>
         </div>
 
         {/* Right side form */}

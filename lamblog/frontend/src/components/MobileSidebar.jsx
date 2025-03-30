@@ -54,7 +54,7 @@ function MobileSidebar({ isOpen, onClose }) {
   return (
     <div className={`mobile-sidebar ${isOpen ? "show" : ""}`}>
       <button className="close-btn" onClick={onClose}>
-        <X size={24} />
+        <X size={32} />
       </button>
 
       <div className="mobile-sidebar-content">
@@ -70,7 +70,7 @@ function MobileSidebar({ isOpen, onClose }) {
         />
 
         <div className="mobile-trending-section">
-          <h3>🔥 Trending Posts</h3>
+          <h3># Trending Posts</h3>
           {trendingPosts.map((post) => (
             <Link
               to={`/post/${post._id}`}
@@ -78,7 +78,7 @@ function MobileSidebar({ isOpen, onClose }) {
               onClick={onClose} // Close sidebar when navigating
               className="trending-item"
             >
-              #{post.title}
+              # {post.title}
             </Link>
           ))}
         </div>
@@ -94,11 +94,8 @@ function MobileSidebar({ isOpen, onClose }) {
     </>
   ) : (
     <>
-      <Link to={`/profile/${user._id}`} onClick={onClose} className="auth-link">
-        👤 {user.username}
-      </Link>
       <button className="auth-link logout" onClick={() => { logout(); onClose(); }}>
-        🚪 Logout
+         Logout
       </button>
       <hr style={{ marginTop: "30px", border: "1px solid #444" }} />
 

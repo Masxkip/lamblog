@@ -83,10 +83,10 @@ function Home() {
 />
 
 <div className="trending-section">
-  <h3>🔥 Trending Posts</h3>
+  <h3># Trending Posts</h3>
   {trendingPosts.map((post) => (
     <Link to={`/post/${post._id}`} key={post._id} className="trending-item">
-      <p>#{post.title}</p>
+      <p># {post.title}</p>
     </Link>
   ))}
 </div>
@@ -120,7 +120,7 @@ function Home() {
           )}
         </header>
 
-        <h2>#SLXXK'S Latest!</h2>
+        <h2># SLXXK'S Latest!</h2>
         {loading ? (
           <p>Loading posts...</p>
         ) : posts.length === 0 ? (
@@ -158,7 +158,7 @@ function Home() {
         <p>Unlock exclusive posts and features by subscribing.</p>
         <button className="subscribe-btn">Subscribe</button>
         <br /> <br /> <br />
-        <h2>#Subscription Button Doesn't Work, Due to Prop Maintenance.</h2>
+        <h2># Subscription Button Doesn't Work, Due to Prop Maintenance.</h2>
       </aside>
 
       <BottomNav />
