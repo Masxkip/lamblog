@@ -1862,3 +1862,36 @@ html, body {
   }
 }
 
+
+
+.header {
+  position: sticky;
+  top: -7px; /* <-- Adjust this to match your navbar height */
+  z-index: 999;
+  background-color: black;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #333;
+  border-radius: 0%;
+}
+
+
+
+
+
+@media (max-width: 768px) {
+  .header {
+    position: sticky;
+    top: 81px; /* Adjust to your navbar height on mobile */
+    width: 100%;
+    z-index: 1000;
+    background-color: black;
+    padding: 10px;
+    margin: 0;
+    border: none;
+  }
+}
+
+
