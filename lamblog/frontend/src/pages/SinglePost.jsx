@@ -265,7 +265,7 @@ const [error, setError] = useState(null);
           <h4></h4>
           <br />
           <audio controls>
-          <source src={`${API_URL}${post.music}`} type="audio/mpeg" />
+          <source src={`${API_URL}/uploads/${post.music}`} type="audio/mpeg" />
             Your browser does not support the audio element.
           </audio>
         </div>
