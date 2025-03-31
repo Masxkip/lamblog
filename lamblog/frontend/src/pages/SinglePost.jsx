@@ -358,7 +358,7 @@ const [error, setError] = useState(null);
       value={newComment}
       onChange={(e) => setNewComment(e.target.value)}
     />
-    <button onClick={handleAddComment}>Post Comment</button>
+    <button onClick={handleAddComment}>Comment</button>
   </div>
 ) : (
   <p>Please <Link to="/login">login</Link> to comment.</p>
