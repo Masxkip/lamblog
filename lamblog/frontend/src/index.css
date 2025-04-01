@@ -1915,3 +1915,29 @@ html, body {
   }
 }
 
+
+.post-image {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 5px;
+  display: block;
+}
+
+
+
+.home-layout {
+  overflow-x: hidden;
+}
+
+.posts-grid {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.main-content {
+  overflow-x: hidden;
+}
+
