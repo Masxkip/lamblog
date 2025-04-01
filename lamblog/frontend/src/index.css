@@ -534,6 +534,15 @@ background: #111;
   margin-right: 0;
 }
 }
+
+/* ✅ Prevent Mobile Zoom on Inputs in Comment Section */
+@media (max-width: 768px) {
+  .reply-box input,
+  .add-comment input {
+    font-size: 16px !important;
+  }
+}
+
 /* ===================================================================================== */
 
 
