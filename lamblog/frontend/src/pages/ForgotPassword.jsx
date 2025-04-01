@@ -22,7 +22,7 @@ function ForgotPassword() {
 
       setTimeout(() => {
         navigate("/login");
-      }, 30000);
+      }, 6000);
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong.");
     }
