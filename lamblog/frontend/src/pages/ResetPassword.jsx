@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import axios from "axios";
+import { Eye, EyeOff } from "lucide-react";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -58,8 +59,8 @@ function ResetPassword() {
                   required
                 />
                 <span className="eye-icon" onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword ? "🙈" : "👁️"}
-                </span>
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </span>
               </div>
             </div>
 
