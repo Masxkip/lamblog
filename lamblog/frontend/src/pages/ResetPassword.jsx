@@ -72,6 +72,9 @@ function ResetPassword() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
               />
+              <span className="eye-icon" onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </span>
             </div>
 
             <button type="submit" className="auth-button">Reset Password</button>
