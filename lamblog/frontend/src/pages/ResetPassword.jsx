@@ -66,6 +66,7 @@ function ResetPassword() {
 
             <div className="form-control">
               <label>Confirm Password:</label>
+              <div className="password-field">
               <input
                 type="password"
                 value={confirmPassword}
@@ -75,6 +76,7 @@ function ResetPassword() {
               <span className="eye-icon" onClick={() => setShowPassword(!showPassword)}>
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </span>
+              </div>
             </div>
 
             <button type="submit" className="auth-button">Reset Password</button>
