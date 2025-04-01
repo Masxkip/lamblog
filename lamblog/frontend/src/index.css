@@ -1890,3 +1890,17 @@ html, body {
   color: black;
   font-size: 1rem;
 }
+
+@media (max-width: 768px) {
+  .verify-container {
+    margin: 40px auto; /* Reduce from 80px */
+    padding: 20px;
+  }
+
+  .auth-wrapper {
+    padding: 1rem;
+    min-height: 100dvh; /* Use dynamic viewport unit to avoid overflow */
+    box-sizing: border-box;
+  }
+}
+
