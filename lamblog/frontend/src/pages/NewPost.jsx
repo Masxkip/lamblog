@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
@@ -9,6 +9,7 @@ const API_URL = import.meta.env.VITE_BACKEND_URL;
 function NewPost() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+  
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
@@ -17,22 +18,34 @@ function NewPost() {
   const [customCategory, setCustomCategory] = useState(""); 
   const [message, setMessage] = useState("");
 
-  // Predefined categories
   const categories = ["Technology", "Health", "Lifestyle", "Education", "Business", "Other"];
+
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => setMessage(""), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const token = localStorage.getItem("token");
     if (!token) {
       setMessage("Unauthorized: No token found.");
       return;
     }
 
+    // ✅ Normalize custom category if used
+    let finalCategory = category === "Other"
+      ? customCategory.trim().toLowerCase().replace(/\s+/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
+      : category;
+
     const formData = new FormData();
     formData.append("title", title);
     formData.append("content", content);
     formData.append("author", user._id);
-    formData.append("category", category === "Other" ? customCategory : category);
+    formData.append("category", finalCategory);
     if (image) formData.append("image", image);
     if (music) formData.append("music", music);
 
@@ -40,15 +53,12 @@ function NewPost() {
       await axios.post(`${API_URL}/api/posts`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
       setMessage("Post created successfully!");
-
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
+      setTimeout(() => navigate("/"), 2000);
     } catch (err) {
       setMessage(err.response?.data?.message || "Failed to create post.");
     }
@@ -84,15 +94,15 @@ function NewPost() {
           </select>
         </div>
 
-        {/* Custom Category Input (Only Shows if "Other" is Selected) */}
+        {/* Custom Category Input */}
         {category === "Other" && (
           <div className="file-upload-section">
             <label>Enter Custom Category:</label>
             <input 
               type="text" 
-              value={customCategory} 
-              onChange={(e) => setCustomCategory(e.target.value)} 
-              placeholder="Type category..." 
+              value={customCategory}
+              onChange={(e) => setCustomCategory(e.target.value)}
+              placeholder="Type category..."
               required 
             />
           </div>

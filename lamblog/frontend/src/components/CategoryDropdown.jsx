@@ -1,20 +1,15 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function CategoryDropdown({ categories, selectedCategory, onSelectCategory }) {
   return (
     <div className="category-dropdown-custom">
-      <p className="category-label">All Categories</p>
-      
-      {/* Scrollable Wrapper for Categories */}
-      <div className="category-scroll-wrapper">
-        <button
-          className={`category-item ${selectedCategory === "" ? "active" : ""}`}
-          onClick={() => onSelectCategory("")}
-        >
-          All
-        </button>
+      <p className="category-label">Top Categories</p>
 
-        {categories.map((cat) => (
+      <div className="category-scroll-wrapper">
+
+
+        {categories.slice(0, 7).map((cat) => (
           <button
             key={cat}
             className={`category-item ${selectedCategory === cat ? "active" : ""}`}
@@ -23,6 +18,11 @@ function CategoryDropdown({ categories, selectedCategory, onSelectCategory }) {
             {cat}
           </button>
         ))}
+
+        {/* ✅ View All Categories Nav */}
+        <Link to="/categories" className="view-all-categories-link">
+          View All &rarr;
+        </Link>
       </div>
     </div>
   );
