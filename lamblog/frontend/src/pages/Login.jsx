@@ -1,10 +1,10 @@
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../axiosInterceptor";
 import AuthContext from "../context/AuthContext";
 import { Eye, EyeOff } from "lucide-react";
 
-const API_URL = import.meta.env.VITE_BACKEND_URL;
+
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -21,7 +21,7 @@ function Login() {
     setSuccess("");
 
     try {
-      const response = await axios.post(`${API_URL}/api/auth/login`, { email, password });
+      const response = await axios.post(`/api/auth/login`, { email, password });
       const { token, user } = response.data;
       login(user, token);
       setSuccess(`Welcome, ${user.username}!`);

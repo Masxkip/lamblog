@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
+import axios from "../axiosInterceptor";
 
-const API_URL = import.meta.env.VITE_BACKEND_URL;
+
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -16,7 +16,7 @@ function ForgotPassword() {
     setError("");
 
     try {
-      const response = await axios.post(`${API_URL}/api/auth/forgot-password`, { email });
+      const response = await axios.post(`/api/auth/forgot-password`, { email });
       setMessage(response.data.message);
       setEmail("");
 

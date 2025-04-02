@@ -1,8 +1,8 @@
 import { useState } from "react";
-import axios from "axios";
+import axios from "../axiosInterceptor";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = import.meta.env.VITE_BACKEND_URL;
+
 
 function VerifyEmail() {
   const [email, setEmail] = useState("");
@@ -18,7 +18,7 @@ function VerifyEmail() {
     setError("");
 
     try {
-      const res = await axios.post(`${API_URL}/api/auth/verify-email`, {
+      const res = await axios.post(`/api/auth/verify-email`, {
         email,
         code,
       });
@@ -56,7 +56,7 @@ function VerifyEmail() {
     type="button"
     onClick={async () => {
       try {
-        const res = await axios.post(`${API_URL}/api/auth/resend-code`, {
+        const res = await axios.post(`/api/auth/resend-code`, {
           email,
         });
         setMessage(res.data.message);

@@ -1,10 +1,10 @@
 import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../axiosInterceptor";
 import AuthContext from "../context/AuthContext";
 import BottomNav from "../components/BottomNav";
 
-const API_URL = import.meta.env.VITE_BACKEND_URL;
+
 
 function EditProfile() {
   const { id } = useParams();
@@ -42,7 +42,7 @@ function EditProfile() {
     }
 
     try {
-      const res = await axios.put(`${API_URL}/api/users/${id}`, formData, {
+      const res = await axios.put(`/api/users/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           "Authorization": `Bearer ${token}`,

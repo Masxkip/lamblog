@@ -1,10 +1,10 @@
 import { useState, useContext } from "react";
-import axios from "axios";
+import axios from "../axiosInterceptor";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import BottomNav from "../components/BottomNav";
 
-const API_URL = import.meta.env.VITE_BACKEND_URL;
+
 
 function NewPost() {
   const { user } = useContext(AuthContext);
@@ -37,7 +37,7 @@ function NewPost() {
     if (music) formData.append("music", music);
 
     try {
-      await axios.post(`${API_URL}/api/posts`, formData, {
+      await axios.post(`/api/posts`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           "Authorization": `Bearer ${token}`,

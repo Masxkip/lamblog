@@ -1,12 +1,11 @@
 import { useEffect, useState, useContext, useCallback } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import axios from "../axiosInterceptor";
 import { UserCircle, Home as HomeIcon, FileText } from "lucide-react";
 import AuthContext from "../context/AuthContext";
 import CategoryDropdown from "../components/CategoryDropdown";
 import BottomNav from "../components/BottomNav";
 
-const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 function Home() {
   const { user } = useContext(AuthContext);
@@ -26,7 +25,7 @@ function Home() {
       if (category) queryParams.push(`category=${category}`);
       const queryString = queryParams.length ? `?${queryParams.join("&")}` : "";
   
-      const response = await axios.get(`${API_URL}/api/posts${queryString}`);
+      const response = await axios.get(`/api/posts${queryString}`);
   
       // ✅ Sort posts by createdAt (newest first)
       const sortedPosts = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -42,7 +41,7 @@ function Home() {
   // ✅ Fetch categories
   const fetchCategories = useCallback(async () => {
     try {
-      const response = await axios.get(`${API_URL}/api/posts`);
+      const response = await axios.get(`/api/posts`);
       const uniqueCategories = [...new Set(response.data.map((post) => post.category).filter(Boolean))];
       setCategories(uniqueCategories);
     } catch (err) {
@@ -61,7 +60,7 @@ function Home() {
   useEffect(() => {
     const fetchTrending = async () => {
       try {
-        const res = await axios.get(`${API_URL}/api/posts/trending/posts`);
+        const res = await axios.get(`/api/posts/trending/posts`);
         setTrendingPosts(res.data);
       } catch (err) {
         console.error("Failed to fetch trending posts", err);
@@ -108,7 +107,7 @@ function Home() {
               <span>{user.username}</span>
               {user.profilePicture ? (
               <img 
-                src={user.profilePicture.startsWith("http") ? user.profilePicture : `${API_URL}${user.profilePicture}`}  
+                src={user.profilePicture.startsWith("http") ? user.profilePicture : `${user.profilePicture}`}  
                 alt="User" 
                 className="user-avatar" 
               />
@@ -134,7 +133,7 @@ function Home() {
                 <br /> 
                 {post.image && (
                 <img 
-                src={post.image?.startsWith("http") ? post.image : `${API_URL}/${post.image}`} 
+                src={post.image?.startsWith("http") ? post.image : `/${post.image}`} 
                   alt="Post" 
                   className="post-image" 
                 />
