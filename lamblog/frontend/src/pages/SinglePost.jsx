@@ -294,10 +294,11 @@ const [error, setError] = useState(null);
             {editingCommentId === comment._id ? (
               <>
                 <input 
-                  type="text" 
-                  value={editedCommentText} 
-                  onChange={(e) => setEditedCommentText(e.target.value)} 
-                />
+                type="text"
+                className="edit-comment-input"
+                value={editedCommentText}
+                onChange={(e) => setEditedCommentText(e.target.value)}
+              />
                 <button onClick={() => handleEditComment(comment._id)}>Save</button>
                 <button onClick={() => setEditingCommentId(null)}>Cancel</button>
               </>

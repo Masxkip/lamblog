@@ -470,6 +470,17 @@ transition: 0.2s;
 background-color: #222;
 }
 
+.edit-comment-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: whitesmoke;
+  color: black;
+  font-size: 1em;
+}
+
+
 /* Reply Box for Nested Replies */
 .replies {
 margin-top: 10px;
@@ -539,6 +550,13 @@ background: #111;
 @media (max-width: 768px) {
   .reply-box input,
   .add-comment input {
+    font-size: 16px !important;
+  }
+}
+
+/* ✅ Prevent mobile zoom bug on edit comment field */
+@media (max-width: 768px) {
+  .edit-comment-input {
     font-size: 16px !important;
   }
 }
