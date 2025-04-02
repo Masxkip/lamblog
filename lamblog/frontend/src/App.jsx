@@ -12,6 +12,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import ProtectedRoute from "./context/ProtectedRoute";
 import VerifyEmail from "./pages/VerifyEmail";
+import AllCategories from "./pages/AllCategories";
+import CategoryPosts from "./pages/CategoryPosts";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -35,6 +37,8 @@ function App() {
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <Route path="/categories" element={<AllCategories />} />
+        <Route path="/category/:name" element={<CategoryPosts />} />
 
          {/* Protect Routes */}
          <Route 
@@ -56,6 +60,14 @@ function App() {
         <Route 
           path="/edit-post/:id" 
           element={<ProtectedRoute><EditPost /></ProtectedRoute>} 
+        />
+        <Route 
+          path="/category/:name" 
+          element={<ProtectedRoute><CategoryPosts /></ProtectedRoute>} 
+        />
+        <Route 
+          path="/categories" 
+          element={<ProtectedRoute><AllCategories /></ProtectedRoute>} 
         />
       </Routes>
     </Router>
