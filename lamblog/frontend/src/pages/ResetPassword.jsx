@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import axios from "../axiosInterceptor";
+import axios from "axios";
 import { Eye, EyeOff } from "lucide-react";
 
-
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 function ResetPassword() {
   const { token } = useParams();
@@ -26,7 +26,7 @@ function ResetPassword() {
     }
 
     try {
-      const response = await axios.post(`/api/auth/reset-password/${token}`, { password });
+      const response = await axios.post(`${API_URL}/api/auth/reset-password/${token}`, { password });
       setMessage(response.data.message);
       setPassword("");
       setConfirmPassword("");

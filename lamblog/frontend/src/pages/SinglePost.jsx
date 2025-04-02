@@ -1,9 +1,10 @@
 import { useEffect, useState, useContext } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import axios from "../axiosInterceptor";
+import axios from "axios";
 import AuthContext from "../context/AuthContext";
 import BottomNav from "../components/BottomNav";
 
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 function SinglePost() {
   const { id } = useParams();
@@ -26,10 +27,10 @@ const [error, setError] = useState(null);
   useEffect(() => {
     const fetchPostAndComments = async () => {
       try {
-        const postResponse = await axios.get(`/api/posts/${id}`);
+        const postResponse = await axios.get(`${API_URL}/api/posts/${id}`);
         setPost(postResponse.data);
 
-        const commentsResponse = await axios.get(`/api/comments/${id}/comments`);
+        const commentsResponse = await axios.get(`${API_URL}/api/comments/${id}/comments`);
         setComments(commentsResponse.data || []);
 
         setLoading(false);
@@ -47,11 +48,11 @@ const [error, setError] = useState(null);
   useEffect(() => {
     const fetchRatings = async () => {
       try {
-        const ratingsResponse = await axios.get(`/api/posts/${id}/ratings`);
+        const ratingsResponse = await axios.get(`${API_URL}/api/posts/${id}/ratings`);
         setAverageRating(ratingsResponse.data.averageRating);
         
         if (user) {
-          const userRatingResponse = await axios.get(`/api/posts/${id}/my-rating`, {
+          const userRatingResponse = await axios.get(`${API_URL}/api/posts/${id}/my-rating`, {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
           });
           setUserRating(userRatingResponse.data.rating);
@@ -68,7 +69,7 @@ const [error, setError] = useState(null);
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await axios.get(`/api/posts/${id}`);
+        const response = await axios.get(`${API_URL}/api/posts/${id}`);
         setPost(response.data);
       } catch (err) {
         setError(`Error: ${err.message || "Failed to fetch post. Please try again later."}`);
@@ -86,7 +87,7 @@ const [error, setError] = useState(null);
     if (!token) return;
 
     try {
-      await axios.delete(`/api/posts/${id}`, {
+      await axios.delete(`${API_URL}/api/posts/${id}`, {
         headers: { "Authorization": `Bearer ${token}` },
       });
 
@@ -104,7 +105,7 @@ const [error, setError] = useState(null);
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        `/api/comments/${id}`,
+        `${API_URL}/api/comments/${id}`,
         { text: newComment },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -126,7 +127,7 @@ const [error, setError] = useState(null);
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        `/api/comments/${id}/comments/${commentId}`,
+        `${API_URL}/api/comments/${id}/comments/${commentId}`,
         { text: editedCommentText },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -148,7 +149,7 @@ const [error, setError] = useState(null);
   const handleDeleteComment = async (commentId) => {
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`/api/comments/${id}/comments/${commentId}`, {
+      await axios.delete(`${API_URL}/api/comments/${id}/comments/${commentId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -165,7 +166,7 @@ const [error, setError] = useState(null);
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        `/api/comments/${id}/comments/${commentId}/reply`,
+        `${API_URL}/api/comments/${id}/comments/${commentId}/reply`,
         { text: replyText[commentId] },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -188,7 +189,7 @@ const [error, setError] = useState(null);
   const handleDeleteReply = async (commentId, replyId) => {
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`/api/comments/${id}/comments/${commentId}/replies/${replyId}`, {
+      await axios.delete(`${API_URL}/api/comments/${id}/comments/${commentId}/replies/${replyId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
   
@@ -212,7 +213,7 @@ const [error, setError] = useState(null);
       const token = localStorage.getItem("token");
   
       await axios.post(
-        `/api/posts/${id}/rate`,
+        `${API_URL}/api/posts/${id}/rate`,
         { rating },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -220,7 +221,7 @@ const [error, setError] = useState(null);
       setUserRating(rating); // Save user rating locally
   
       // ✅ Re-fetch updated average rating from backend
-      const ratingsResponse = await axios.get(`/api/posts/${id}/ratings`);
+      const ratingsResponse = await axios.get(`${API_URL}/api/posts/${id}/ratings`);
       setAverageRating(ratingsResponse.data.averageRating);
   
     } catch (err) {
@@ -236,7 +237,7 @@ const [error, setError] = useState(null);
       <h2># {post.title}</h2>
       {post.image && (
         <img
-          src={post.image.startsWith("http") ? post.image : `/${post.image}`}
+          src={post.image.startsWith("http") ? post.image : `${API_URL}/${post.image}`}
           alt="Post"
           className="single-post-image"
         />

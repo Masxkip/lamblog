@@ -4,11 +4,12 @@ import { Link } from "react-router-dom";
 import { X } from "lucide-react"; // Close icon
 import CategoryDropdown from "./CategoryDropdown";
 import { useEffect, useState } from "react";
-import axios from "../axiosInterceptor";
+import axios from "axios";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 
 
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 
 function MobileSidebar({ isOpen, onClose }) {
@@ -23,7 +24,7 @@ function MobileSidebar({ isOpen, onClose }) {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await axios.get(`/api/posts`);
+        const res = await axios.get(`${API_URL}/api/posts`);
         const unique = [...new Set(res.data.map((post) => post.category))];
         setCategories(unique);
       } catch (err) {
@@ -38,7 +39,7 @@ function MobileSidebar({ isOpen, onClose }) {
   useEffect(() => {
     const fetchTrending = async () => {
       try {
-        const res = await axios.get(`/api/posts/trending/posts`);
+        const res = await axios.get(`${API_URL}/api/posts/trending/posts`);
         setTrendingPosts(res.data);
       } catch (err) {
         console.error("Error fetching trending posts", err);

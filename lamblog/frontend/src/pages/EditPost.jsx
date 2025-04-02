@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "../axiosInterceptor";
+import axios from "axios";
 import BottomNav from "../components/BottomNav";
 
-
+// Get the backend URL from environment variables
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 function EditPost() {
   const { id } = useParams();
@@ -16,7 +17,7 @@ function EditPost() {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await axios.get(`/api/posts/${id}`);
+        const response = await axios.get(`${API_URL}/api/posts/${id}`);
         setPost(response.data);
         setTitle(response.data.title);
         setContent(response.data.content);
@@ -35,7 +36,7 @@ function EditPost() {
 
     try {
       await axios.put(
-        `/api/posts/${id}`,
+        `${API_URL}/api/posts/${id}`,
         { title, content },
         { headers: { "Authorization": `Bearer ${token}` } }
       );

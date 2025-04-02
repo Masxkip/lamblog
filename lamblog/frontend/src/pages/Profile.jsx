@@ -1,11 +1,12 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
-import axios from "../axiosInterceptor";
+import axios from "axios";
 import AuthContext from "../context/AuthContext";
 import { UserCircle } from "lucide-react"; // Icon for default profile picture
 import BottomNav from "../components/BottomNav";
 
-
+// Load API URL from .env
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 function Profile() {
   const { id } = useParams();
@@ -27,7 +28,7 @@ function Profile() {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await axios.get(`/api/users/${id}`);
+        const response = await axios.get(`${API_URL}/api/users/${id}`);
         setUser(response.data);
         setPosts(response.data.posts || []);
         setComments(response.data.comments || []);
@@ -55,7 +56,7 @@ function Profile() {
       {/* Fix Profile Picture Loading */}
       {user.profilePicture ? (
         <img 
-          src={`${user.profilePicture}`}
+          src={`${API_URL}${user.profilePicture}`}
           alt="Profile" 
           className="profile-pic" 
         />

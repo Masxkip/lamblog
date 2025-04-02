@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "../axiosInterceptor";
+import axios from "axios";
 import { Eye, EyeOff } from "lucide-react";
 import BottomNav from "../components/BottomNav";
 
-
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 function Register() {
   const [username, setUsername] = useState("");
@@ -21,7 +21,7 @@ function Register() {
     setSuccess("");
 
     try {
-      const response = await axios.post(`/api/auth/register`, {
+      const response = await axios.post(`${API_URL}/api/auth/register`, {
         username,
         email,
         password,
