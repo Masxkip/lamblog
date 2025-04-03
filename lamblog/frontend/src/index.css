@@ -2233,8 +2233,8 @@ html, body {
 
 /* BackArrow.css */
 .back-circle {
-  width: 31px;
-  height: 31px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background-color: #6a1bbd;
   color: white;
