@@ -1579,9 +1579,6 @@ html, body {
   transition: background 0.2s ease;
 }
 
-.trending-item:hover {
-  background-color: #111;
-}
 
 
 /* ✅ Mobile Sidebar Auth Links */
