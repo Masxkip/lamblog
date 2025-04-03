@@ -1943,3 +1943,298 @@ html, body {
 
 
 
+.all-categories-page {
+  padding: 20px;
+  color: white;
+  position: relative;
+}
+
+/* Sticky Search Bar */
+.sticky-category-search {
+  position: sticky;
+  top: 85px; /* Adjust based on your navbar height */
+  background-color: #000;
+  padding: 15px 0;
+  z-index: 999;
+}
+
+
+.category-search-bar {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  background-color: #111;
+  color: white;
+}
+
+/* Trending Posts Section */
+.trending-categories-section {
+  margin-top: 30px;
+  padding: 15px;
+  border-radius: 10px;
+  border-bottom: 1px solid #333;
+}
+
+.trending-list {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.trending-item {
+  color: white;         /* or 60%, 40%, etc */ 
+  font-size: 16.5px;
+  padding: 8px 0;
+  text-decoration: none;
+  border-bottom: 1px solid #333;
+}
+
+.trending-divider {
+  border: none;
+  border-bottom: 1px solid #333;
+}
+
+/* Category Section */
+.category-block {
+  margin-top: 40px;
+}
+
+.category-title {
+  font-size: 24px;
+  color: whitesmoke;
+  margin-bottom: 10px;
+}
+
+/* Slider */
+.category-slider {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 5px;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  touch-action: pan-x; /* ✅ helps prevent zoom distortion */
+  overscroll-behavior-x: contain;
+}
+
+.category-slider::-webkit-scrollbar {
+  display: none;
+}
+
+/* Post Card in Slider */
+.slider-post-card {
+  background-color: #111;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 12px;
+  min-width: 420px;
+  max-width: 420px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.slider-post-card:hover {
+  transform: scale(1.02);
+}
+
+.slider-post-card h3 {
+  margin: 10px 0 5px;
+  font-size: 19px;
+}
+
+.slider-post-card p {
+  font-size: 14px;
+  margin: 5px 0;
+  line-height: 1.5;
+}
+
+.slider-post-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.profile-link {
+  color: #ccc;
+  font-size: 14px;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+/* View All Button */
+.view-all-link {
+  display: inline-block;
+  margin-top: 12px;
+  color: whitesmoke;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+/* Divider below each category block */
+.category-divider {
+  margin-top: 30px;
+  border: none;
+  border-bottom: 1px solid #444;
+}
+
+@media screen and (max-width: 768px) {
+  .slider-post-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    min-width: 95%;
+    max-width: 95%;
+    padding: 10px;
+  }
+
+  .sticky-category-search {
+    position: sticky;
+    top: 85px; /* Adjust based on your navbar height */
+    background-color: #000;
+  }
+
+  .slider-post-image {
+    width: 140px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+
+  .slider-post-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .slider-post-content h3 {
+    font-size: 16px;
+    margin: 8px 0 4px;
+  }
+
+  .slider-post-content p {
+    font-size: 13px;
+    margin: 2px 0;
+    line-height: 1.4;
+  }
+
+  .profile-link {
+    font-size: 13px;
+    color: #ccc;
+    margin-bottom: 6px;
+    display: inline-block;
+  }
+}
+
+
+
+
+
+
+
+
+/* Category Post Grid */
+.category-posts-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* 3 per row on desktop */
+  gap: 25px;
+  padding: 20px;
+}
+
+.category-post-card {
+  background-color: #111;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 18px;
+  color: white;
+  transition: transform 0.2s ease;
+}
+
+.category-post-card:hover {
+  transform: scale(1.02);
+}
+
+.category-post-card h3 {
+  margin: 10px 0;
+  font-size: 20px;
+}
+
+.category-post-card p {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.category-post-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.category-profile-link {
+  color: #ccc;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+/* 🔁 Mobile View */
+@media screen and (max-width: 768px) {
+  .category-posts-container {
+    grid-template-columns: 1fr; /* stack cards vertically */
+    padding: 10px;
+  }
+
+  .category-post-card {
+    padding: 14px;
+  }
+
+  .category-post-image {
+    height: 180px;
+  }
+
+  .category-post-card h3 {
+    font-size: 18px;
+  }
+
+  .category-post-card p {
+    font-size: 14px;
+  }
+}
+
+
+
+
+.view-all-categories-link {
+  color: whitesmoke;
+  font-weight: bold;
+  text-decoration: none; /* Remove underline by default */
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 10px; /* space after last category */
+}
+
+.view-all-categories-link:hover {
+  text-decoration: underline; /* Underline only on hover */
+}
+
+/* Responsive mobile tweak */
+@media (max-width: 600px) {
+  .view-all-categories-link {
+    display: block;
+    margin-left: 0;
+    margin-top: 10px;
+    font-size: 15px;
+    text-align: left;
+  }
+}
+
+
+
+
+
+
