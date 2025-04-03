@@ -2231,5 +2231,28 @@ html, body {
 
 
 
+/* BackArrow.css */
+.back-circle {
+  width: 31px;
+  height: 31px;
+  border-radius: 50%;
+  background-color: #6a1bbd;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid whitesmoke;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.back-circle:hover {
+  background-color: #6a1bbd;
+  color: white;
+}
+
+
+
+
 
 

@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
 import BottomNav from "../components/BottomNav";
+import BackArrow from "../components/BackArrow";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -234,6 +235,7 @@ const [error, setError] = useState(null);
 
   return (
     <div className="single-post-container">
+      <BackArrow />
       <h2># {post.title}</h2>
       {post.image && (
         <img
