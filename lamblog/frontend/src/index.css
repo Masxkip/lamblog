@@ -1450,7 +1450,7 @@ html, body {
 /* ✅ Trending Section Styling - now hugging the left side */
 
 .trending-section1 {
-  padding: 1rem 1rem 1rem 0.5rem;  /* Less padding on left */
+  padding: 1rem 1rem 1rem 0rem;  /* Less padding on left */
   background: black;
   border-radius: 8px;
   margin-left: 0;                 /* ✅ Remove left spacing */
@@ -1462,8 +1462,8 @@ html, body {
   color: #ffffff;
   text-decoration: none;
   display: block;
-  margin: 9px 0;                  /* ✅ Removed horizontal margin */
-  padding: 1px 0.5rem;            /* ✅ Added slight left padding */
+  margin: 4px 0;                  /* ✅ Removed horizontal margin */
+  padding: 0px 0.5rem;            /* ✅ Added slight left padding */
   border-left: 4px solid #6a1bbd;
   background-color: black;
   border-radius: 4px;
@@ -1952,7 +1952,7 @@ html, body {
 /* Sticky Search Bar */
 .sticky-category-search {
   position: sticky;
-  top: 85px; /* Adjust based on your navbar height */
+  top: 70px; /* Adjust based on your navbar height */
   background-color: #000;
   padding: 15px 0;
   z-index: 999;
