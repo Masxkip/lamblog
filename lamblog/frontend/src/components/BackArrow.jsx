@@ -7,7 +7,7 @@ function BackArrow() {
 
   return (
     <button className="back-circle" onClick={() => navigate(-1)}>
-      <ArrowLeft size={35} strokeWidth={5.0} />
+      <ArrowLeft size={40} strokeWidth={4.0} />
     </button>
   );
 }
