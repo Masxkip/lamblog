@@ -2255,4 +2255,19 @@ html, body {
 
 
 
+.single-post-image {
+  width: 100%;
+  height: auto; /* Changed from height: 100%; to let the image scale naturally */
+  max-height: 600px; /* Increased from 400px to 600px */
+  object-fit: cover;
+  border-radius: 8px;
+  margin-top: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+
+.music-player {
+  margin-top: 20px; /* Adds vertical spacing above the music player */
+  text-align: left; /* Keeps the music player aligned to the left */
+}
 
