@@ -1433,7 +1433,7 @@ html, body {
 @media (max-width: 768px) {
   .header {
     position: sticky;
-    top: 68px; /* Adjust to your navbar height on mobile */
+    top: 85px; /* Adjust to your navbar height on mobile */
     width: 100%;
     z-index: 1000;
     background-color: black;
@@ -2054,7 +2054,7 @@ html, body {
 
 .profile-link {
   color: #ccc;
-  font-size: 14px;
+  font-size: 16.5px;
   display: inline-block;
   margin-bottom: 6px;
 }
@@ -2118,7 +2118,7 @@ html, body {
   }
 
   .profile-link {
-    font-size: 13px;
+    font-size: 15.5px;
     color: #ccc;
     margin-bottom: 6px;
     display: inline-block;

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function CategoryDropdown({ categories, selectedCategory, onSelectCategory }) {
+function CategoryDropdown({ categories, selectedCategory, onSelectCategory, onClose }) {
   return (
     <div className="category-dropdown-custom">
       <p className="category-label">Top Categories</p>
@@ -20,9 +20,14 @@ function CategoryDropdown({ categories, selectedCategory, onSelectCategory }) {
         ))}
 
         {/* ✅ View All Categories Nav */}
-        <Link to="/categories" className="view-all-categories-link">
-          View All &rarr;
-        </Link>
+              <Link
+        to="/categories"
+        className="view-all-categories-link"
+        onClick={onClose} // explicitly close the sidebar
+      >
+        View All &rarr;
+      </Link>
+
       </div>
     </div>
   );

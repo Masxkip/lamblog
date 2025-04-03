@@ -50,6 +50,19 @@ function MobileSidebar({ isOpen, onClose }) {
   }, []);
 
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) { // Change 768px if your desktop breakpoint differs
+        onClose(); // Automatically close the sidebar when resized back to desktop
+      }
+    };
+  
+    window.addEventListener("resize", handleResize);
+  
+    return () => window.removeEventListener("resize", handleResize);
+  }, [onClose]);
+  
+
 
   return (
     <div className={`mobile-sidebar ${isOpen ? "show" : ""}`}>
@@ -59,15 +72,17 @@ function MobileSidebar({ isOpen, onClose }) {
 
       <div className="mobile-sidebar-content">
         {/* Placeholder content for now */}
-        <CategoryDropdown
-          categories={categories}
-          selectedCategory={selectedCategory}
-          onSelectCategory={(cat) => {
-            setSelectedCategory(cat);
-            onClose(); // close the sidebar
-            window.location.href = `/?category=${encodeURIComponent(cat)}`;
-          }}
-        />
+              <CategoryDropdown
+        categories={categories}
+        selectedCategory={selectedCategory}
+        onSelectCategory={(cat) => {
+          setSelectedCategory(cat);
+          onClose(); // close the sidebar
+          window.location.href = `/?category=${encodeURIComponent(cat)}`;
+        }}
+        onClose={onClose} // Add this prop here
+      />
+
 
         <div className="mobile-trending-section">
           <h3># Trending Posts</h3>
