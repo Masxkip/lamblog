@@ -2054,7 +2054,7 @@ html, body {
 
 .profile-link {
   color: #ccc;
-  font-size: 16.5px;
+  font-size: 18px;
   display: inline-block;
   margin-bottom: 6px;
 }
@@ -2233,10 +2233,10 @@ html, body {
 
 /* BackArrow.css */
 .back-circle {
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
-  background-color: #6a1bbd;
+  background-color: #101010;
   color: white;
   display: flex;
   align-items: center;
@@ -2247,12 +2247,9 @@ html, body {
 }
 
 .back-circle:hover {
-  background-color: #6a1bbd;
+  background-color: #101010;
   color: white;
 }
-
-
-
 
 
 .single-post-image {
