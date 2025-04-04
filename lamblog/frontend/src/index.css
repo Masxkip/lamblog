@@ -2087,7 +2087,7 @@ html, body {
 
   .sticky-category-search {
     position: sticky;
-    top: 85px; /* Adjust based on your navbar height */
+    top: 62px; /* Adjust based on your navbar height */
     background-color: #000;
   }
 
@@ -2276,12 +2276,12 @@ html, body {
     left: 0;
     width: 100%;
     z-index: 1000;
-    height: 63px; /* Add this line */
+    height: 66.5px; /* Add this line */
   }
 
   .header {
     position: fixed;
-    top: 65px; /* This should be equal to navbar height */
+    top: 67px; /* This should be equal to navbar height */
     left: 0;
     border: none;
     width: 100%;
