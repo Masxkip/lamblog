@@ -32,6 +32,7 @@ function VerifyEmail() {
 
   return (
     <div className="verify-container">
+      
       <h2>Email Verification</h2>
       <form onSubmit={handleVerify}>
         <input

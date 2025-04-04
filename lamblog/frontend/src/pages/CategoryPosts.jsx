@@ -32,6 +32,7 @@ function CategoryPosts() {
 
   return (
     <div className="category-posts-page">
+      
       <h2>
         All Posts in <span style={{ color: "#6a1bbd" }}>#{normalizedCategory}</span>
       </h2>

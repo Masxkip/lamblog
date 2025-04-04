@@ -1030,7 +1030,7 @@ display: none;
   justify-content: space-between;
   align-items: center;
   background-color: #31004f;
-  padding: 10px;
+  padding: 25px;
 
 }
 
@@ -1960,8 +1960,8 @@ html, body {
   font-size: 16px;
   border: 1px solid #333;
   border-radius: 6px;
-  background-color: #111;
-  color: white;
+  background-color: whitesmoke;
+  color: black;
 }
 
 /* Trending Posts Section */

@@ -52,6 +52,7 @@ function EditPost() {
 
   return (
     <div className="edit-post-container">
+      
       <h2>Edit Post</h2>
       {message && <p className="success-message">{message}</p>}
       <form onSubmit={handleEdit}>
