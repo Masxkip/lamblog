@@ -1433,7 +1433,7 @@ html, body {
 @media (max-width: 768px) {
   .header {
     position: sticky;
-    top: 105px; /* Adjust to your navbar height on mobile */
+    top: 105px; /* Adjust to your bile */
     width: 100%;
     z-index: 1000;
     background-color: black;
