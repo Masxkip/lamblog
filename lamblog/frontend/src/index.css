@@ -2036,12 +2036,8 @@ html, body {
   min-width: 420px;
   max-width: 420px;
   flex-shrink: 0;
-  transition: transform 0.2s ease;
 }
 
-.slider-post-card:hover {
-  transform: scale(1.02);
-}
 
 .slider-post-card h3 {
   margin: 10px 0 5px;
