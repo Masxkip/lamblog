@@ -76,11 +76,12 @@ function Home() {
       
       {/* ✅ Sidebar */}
       <aside className="sidebar">
-<CategoryDropdown
+      <CategoryDropdown
   categories={categories}
   selectedCategory={category}
   onSelectCategory={setCategory}
 />
+
 
 <div className="trending-section">
   <h3># Trending Posts</h3>

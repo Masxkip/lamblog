@@ -72,16 +72,13 @@ function MobileSidebar({ isOpen, onClose }) {
 
       <div className="mobile-sidebar-content">
         {/* Placeholder content for now */}
-              <CategoryDropdown
-        categories={categories}
-        selectedCategory={selectedCategory}
-        onSelectCategory={(cat) => {
-          setSelectedCategory(cat);
-          onClose(); // close the sidebar
-          window.location.href = `/?category=${encodeURIComponent(cat)}`;
-        }}
-        onClose={onClose} // Add this prop here
-      />
+        <CategoryDropdown
+  categories={categories}
+  selectedCategory={selectedCategory}
+  onSelectCategory={setSelectedCategory}
+  onClose={onClose}
+/>
+
 
 
         <div className="mobile-trending-section">
