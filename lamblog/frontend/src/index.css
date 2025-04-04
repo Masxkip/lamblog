@@ -1030,7 +1030,7 @@ display: none;
   justify-content: space-between;
   align-items: center;
   background-color: #31004f;
-  padding: 20px;
+  padding: 22px;
 
 }
 
@@ -1433,7 +1433,7 @@ html, body {
 @media (max-width: 768px) {
   .header {
     position: sticky;
-    top: 85px; /* Adjust to your navbar height on mobile */
+    top: 105px; /* Adjust to your navbar height on mobile */
     width: 100%;
     z-index: 1000;
     background-color: black;
