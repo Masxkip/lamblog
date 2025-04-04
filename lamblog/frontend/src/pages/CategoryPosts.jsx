@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import BottomNav from "../components/BottomNav";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -65,6 +66,7 @@ function CategoryPosts() {
           ))}
         </div>
       )}
+      <BottomNav />
     </div>
   );
 }

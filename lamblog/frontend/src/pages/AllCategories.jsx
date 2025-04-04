@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import BottomNav from "../components/BottomNav";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -117,6 +118,7 @@ function AllCategories() {
           )}
         </React.Fragment>
       ))}
+      <BottomNav />
     </div>
   );
 }
