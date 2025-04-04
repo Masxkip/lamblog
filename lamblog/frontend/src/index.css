@@ -2268,3 +2268,38 @@ html, body {
   text-align: left; /* Keeps the music player aligned to the left */
 }
 
+
+@media (max-width: 768px) {
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    height: 63px; /* Add this line */
+  }
+
+  .header {
+    position: fixed;
+    top: 65px; /* This should be equal to navbar height */
+    left: 0;
+    border: none;
+    width: 100%;
+    z-index: 999;
+    padding: 10px;
+    background-color: black; /* match your theme */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .search-bar {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .main-content {
+    margin-top: 130px; /* 60px for navbar + ~70px for header */
+  }
+}
+
