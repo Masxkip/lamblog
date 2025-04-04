@@ -63,6 +63,7 @@ body {
 max-width: 650px;
 margin: auto;
 padding: 20px;
+margin-top: 3%;
 background: black;
 color: #ffffff;
 border-radius: 8px;
@@ -202,8 +203,9 @@ color: #bbb;
 @media screen and (max-width: 768px) {
 .profile-container {
   max-width: 95%;
+  margin-top: 18%;
   padding: 15px;
-  margin-bottom: 110px;
+  margin-bottom: 25%;
 }
 
 .profile-pic {
@@ -521,6 +523,8 @@ background: #111;
 .single-post-container {
   max-width: 95%;
   padding: 15px;
+  margin-top: 18%;
+  margin-bottom: 25%;
 }
 
 .post-actions {
@@ -683,6 +687,8 @@ background-color: #8a2be2;
 .post-container {
   margin: 20px 15px;
   padding: 20px;
+  margin-top: 18%;
+  margin-bottom: 25%;
 }
 
 .post-container h2 {
@@ -1284,7 +1290,9 @@ background-color: #8a2be2;
 @media (max-width: 600px) {
 .edit-post-container {
   padding: 20px;
-  margin-bottom: 100px;
+  margin-top: 18%;
+  margin-bottom: 25%;
+
 }
 
 .edit-post-container input,
@@ -1358,7 +1366,8 @@ background-color: #8a2be2;
 @media (max-width: 600px) {
 .edit-profile-container {
   padding: 20px;
-  margin-bottom: 100px;
+  margin-top: 18%;
+  margin-bottom: 25%;
 }
 
 .edit-profile-container input,
@@ -2076,6 +2085,12 @@ html, body {
 }
 
 @media screen and (max-width: 768px) {
+
+  .all-categories-page {
+    margin-top: 15%;
+    margin-bottom: 25%;
+  }
+
   .slider-post-card {
     display: flex;
     align-items: flex-start;
@@ -2179,6 +2194,11 @@ html, body {
 
 /* 🔁 Mobile View */
 @media screen and (max-width: 768px) {
+  .category-posts-page {
+    margin-top: 15%;
+    margin-bottom: 25%;
+  }
+  
   .category-posts-container {
     grid-template-columns: 1fr; /* stack cards vertically */
     padding: 10px;
