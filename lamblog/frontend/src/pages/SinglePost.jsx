@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
+import { FaStar } from "react-icons/fa";
 import BottomNav from "../components/BottomNav";
 import BackArrow from "../components/BackArrow";
 
@@ -273,17 +274,37 @@ const [error, setError] = useState(null);
 
       {/* Post Rating Section (Above Comments) */}
       <div className="post-rating">
-        <h3>Post Rating: ⭐ {averageRating} / 5</h3>
-        
+            <h3>
+        Post Rating:{" "}
+        <FaStar
+          color="#8a2be2"
+          size={24}
+          style={{ position: "relative", top: "3.8px" }}
+        />{" "}
+        {averageRating} / 5
+      </h3>
         {/* Hide stars if user has already rated */}
         {userRating === null && user ? (
-          <div className="rating-buttons">
-            {[1, 2, 3, 4, 5].map((star) => (
-              <button key={star} onClick={() => handleRatePost(star)}>⭐ {star}</button>
-            ))}
-          </div>
+        <div className="rating-buttons">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <FaStar
+            key={star}
+            size={30}
+            color={userRating >= star ? "#8a2be2" : "lightgray"}
+            onClick={() => handleRatePost(star)}
+            style={{ cursor: "pointer", marginRight: "5px" }}
+          />
+        ))}
+      </div>
         ) : (
-          <p>You rated this post {userRating} ⭐</p>
+          <p>
+          You rated this post {userRating}{" "}
+          <FaStar
+            color="#8a2be2"
+            size={24}
+            style={{ position: "relative", top: "3.9px" }}
+          />
+        </p>
         )}
       </div>
 
