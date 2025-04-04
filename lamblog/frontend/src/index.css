@@ -2281,7 +2281,7 @@ html, body {
 
   .header {
     position: fixed;
-    top: 68px; /* This should be equal to navbar height */
+    top: 69.5px; /* This should be equal to navbar height */
     left: 0;
     border: none;
     width: 100%;
