@@ -96,7 +96,6 @@ function MobileSidebar({ isOpen, onClose }) {
         </div>
 
 
-        <hr style={{ margin: "20px 0", border: "1px solid #444" }} />
 
 <div className="mobile-auth-links">
   {!user ? (
