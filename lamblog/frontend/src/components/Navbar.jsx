@@ -24,7 +24,7 @@ function Navbar() {
     <nav className="navbar">
   {/* ✅ Hamburger Icon (Mobile Only) */}
   <button className="hamburger-icon" onClick={toggleSidebar}>
-    <Menu size={35} />
+    <Menu size={33} />
   </button>
 
   {/* ✅ Centered Logo */}

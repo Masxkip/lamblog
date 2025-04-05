@@ -2151,6 +2151,11 @@ html, body {
   padding: 20px;
 }
 
+.category-posts-page h2 {
+  margin-left: 14px;
+}
+
+
 .category-post-card {
   background-color: #111;
   border: 1px solid #333;
@@ -2191,9 +2196,14 @@ html, body {
 /* 🔁 Mobile View */
 @media screen and (max-width: 768px) {
   .category-posts-page {
-    margin-top: 18%;
+    margin-top: 20%;
     margin-bottom: 25%;
   }
+
+  .category-posts-page h2 {
+    margin-left: 16px;
+  }
+  
 
   .category-posts-container {
     grid-template-columns: 1fr; /* stack cards vertically */
@@ -2249,10 +2259,12 @@ html, body {
 
 /* BackA */
 .back-circle {
-  width: 32px;
-  height: 32px;
+  width: 35px;
+  height: 35px;
+  margin-left: 15px;
+  margin-top: 20px;
   border-radius: 50%;
-  background-color: #101010;
+  background-color: #222;
   color: white;
   display: flex;
   align-items: center;

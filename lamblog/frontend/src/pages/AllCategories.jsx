@@ -62,8 +62,6 @@ function AllCategories() {
         />
       </div>
 
-      <br />
-
       <BackArrow />
 
       {/* Category Sections with Trending Inserted After 2nd */}
