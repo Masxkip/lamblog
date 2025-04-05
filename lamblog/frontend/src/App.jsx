@@ -37,8 +37,6 @@ function App() {
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
-        <Route path="/categories" element={<AllCategories />} />
-        <Route path="/category/:name" element={<CategoryPosts />} />
 
          {/* Protect Routes */}
          <Route 
