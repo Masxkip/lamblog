@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import BottomNav from "../components/BottomNav";
+import BackArrow from "../components/BackArrow";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -33,7 +34,7 @@ function CategoryPosts() {
 
   return (
     <div className="category-posts-page">
-      
+      <BackArrow/>
       <h2>
         All Posts in <span style={{ color: "#8a2be2" }}>#{normalizedCategory}</span>
       </h2>
