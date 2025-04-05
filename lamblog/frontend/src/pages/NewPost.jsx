@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import BottomNav from "../components/BottomNav";
+import BackArrow from "../components/BackArrow";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -66,6 +67,7 @@ function NewPost() {
 
   return (
     <div className="post-container">
+      <BackArrow />
       <h2>Create New Post</h2>
       {message && <p className="success-message">{message}</p>}
       <form onSubmit={handleSubmit}>

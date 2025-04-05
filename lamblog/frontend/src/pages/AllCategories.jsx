@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import BottomNav from "../components/BottomNav";
+import BackArrow from "../components/BackArrow";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -60,6 +61,10 @@ function AllCategories() {
           className="category-search-bar"
         />
       </div>
+
+      <br />
+
+      <BackArrow />
 
       {/* Category Sections with Trending Inserted After 2nd */}
       {categoryEntries.map(([category, posts], index) => (

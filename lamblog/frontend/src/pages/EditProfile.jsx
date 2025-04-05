@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
 import BottomNav from "../components/BottomNav";
+import BackArrow from "../components/BackArrow";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -63,7 +64,8 @@ function EditProfile() {
 
   return (
     <div className="edit-profile-container">
-      
+      <br />
+      <BackArrow />
       <h2>Edit Profile</h2>
       {message && <p className="success-message">{message}</p>}
       <form onSubmit={handleEditProfile}>
