@@ -2,7 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { ArrowRightCircle } from "lucide-react"; // 👈 Import Lucide icon
+import { ArrowRightCircle } from "lucide-react";
+
+
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 function DynamicArrow() {
   const navigate = useNavigate();
@@ -12,7 +15,7 @@ function DynamicArrow() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/posts/categories");
+        const res = await axios.get(`${API_URL}/api/posts/categories`);
         const sorted = res.data
           .map(cat =>
             cat.trim().toLowerCase().replace(/\s+/g, " ").replace(/\b\w/g, c => c.toUpperCase())

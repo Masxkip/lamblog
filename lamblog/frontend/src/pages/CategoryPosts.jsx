@@ -8,7 +8,7 @@ import DynamicArrow from "../components/DynamicArrow";
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 function CategoryPosts() {
-  const { name } = useParams();
+  const { name } = useParams(); 
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -35,13 +35,14 @@ function CategoryPosts() {
 
   return (
     <div className="category-posts-page">
-         <div className="category-header-row">
+      <div className="category-header-row">
   <BackArrow />
   <h2 className="category-title-text">
     All Posts in <span style={{ color: "#6a1bbd" }}>#{normalizedCategory}</span>
   </h2>
   <DynamicArrow />
 </div>
+
 
       {loading ? (
         <p>Loading posts...</p>
@@ -51,10 +52,11 @@ function CategoryPosts() {
         <div className="category-posts-container">
           {posts.map((post) => (
             <div key={post._id} className="category-post-card">
-              <Link to={`/profile/${post.author._id}`} className="category-profile-link">
-                @{post.author.username}
-              </Link>
               <Link to={`/post/${post._id}`}>
+                <Link to={`/profile/${post.author._id}`} className="category-profile-link">
+                  @{post.author.username}
+                </Link>
+                <br />
                 {post.image && (
                   <img
                     src={post.image.startsWith("http") ? post.image : `${API_URL}/${post.image}`}
