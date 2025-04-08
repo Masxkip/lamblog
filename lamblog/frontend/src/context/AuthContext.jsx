@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
   };
 
 
-    // Function to update user profile in context
+    // Function to update user profile
     const updateUserProfile = (updatedUser) => {
       setUser(updatedUser);
       localStorage.setItem("user", JSON.stringify(updatedUser)); // Persist updated user

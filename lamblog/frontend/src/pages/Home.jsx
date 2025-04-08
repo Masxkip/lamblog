@@ -17,7 +17,7 @@ function Home() {
   const [categories, setCategories] = useState([]);
   const [trendingPosts, setTrendingPosts] = useState([]);
 
-  // ✅ Fetch posts
+  // Fetch posts
   const fetchPosts = useCallback(async () => {
     setLoading(true);
     try {
@@ -28,7 +28,7 @@ function Home() {
   
       const response = await axios.get(`${API_URL}/api/posts${queryString}`);
   
-      // ✅ Sort posts by createdAt (newest first)
+      // Sort posts by createdAt (newest first)
       const sortedPosts = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
   
       setPosts(sortedPosts);
@@ -39,7 +39,7 @@ function Home() {
   }, [search, category]);
   
 
-  // ✅ Fetch categories
+  // Fetch categories
   const fetchCategories = useCallback(async () => {
     try {
       const response = await axios.get(`${API_URL}/api/posts`);
@@ -74,7 +74,7 @@ function Home() {
   return (
     <div className="home-layout">
       
-      {/* ✅ Sidebar */}
+      {/* Sidebar */}
       <aside className="sidebar">
       <CategoryDropdown
   categories={categories}
@@ -94,7 +94,7 @@ function Home() {
 
       </aside>
 
-      {/* ✅ Main Content */}
+      {/* Main Content */}
       <main className="main-content">
         <header className="header">
           <input
@@ -153,7 +153,7 @@ function Home() {
         )}
       </main>
 
-      {/* ✅ Subscription Section */}
+      {/* Subscription Section */}
       <aside className="subscription-section">
         <h2>Subscribe for SLXXK Premium Content</h2>
         <p>Unlock exclusive posts and features by subscribing.</p>

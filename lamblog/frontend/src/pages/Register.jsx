@@ -39,13 +39,13 @@ function Register() {
   return (
     <div className="auth-wrapper">
       <div className="auth-box">
-        {/* ✅ Left-side content */}
+        {/* Left-side content */}
         <div className="auth-info">
           <h3>Already have an account?</h3>
           <Link to="/login" className="auth-link">Sign in</Link>
         </div>
 
-        {/* ✅ Form side */}
+        {/* Form side */}
         <div className="auth-form">
           <h2>Register</h2>
           {error && <p className="error-message">{error}</p>}

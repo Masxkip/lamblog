@@ -4,7 +4,6 @@ import axios from "axios";
 import BottomNav from "../components/BottomNav";
 import BackArrow from "../components/BackArrow";
 
-// Get the backend URL from environment variables
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 function EditPost() {

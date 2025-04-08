@@ -6,7 +6,7 @@ import { UserCircle } from "lucide-react"; // Icon for default profile picture
 import BottomNav from "../components/BottomNav";
 import BackArrow from "../components/BackArrow";
 
-// Load API URL from .env
+
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 function Profile() {

@@ -1,9 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useContext } from "react";// Import profile icon
+import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
-import { Menu, UserCircle } from "lucide-react"; // ✅ Menu icon for hamburger
-import MobileSidebar from "./MobileSidebar";     // ✅ Import our sidebar
-import { useState } from "react";                // ✅ To track sidebar open/close
+import { Menu, UserCircle } from "lucide-react"; 
+import MobileSidebar from "./MobileSidebar";    
+import { useState } from "react";                
 
 
 function Navbar() {
@@ -22,15 +22,15 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-  {/* ✅ Hamburger Icon (Mobile Only) */}
+
   <button className="hamburger-icon" onClick={toggleSidebar}>
     <Menu size={33} />
   </button>
 
-  {/* ✅ Centered Logo */}
+
   <Link to="/" className="logo">SLXXK</Link>
 
-  {/* ✅ Right-side Profile Icon */}
+
   <div className="nav-links">
     {!user ? (
       <>
@@ -55,8 +55,7 @@ function Navbar() {
       </>
     )}
   </div>
-
-  {/* ✅ Mobile Sidebar Drawer */}
+  
   <MobileSidebar isOpen={sidebarOpen} onClose={closeSidebar} />
 </nav>
 

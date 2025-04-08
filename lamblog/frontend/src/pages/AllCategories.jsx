@@ -11,7 +11,7 @@ function AllCategories() {
   const [searchTerm, setSearchTerm] = useState("");
   const [trendingPosts, setTrendingPosts] = useState([]);
 
-  // ✅ Fetch all posts
+  // Fetch all posts
   useEffect(() => {
     const fetchPosts = async () => {
       const res = await axios.get(`${API_URL}/api/posts`);
@@ -20,7 +20,7 @@ function AllCategories() {
     fetchPosts();
   }, []);
 
-  // ✅ Fetch trending posts
+  // Fetch trending posts
   useEffect(() => {
     const fetchTrending = async () => {
       try {
@@ -33,13 +33,13 @@ function AllCategories() {
     fetchTrending();
   }, []);
 
-  // ✅ Filter posts based on search
+  // Filter posts based on search
   const filteredPosts = posts.filter(post =>
     post.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     post.title?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // ✅ Group filtered posts by category
+  // Group filtered posts by category
   const postsByCategory = {};
   filteredPosts.forEach(post => {
     const formattedCategory = post.category?.trim().toLowerCase().replace(/\s+/g, " ").replace(/\b\w/g, c => c.toUpperCase());
@@ -103,7 +103,7 @@ function AllCategories() {
             <hr className="category-divider" />
           </section>
 
-          {/* ✅ Insert Trending After 2nd Category Block */}
+          {/* Insert Trending After 2nd Category Block */}
           {index === 1 && (
             <div className="trending-categories-section">
               <h3># Trending Posts</h3>

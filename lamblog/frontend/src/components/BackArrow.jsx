@@ -1,13 +1,13 @@
 // components/BackArrow.jsx
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react"; // You can switch icons if you want;
+import { ArrowLeftCircle } from "lucide-react"; // switched to Lucide for consistency
 
 function BackArrow() {
   const navigate = useNavigate();
 
   return (
     <button className="back-circle" onClick={() => navigate(-1)}>
-      <ArrowLeft size={45} strokeWidth={4.0} />
+      <ArrowLeftCircle size={32} strokeWidth={2.5} />
     </button>
   );
 }

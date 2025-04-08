@@ -38,7 +38,7 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
 
-         {/* Protect Routes */}
+      
          <Route 
           path="/profile/:id" 
           element={<ProtectedRoute><Profile /></ProtectedRoute>} 

@@ -222,7 +222,7 @@ const [error, setError] = useState(null);
   
       setUserRating(rating); // Save user rating locally
   
-      // ✅ Re-fetch updated average rating from backend
+      // Re-fetch updated average rating from backend
       const ratingsResponse = await axios.get(`${API_URL}/api/posts/${id}/ratings`);
       setAverageRating(ratingsResponse.data.averageRating);
   

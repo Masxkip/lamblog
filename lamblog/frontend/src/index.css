@@ -550,7 +550,7 @@ background: #111;
 }
 }
 
-/* ✅ Prevent Mobile Zoom on Inputs in Comment Section */
+/* Prevent Mobile Zoom on Inputs in Comment Section */
 @media (max-width: 768px) {
   .reply-box input,
   .add-comment input {
@@ -558,7 +558,7 @@ background: #111;
   }
 }
 
-/* ✅ Prevent mobile zoom bug on edit comment field */
+/* Prevent mobile zoom bug on edit comment field */
 @media (max-width: 768px) {
   .edit-comment-input {
     font-size: 16px !important;
@@ -1378,7 +1378,7 @@ background-color: #8a2be2;
 /* ===================================================================================== */
 
 
-/* ✅ Prevent horizontal scroll on mobile */
+/* Prevent horizontal scroll on mobile */
 * {
   box-sizing: border-box;
 }
@@ -1417,7 +1417,7 @@ html, body {
 /* Mobile adjustments */
 @media (max-width: 768px) {
   .header {
-    top: -40px; /* slightly less if navbar is smaller on mobile */
+    top: -40px; 
     width: 100%;
     padding: 10px;
   }
@@ -1427,7 +1427,7 @@ html, body {
 
 .header {
   position: sticky;
-  top: -7px; /* <-- Adjust this to match your navbar height */
+  top: -7px; 
   z-index: 999;
   background-color: black;
   padding: 15px;
@@ -1442,7 +1442,7 @@ html, body {
 @media (max-width: 768px) {
   .header {
     position: sticky;
-    top: 105px; /* Adjust to your bile */
+    top: 105px; 
     width: 100%;
     z-index: 1000;
     background-color: black;
@@ -1456,23 +1456,23 @@ html, body {
 
 
 /* ===================================================================================== */
-/* ✅ Trending Section Styling - now hugging the left side */
+/*  Trending Section Stylin */
 
 .trending-section1 {
   padding: 1rem 1rem 1rem 0rem;  /* Less padding on left */
   background: black;
   border-radius: 8px;
-  margin-left: 0;                 /* ✅ Remove left spacing */
-  max-width: 100%;                /* ✅ Prevent overflow */
+  margin-left: 0;                 
+  max-width: 100%;                
 }
 
-/* ✅ Trending item styles */
+/* Trending item styles */
 .trending-item1 {
   color: #ffffff;
   text-decoration: none;
   display: block;
-  margin: 7px 0;                  /* ✅ Removed horizontal margin */
-  padding: 0px 0.5rem;            /* ✅ Added slight left padding */
+  margin: 7px 0;                 
+  padding: 0px 0.5rem;            
   background-color: black;
   border-radius: 4px;
   font-size: 16px;
@@ -1488,7 +1488,7 @@ html, body {
 /* ===================================================================================== */
 
 
-/* ✅ Mobile Sidebar Drawer */
+/* Mobile Sidebar Drawer */
 .mobile-sidebar {
   position: fixed;
   top: 0;
@@ -1505,7 +1505,7 @@ html, body {
   z-index: 9999; /* VERY HIGH so it stays above everything else */
 }
 
-/* 🔵 Lower z-index for the header */
+/* Lower z-index for the header */
 .header {
   z-index: 999;
 }
@@ -1533,7 +1533,7 @@ html, body {
 
 
 
-/* ✅ Hamburger Icon (Visible on Mobile Only) */
+/* Hamburger Icon (Visible on Mobile Only) */
 .hamburger-icon {
   background: none;
   border: none;
@@ -1548,7 +1548,7 @@ html, body {
   }
 
   .logo {
-    margin: 0 auto; /* ✅ Center logo when hamburger and profile are visible */
+    margin: 0 auto;
   }
 
   .nav-links a:not(.profile-link),
@@ -1570,7 +1570,7 @@ html, body {
 
 
 
-/* ✅ Trending List in Mobile Sidebar */
+/* Trending List in Mobile Sidebar */
 .mobile-trending-section {
   margin-top: 30px;
 }
@@ -1589,7 +1589,7 @@ html, body {
 
 
 
-/* ✅ Mobile Sidebar Auth Links */
+/* Mobile Sidebar Auth Links */
 .mobile-auth-links {
   margin-top: 25px;
   display: flex;
@@ -1621,7 +1621,7 @@ html, body {
 
 
 
-/* ✅ Custom Category Dropdown */
+/* Custom Category Dropdown */
 .category-dropdown-custom {
   margin-bottom: 20px;
 }
@@ -1633,10 +1633,10 @@ html, body {
 }
 
 .category-scroll-wrapper {
-  max-height: 160px;  /* Adjust this value to control height */
+  max-height: 160px;  
   overflow-y: auto;
-  padding-right: 5px;  /* Optional: Adds a little space on the right side */
-  scrollbar-width: thin;  /* Firefox */
+  padding-right: 5px;
+  scrollbar-width: thin;
 }
 
 .category-scroll-wrapper::-webkit-scrollbar {
@@ -1648,7 +1648,7 @@ html, body {
   border-radius: 10px;
 }
 
-/* ✅ Category Button Style */
+/* Category Button Style */
 .category-item {
   background-color: transparent;
   color: white;
@@ -1672,7 +1672,7 @@ html, body {
 
 
 
-/* ✅ Hide Scrollbar Outlines in Sidebar & Subscription */
+/* Hide Scrollbar Outlines in Sidebar & Subscription */
 .sidebar,
 .subscription-section,
 .mobile-sidebar {
@@ -1697,7 +1697,7 @@ html, body {
 
 
 
-/* ✅ Verify Page Container */
+/* Verify Page Container */
 .verify-container {
   max-width: 400px;
   margin: 80px auto;
@@ -1709,7 +1709,7 @@ html, body {
   text-align: center;
 }
 
-/* ✅ Inputs Styling */
+/* Inputs Styling */
 .verify-container input {
   width: 100%;
   padding: 12px;
@@ -1721,7 +1721,7 @@ html, body {
   font-size: 16px;
 }
 
-/* ✅ Verify Button */
+/* Verify Button */
 .verify-container button[type="submit"] {
   width: 100%;
   margin-top: 20px;
@@ -1739,7 +1739,7 @@ html, body {
   background-color: #8a2be2;
 }
 
-/* ✅ Resend Button */
+/* Resend Button */
 .verify-container button[type="button"] {
   font-size: 14px;
   margin-top: 10px;
@@ -1750,7 +1750,7 @@ html, body {
   text-decoration: underline;
 }
 
-/* ✅ Messages */
+/* Messages */
 .success-message {
   color: #00ff88;
   margin-top: 15px;
@@ -1770,7 +1770,7 @@ html, body {
 
 
 
-/* 🌌 Wrapper & Container */
+/* Wrapper & Container */
 .auth-wrapper {
   display: flex;
   justify-content: center;
@@ -1793,7 +1793,7 @@ html, body {
   flex-wrap: wrap;
 }
 
-/* 🧭 Left Side */
+/*  Left Side */
 .auth-info {
   flex: 1;
   background: #1a1a1a;
@@ -1817,7 +1817,7 @@ html, body {
   font-size: 1rem;
 }
 
-/* 📝 Right Side Form */
+/* Right Side Form */
 .auth-form {
   flex: 2;
   padding: 2rem;
@@ -1829,7 +1829,7 @@ html, body {
   text-align: center;
 }
 
-/* 🧩 Form Controls */
+/*  Form Controls */
 .form-control {
   margin-bottom: 1rem;
 }
@@ -1850,7 +1850,7 @@ html, body {
   font-size: 1rem;
 }
 
-/* 👁️ Password Toggle */
+/* Password Toggle */
 .password-field {
   position: relative;
 }
@@ -1868,7 +1868,7 @@ html, body {
   color: black;
 }
 
-/* 🚀 Submit Button */
+/* Submit Button */
 .auth-button {
   width: 100%;
   padding: 0.75rem;
@@ -1886,7 +1886,7 @@ html, body {
   background-color: #9333ea;
 }
 
-/* ✅ Message Styles */
+/* Message Styles */
 .success-message {
   color: whitesmoke;
   font-size: 0.9rem;
@@ -1901,7 +1901,7 @@ html, body {
   margin-bottom: 1rem;
 }
 
-/* 📱 Responsive */
+/* Responsive */
 @media (max-width: 768px) {
   .auth-box {
     flex-direction: column;
@@ -1933,13 +1933,13 @@ html, body {
 
 @media (max-width: 768px) {
   .verify-container {
-    margin: 40px auto; /* Reduce from 80px */
+    margin: 40px auto; 
     padding: 20px;
   }
 
   .auth-wrapper {
     padding: 1rem;
-    min-height: 100dvh; /* Use dynamic viewport unit to avoid overflow */
+    min-height: 100dvh;
     box-sizing: border-box;
   }
 }
@@ -1957,7 +1957,7 @@ html, body {
 /* Sticky Search Bar */
 .sticky-category-search {
   position: sticky;
-  top: 70px; /* Adjust based on your navbar height */
+  top: 70px;
   background-color: #000;
   padding: 15px 0;
   z-index: 999;
@@ -1989,7 +1989,7 @@ html, body {
 }
 
 .trending-item {
-  color: white;         /* or 60%, 40%, etc */ 
+  color: white;        
   font-size: 16.5px;
   padding: 8px 0;
   text-decoration: none;
@@ -2020,7 +2020,7 @@ html, body {
   padding-bottom: 5px;
   scroll-behavior: smooth;
   scrollbar-width: none;
-  touch-action: pan-x; /* ✅ helps prevent zoom distortion */
+  touch-action: pan-x; /* helps prevent zoom distortion */
   overscroll-behavior-x: contain;
 }
 
@@ -2099,7 +2099,7 @@ html, body {
 
   .sticky-category-search {
     position: sticky;
-    top: 62px; /* Adjust based on your navbar height */
+    top: 62px;
     background-color: #000;
   }
 
@@ -2147,7 +2147,7 @@ html, body {
 /* Category Post Grid */
 .category-posts-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* 3 per row on desktop */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
   gap: 25px;
   padding: 20px;
 }
@@ -2194,7 +2194,7 @@ html, body {
   text-decoration: none;
 }
 
-/* 🔁 Mobile View */
+/* Mobile View */
 @media screen and (max-width: 768px) {
   .category-posts-page {
     margin-top: 20%;
@@ -2234,14 +2234,14 @@ html, body {
 .view-all-categories-link {
   color: whitesmoke;
   font-weight: bold;
-  text-decoration: none; /* Remove underline by default */
+  text-decoration: none; 
   font-size: 14px;
   cursor: pointer;
-  margin-left: 10px; /* space after last category */
+  margin-left: 10px; 
 }
 
 .view-all-categories-link:hover {
-  text-decoration: underline; /* Underline only on hover */
+  text-decoration: underline; 
 }
 
 /* Responsive mobile tweak */
@@ -2283,8 +2283,8 @@ html, body {
 
 .single-post-image {
   width: 100%;
-  height: auto; /* Changed from height: 100%; to let the image scale naturally */
-  max-height: 600px; /* Increased from 400px to 600px */
+  height: auto;
+  max-height: 600px; 
   object-fit: cover;
   border-radius: 8px;
   margin-top: 10px;
@@ -2293,8 +2293,8 @@ html, body {
 
 
 .music-player {
-  margin-top: 20px; /* Adds vertical spacing above the music player */
-  text-align: left; /* Keeps the music player aligned to the left */
+  margin-top: 20px; 
+  text-align: left; 
 }
 
 
@@ -2305,18 +2305,18 @@ html, body {
     left: 0;
     width: 100%;
     z-index: 1000;
-    height: 66.5px; /* Add this line */
+    height: 66.5px; 
   }
 
   .header {
     position: fixed;
-    top: 63px; /* This should be */
+    top: 63px;
     left: 0;
     border: none;
     width: 100%;
     z-index: 999;
     padding: 10px;
-    background-color: black; /* match your theme */
+    background-color: black;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -2328,7 +2328,102 @@ html, body {
   }
 
   .main-content {
-    margin-top: 130px; /* 60px for navbar + ~70px for header */
+    margin-top: 130px; 
   }
+}
+
+
+
+
+
+
+.rating-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.star-button {
+  background: transparent;
+  border: 1px solid #6a1bbd;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: white;
+  font-weight: bold;
+  transition: transform 0.2s ease;
+}
+
+.star-button:hover {
+  transform: scale(1.05);
+  background-color: rgba(255, 215, 0, 0.1);
+}
+
+
+
+.next-arrow-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  margin-left: 12px;
+}
+
+.next-arrow-button:hover {
+  transform: scale(1.1);
+}
+
+.lucid-icon {
+  color: #6a1bbd;
+}
+
+
+
+
+.category-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  margin-top: 10px;
+}
+
+.category-title-text {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+}
+
+.back-circle,
+.next-arrow-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.back-circle:hover,
+.next-arrow-button:hover {
+  transform: scale(1.1);
+}
+
+.back-circle svg,
+.next-arrow-button svg,
+.lucid-icon {
+  color: #6a1bbd;
 }
 

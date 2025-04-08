@@ -24,7 +24,7 @@ function VerifyEmail() {
       });
 
       setMessage(res.data.message);
-      setTimeout(() => navigate("/login"), 2000); // Redirect to login after success
+      setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
       setError(err.response?.data?.message || "Verification failed");
     }

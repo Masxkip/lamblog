@@ -3,11 +3,12 @@ import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import BottomNav from "../components/BottomNav";
 import BackArrow from "../components/BackArrow";
+import DynamicArrow from "../components/DynamicArrow";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 function CategoryPosts() {
-  const { name } = useParams(); // Category from URL
+  const { name } = useParams();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -34,10 +35,13 @@ function CategoryPosts() {
 
   return (
     <div className="category-posts-page">
-      <BackArrow/>
-      <h2>
-        All Posts in <span style={{ color: "#8a2be2" }}>#{normalizedCategory}</span>
-      </h2>
+         <div className="category-header-row">
+  <BackArrow />
+  <h2 className="category-title-text">
+    All Posts in <span style={{ color: "#6a1bbd" }}>#{normalizedCategory}</span>
+  </h2>
+  <DynamicArrow />
+</div>
 
       {loading ? (
         <p>Loading posts...</p>

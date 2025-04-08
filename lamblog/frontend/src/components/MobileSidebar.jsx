@@ -1,4 +1,3 @@
-// MobileSidebar.jsx
 import React from "react";
 import { Link } from "react-router-dom";
 import { X } from "lucide-react"; // Close icon
@@ -52,8 +51,8 @@ function MobileSidebar({ isOpen, onClose }) {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 768) { // Change 768px if your desktop breakpoint differs
-        onClose(); // Automatically close the sidebar when resized back to desktop
+      if (window.innerWidth >= 768) {
+        onClose();
       }
     };
   
@@ -87,7 +86,7 @@ function MobileSidebar({ isOpen, onClose }) {
             <Link
               to={`/post/${post._id}`}
               key={post._id}
-              onClick={onClose} // Close sidebar when navigating
+              onClick={onClose}
               className="trending-item"
             >
               # {post.title}
