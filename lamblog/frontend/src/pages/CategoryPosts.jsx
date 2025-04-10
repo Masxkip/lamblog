@@ -22,9 +22,11 @@ function CategoryPosts() {
     const fetchPosts = async () => {
       try {
         const res = await axios.get(`${API_URL}/api/posts?category=${encodeURIComponent(normalizedCategory)}`);
-           // ✅ Sort by createdAt (newest first)
+
+           // Sort by createdAt (newest first)
            const sortedPosts = res.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
            setPosts(sortedPosts);
+
       } catch (err) {
         console.error("Failed to fetch posts by category", err);
       } finally {
@@ -63,7 +65,7 @@ function CategoryPosts() {
                   <img
                   src={post.image}
                   alt="Post"
-                  className="slider-post-image"
+                  className="category-post-image"
                 />
                 )}
                 <h3>#{post.title}</h3>

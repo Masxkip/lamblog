@@ -2333,10 +2333,6 @@ html, body {
 }
 
 
-
-
-
-
 .rating-buttons {
   display: flex;
   gap: 12px;
@@ -2363,26 +2359,6 @@ html, body {
 }
 
 
-
-.next-arrow-button {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.2s ease-in-out;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-  margin-left: 12px;
-}
-
-.next-arrow-button:hover {
-  transform: scale(1.1);
-}
-
-.lucid-icon {
-  color: #6a1bbd;
-}
 
 
 
@@ -2424,6 +2400,6 @@ html, body {
 .back-circle svg,
 .next-arrow-button svg,
 .lucid-icon {
-  color: #6a1bbd;
+  color: whitesmoke;
 }
 
