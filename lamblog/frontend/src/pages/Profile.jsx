@@ -59,10 +59,10 @@ function Profile() {
       {/* Fix Profile Picture Loading */}
       {user.profilePicture ? (
         <img 
-          src={`${API_URL}${user.profilePicture}`}
-          alt="Profile" 
-          className="profile-pic" 
-        />
+        src={user.profilePicture}
+        alt="Profile" 
+        className="profile-pic" 
+      />
       ) : (
         <UserCircle className="default-profile-icon" size={50} />
       )}

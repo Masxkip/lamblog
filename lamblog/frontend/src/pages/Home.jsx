@@ -109,10 +109,10 @@ function Home() {
               <span>{user.username}</span>
               {user.profilePicture ? (
               <img 
-                src={user.profilePicture.startsWith("http") ? user.profilePicture : `${API_URL}${user.profilePicture}`}  
-                alt="User" 
-                className="user-avatar" 
-              />
+              src={user.profilePicture} 
+              alt="User" 
+              className="user-avatar" 
+            />
             ) : (
               <UserCircle className="default-profile-icon" size={32} />
             )}

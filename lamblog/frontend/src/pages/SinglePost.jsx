@@ -239,11 +239,7 @@ const [error, setError] = useState(null);
       <BackArrow />
       <h2># {post.title}</h2>
       {post.image && (
-        <img
-          src={post.image.startsWith("http") ? post.image : `${API_URL}/${post.image}`}
-          alt="Post"
-          className="single-post-image"
-        />
+        <img src={post.image} alt="Post" className="single-post-image" />
       )}
       
       <p>{post.content}</p>
@@ -264,10 +260,9 @@ const [error, setError] = useState(null);
 
 {post.music && (
   <div className="music-player">
-    <audio controls>
-      <source src={post.music} type="audio/mpeg" />
-      Your browser does not support the audio element.
-    </audio>
+    <audio controls src={post.music}>
+          Your browser does not support the audio element.
+        </audio>
   </div>
 )}
 

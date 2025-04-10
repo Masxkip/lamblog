@@ -75,10 +75,10 @@ function AllCategories() {
                 <div className="slider-post-card" key={post._id}>
                   {post.image && (
                     <img
-                      src={post.image.startsWith("http") ? post.image : `${API_URL}/${post.image}`}
-                      alt="Post"
-                      className="slider-post-image"
-                    />
+                    src={post.image}
+                    alt="Post"
+                    className="slider-post-image"
+                  />
                   )}
 
                   <div className="slider-post-content">

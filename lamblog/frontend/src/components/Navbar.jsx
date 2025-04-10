@@ -43,10 +43,10 @@ function Navbar() {
         <Link to={`/profile/${user._id}`} className="profile-link">
           {user.profilePicture ? (
             <img
-              src={user.profilePicture.startsWith("http") ? user.profilePicture : `${import.meta.env.VITE_BACKEND_URL}${user.profilePicture}`}
-              alt="Profile"
-              className="nav-profile-pic"
-            />
+            src={user.profilePicture}
+            alt="Profile"
+            className="nav-profile-pic"
+          />
           ) : (
             <UserCircle className="default-profile-icon" size={32} />
           )}

@@ -59,10 +59,10 @@ function CategoryPosts() {
                 <br />
                 {post.image && (
                   <img
-                    src={post.image.startsWith("http") ? post.image : `${API_URL}/${post.image}`}
-                    alt="Post"
-                    className="category-post-image"
-                  />
+                  src={post.image}
+                  alt="Post"
+                  className="slider-post-image"
+                />
                 )}
                 <h3>#{post.title}</h3>
                 <p>{post.content.substring(0, 100)}...</p>

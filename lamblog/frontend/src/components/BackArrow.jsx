@@ -1,4 +1,3 @@
-// components/BackArrow.jsx
 import { useNavigate } from "react-router-dom";
 import { ArrowLeftCircle } from "lucide-react"; // switched to Lucide for consistency
 
