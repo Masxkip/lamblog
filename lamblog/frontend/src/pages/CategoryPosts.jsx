@@ -22,7 +22,9 @@ function CategoryPosts() {
     const fetchPosts = async () => {
       try {
         const res = await axios.get(`${API_URL}/api/posts?category=${encodeURIComponent(normalizedCategory)}`);
-        setPosts(res.data);
+           // ✅ Sort by createdAt (newest first)
+           const sortedPosts = res.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+           setPosts(sortedPosts);
       } catch (err) {
         console.error("Failed to fetch posts by category", err);
       } finally {

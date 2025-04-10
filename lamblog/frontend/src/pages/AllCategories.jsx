@@ -39,13 +39,17 @@ function AllCategories() {
     post.title?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Group filtered posts by category
-  const postsByCategory = {};
-  filteredPosts.forEach(post => {
-    const formattedCategory = post.category?.trim().toLowerCase().replace(/\s+/g, " ").replace(/\b\w/g, c => c.toUpperCase());
-    if (!postsByCategory[formattedCategory]) postsByCategory[formattedCategory] = [];
-    postsByCategory[formattedCategory].push(post);
-  });
+
+// ✅ Sort filtered posts by date (newest first)
+const sortedPosts = filteredPosts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+// ✅ Group sorted posts by category
+const postsByCategory = {};
+sortedPosts.forEach(post => {
+  const formattedCategory = post.category?.trim().toLowerCase().replace(/\s+/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+  if (!postsByCategory[formattedCategory]) postsByCategory[formattedCategory] = [];
+  postsByCategory[formattedCategory].push(post);
+});
 
   const categoryEntries = Object.entries(postsByCategory);
 
