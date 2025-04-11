@@ -37,7 +37,7 @@ function NewPost() {
       return;
     }
 
-    // Normalize custom category if used
+    // Normalize 
     let finalCategory = category === "Other"
       ? customCategory.trim().toLowerCase().replace(/\s+/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
       : category;
