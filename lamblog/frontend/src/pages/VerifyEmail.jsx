@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 function VerifyEmail() {
+  const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -18,12 +19,12 @@ function VerifyEmail() {
 
     try {
       const res = await axios.post(`${API_URL}/api/auth/verify-email`, {
-      
+        email,
         code,
       });
 
       setMessage(res.data.message);
-      setTimeout(() => navigate("/login"), 2000);
+      setTimeout(() => navigate("/login"), 2000); 
     } catch (err) {
       setError(err.response?.data?.message || "Verification failed");
     }
@@ -34,7 +35,13 @@ function VerifyEmail() {
       
       <h2>Email Verification</h2>
       <form onSubmit={handleVerify}>
-       
+        <input
+          type="email"
+          placeholder="Enter your email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
         <input
           type="text"
           placeholder="Enter verification code"
@@ -51,7 +58,7 @@ function VerifyEmail() {
     onClick={async () => {
       try {
         const res = await axios.post(`${API_URL}/api/auth/resend-code`, {
-    
+          email,
         });
         setMessage(res.data.message);
       } catch (err) {
