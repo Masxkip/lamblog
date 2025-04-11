@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import BottomNav from "../components/BottomNav";
-import BackArrow from "../components/BackArrow";
+
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -37,7 +37,7 @@ function NewPost() {
       return;
     }
 
-    // Normalize 
+    // ✅ Normalize custom category if used
     let finalCategory = category === "Other"
       ? customCategory.trim().toLowerCase().replace(/\s+/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
       : category;
