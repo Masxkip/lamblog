@@ -1,202 +1,393 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useParams, Link } from "react-router-dom";
+import AuthContext from "../context/AuthContext";
+import { FaStar } from "react-icons/fa";
+import BottomNav from "../components/BottomNav";
+import BackArrow from "../components/BackArrow";
 
-const SinglePost = ({ user }) => {
+const API_URL = import.meta.env.VITE_BACKEND_URL;
+
+function SinglePost() {
   const { id } = useParams();
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [post, setPost] = useState(null);
-  const [newComment, setNewComment] = useState("");
+  const [loading, setLoading] = useState(true);
   const [comments, setComments] = useState([]);
-  const [replies, setReplies] = useState({});
-  const [openReplies, setOpenReplies] = useState({});
+  const [newComment, setNewComment] = useState("");
+  const [replyText, setReplyText] = useState({});
+  const [message, setMessage] = useState("");
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [editedCommentText, setEditedCommentText] = useState("");
+  const [averageRating, setAverageRating] = useState(0);
+const [userRating, setUserRating] = useState(null);
+const [error, setError] = useState(null);
 
-  // Fetch Post
+
+  // Fetch comments
+  useEffect(() => {
+    const fetchPostAndComments = async () => {
+      try {
+        const postResponse = await axios.get(`${API_URL}/api/posts/${id}`);
+        setPost(postResponse.data);
+
+        const commentsResponse = await axios.get(`${API_URL}/api/comments/${id}/comments`);
+        setComments(commentsResponse.data || []);
+
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching data:", err);
+        setLoading(false);
+      }
+    };
+
+    fetchPostAndComments();
+  }, [id]);
+
+
+  // Fetch post ratings
+  useEffect(() => {
+    const fetchRatings = async () => {
+      try {
+        const ratingsResponse = await axios.get(`${API_URL}/api/posts/${id}/ratings`);
+        setAverageRating(ratingsResponse.data.averageRating);
+        
+        if (user) {
+          const userRatingResponse = await axios.get(`${API_URL}/api/posts/${id}/my-rating`, {
+            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+          });
+          setUserRating(userRatingResponse.data.rating);
+        }
+      } catch (err) {
+        console.error("Error fetching ratings:", err);
+      }
+    };
+  
+    fetchRatings();
+  }, [id, user]);
+
+
   useEffect(() => {
     const fetchPost = async () => {
-      const res = await axios.get(`/api/posts/${id}`);
-      setPost(res.data);
-      setComments(res.data.comments || []);
+      try {
+        const response = await axios.get(`${API_URL}/api/posts/${id}`);
+        setPost(response.data);
+      } catch (err) {
+        setError(`Error: ${err.message || "Failed to fetch post. Please try again later."}`);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchPost();
   }, [id]);
+  
 
-  // Add a comment
-  const handleComment = async () => {
+  // Handle Deleting a Post
+  const handleDelete = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+      await axios.delete(`${API_URL}/api/posts/${id}`, {
+        headers: { "Authorization": `Bearer ${token}` },
+      });
+
+      setMessage("Post deleted successfully!");
+      setTimeout(() => navigate("/"), 2000);
+    } catch (err) {
+      console.error("Error deleting post:", err);
+    }
+  };
+
+  // Handle Adding a Comment
+  const handleAddComment = async () => {
     if (!newComment.trim()) return;
 
-    const res = await axios.post(`/api/posts/${id}/comments`, {
-      text: newComment,
-      author: user._id,
-    });
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        `${API_URL}/api/comments/${id}`,
+        { text: newComment },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-    setComments([...comments, res.data]);
-    setNewComment("");
+      setComments([...comments, {
+        ...response.data.comment,
+        author: { _id: user._id, username: user.username }, // Ensure author ID is included
+      }]);
+      setNewComment("");
+    } catch (err) {
+      console.error("Error adding comment:", err);
+    }
   };
 
-  // Add a reply
-  const handleReply = async (commentId) => {
-    const replyText = replies[commentId];
-    if (!replyText?.trim()) return;
+  // Handle Editing a Comment
+  const handleEditComment = async (commentId) => {
+    if (!editedCommentText.trim()) return;
 
-    const res = await axios.post(`/api/posts/${id}/comments/${commentId}/replies`, {
-      text: replyText,
-      author: user._id,
-    });
+    try {
+      const token = localStorage.getItem("token");
+      await axios.put(
+        `${API_URL}/api/comments/${id}/comments/${commentId}`,
+        { text: editedCommentText },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-    setComments((prev) =>
-      prev.map((comment) =>
-        comment._id === commentId
-          ? { ...comment, replies: [...(comment.replies || []), res.data] }
-          : comment
-      )
-    );
+      setComments(
+        comments.map((comment) =>
+          comment._id === commentId ? { ...comment, text: editedCommentText } : comment
+        )
+      );
 
-    setReplies({ ...replies, [commentId]: "" });
+      setEditingCommentId(null);
+      setEditedCommentText("");
+    } catch (err) {
+      console.error("Error updating comment:", err);
+    }
   };
 
-  // Toggle reply section
-  const toggleReplies = (commentId) => {
-    setOpenReplies((prev) => ({
-      ...prev,
-      [commentId]: !prev[commentId],
-    }));
-  };
-
-  // Delete comment
+  // Handle Deleting a Comment
   const handleDeleteComment = async (commentId) => {
-    await axios.delete(`/api/posts/${id}/comments/${commentId}`);
-    setComments((prev) => prev.filter((c) => c._id !== commentId));
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(`${API_URL}/api/comments/${id}/comments/${commentId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      setComments(comments.filter((comment) => comment._id !== commentId));
+    } catch (err) {
+      console.error("Error deleting comment:", err);
+    }
   };
 
-  // Delete reply
+  // Handle Adding a Reply
+  const handleAddReply = async (commentId) => {
+    if (!replyText[commentId]?.trim()) return;
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        `${API_URL}/api/comments/${id}/comments/${commentId}/reply`,
+        { text: replyText[commentId] },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      setComments(
+        comments.map((comment) =>
+          comment._id === commentId
+            ? { ...comment, replies: [...comment.replies, { ...response.data.reply, author: { _id: user._id, username: user.username } }] }
+            : comment
+        )
+      );
+
+      setReplyText({ ...replyText, [commentId]: "" });
+    } catch (err) {
+      console.error("Error adding reply:", err);
+    }
+  };
+
+
   const handleDeleteReply = async (commentId, replyId) => {
-    await axios.delete(`/api/posts/${id}/comments/${commentId}/replies/${replyId}`);
-    setComments((prev) =>
-      prev.map((comment) =>
-        comment._id === commentId
-          ? {
-              ...comment,
-              replies: comment.replies.filter((r) => r._id !== replyId),
-            }
-          : comment
-      )
-    );
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(`${API_URL}/api/comments/${id}/comments/${commentId}/replies/${replyId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+  
+      // Remove reply from state
+      setComments(
+        comments.map((comment) =>
+          comment._id === commentId
+            ? { ...comment, replies: comment.replies.filter((reply) => reply._id !== replyId) }
+            : comment
+        )
+      );
+    } catch (err) {
+      console.error("Error deleting reply:", err);
+    }
   };
+  
 
-  if (!post) return <p>Loading...</p>;
+  
+  const handleRatePost = async (rating) => {
+    try {
+      const token = localStorage.getItem("token");
+  
+      await axios.post(
+        `${API_URL}/api/posts/${id}/rate`,
+        { rating },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+  
+      setUserRating(rating); // Save user rating locally
+  
+      // Re-fetch updated average rating from backend
+      const ratingsResponse = await axios.get(`${API_URL}/api/posts/${id}/ratings`);
+      setAverageRating(ratingsResponse.data.averageRating);
+  
+    } catch (err) {
+      console.error("Error submitting rating:", err);
+    }
+  };
+  
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p className="error-message">{error}</p>;
 
   return (
     <div className="single-post-container">
-      <Link to="/" className="back-btn">← Back to Home</Link>
-
-      <div className="single-post-header">
-        <h2>{post.title}</h2>
-      </div>
-
+      <BackArrow />
+      <h2># {post.title}</h2>
       {post.image && (
         <img src={post.image} alt="Post" className="single-post-image" />
       )}
-
-      <p className="post-timestamp">
-        Posted on: {new Date(post.createdAt).toLocaleString()}
-      </p>
-
+      
       <p>{post.content}</p>
+      <p>
+      <strong>@</strong> 
+      <Link to={`/profile/${post.author._id}`} className="profile-link">
+        {post.author.username}
+      </Link>
+    </p>
+      <p><strong>Date:</strong> {post.createdAt ? new Date(post.createdAt).toLocaleString() : "Unknown"}</p>
 
+      {user && user._id === post.author?._id && (
+        <div className="post-actions">
+          <Link to={`/edit-post/${post._id}`} className="edit-btn">Edit</Link>
+          <button onClick={handleDelete} className="delete-btn">Delete</button>
+        </div>
+      )}
+
+{post.music && (
+  <div className="music-player">
+    <audio controls src={post.music}>
+          Your browser does not support the audio element.
+        </audio>
+  </div>
+)}
+
+
+      {/* Post Rating Section (Above Comments) */}
+      <div className="post-rating">
+            <h3>
+        Post Rating:{" "}
+        <FaStar
+          color="#8a2be2"
+          size={24}
+          style={{ position: "relative", top: "3.8px" }}
+        />{" "}
+        {averageRating} / 5
+      </h3>
+        {/* Hide stars if user has already rated */}
+        {userRating === null && user ? (
+        <div className="rating-buttons">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <FaStar
+            key={star}
+            size={30}
+            color={userRating >= star ? "#8a2be2" : "lightgray"}
+            onClick={() => handleRatePost(star)}
+            style={{ cursor: "pointer", marginRight: "5px" }}
+          />
+        ))}
+      </div>
+        ) : (
+          <p>
+          You rated this post {userRating}{" "}
+          <FaStar
+            color="#8a2be2"
+            size={24}
+            style={{ position: "relative", top: "3.9px" }}
+          />
+        </p>
+        )}
+      </div>
+
+      {/* Comment Section */}
       <div className="comment-section">
         <h3>Comments</h3>
 
-        {/* New Comment Input */}
-        {user && (
-          <div className="add-comment">
-            <input
-              type="text"
-              placeholder="Add a comment..."
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-            />
-            <button onClick={handleComment}>Post</button>
-          </div>
-        )}
-
-        {/* List of Comments */}
         {comments.map((comment) => (
-          <div className="comment" key={comment._id}>
-            <p>
-              <strong>@{comment.author?.username || "Unknown"}:</strong>{" "}
-              {comment.text}
-            </p>
-            <small>
-              {comment.createdAt
-                ? new Date(comment.createdAt).toLocaleString()
-                : "Unknown Date"}
-            </small>
-
-            {user && user._id === comment.author?._id && (
-              <button onClick={() => handleDeleteComment(comment._id)}>
-                Delete
-              </button>
+          <div key={comment._id} className="comment">
+            {editingCommentId === comment._id ? (
+              <>
+                <input 
+                type="text"
+                className="edit-comment-input"
+                value={editedCommentText}
+                onChange={(e) => setEditedCommentText(e.target.value)}
+              />
+                <button onClick={() => handleEditComment(comment._id)}>Save</button>
+                <button onClick={() => setEditingCommentId(null)}>Cancel</button>
+              </>
+            ) : (
+              <>
+                <p><strong>@{comment.author?.username || "Unknown"}:</strong> {comment.text}</p>
+                <small>{comment.createdAt ? new Date(comment.createdAt).toLocaleString() : "Unknown Date"}</small>
+                {user && user._id === comment.author?._id && (
+                  <>
+                    <button onClick={() => { 
+                      setEditingCommentId(comment._id);
+                      setEditedCommentText(comment.text);
+                    }}>
+                      Edit
+                    </button>
+                    <button onClick={() => handleDeleteComment(comment._id)}>Delete</button>
+                  </>
+                )}
+              </>
             )}
 
-            {/* Reply Input */}
-            {user && (
-              <div className="reply-box">
-                <input
-                  type="text"
-                  placeholder="Write a reply..."
-                  value={replies[comment._id] || ""}
-                  onChange={(e) =>
-                    setReplies({ ...replies, [comment._id]: e.target.value })
-                  }
-                />
-                <button onClick={() => handleReply(comment._id)}>Reply</button>
-              </div>
-            )}
+            {/* Display Replies & Add Reply Input */}
+            <div className="replies">
+              {comment.replies?.map((reply) => (
+                <div key={reply._id} className="reply">
+                  <p><strong>@{reply.author?.username || "Unknown"}:</strong> {reply.text}</p>
+                  <small>{reply.createdAt ? new Date(reply.createdAt).toLocaleString() : "Unknown Date"}</small>
+                   {/* Show Delete Button for Reply Owner Only */}
+                  {user && user._id === reply.author?._id && (
+                    <button onClick={() => handleDeleteReply(comment._id, reply._id)}>Delete</button>
+                  )}
+                </div>
+              ))}
 
-            {/* Toggle Button */}
-            {comment.replies?.length > 0 && (
-              <p
-                className="toggle-replies-btn"
-                onClick={() => toggleReplies(comment._id)}
-              >
-                {openReplies[comment._id]
-                  ? "Hide Replies"
-                  : `View Replies (${comment.replies.length})`}
-              </p>
-            )}
-
-            {/* Reply List */}
-            {openReplies[comment._id] && (
-              <div className="replies">
-                {comment.replies.map((reply) => (
-                  <div key={reply._id} className="reply">
-                    <p>
-                      <strong>@{reply.author?.username || "Unknown"}:</strong>{" "}
-                      {reply.text}
-                    </p>
-                    <small>
-                      {reply.createdAt
-                        ? new Date(reply.createdAt).toLocaleString()
-                        : "Unknown Date"}
-                    </small>
-                    {user && user._id === reply.author?._id && (
-                      <button
-                        onClick={() =>
-                          handleDeleteReply(comment._id, reply._id)
-                        }
-                      >
-                        Delete
-                      </button>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
+              {user && (
+                <div className="reply-box">
+                  <input
+                    type="text"
+                    placeholder="Write a reply..."
+                    value={replyText[comment._id] || ""}
+                    onChange={(e) =>
+                      setReplyText({ ...replyText, [comment._id]: e.target.value })
+                    }
+                  />
+                  <button onClick={() => handleAddReply(comment._id)}>Reply</button>
+                </div>
+              )}
+            </div>
           </div>
         ))}
+
+        {/* Add Comment Input */}
+{user ? (
+  <div className="add-comment">
+    <input
+      type="text"
+      placeholder="Write a comment..."
+      value={newComment}
+      onChange={(e) => setNewComment(e.target.value)}
+    />
+    <button onClick={handleAddComment}>Comment</button>
+  </div>
+) : (
+  <p>Please <Link to="/login">login</Link> to comment.</p>
+)}
+
+        {message && <p className="success-message">{message}</p>}
       </div>
+      <BottomNav />
     </div>
   );
-};
+}
 
 export default SinglePost;
