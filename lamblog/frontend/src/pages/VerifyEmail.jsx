@@ -1,11 +1,13 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 function VerifyEmail() {
-  const [email, setEmail] = useState("");
+  const location = useLocation();
+  const email = location.state?.email || "";
   const [code, setCode] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -35,13 +37,6 @@ function VerifyEmail() {
       
       <h2>Email Verification</h2>
       <form onSubmit={handleVerify}>
-        <input
-          type="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
         <input
           type="text"
           placeholder="Enter verification code"
