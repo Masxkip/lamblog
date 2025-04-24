@@ -2403,3 +2403,20 @@ html, body {
   color: whitesmoke;
 }
 
+
+.toggle-replies-btn {
+  color: #bbb;
+  cursor: pointer;
+  font-size: 0.95em;
+  margin-top: 8px;
+  margin-left: 5px;
+  display: inline-block;
+  transition: color 0.2s ease;
+}
+
+.toggle-replies-btn:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+
