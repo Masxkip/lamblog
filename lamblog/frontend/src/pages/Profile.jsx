@@ -54,7 +54,13 @@ function Profile() {
     <div className="profile-container">
       <BackArrow />
       
+      <div className="profile-header">
       <h2>{user.username}'s Profile</h2>
+      
+      {user.isSubscriber && (
+        <span className="subscriber-badge">SLXXK Premium</span>
+      )}
+    </div>
 
       {/* Fix Profile Picture Loading */}
       {user.profilePicture ? (
@@ -89,6 +95,18 @@ function Profile() {
     <button onClick={handleLogout} className="profile-btn">
       Logout
     </button>
+
+    {/* ✅ Update Payment Method Button */}
+    {user.isSubscriber && user.paystackCustomerCode && (
+      <a
+        href={`https://paystack.com/pay/${user.paystackCustomerCode}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="payment-method-btn"
+      >
+        Update Payment Method
+      </a>
+    )}
   </>
 )}
 
