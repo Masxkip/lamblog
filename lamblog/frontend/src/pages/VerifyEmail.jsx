@@ -65,8 +65,6 @@ function VerifyEmail() {
     Resend Code
   </button>
 </p>
-
-
       </form>
 
       {message && <p className="success-message">{message}</p>}

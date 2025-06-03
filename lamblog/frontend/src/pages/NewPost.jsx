@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import BottomNav from "../components/BottomNav";
 import BackArrow from "../components/BackArrow";
@@ -18,6 +18,7 @@ function NewPost() {
   const [category, setCategory] = useState("");
   const [customCategory, setCustomCategory] = useState(""); 
   const [message, setMessage] = useState("");
+  const [isPremium, setIsPremium] = useState(false);
 
   const categories = ["Technology", "Health", "Lifestyle", "Education", "Business", "Other"];
 
@@ -47,6 +48,7 @@ function NewPost() {
     formData.append("content", content);
     formData.append("author", user._id);
     formData.append("category", finalCategory);
+    formData.append("isPremium", isPremium);
     if (image) formData.append("image", image);
     if (music) formData.append("music", music);
 
@@ -110,6 +112,33 @@ function NewPost() {
           </div>
         )}
 
+         {/* Premium Post Toggle */}
+        {user.isSubscriber ? (
+          <div className="file-upload-section">
+            <label>
+              <input
+                type="checkbox"
+                checked={isPremium}
+                onChange={(e) => setIsPremium(e.target.checked)}
+              />
+              Mark this post as Premium
+            </label>
+          </div>
+        ) : (
+          <div className="file-upload-section">
+            <label>
+              <input type="checkbox" disabled />
+              Mark this post as Premium
+            </label>
+            <p className="subscribe-notice">
+              🔒 Subscribe to unlock premium posting and reach wider audiences.
+              <Link to="/subscribe">
+                <button className="subscribe-btn">Subscribe Now</button>
+              </Link>
+            </p>
+          </div>
+        )}
+
         {/* Image Upload */}
         <div className="file-upload-section">
           <label>📷 Add an Image:</label>
@@ -117,10 +146,21 @@ function NewPost() {
         </div>
 
         {/* Music Upload */}
-        <div className="file-upload-section">
-          <label>🎵 Add Music:</label>
-          <input type="file" accept="audio/*" onChange={(e) => setMusic(e.target.files[0])} />
-        </div>
+        {user.isSubscriber ? (
+          <div className="file-upload-section">
+            <label>🎵 Add Music:</label>
+            <input type="file" accept="audio/*" onChange={(e) => setMusic(e.target.files[0])} />
+          </div>
+        ) : (
+          <div className="file-upload-section">
+            <label>🎵 Add Music:</label>
+            <input type="file" disabled />
+            <p className="subscribe-notice">Subscribe to upload music 🎶</p>
+            <Link to="/subscribe">
+              <button className="subscribe-btn">Subscribe Now</button>
+            </Link>
+          </div>
+        )}
 
         <button type="submit">Publish</button>
       </form>

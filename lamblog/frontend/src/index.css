@@ -2360,9 +2360,6 @@ html, body {
 
 
 
-
-
-
 .category-header-row {
   display: flex;
   align-items: center;
@@ -2405,3 +2402,55 @@ html, body {
 
 
 
+subscriber-tag {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+  background-color: #ffcc00;
+  color: #000;
+}
+
+
+.download-music-btn {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.subscribe-download-notice {
+  margin-top: 10px;
+  background: #ffeeba;
+  padding: 10px;
+  border-radius: 5px;
+  color: #856404;
+}
+
+
+.premium-overlay {
+  position: relative;
+  background: rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border: 1px dashed #888;
+  margin-top: 10px;
+}
+
+.blurred-content {
+  filter: blur(2px);
+  color: #888;
+}
+
+.locked-banner {
+  background: #f9c74f;
+  color: #000;
+  padding: 5px 10px;
+  margin-top: 10px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 6px;
+}

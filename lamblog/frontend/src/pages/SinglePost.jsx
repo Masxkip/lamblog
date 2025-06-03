@@ -14,6 +14,7 @@ function SinglePost() {
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [authorized, setAuthorized] = useState(false);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [replyText, setReplyText] = useState({});
@@ -68,20 +69,34 @@ const [error, setError] = useState(null);
   }, [id, user]);
 
 
-  useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const response = await axios.get(`${API_URL}/api/posts/${id}`);
-        setPost(response.data);
-      } catch (err) {
-        setError(`Error: ${err.message || "Failed to fetch post. Please try again later."}`);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchPost();
-  }, [id]);
-  
+    // Fetch post
+    useEffect(() => {
+      const fetchPost = async () => {
+        try {
+          const response = await axios.get(`${API_URL}/api/posts/${id}`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          });
+          const fetchedPost = response.data;
+
+          // Redirect if it's premium and user is not subscribed
+          if (fetchedPost.isPremium && (!user || !user.isSubscriber)) {
+            navigate("/subscribe");
+            return; // ❌ Don't continue
+          }
+
+          setPost(fetchedPost);
+          setAuthorized(true); // ✅ Allow render only after all checks
+        } catch {
+          setError("Error fetching post");
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchPost();
+    }, [id, user, navigate]);
+      
 
   // Handle Deleting a Post
   const handleDelete = async () => {
@@ -231,8 +246,9 @@ const [error, setError] = useState(null);
     }
   };
   
-  if (loading) return <p>Loading...</p>;
+  if (loading || !authorized) return null;
   if (error) return <p className="error-message">{error}</p>;
+
 
   return (
     <div className="single-post-container">
@@ -258,13 +274,33 @@ const [error, setError] = useState(null);
         </div>
       )}
 
-{post.music && (
-  <div className="music-player">
-    <audio controls src={post.music}>
+{post.music && user && (
+  <>
+    {user.isSubscriber ? (
+      <div className="music-player">
+        <audio controls src={post.music}>
           Your browser does not support the audio element.
         </audio>
-  </div>
+        <a
+          href={`${API_URL}/api/posts/download-music/${post._id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <button className="download-music-btn">⬇️ Download Music</button>
+        </a>
+      </div>
+    ) : (
+      <div className="subscribe-download-notice">
+        <p>🎶 This post includes audio content. Subscribe to listen & download.</p>
+        <Link to="/subscribe">
+          <button className="subscribe-btn">Subscribe Now</button>
+        </Link>
+      </div>
+    )}
+  </>
 )}
+
+
 
 
       {/* Post Rating Section (Above Comments) */}
