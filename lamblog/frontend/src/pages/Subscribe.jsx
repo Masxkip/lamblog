@@ -23,7 +23,7 @@ const Subscribe = () => {
 
   const initializePayment = usePaystackPayment(config);
 
-  // ✅ Prevent rendering if user not user is online
+  // ✅ Prevent rendering if 
   if (!user) {
     return (
       <div style={styles.container}>
