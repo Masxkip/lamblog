@@ -80,15 +80,6 @@ function Profile() {
         )}
       </p>
 
-
-            {/* Subscription Status Badge */}
-        {user.isSubscriber ? (
-          <span className="subscriber-tag">✅ Subscriber</span>
-        ) : (
-          <span className="subscriber-tag">🚫 Not Subscribed</span>
-        )}
-
-
             {/* Edit & Logout Buttons */}
 {loggedInUser && loggedInUser._id === user._id && (
   <>
