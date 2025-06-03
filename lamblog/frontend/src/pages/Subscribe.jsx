@@ -31,6 +31,7 @@ const Subscribe = () => {
 
   const verifyPayment = async (reference) => {
     try {
+        console.log("Paystack Key:", import.meta.env.VITE_PAYSTACK_PUBLIC_KEY);
       const res = await axios.post(
         `${API_URL}/users/verify-subscription`,
         { reference },
