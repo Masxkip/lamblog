@@ -154,13 +154,18 @@ function Home() {
       </main>
 
       {/* Subscription Section */}
-      <aside className="subscription-section">
-        <h2>Subscribe for SLXXK Premium Content</h2>
-        <p>Unlock exclusive posts and features by subscribing.</p>
+    <aside className="subscription-section">
+      <h2>Subscribe for SLXXK Premium Content</h2>
+      <p>Unlock exclusive posts and features by subscribing.</p>
+
+      {/* ✅ Working Subscribe Button */}
+      <Link to="/subscribe">
         <button className="subscribe-btn">Subscribe</button>
-        <br /> <br /> <br />
-        <h2># Subscription Button Doesn't Work, Due to Prop Maintenance.</h2>
-      </aside>
+      </Link>
+
+      <br /> <br /> <br />
+      <h2># Subscription Button Doesn't Work, Due to Prop Maintenance.</h2>
+   </aside>
 
       <BottomNav />
      

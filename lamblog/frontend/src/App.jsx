@@ -14,6 +14,7 @@ import ProtectedRoute from "./context/ProtectedRoute";
 import VerifyEmail from "./pages/VerifyEmail";
 import AllCategories from "./pages/AllCategories";
 import CategoryPosts from "./pages/CategoryPosts";
+import Subscribe from "./pages/Subscribe";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -47,6 +48,12 @@ function App() {
           path="/edit-profile/:id" 
           element={<ProtectedRoute><EditProfile /></ProtectedRoute>} 
         />
+        
+        <Route 
+          path="/subscribe" 
+          element={<ProtectedRoute><Subscribe /></ProtectedRoute>} 
+        />
+        
         <Route 
           path="/new-post" 
           element={<ProtectedRoute><NewPost /></ProtectedRoute>} 
