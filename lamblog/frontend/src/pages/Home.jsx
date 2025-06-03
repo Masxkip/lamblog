@@ -17,7 +17,7 @@ function Home() {
   const [categories, setCategories] = useState([]);
   const [trendingPosts, setTrendingPosts] = useState([]);
 
-  // Fetch posts
+  // Fetch
   const fetchPosts = useCallback(async () => {
     setLoading(true);
     try {
