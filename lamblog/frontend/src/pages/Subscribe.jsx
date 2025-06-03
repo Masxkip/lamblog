@@ -16,7 +16,6 @@ const Subscribe = () => {
   const config = {
     reference: new Date().getTime().toString(),
     email: defaultEmail,
-    amount: 50000, // in kobo (₦2000)
     publicKey: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
     plan: "PLN_jpid681yvrnqut2", // ✅ Replace with your real Paystack plan code
   };
