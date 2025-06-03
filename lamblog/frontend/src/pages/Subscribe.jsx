@@ -1,28 +1,54 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { usePaystackPayment } from "react-paystack";
 import AuthContext from "../context/AuthContext";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 const Subscribe = () => {
-  const { user, updateUserProfile } = useContext(AuthContext); // ✅ using updateUserProfile
+  const { user, updateUserProfile } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // ✅ Prevent crash: fallback email if user is null
   const defaultEmail = user?.email || "placeholder@example.com";
 
-  const config = {
-    reference: new Date().getTime().toString(),
-    email: defaultEmail,
-    publicKey: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
-    plan: "PLN_jpid681yvrnqut2", // ✅ Replace with your real Paystack plan code
+  const handlePaystack = () => {
+    const handler = window.PaystackPop.setup({
+      key: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY, // ✅ your public key
+      email: defaultEmail,
+      plan: "PLN_jpid681yvrnqut2", // ✅ Plan for subscriptions
+      ref: new Date().getTime().toString(),
+      callback: function (response) {
+        // ✅ On success
+        verifyPayment(response.reference);
+      },
+      onClose: function () {
+        alert("Transaction was not completed.");
+      },
+    });
+
+    handler.openIframe();
   };
 
-  const initializePayment = usePaystackPayment(config);
+  const verifyPayment = async (reference) => {
+    try {
+      const res = await axios.post(
+        `${API_URL}/users/verify-subscription`,
+        { reference },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      updateUserProfile(res.data.user);
+      alert("🎉 Subscription verified & activated!");
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+      alert("Payment succeeded but verification failed.");
+    }
+  };
 
-  // ✅ Prevent rendering if 
   if (!user) {
     return (
       <div style={styles.container}>
@@ -31,36 +57,13 @@ const Subscribe = () => {
     );
   }
 
-  const onSuccess = async (reference) => {
-    try {
-      const res = await axios.post(
-        `${API_URL}/users/verify-subscription`,
-        { reference: reference.reference },
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
-
-      updateUserProfile(res.data.user); // ✅ update user context
-      alert("🎉 Subscription verified & activated!");
-      navigate("/");
-    } catch (error) {
-      console.error(error);
-      alert("Payment succeeded but subscription verification failed.");
-    }
-  };
-
-  const onClose = () => {
-    alert("Transaction was not completed.");
-  };
-
   return (
-    <div className="subscribe-page" style={styles.container}>
+    <div style={styles.container}>
       <h1 style={styles.title}>🔒 Subscribe for Premium Access</h1>
       <p style={styles.description}>
         Get instant access to music downloads, exclusive posts, and real-time content.
       </p>
-      <button style={styles.button} onClick={() => initializePayment(onSuccess, onClose)}>
+      <button style={styles.button} onClick={handlePaystack}>
         Subscribe Now
       </button>
     </div>
