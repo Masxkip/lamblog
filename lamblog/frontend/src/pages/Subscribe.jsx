@@ -9,20 +9,17 @@ const Subscribe = () => {
   const { user, updateUserProfile } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const defaultEmail = user?.email || "placeholder@example.com";
-
   const handlePaystack = () => {
     const handler = window.PaystackPop.setup({
-      key: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY, // ✅ Must be valid pk_live_xxx
-      email: defaultEmail,
-      ref: new Date().getTime().toString(), // Unique transaction reference
-      plan: "PLN_jpid681yvrnqut2", // ✅ Subscription plan code
+      key: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY, // Must be pk_live_xxx
+      email: user.email,
+      plan: "PLN_jpid681yvrnqut2", // ✅ Your active plan
+      ref: new Date().getTime().toString(), // Unique transaction ref
       callback: function (response) {
-        // ✅ Successful payment - verify with backend
         verifyPayment(response.reference);
       },
       onClose: function () {
-        alert("Transaction was not completed.");
+        alert("Transaction was cancelled.");
       },
     });
 
@@ -31,7 +28,6 @@ const Subscribe = () => {
 
   const verifyPayment = async (reference) => {
     try {
-        console.log("Paystack Key:", import.meta.env.VITE_PAYSTACK_PUBLIC_KEY);
       const res = await axios.post(
         `${API_URL}/users/verify-subscription`,
         { reference },
@@ -42,22 +38,18 @@ const Subscribe = () => {
         }
       );
       updateUserProfile(res.data.user);
-      alert("🎉 Subscription verified & activated!");
+      alert("🎉 Subscription activated!");
       navigate("/");
     } catch (error) {
       console.error(error);
-      alert("Payment succeeded but verification failed.");
+      alert("Payment succeeded, but verification failed.");
     }
   };
 
-  if (!user) {
-    return <div>Please log in to subscribe.</div>;
-  }
-
   return (
     <div>
-      <h2>Subscribe for Premium</h2>
-      <p>Get access to exclusive content and features.</p>
+      <h2>Subscribe to Premium</h2>
+      <p>Full blog access for ₦500/month.</p>
       <button onClick={handlePaystack}>Subscribe Now</button>
     </div>
   );
