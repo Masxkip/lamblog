@@ -13,12 +13,12 @@ const Subscribe = () => {
 
   const handlePaystack = () => {
     const handler = window.PaystackPop.setup({
-      key: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY, // ✅ your public key
+      key: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY, // ✅ Must be valid pk_live_xxx
       email: defaultEmail,
-      plan: "PLN_jpid681yvrnqut2", // ✅ Plan for subscriptions
-      ref: new Date().getTime().toString(),
+      ref: new Date().getTime().toString(), // Unique transaction reference
+      plan: "PLN_jpid681yvrnqut2", // ✅ Subscription plan code
       callback: function (response) {
-        // ✅ On success
+        // ✅ Successful payment - verify with backend
         verifyPayment(response.reference);
       },
       onClose: function () {
@@ -50,50 +50,16 @@ const Subscribe = () => {
   };
 
   if (!user) {
-    return (
-      <div style={styles.container}>
-        <h2>Please log in to subscribe.</h2>
-      </div>
-    );
+    return <div>Please log in to subscribe.</div>;
   }
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>🔒 Subscribe for Premium Access</h1>
-      <p style={styles.description}>
-        Get instant access to music downloads, exclusive posts, and real-time content.
-      </p>
-      <button style={styles.button} onClick={handlePaystack}>
-        Subscribe Now
-      </button>
+    <div>
+      <h2>Subscribe for Premium</h2>
+      <p>Get access to exclusive content and features.</p>
+      <button onClick={handlePaystack}>Subscribe Now</button>
     </div>
   );
-};
-
-const styles = {
-  container: {
-    maxWidth: "600px",
-    margin: "auto",
-    textAlign: "center",
-    padding: "50px",
-  },
-  title: {
-    fontSize: "2rem",
-    marginBottom: "20px",
-  },
-  description: {
-    fontSize: "1rem",
-    marginBottom: "30px",
-  },
-  button: {
-    padding: "10px 20px",
-    fontSize: "1rem",
-    borderRadius: "8px",
-    backgroundColor: "#007bff",
-    color: "#fff",
-    border: "none",
-    cursor: "pointer",
-  },
 };
 
 export default Subscribe;
