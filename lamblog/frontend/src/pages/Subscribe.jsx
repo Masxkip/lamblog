@@ -16,7 +16,7 @@ const Subscribe = () => {
     email: email,
     amount: 10000, // ₦500 in kobo
     publicKey: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
-    plan: "PLN_jpid681yvrnqut2", // your Paystack plan code
+    plan: "PLN_jpid681yvrnqut2",
     channels: ["card"]
   };
 

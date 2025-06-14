@@ -74,6 +74,11 @@ function Home() {
   return (
     <div className="home-layout">
       
+      {user?.isSubscriber && (
+     <div className="subscription-banner">
+      🎉 You’re subscribed to premium features!
+     </div>
+     )}
       {/* Sidebar */}
       <aside className="sidebar">
       <CategoryDropdown
