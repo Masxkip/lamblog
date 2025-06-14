@@ -11,7 +11,7 @@ function AllCategories() {
   const [searchTerm, setSearchTerm] = useState("");
   const [trendingPosts, setTrendingPosts] = useState([]);
 
-  // Fetch all posts
+  // Fetch all posts......
   useEffect(() => {
     const fetchPosts = async () => {
       const res = await axios.get(`${API_URL}/api/posts`);
