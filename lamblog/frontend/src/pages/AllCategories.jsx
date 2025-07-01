@@ -10,12 +10,19 @@ function AllCategories() {
   const [posts, setPosts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [trendingPosts, setTrendingPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // Fetch all posts......
   useEffect(() => {
     const fetchPosts = async () => {
+      try {
       const res = await axios.get(`${API_URL}/api/posts`);
       setPosts(res.data);
+      } catch (err) {
+      console.error("Failed to fetch posts", err);
+    } finally {
+      setLoading(false); // ✅ Done loading
+    }
     };
     fetchPosts();
   }, []);
@@ -69,7 +76,16 @@ sortedPosts.forEach(post => {
       <BackArrow />
 
       {/* Category Sections with Trending Inserted After 2nd */}
-      {categoryEntries.map(([category, posts], index) => (
+{loading ? (
+  <div className="loading-posts-message">
+    <p>Loading posts...</p>
+  </div>
+) : categoryEntries.length === 0 ? (
+  <div className="no-posts-message">
+    <p>No posts available for your search.</p>
+  </div>
+) : (
+  categoryEntries.map(([category, posts], index) => (
         <React.Fragment key={category}>
           <section className="category-block">
             <h2 className="category-title">#{category}</h2>
@@ -124,7 +140,8 @@ sortedPosts.forEach(post => {
             </div>
           )}
         </React.Fragment>
-      ))}
+      ))
+    )}
       <BottomNav />
     </div>
   );
