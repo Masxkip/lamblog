@@ -128,9 +128,13 @@ function Home() {
 
         <h2># SLXXK'S Latest!</h2>
         {loading ? (
+          <div className="no-posts-message">
           <p>Loading posts...</p>
+          </div>
         ) : posts.length === 0 ? (
-          <p>No posts available.</p>
+          <div className="no-posts-message">
+            <p>No posts available for your search.</p>
+          </div>
         ) : (
           <div className="posts-grid">
             {posts.map((post) => (

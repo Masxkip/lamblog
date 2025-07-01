@@ -76,16 +76,16 @@ sortedPosts.forEach(post => {
       <BackArrow />
 
       {/* Category Se with Trending Inserted After 2nd */}
-{loading ? (
-  <div className="loading-posts-message">
-    <p>Loading posts...</p>
-  </div>
-) : categoryEntries.length === 0 ? (
-  <div className="no-posts-message">
-    <p>No posts available for your search.</p>
-  </div>
-) : (
-  categoryEntries.map(([category, posts], index) => (
+        {loading ? (
+          <div className="loading-posts-message">
+            <p>Loading posts...</p>
+          </div>
+        ) : categoryEntries.length === 0 ? (
+          <div className="no-posts-message">
+            <p>No posts available for your search.</p>
+          </div>
+        ) : (
+          categoryEntries.map(([category, posts], index) => (
         <React.Fragment key={category}>
           <section className="category-block">
             <h2 className="category-title">#{category}</h2>
