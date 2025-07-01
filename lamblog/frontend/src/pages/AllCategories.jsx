@@ -75,7 +75,7 @@ sortedPosts.forEach(post => {
 
       <BackArrow />
 
-      {/* Category Sections with Trending Inserted After 2nd */}
+      {/* Category Se with Trending Inserted After 2nd */}
 {loading ? (
   <div className="loading-posts-message">
     <p>Loading posts...</p>
