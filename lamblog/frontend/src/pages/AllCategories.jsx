@@ -22,7 +22,7 @@ function AllCategories() {
       console.error("Failed to fetch posts", err);
     } finally {
       setLoading(false); // ✅ Done loading
-    }
+     }
     };
     fetchPosts();
   }, []);
