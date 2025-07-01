@@ -4,6 +4,7 @@ import axios from "axios";
 import AuthContext from "../context/AuthContext";
 import BottomNav from "../components/BottomNav";
 import BackArrow from "../components/BackArrow";
+import LoadingButton from "../components/LoadingButton";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -17,6 +18,7 @@ function EditProfile() {
   const [website, setWebsite] = useState("");
   const [profilePic, setProfilePic] = useState(null);
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setUsername(user?.username || "");
@@ -32,6 +34,8 @@ function EditProfile() {
       setMessage("Unauthorized: No token found.");
       return;
     }
+
+    setLoading(true); // 🔥 Start loading
 
     const formData = new FormData();
     formData.append("username", username);
@@ -60,6 +64,9 @@ function EditProfile() {
       console.error("Error updating profile:", err);
       setMessage(err.response?.data?.message || "Profile update failed.");
     }
+     finally {
+    setLoading(false); // 🔥 End loading
+  }
   };
 
   return (
@@ -74,7 +81,9 @@ function EditProfile() {
         <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Location" />
         <input type="text" value={website} onChange={(e) => setWebsite(e.target.value)} placeholder="Website" />
         <input type="file" onChange={(e) => setProfilePic(e.target.files[0])} />
-        <button type="submit">Save Changes</button>
+        <LoadingButton isLoading={loading} type="submit">
+          Save Changes
+        </LoadingButton>
       </form>
       <BottomNav />
     </div>
