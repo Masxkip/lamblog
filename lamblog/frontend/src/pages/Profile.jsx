@@ -137,12 +137,14 @@ export default function Profile() {
           )}
 
           <div className="header-details">
-            <div className="username-row">
-              <h2 className="username">{user.username}</h2>
-              {user.isSubscriber && (
-                <span className="subscriber-badge">SLXXK Premium</span>
-              )}
-            </div>
+          <div className="username-row">
+            <h2 className="username">{user.username}</h2>
+            {user.isSubscriber ? (
+              <span className="subscriber-badge pill premium">SLXXK Premium</span>
+            ) : (
+              <span className="subscriber-badge pill free">Free User</span>
+            )}
+          </div>
             <p className="handle">@{user.username?.toLowerCase()}</p>
             <p className="meta">Joined {new Date(user.createdAt).toLocaleDateString()}</p>
           </div>

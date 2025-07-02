@@ -202,6 +202,29 @@ body {
 .secondary { background: #6a1bbd; color: var(--clr-text); }
 .update-payment { background: #6a1bbd; color: var(--clr-text); display: inline-block; margin-top: 0.5rem; }
 
+.pill {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-left: 8px;
+  white-space: nowrap;
+}
+
+.premium {
+  background-color: gold;
+  color: #111;
+  border: 1px solid #daa520;
+}
+
+.free {
+  background-color: #eee;
+  color: #666;
+  border: 1px solid #ccc;
+}
+
+
 /* ---------- BIO ---------- */
 .bio-section { margin: 1rem 0; }
 
