@@ -186,9 +186,6 @@ function Home() {
       <Link to="/subscribe">
         <button className="subscribe-btn">Subscribe</button>
       </Link>
-
-      <br /> <br /> <br />
-      <h2># Subscription Button Doesn't Work, Due to Prop Maintenance.</h2>
    </aside>
 
       <BottomNav />
