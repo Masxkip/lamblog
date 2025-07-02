@@ -348,3 +348,11 @@ function SinglePost() {
 export default SinglePost;
 
 
+
+
+
+
+
+
+
+Chat. Let's style this profile.jsx just as the pictures I shared with you. 1) You see the red line that top profile pic, we'll leave that out I don't have that in my project. But the rest of the how the circle profile picture is styled and the context underneath style it the same as the first pic. 2) In the second pic, you see the post, replies highlights, let's style it the same that when the user clicks on posts it displays the post and when users click on replies it displays replies. I have comments, posts, replies and ratings. 3) You see how the and where the edit profile is located, style it the same and put the logout button under it. 4) the split screen also split the screen. make the profile dashboard side 70% and for the remaining 30% will be space for premium posts and trending posts displays. How do you suggest we start let's take it one step at a time. I'll share the profile.jsx now and we'll start.

@@ -20,11 +20,9 @@ function Profile() {
   const [ratings, setRatings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [activeTab, setActiveTab] = useState("Posts");
+  const tabs = ["Posts", "Comments", "Replies", "Ratings"];
 
-  const handleLogout = () => {
-    logout();
-    navigate("/");
-  };
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -36,154 +34,196 @@ function Profile() {
         setReplies(response.data.replies || []);
         setRatings(response.data.ratings || []);
         setLoading(false);
-      } catch (err) {
-        console.error("Error fetching profile:", err);
+     } catch (err) {
+        console.error(err);
         setError("Error fetching profile. Please try again.");
+      } finally {
         setLoading(false);
       }
     };
-
     fetchUserProfile();
   }, [id]);
 
-  if (loading) return <p>Loading profile...</p>;
-  if (error) return <p className="error-message">{error}</p>;
-  if (!user) return <p>User not found.</p>;
+   const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
+  /* ---------------- RENDER HELPERS ---------------- */
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case "Posts":
+        return posts.length
+          ? posts.map(p => (
+              <Link to={`/post/${p._id}`} key={p._id} className="card-link">
+                <article className="content-card">
+                  <h4>{p.title}</h4>
+                  <p>{p.content.slice(0, 120)}…</p>
+                  <span className="meta">
+                    {new Date(p.createdAt).toLocaleString()}
+                  </span>
+                </article>
+              </Link>
+            ))
+          : <p className="empty">No posts yet.</p>;
+
+      case "Comments":
+        return comments.length
+          ? comments.map(c => (
+              <Link to={`/post/${c.postId}`} key={c._id} className="card-link">
+                <article className="content-card">
+                  <p><strong>On:</strong> {c.postTitle}</p>
+                  <p>{c.commentText}</p>
+                  <span className="meta">
+                    {new Date(c.createdAt).toLocaleString()}
+                  </span>
+                </article>
+              </Link>
+            ))
+          : <p className="empty">No comments yet.</p>;
+
+      case "Replies":
+        return replies.length
+          ? replies.map(r => (
+              <Link to={`/post/${r.postId}`} key={r._id} className="card-link">
+                <article className="content-card">
+                  <p><strong>On:</strong> {r.postTitle}</p>
+                  <p><em>Replying to:</em> {r.commentText}</p>
+                  <p>{r.replyText}</p>
+                  <span className="meta">
+                    {new Date(r.createdAt).toLocaleString()}
+                  </span>
+                </article>
+              </Link>
+            ))
+          : <p className="empty">No replies yet.</p>;
+
+      case "Ratings":
+        return ratings.length
+          ? ratings.map(rt => (
+              <Link to={`/post/${rt.postId}`} key={rt._id} className="card-link">
+                <article className="content-card">
+                  <p><strong>On:</strong> {rt.postTitle}</p>
+                  <p>⭐ {rt.ratingValue} / 5</p>
+                </article>
+              </Link>
+            ))
+          : <p className="empty">No ratings yet.</p>;
+
+      default:
+        return null;
+    }
+  };
+
+  /* ---------------- RENDER ---------------- */
+  if (loading) return <p className="loading">Loading profile…</p>;
+  if (error)   return <p className="error-message">{error}</p>;
+  if (!user)   return <p className="error-message">User not found.</p>;
 
   return (
-    <div className="profile-container">
-      <BackArrow />
+    <div className="profile-wrapper">
+      {/* -------- Left 70% -------- */}
+      <main className="profile-main">
+
+        {/* Banner strip (just a dark bar) */}
+        <div className="profile-banner" />
+
+        {/* ---- HEADER ---- */}
+        <header className="profile-header">
+          {user.profilePicture ? (
+            <img src={user.profilePicture} alt="profile" className="avatar" />
+          ) : (
+            <UserCircle className="avatar default" strokeWidth={1} />
+          )}
+
+          <div className="header-details">
+            <div className="username-row">
+              <h2 className="username">{user.username}</h2>
+              {user.isSubscriber && (
+                <span className="subscriber-badge">SLXXK Premium</span>
+              )}
+            </div>
+            <p className="handle">@{user.username?.toLowerCase()}</p>
+            <p className="meta">Joined {new Date(user.createdAt).toLocaleDateString()}</p>
+          </div>
+
       
-      <div className="profile-header">
-      <h2>{user.username}'s Profile</h2>
-      
-      {user.isSubscriber && (
-        <span className="subscriber-badge">SLXXK Premium</span>
-      )}
-    </div>
+        </header>
 
-      {/* Fix Profile Picture Loading */}
-      {user.profilePicture ? (
-        <img 
-        src={user.profilePicture}
-        alt="Profile" 
-        className="profile-pic" 
-      />
-      ) : (
-        <UserCircle className="default-profile-icon" size={50} />
-      )}
-
-
-      <p><strong>Email:</strong> {user.email}</p>
-      <p><strong>Bio:</strong> {user.bio || "No bio available."}</p>
-      <p><strong>Location:</strong> {user.location || "Not set"}</p>
-      <p>
-        <strong>Website:</strong> 
-        {user.website ? (
-          <a href={user.website} target="_blank" rel="noopener noreferrer">{user.website}</a>
-        ) : (
-          "Not set"
-        )}
-      </p>
-
-            {/* Edit & Logout Buttons */}
-{loggedInUser && loggedInUser._id === user._id && (
-  <>
-    <button onClick={() => navigate(`/edit-profile/${user._id}`)} className="profile-btn">
-      Edit Profile
-    </button>
-    <button onClick={handleLogout} className="profile-btn">
-      Logout
-    </button>
-
-    {/* ✅ Update Payment Method Button */}
-    {user.isSubscriber && user.paystackCustomerCode && (
+        {/* ---- BIO / LINKS ---- */}
+        <section className="bio-section">
+          {user.bio && <p>{user.bio}</p>}
+         <div className="profile-links-row">
+  <div className="profile-links">
+    {user.location && <p className="meta">📍 {user.location}</p>}
+    {user.website && (
       <a
-        href={`https://paystack.com/pay/${user.paystackCustomerCode}`}
+        href={user.website}
         target="_blank"
         rel="noopener noreferrer"
-        className="payment-method-btn"
+        className="website-link"
       >
-        Update Payment Method
+        {user.website.replace(/^https?:\/\//, "")}
       </a>
     )}
-  </>
-)}
-
-      
-           {/* User’s Posts */}
-<h3>Posts by {user.username}</h3>
-{posts.length > 0 ? (
-  <div className="profile-section">
-    {posts.map(post => (
-      <Link to={`/post/${post._id}`} key={post._id} className="user-post-link">
-        <div className="user-post">
-          <h4>{post.title}</h4>
-          <p>{post.content.substring(0, 100)}...</p>
-          <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
-        </div>
-      </Link>
-    ))}
   </div>
-) : (
-  <p>No posts yet.</p>
-)}
 
-      {/* Comments by the User */}
-<h3>Comments by {user.username}</h3>
-{comments.length > 0 ? (
-  <div className="profile-section">
-    {comments.map(comment => (
-      <Link to={`/post/${comment.postId}`} key={comment.postId} className="user-comment-link">
-        <div className="user-comment">
-          <p><strong>On Post:</strong> {comment.postTitle}</p>
-          <p>{comment.commentText}</p>
-          <small>{new Date(comment.createdAt).toLocaleString()}</small>
+  {loggedInUser && loggedInUser._id === user._id && (
+    <div className="btn-group">
+      <button onClick={() => navigate(`/edit-profile/${user._id}`)} className="pill primary">
+        Edit profile
+      </button>
+      <button onClick={handleLogout} className="pill secondary">
+        Logout
+      </button>
+    </div>
+  )}
+</div>
+
+
+          {loggedInUser && loggedInUser._id === user._id && user.isSubscriber && (
+            <a
+              href={`https://paystack.com/pay/${user.paystackCustomerCode}`}
+              className="pill update-payment"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Update payment method
+            </a>
+          )}
+        </section>
+
+        {/* ---- TAB NAV ---- */}
+        <nav className="tabs">
+          {tabs.map(t => (
+            <button
+              key={t}
+              className={`tab-item ${activeTab === t ? "active" : ""}`}
+              onClick={() => setActiveTab(t)}
+            >
+              {t}
+            </button>
+          ))}
+        </nav>
+
+        {/* ---- CONTENT ---- */}
+        <section className="tab-content">{renderTabContent()}</section>
+      </main>
+
+      {/* -------- Right 30% -------- */}
+      <aside className="profile-sidebar">
+        <div className="sidebar-box">
+          <h3>Premium Posts</h3>
+          <p>…coming soon…</p>
         </div>
-      </Link>
-    ))}
-  </div>
-) : (
-  <p>No comments yet.</p>
-)}
-
-
-     {/* Replies by the User */}
-<h3>Replies by {user.username}</h3>
-{replies.length > 0 ? (
-  <div className="profile-section">
-    {replies.map(reply => (
-      <Link to={`/post/${reply.postId}`} key={reply.postId} className="user-reply-link">
-        <div className="user-reply">
-          <p><strong>On Post:</strong> {reply.postTitle}</p>
-          <p><strong>Replied to:</strong> {reply.commentText}</p>
-          <p>{reply.replyText}</p>
-          <small>{new Date(reply.createdAt).toLocaleString()}</small>
+        <div className="sidebar-box">
+          <h3>Trending</h3>
+          <p>…coming soon…</p>
         </div>
-      </Link>
-    ))}
-  </div>
-) : (
-  <p>No replies yet.</p>
-)}
+      </aside>
 
-      {/* Ratings Given by the User */}
-<h3>Ratings Given by {user.username}</h3>
-{ratings.length > 0 ? (
-  <div className="profile-section">
-    {ratings.map(rating => (
-      <Link to={`/post/${rating.postId}`} key={rating.postId} className="user-rating-link">
-        <div className="user-rating">
-          <p><strong>On Post:</strong> {rating.postTitle}</p>
-          <p>Rated: ⭐ {rating.ratingValue} / 5</p>
-        </div>
-      </Link>
-    ))}
-  </div>
-) : (
-  <p>No ratings given yet.</p>
-)}
-<BottomNav />
+      {/* Bottom nav for mobile */}
+      <BottomNav />
     </div>
   );
 }

@@ -74,7 +74,6 @@ function EditProfile() {
       <br />
       <BackArrow />
       <h2>Edit Profile</h2>
-      {message && <p className="success-message">{message}</p>}
       <form onSubmit={handleEditProfile}>
         <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
         <textarea value={bio} onChange={(e) => setBio(e.target.value)} placeholder="Enter bio..." />
@@ -84,6 +83,7 @@ function EditProfile() {
         <LoadingButton isLoading={loading} type="submit">
           Save Changes
         </LoadingButton>
+        {message && <p className="success-message">{message}</p>}
       </form>
       <BottomNav />
     </div>

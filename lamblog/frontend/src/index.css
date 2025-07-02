@@ -58,182 +58,260 @@ body {
 
 
 /* ======== Profile.jsx ============================================================================= */
-/* Profile Page Styles */
-.profile-container {
-max-width: 650px;
-margin: auto;
-padding: 20px;
-margin-top: 3%;
-background: black;
-color: #ffffff;
-border-radius: 8px;
-border: 1px solid rgba(255, 255, 255, 0.2);
-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-text-align: center;
-word-wrap: break-word;
-overflow-wrap: break-word;          
-}
-
-/* Profile Picture */
-.profile-pic {
-width: 200px;
-height: 200px;
-border-radius: 50%;
-object-fit: cover;
-border: 4px solid #222;
-}
-
-.default-profile-icon {
-width: 120px;
-height: 120px;
-color: #ffffff;
-}
-
-.profile-info {
-margin-top: 10px;
-font-size: 1em;
-text-align: center;
-word-break: break-word;
-padding: 0 10px;  
-}
-
-.profile-info p {
-margin: 5px 0;
-font-size: 1.05rem;
-line-height: 1.5;
-word-break: break-word;
-}
-
-.profile-info a {
-color: whitesmoke;
-text-decoration: none;
-word-break: break-word;
-}
-
-.profile-info a:hover {
-text-decoration: underline;
-}
-
-/* Profile Actions Container */
-.profile-actions {
-display: flex;
-flex-direction: column;
-align-items: center;
-gap: 10px;
-margin-top: 15px;
-width: 100%;
-}
-
-/* Purple Buttons (Edit & Logout) */
-.profile-container .profile-btn {
-background: #6a1bbd;
-color: #fff;
-padding: 10px 16px;
-font-size: 1em;
-font-weight: bold;
-border: none;
-border-radius: 6px;
-cursor: pointer;
-transition: background 0.2s ease-in-out;
-width: 90%;
-max-width: 140px;
-text-align: center;
-margin: 0.5rem auto;
-display: block;
-}
-
-.profile-container .profile-btn:hover {
-background: #8a2be2;
-}
-
-/* Section Headings */
-.profile-container h3 {
-font-size: 1.3em;
-font-weight: bold;
-color: whitesmoke;
-margin-top: 20px;
-text-align: left;
-padding-left: 10px;
-border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-padding-bottom: 5px;
-}
-
-/* Content Sections */
-.profile-section {
-margin-top: 15px;
-}
-
-.user-post,
-.user-comment,
-.user-reply,
-.user-rating {
-padding: 12px;
-margin-top: 8px;
-background: rgba(255, 255, 255, 0.08);
-border-radius: 8px;
-border-left: 3px solid #222;
-text-align: left;
-word-break: break-word;
-}
-
-.user-post h4 a,
-.user-comment p a,
-.user-reply p a,
-.user-rating p a {
-color: whitesmoke;
-text-decoration: none;
-font-weight: bold;
-}
-
-.user-post h4 a:hover,
-.user-comment p a:hover,
-.user-reply p a:hover,
-.user-rating p a:hover {
-text-decoration: underline;
-}
-
-/* Date/Meta Styling */
-.user-comment small,
-.user-reply small {
-font-size: 0.85em;
-color: #bbb;
-}
-
-/* Mobile Styling */
-@media screen and (max-width: 768px) {
-.profile-container {
-  max-width: 95%;
-  margin-top: 18%;
-  padding: 15px;
-  margin-bottom: 25%;
-}
-
-.profile-pic {
-  width: 170px;
-  height: 170px;
-}
-
-.profile-actions {
+* ---------- LAYOUT ---------- */
+.profile-wrapper {
+  display: flex;
+  gap: 2rem;
   width: 100%;
-  gap: 10px;
+  max-width: 1150px;
+  margin-inline: auto;
+  padding: 1rem;
 }
 
-.profile-container .profile-btn {
-  width: 100%;
-  max-width: 32%;
+.profile-main   { flex: 7; }
+.profile-sidebar{ flex: 3; display: flex; flex-direction: column; gap: 1.5rem; }
+
+.profile-main {
+  flex: 7;
+  padding-right: 2rem;
+  padding-left: 2rem;
+  border-right: 1px solid #2f3336; /* ← vertical dividing line */
+  border-left: 1px solid #2f3336;
 }
 
-.profile-container h3 {
-  font-size: 1.2em;
-  padding-left: 5px;
+.profile-sidebar {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-left: 2rem;
 }
 
-.profile-info p {
-  font-size: 1rem;
+/* ---------- BANNER ---------- */
+.profile-banner {
+  height: 120px;
+  background: black;
+  border-radius: 0 0 0.5rem 0.5rem;
 }
+
+/* ---------- HEADER ---------- */
+.profile-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-top: -70px;   /* pull up over banner */
+}
+
+.avatar {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--clr-bg);
+  background: #d8d8d8;
+}
+
+.avatar.default {
+  background: #d8d8d8;
+  color: var(--clr-bg);
+}
+
+.header-details {
+  flex: 1;
+}
+
+.username-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.username {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.handle {
+  color: var(--clr-muted);
+  font-size: 0.9rem;
+}
+
+.subscriber-badge {
+  background: var(--clr-primary);
+  color: #000;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  border-radius: 0.75rem;
+}
+
+/* ---------- BUTTONS ---------- */
+.btn-group {
+  display: flex;
+  gap: 0.55rem;      /* space between buttons */
+  margin-left: auto; /* pushes group to the right */
+  align-items: center;  /* vertical-aligns with location/website */
+  margin-top: 0;     /* ← make sure no stray margin sneaks in */
+}
+
+/* ---------- PROFILE ---------- */
+.profile-links .meta {
+  margin: 0;
+}
+
+.profile-links .website-link {
+  color: var(--clr-primary);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.profile-links-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;  /* aligns buttons & links on same baseline */
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.profile-links {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.profile-links p,
+.profile-links a { margin: 0; line-height: 1.5; }
+
+/* ---------- ---------- */
+
+.pill {
+  border: none;
+  border-radius: 9999px;
+  padding: 0.4rem 1rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.pill:hover { opacity: 0.85; }
+
+.primary   { background: #6a1bbd; color: var(--clr-text); }
+.secondary { background: #6a1bbd; color: var(--clr-text); }
+.update-payment { background: #6a1bbd; color: var(--clr-text); display: inline-block; margin-top: 0.5rem; }
+
+/* ---------- BIO ---------- */
+.bio-section { margin: 1rem 0; }
+
+/* ---------- TABS ---------- */
+.tabs {
+  display: flex;
+  justify-content: space-around; /* even spacing across the width */
+  border-bottom: 1px solid #2f3336;
+  margin-top: 1.9rem;
 }
 
 
+.tab-item {
+  background: transparent;
+  border: none;
+  color: var(--clr-muted);
+  font-weight: 600;
+  padding: 1rem 0;
+  cursor: pointer;
+  flex: 1; /* make all tabs equally wide */
+  text-align: center;
+}
+
+
+.tab-item.active {
+  color: #6a1bbd;
+  border-bottom: 3px solid var(--clr-primary);
+}
+
+/* ---------- CONTENT CARDS ---------- */
+.tab-content { margin-top: 1rem; }
+
+.card-link { display: block; }
+
+.content-card {
+  background: var(--clr-card);
+  padding: 1rem 1.2rem;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+  transition: background 0.2s;
+}
+
+.content-card:hover { background: #1e2124; }
+
+.content-card h4 { margin: 0 0 0.4rem; }
+
+.empty { padding: 2rem 0; text-align: center; color: var(--clr-muted); }
+
+/* ---------- SIDEBAR ---------- */
+.profile-sidebar .sidebar-box {
+  background: var(--clr-card);
+  padding: 1rem 1.3rem;
+  border-radius: 1rem;
+}
+
+.profile-sidebar h3 { margin-top: 0; font-size: 1.1rem; }
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 900px) {
+  .profile-wrapper { flex-direction: column; }
+  .profile-sidebar { order: -1; flex-direction: row; overflow-x: auto; }
+}
+
+@media (max-width: 600px) {
+  .avatar { width: 130px; height: 130px; }
+  .username { font-size: 1.3rem; }
+  .tabs { gap: 1rem; overflow-x: auto; }
+}
+
+@media (max-width: 900px) {
+  .profile-main {
+    border-right: none;
+    padding-right: 0;
+    padding-left: 0;
+  }
+  .profile-sidebar {
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .profile-wrapper {
+    flex-direction: column;
+  }
+
+  .profile-main {
+    border-right: none;
+    padding-right: 0;
+    padding: 0.7rem; 
+  }
+
+  .profile-sidebar {
+    display: none; /* 👈 hide the sidebar */
+  }
+
+.profile-links-row {
+    flex-direction: row;         /* ✅ keep them side-by-side */
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-group {
+    margin-left: 0;
+    margin-top: 0;               /* ✅ remove push-down */
+  }
+
+  .pill {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.7rem;
+  } 
+}
 /* ========== Singlepost.jsx =========================================================================== */
 /* Single Post Page */
 .single-post-container {

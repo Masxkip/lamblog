@@ -73,12 +73,6 @@ function Home() {
 
   return (
     <div className="home-layout">
-      
-      {user?.isSubscriber && (
-     <div className="subscription-banner">
-      🎉 You’re subscribed to premium features!
-     </div>
-     )}
       {/* Sidebar */}
       <aside className="sidebar">
       <CategoryDropdown
@@ -86,7 +80,6 @@ function Home() {
   selectedCategory={category}
   onSelectCategory={setCategory}
 />
-
 
 <div className="trending-section">
   <h3># Trending Posts</h3>
