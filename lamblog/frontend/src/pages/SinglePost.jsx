@@ -258,13 +258,32 @@ const [error, setError] = useState(null);
         </div>
       )}
 
-{post.music && (
-  <div className="music-player">
-    <audio controls src={post.music}>
+{post.music && user && (
+  <>
+    {user.isSubscriber ? (
+      <div className="music-player">
+        <audio controls src={post.music}>
           Your browser does not support the audio element.
         </audio>
-  </div>
+        <a
+          href={`http://localhost:3000/api/posts/download-music/${post._id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <button className="download-music-btn">⬇️ Download Music</button>
+        </a>
+      </div>
+    ) : (
+      <div className="subscribe-download-notice">
+        <p>🎶 This post includes audio content. Subscribe to listen & download.</p>
+        <Link to="/subscribe">
+          <button className="subscribe-btn">Subscribe Now</button>
+        </Link>
+      </div>
+    )}
+  </>
 )}
+
 
 
       {/* Post Rating Section (Above Comments) */}
