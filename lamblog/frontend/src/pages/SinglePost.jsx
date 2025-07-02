@@ -265,8 +265,8 @@ const [error, setError] = useState(null);
         <audio controls src={post.music}>
           Your browser does not support the audio element.
         </audio>
-        <a
-          href={`http://localhost:3000/api/posts/download-music/${post._id}`}
+              <a
+          href={`${API_URL}/api/posts/download-music/${post._id}`}
           target="_blank"
           rel="noopener noreferrer"
         >
