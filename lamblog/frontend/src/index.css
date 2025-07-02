@@ -2543,7 +2543,6 @@ html, body {
 
 /* ===================================================================================== */
 .premium-overlay {
-  position: relative;
   background-color: #f9f9f9;
   padding: 1rem;
   border-radius: 8px;
@@ -2551,9 +2550,9 @@ html, body {
 
 .blurred-content {
   filter: blur(4px);
+  opacity: 0.6;
   user-select: none;
   pointer-events: none;
-  opacity: 0.6;
 }
 
 .locked-banner {
@@ -2562,6 +2561,7 @@ html, body {
   font-weight: 600;
   color: #b00;
 }
+
 /* ===================================================================================== */
 
 
