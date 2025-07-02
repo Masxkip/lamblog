@@ -1,40 +1,40 @@
+// src/pages/Profile.jsx
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
-import { UserCircle } from "lucide-react"; // Icon for default profile picture
+import { UserCircle } from "lucide-react";          // fallback avatar
 import BottomNav from "../components/BottomNav";
-import BackArrow from "../components/BackArrow";
-
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
-function Profile() {
+export default function Profile() {
   const { id } = useParams();
   const { user: loggedInUser, logout } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
-  const [posts, setPosts] = useState([]);
+  const [user, setUser]         = useState(null);
+  const [posts, setPosts]       = useState([]);
   const [comments, setComments] = useState([]);
-  const [replies, setReplies] = useState([]);
-  const [ratings, setRatings] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [replies, setReplies]   = useState([]);
+  const [ratings, setRatings]   = useState([]);
+  const [loading, setLoading]   = useState(true);
+  const [error, setError]       = useState(null);
+
+  // active tab
   const [activeTab, setActiveTab] = useState("Posts");
   const tabs = ["Posts", "Comments", "Replies", "Ratings"];
 
-
+  /* ---------------- FETCH PROFILE ---------------- */
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/users/${id}`);
-        setUser(response.data);
-        setPosts(response.data.posts || []);
-        setComments(response.data.comments || []);
-        setReplies(response.data.replies || []);
-        setRatings(response.data.ratings || []);
-        setLoading(false);
-     } catch (err) {
+        const { data } = await axios.get(`${API_URL}/api/users/${id}`);
+        setUser(data);
+        setPosts(data.posts || []);
+        setComments(data.comments || []);
+        setReplies(data.replies || []);
+        setRatings(data.ratings || []);
+      } catch (err) {
         console.error(err);
         setError("Error fetching profile. Please try again.");
       } finally {
@@ -44,7 +44,7 @@ function Profile() {
     fetchUserProfile();
   }, [id]);
 
-   const handleLogout = () => {
+  const handleLogout = () => {
     logout();
     navigate("/");
   };
@@ -227,5 +227,3 @@ function Profile() {
     </div>
   );
 }
-
-export default Profile;

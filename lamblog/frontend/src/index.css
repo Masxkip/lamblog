@@ -58,7 +58,9 @@ body {
 
 
 /* ======== Profile.jsx ============================================================================= */
-* ---------- LAYOUT ---------- */
+
+
+/* ---------- LAYOUT ---------- */
 .profile-wrapper {
   display: flex;
   gap: 2rem;
@@ -310,8 +312,12 @@ body {
   .pill {
     font-size: 0.8rem;
     padding: 0.3rem 0.7rem;
-  } 
+  }
+
+  
 }
+
+
 /* ========== Singlepost.jsx =========================================================================== */
 /* Single Post Page */
 .single-post-container {
