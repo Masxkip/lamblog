@@ -132,24 +132,38 @@ function Home() {
           <div className="posts-grid">
             {posts.map((post) => (
               <div key={post._id} className="post-card">
-                <Link to={`/post/${post._id}`}>
-                <Link to={`/profile/${post.author._id}`} className="profile-link">@{post.author.username}</Link>
-                <br /> 
-                {post.image && (
-                <img 
-                src={post.image?.startsWith("http") ? post.image : `${API_URL}/${post.image}`} 
-                  alt="Post" 
-                  className="post-image" 
+            <Link to={`/post/${post._id}`}>
+              <Link to={`/profile/${post.author._id}`} className="profile-link">
+                @{post.author.username}
+              </Link>
+              <br />
+              {post.image && (
+                <img
+                  src={
+                    post.image?.startsWith("http") ? post.image : `${API_URL}/${post.image}`
+                  }
+                  alt="Post"
+                  className="post-image"
                 />
               )}
 
-                  <h3>#{post.title}</h3>
-                
+              <h3>#{post.title}</h3>
+
+              {post.isPremium && (!user || !user.isSubscriber) ? (
+                <div className="premium-overlay">
+                  <p className="blurred-content">{post.content.substring(0, 80)}...</p>
+                  <div className="locked-banner">
+                    🔒 Premium Post — <Link to="/subscribe">Subscribe to Unlock</Link>
+                  </div>
+                </div>
+              ) : (
                 <p>{post.content.substring(0, 100)}...</p>
-                </Link>
-                <p><strong>Category:</strong> {post.category || "Uncategorized"}</p>
-                <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
-              </div>
+              )}
+            </Link>
+            <p><strong>Category:</strong> {post.category || "Uncategorized"}</p>
+            <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
+          </div>
+          
             ))}
           </div>
         )}
