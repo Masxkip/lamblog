@@ -2563,8 +2563,6 @@ html, body {
 }
 
 /* ===================================================================================== */
-
-
 .premium-preview-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -2588,7 +2586,57 @@ html, body {
   font-weight: 500;
   text-align: center;
 }
+/* ===================================================================================== */
 
+
+/* ===================================================================================== */
+.premium-card-link {
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+}
+
+.premium-card {
+  display: flex;
+  margin-top: 30px;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1rem;
+  border: 1.5px solid #999;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.premium-card:hover {
+  border-color: #333;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-link {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+/* ===================================================================================== */
+
+
+/* ===================================================================================== */
+.view-all-link {
+  margin-top: 1rem;
+  text-align: left;
+}
+
+.view-all-link a {
+  color: var(--clr-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.view-all-link a:hover {
+  text-decoration: underline;
+}
+/* ===================================================================================== */
 
 
 
