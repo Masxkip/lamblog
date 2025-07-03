@@ -16,7 +16,7 @@ function Home() {
   const [category, setCategory] = useState("");
   const [categories, setCategories] = useState([]);
   const [trendingPosts, setTrendingPosts] = useState([]);
-  const [premiumPosts, setPremiumPosts] = useState([]);
+  
 
   // Fetch post
   const fetchPosts = useCallback(async () => {
@@ -71,20 +71,6 @@ function Home() {
   
     fetchTrending();
   }, []);
-
-
-  useEffect(() => {
-  const fetchPremiumPosts = async () => {
-    try {
-      const res = await axios.get(`${API_URL}/api/posts/premium`);
-      setPremiumPosts(res.data);
-    } catch (err) {
-      console.error("Failed to fetch premium posts", err);
-    }
-  };
-
-  fetchPremiumPosts();
-}, []);
 
   return (
     <div className="home-layout">
@@ -193,40 +179,15 @@ function Home() {
       </main>
 
       {/* Subscription Section */}
- <aside className="subscription-section">
-  <h2>SLXXK Premium Content</h2>
-
-  {/* ✅ Only show subscribe button if not a subscriber */}
-  {!user?.isSubscriber && (
-    <>
+    <aside className="subscription-section">
+      <h2>Subscribe for SLXXK Premium Content</h2>
       <p>Unlock exclusive posts and features by subscribing.</p>
+
+      {/* ✅ Working Subscribe Button */}
       <Link to="/subscribe">
         <button className="subscribe-btn">Subscribe</button>
       </Link>
-    </>
-  )}
-
-  {/* ✅ Show premium previews */}
-  <div className="premium-preview-grid">
-    {premiumPosts.map((post) => (
-      <Link to={`/post/${post._id}`} key={post._id} className="premium-post-item">
-        {post.image && (
-          <img
-            src={post.image.startsWith("http") ? post.image : `${API_URL}/${post.image}`}
-            alt="Premium"
-            className="premium-thumbnail"
-          />
-        )}
-        <p className="premium-title">#{post.title}</p>
-      </Link>
-    ))}
-  </div>
-
-  <div className="view-all-premium">
-    <Link to="/premium-posts">View All →</Link>
-  </div>
-</aside>
-
+   </aside>
 
       <BottomNav />
      
