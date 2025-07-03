@@ -16,7 +16,7 @@ function Home() {
   const [category, setCategory] = useState("");
   const [categories, setCategories] = useState([]);
   const [trendingPosts, setTrendingPosts] = useState([]);
-  
+  const [premiumPosts, setPremiumPosts] = useState([]);
 
   // Fetch post
   const fetchPosts = useCallback(async () => {
@@ -72,6 +72,22 @@ function Home() {
     fetchTrending();
   }, []);
 
+
+    useEffect(() => {
+  const fetchPremium = async () => {
+    try {
+      // If you added the route:
+      const res = await axios.get(`${API_URL}/api/posts/premium/posts`);
+      // If you DIDN’T add the route, comment the line above and use:
+      // const res = { data: posts.filter(p => p.isPremium).slice(0, 3) };
+      setPremiumPosts(res.data);
+    } catch (err) {
+      console.error("Failed to fetch premium posts", err);
+    }
+  };
+  fetchPremium();
+}, [posts]);   // <- re-run if the main feed changes
+
   return (
     <div className="home-layout">
       {/* Sidebar */}
@@ -92,7 +108,6 @@ function Home() {
 </div>
 
       </aside>
-
       {/* Main Content */}
       <main className="main-content">
         <header className="header">
@@ -178,16 +193,55 @@ function Home() {
         )}
       </main>
 
-      {/* Subscription Section */}
-    <aside className="subscription-section">
+   {/* Premium Section (Subscribe + 3 cards OR just 3 cards) */}
+<aside className="subscription-section">
+  {!user?.isSubscriber && (
+    <>
       <h2>Subscribe for SLXXK Premium Content</h2>
       <p>Unlock exclusive posts and features by subscribing.</p>
 
-      {/* ✅ Working Subscribe Button */}
       <Link to="/subscribe">
         <button className="subscribe-btn">Subscribe</button>
       </Link>
-   </aside>
+    </>
+  )}
+
+  {/* ✅ Only show heading if user is a subscriber */}
+  {user?.isSubscriber && <h2>Latest on SLXX's Premium</h2>}
+
+  <div className="premium-grid">
+    {premiumPosts.map((post) => (
+      <Link
+        to={`/post/${post._id}`}
+        key={post._id}
+        className="premium-card-link"
+      >
+        <div className="premium-card">
+          <div className="profile-link">@{post.author.username}</div>
+
+          {post.image && (
+            <img
+              src={
+                post.image.startsWith("http")
+                  ? post.image
+                  : `${API_URL}/${post.image}`
+              }
+              alt={post.title}
+              className="post-image"
+            />
+          )}
+
+          <h3>#{post.title}</h3>
+        </div>
+      </Link>
+    ))}
+  </div>
+
+  <div className="view-all-link">
+    <Link to="/premium">View all premium posts →</Link>
+  </div>
+</aside>
+
 
       <BottomNav />
      
