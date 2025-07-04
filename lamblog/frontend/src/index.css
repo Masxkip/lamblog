@@ -2639,7 +2639,193 @@ html, body {
 /* ===================================================================================== */
 
 
+/* ===================================================================================== */
+/* Page container */
+.premium-page-container {
+  padding: 1rem;
+  background-color: #000; /* black bg like image */
+  min-height: 100vh;
+}
 
+
+.premium-page-searchbar-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  position: sticky;
+  top: 0;
+  background: #000;
+  padding: 0.75rem 0.5rem;
+  z-index: 100;
+}
+
+
+/* Back arrow button styling */
+.back-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  margin-top: -15px; /* subtle lift */
+}
+
+
+/* Full width search input */
+.premium-page-searchbar {
+  flex: 1;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #000;
+}
+
+/* Grid: 3 cards per row */
+.premium-page-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+/* Entire card clickable */
+.premium-page-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Search Result Label */
+.search-results-heading {
+  margin: 0.5rem 0 1rem;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid #5c5cff;
+  background: #111;
+  color: #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+/* Grid Layout */
+.premium-page-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  justify-content: start;        /* ✅ force cards to start from left */
+  align-items: stretch;
+}
+
+
+/* Card styling */
+.premium-page-card {
+  background-color: #111;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform 0.2s ease;
+  width: 100%; /* keeps it responsive */
+  max-width: 460px; /* ✅ prevents super-wide stretch */
+}
+
+/* Cards */
+.premium-page-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+
+.premium-page-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Image wrapper with fixed aspect */
+.premium-page-image-wrapper {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.premium-page-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Card text section */
+.premium-page-card-content {
+  padding: 1rem;
+  color: #eee;
+}
+
+.premium-page-author {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  color: #ccc;
+}
+
+.premium-page-title {
+  font-size: 1.1rem;
+  margin: 0.25rem 0;
+  font-weight: 600;
+  color: #fff;
+}
+
+.premium-page-snippet {
+  font-size: 0.95rem;
+  color: #bbb;
+  margin-bottom: 0.5rem;
+}
+
+.premium-page-card-content p {
+  font-size: 0.85rem;
+  margin: 0.15rem 0;
+  color: #aaa;
+}
+
+.premium-page-card-content strong {
+  color: #eee;
+}
+
+.premium-page-status {
+  text-align: center;
+  color: #888;
+  font-size: 1rem;
+  margin-top: 2rem;
+}
+
+/* Ensure input doesn't shrink on small screens */
+@media (max-width: 600px) {
+  .premium-page-searchbar {
+    margin-top: 13%;
+    font-size: 0.95rem;
+    padding: 0.6rem 0.9rem;
+  }
+
+   .back-icon {
+    font-size: 1.1rem;
+    padding: 0.2rem;
+    margin-top: 38px;
+  }
+
+   .premium-page-grid {
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: stretch;
+  }
+
+
+}
+
+/* ===================================================================================== */
 
 
 
