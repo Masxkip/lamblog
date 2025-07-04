@@ -231,37 +231,45 @@ function Home() {
   {/* ✅ Only show heading if user is a subscriber */}
   {user?.isSubscriber && <h2>Latest on SLXX's Premium</h2>}
 
-  <div className="premium-grid">
-    {premiumPosts.map((post) => (
-      <Link
-        to={`/post/${post._id}`}
-        key={post._id}
-        className="premium-card-link"
-      >
+<div className="premium-grid">
+  {premiumPosts.map((post) => {
+    const isLocked = !user?.isSubscriber;            // they’re all premium
+    const target   = isLocked ? "/subscribe" : `/post/${post._id}`;
+
+    return (
+      <Link to={target} key={post._id} className="premium-card-link">
         <div className="premium-card">
           <div className="profile-link">@{post.author.username}</div>
 
-          {post.image && (
-            <img
-              src={
-                post.image.startsWith("http")
-                  ? post.image
-                  : `${API_URL}/${post.image}`
-              }
-              alt={post.title}
-              className="post-image"
-            />
-          )}
+          {/* ---- Image (blur if locked) ---- */}
+          <div className={`premium-img-wrapper ${isLocked ? "premium-locked" : ""}`}>
+            {post.image && (
+              <img
+                src={
+                  post.image.startsWith("http")
+                    ? post.image
+                    : `${API_URL}/${post.image}`
+                }
+                alt={post.title}
+                className="post-image"
+              />
+            )}
+
+            {/* center call-out on locked card */}
+            {isLocked && (
+              <div className="locked-banner small">
+                🔒 Premium — subscribe to view
+              </div>
+            )}
+          </div>
 
           <h3>#{post.title}</h3>
         </div>
       </Link>
-    ))}
-  </div>
+    );
+  })}
+</div>
 
-  <div className="view-all-link">
-    <Link to="/premium">View all premium posts →</Link>
-  </div>
 </aside>
 
 

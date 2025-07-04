@@ -110,6 +110,8 @@ function MobileSidebar({ isOpen, onClose }) {
           </Link>
         </div>
 
+        
+
         ) : (
           <div className="mobile-premium-section">
             <h3 className="premium-heading">Premium Posts</h3>
@@ -130,6 +132,15 @@ function MobileSidebar({ isOpen, onClose }) {
                 <MoreHorizontal size={18} />
               </Link>
             ))}
+                          {/* ✅ View All Button */}
+  <Link
+    to="/premium"
+    onClick={onClose}
+    className="view-all-premium-btn"
+  >
+    View all premium posts →
+  </Link>
+
           </div>
         )}
 

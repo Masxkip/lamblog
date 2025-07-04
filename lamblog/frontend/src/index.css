@@ -3027,6 +3027,7 @@ html, body {
 
 
 
+/* ==== DESIGN FOR RESTRICTION OF POSTCARD IN FOR Home.jsx ===== */
 .post-card-link {
   display: block;
   text-decoration: none;
@@ -3041,7 +3042,7 @@ html, body {
 .post-card-link .post-card:hover {
   background: rgba(0, 0, 0, 0.03);
 }
-
+/* ==== DESIGN FOR RESTRICTION OF POSTCARD IN FOR Home.jsx ===== */
 
 
 
