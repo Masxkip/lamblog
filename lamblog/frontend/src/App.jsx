@@ -15,6 +15,7 @@ import VerifyEmail from "./pages/VerifyEmail";
 import AllCategories from "./pages/AllCategories";
 import CategoryPosts from "./pages/CategoryPosts";
 import Subscribe from "./pages/Subscribe";
+import Premium from "./pages/Premium";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -53,11 +54,18 @@ function App() {
           path="/subscribe" 
           element={<ProtectedRoute><Subscribe /></ProtectedRoute>} 
         />
+
+        <Route 
+          path="/premium" 
+          element={<ProtectedRoute><Premium /></ProtectedRoute>} 
+        />
+
         
         <Route 
           path="/new-post" 
           element={<ProtectedRoute><NewPost /></ProtectedRoute>} 
         />
+        
         <Route 
           path="/post/:id" 
           element={<ProtectedRoute><SinglePost /></ProtectedRoute>} 
