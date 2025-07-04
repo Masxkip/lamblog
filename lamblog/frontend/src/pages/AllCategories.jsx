@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import BottomNav from "../components/BottomNav";
+import { MoreHorizontal } from "lucide-react";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -122,20 +123,30 @@ sortedPosts.forEach(post => {
 
           {/* Insert Trending After 2nd Category Block */}
           {index === 1 && (
-            <div className="trending-categories-section">
-              <h3># Trending Posts</h3>
-              <div className="trending-list">
-                {trendingPosts.map((post, i) => (
-                  <React.Fragment key={post._id}>
-                    <Link to={`/post/${post._id}`} className="trending-item">
-                      <span>#{post.title}</span>
-                    </Link>
-                    {i !== trendingPosts.length - 1 && <hr className="trending-divider" />}
-                  </React.Fragment>
-                ))}
-              </div>
-            </div>
-          )}
+  <div className="trending-categories-section">
+    <h3 className="premium-heading">Trending Posts</h3>
+    {trendingPosts.map((post) => (
+      <Link
+        to={`/post/${post._id}`}
+        key={post._id}
+        className="premium-item"
+      >
+        <div className="premium-text">
+          <small className="premium-meta">
+            {post.category || "General"} · Trending
+          </small>
+          <span className="premium-title">#{post.title}</span>
+          <small className="premium-meta">
+            {post.views
+              ? post.views.toLocaleString() + " views"
+              : "Popular post"}
+          </small>
+        </div>
+        <MoreHorizontal size={18} />
+      </Link>
+    ))}
+  </div>
+)}
         </React.Fragment>
       ))
     )}

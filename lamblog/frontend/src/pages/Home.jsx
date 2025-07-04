@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext, useCallback } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { UserCircle, Home as HomeIcon, FileText } from "lucide-react";
+import { UserCircle, Home as HomeIcon, FileText, MoreHorizontal } from "lucide-react";
 import AuthContext from "../context/AuthContext";
 import CategoryDropdown from "../components/CategoryDropdown";
 import BottomNav from "../components/BottomNav";
@@ -98,14 +98,30 @@ function Home() {
   onSelectCategory={setCategory}
 />
 
-<div className="trending-section">
-  <h3># Trending Posts</h3>
+<div className="trending-section1">
+  <h3 className="premium-heading">Trending Posts</h3>
   {trendingPosts.map((post) => (
-    <Link to={`/post/${post._id}`} key={post._id} className="trending-item">
-      <p># {post.title}</p>
+    <Link
+      to={`/post/${post._id}`}
+      key={post._id}
+      className="premium-item"
+    >
+      <div className="premium-text">
+        <small className="premium-meta">
+          {post.category || "General"} · Trending
+        </small>
+        <span className="premium-title">#{post.title}</span>
+        <small className="premium-meta">
+          {post.views
+            ? post.views.toLocaleString() + " views"
+            : "Popular post"}
+        </small>
+      </div>
+      <MoreHorizontal size={18} />
     </Link>
   ))}
 </div>
+
 
       </aside>
       {/* Main Content */}
