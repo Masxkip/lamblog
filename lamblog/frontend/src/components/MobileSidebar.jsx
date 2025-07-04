@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { X } from "lucide-react"; // Close icon
+import { X, MoreHorizontal } from "lucide-react"; // Close icon
 import CategoryDropdown from "./CategoryDropdown";
 import { useEffect, useState } from "react";
 import axios from "axios";
