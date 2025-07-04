@@ -2237,7 +2237,7 @@ html, body {
 /* ===================================================================================== */
 
 
-/* ====================== Category.jsx =============================================================== */
+/* ==== CATEGOIRES CSS FOR CategoryPosts.jsx ===== */
 /* Category Post Grid */
 .category-posts-container {
   display: grid;
@@ -2249,7 +2249,6 @@ html, body {
 .category-posts-page h2 {
   margin-left: 14px;
 }
-
 
 .category-post-card {
   background-color: #111;
@@ -2298,7 +2297,7 @@ html, body {
   .category-posts-page h2 {
     margin-left: 16px;
   }
-  
+
 
   .category-posts-container {
     grid-template-columns: 1fr; /* stack cards vertically */
@@ -2324,7 +2323,8 @@ html, body {
 /* ===================================================================================== */
 
 
-/* =========================== View cat link in Allcategories.jsx ====================== */
+
+/* ==== VIEW ALL CATEGOIRES LINK CSS FOR AllCategories.jsx ===== */
 .view-all-categories-link {
   color: whitesmoke;
   font-weight: bold;
@@ -2348,10 +2348,11 @@ html, body {
     text-align: left;
   }
 }
-/* ===================================================================================== */
+/* ==== VIEW ALL CATEGOIRES LINK CSS FOR AllCategories.jsx ===== */
 
 
-/* =========== BackArrow.jsx ========================================================================== */
+
+/* ==== BACKARROW CSS FOR BackArrow.jsx ===== */
 /* BackA */
 .back-circle {
   width: 35px;
@@ -2373,9 +2374,11 @@ html, body {
   background-color: black;
   color: white;
 }
-/* ===================================================================================== */
+/* ==== BACKARROW CSS FOR BackArrow.jsx ===== */
 
-/* ==================== Single post related ================================================================= */
+
+
+/* ==== SINGLE POSTS RELATED CSS FOR SinglePosts.jsx ===== */
 .single-post-image {
   width: 100%;
   height: auto;
@@ -2391,10 +2394,11 @@ html, body {
   margin-top: 20px; 
   text-align: left; 
 }
-/* ===================================================================================== */
+/* ==== SINGLE POSTS RELATED CSS FOR SinglePosts.jsx ===== */
 
 
-/* ================ Nvabar Related ===================================================================== */
+
+/* ==== NAVBAR RELATED CSS FOR Navbar.jsx ===== */
 @media (max-width: 768px) {
   .navbar {
     position: fixed;
@@ -2431,7 +2435,7 @@ html, body {
 /* ===================================================================================== */
 
 
-/* ======== Ratings Button ============================================================================= */
+/* ==== RATINGS STAR BTNS CSS FOR SinglePosts.jsx ===== */
 .rating-buttons {
   display: flex;
   gap: 12px;
@@ -2456,10 +2460,10 @@ html, body {
   transform: scale(1.05);
   background-color: rgba(255, 215, 0, 0.1);
 }
-/* ===================================================================================== */
+/* ==== RATINGS STAR BTNS CSS FOR SinglePosts.jsx ===== */
 
 
-/* =========== Dynamic Arrow ========================================================================== */
+/* ==== DYNAMIC ARROW CSS FOR DyanmicArrow.jsx ===== */
 .category-header-row {
   display: flex;
   align-items: center;
@@ -2499,20 +2503,20 @@ html, body {
 .lucid-icon {
   color: whitesmoke;
 }
-/* ===================================================================================== */
+/* ==== DYNAMIC ARROW CSS FOR DyanmicArrow.jsx ===== */
 
 
-/* ===================================================================================== */
+/* ==== NO KEYWORD SEARCH MET CSS ===== */
 .no-posts-message {
   padding: 2rem;
   text-align: center;
   font-style: italic;
   color: #777;
 }
-/* ===================================================================== */
+/* ==== NO KEYWORD SEARCH MET CSS ===== */
 
 
-/* ===================================================================================== */
+/* ==== lOADING CSS FOR BTNS ===== */
 .loading-btn {
   opacity: 1;
   transition: 0.3s;
@@ -2538,10 +2542,10 @@ html, body {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-/* ===================================================================================== */
+/* ==== lOADING CSS FOR BTNS ===== */
 
 
-/* ===================================================================================== */
+/* ==== PREMIUM POSTS LOCKED & BLURRED BANNER FOR Home.jsx ===== */
 .premium-overlay {
   background-color: #f9f9f9;
   padding: 1rem;
@@ -2561,8 +2565,10 @@ html, body {
   font-weight: 600;
   color: #b00;
 }
+/* ==== PREMIUM POSTS LOCKED & BLURRED BANNER FOR Home.jsx ===== */
 
-/* ===================================================================================== */
+
+/* ==== PREMIUM POSTS RIGHT SIDEBAR FOR Home.jsx ===== */
 .premium-preview-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -2586,10 +2592,10 @@ html, body {
   font-weight: 500;
   text-align: center;
 }
-/* ===================================================================================== */
+/* ==== PREMIUM POSTS RIGHT SIDEBAR FOR Home.jsx ===== */
 
 
-/* ===================================================================================== */
+/* ==== PREMIUM POSTS RIGHT SIDEBAR FOR Home.jsx ===== */
 .premium-card-link {
   text-decoration: none;
   color: inherit;
@@ -2618,10 +2624,10 @@ html, body {
   font-weight: 600;
   margin-bottom: 0.5rem;
 }
-/* ===================================================================================== */
+/* ==== PREMIUM POSTS RIGHT SIDEBAR FOR Home.jsx ===== */
 
 
-/* ===================================================================================== */
+/* ==== VIEW ALL PREMIUM POSTS LINKS FOR Home.jsx ===== */
 .view-all-link {
   margin-top: 1rem;
   text-align: left;
@@ -2636,17 +2642,17 @@ html, body {
 .view-all-link a:hover {
   text-decoration: underline;
 }
-/* ===================================================================================== */
+/* ==== VIEW ALL PREMIUM POSTS LINKS FOR Home.jsx ===== */
 
 
-/* ===================================================================================== */
+
+/* ==== PREMIUM PAGE CSS FOR Premium.jsx ===== */
 /* Page container */
 .premium-page-container {
   padding: 1rem;
   background-color: #000; /* black bg like image */
   min-height: 100vh;
 }
-
 
 .premium-page-searchbar-wrapper {
   display: flex;
@@ -2660,7 +2666,6 @@ html, body {
   background-color: #000;
   margin-bottom: 20px;
 }
-
 
 /* Back arrow button styling */
 .back-icon {
@@ -2830,14 +2835,93 @@ html, body {
     padding: 0.7rem 1rem;
     
   }
+}
+/* ==== PREMIUM PAGE CSS FOR Premium.jsx ===== */
 
+
+
+
+/* ==== PREMIUM BTN AND PREMIUM AND TRENDING LIST FOR MobileSidebar.jsx ===== */
+/* Compact version of button */
+.get-premium-btn.compact {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border-radius: 20px;
+  background: var(--clr-primary, #6a1bbd);
+  color: #fff;
+  font-weight: 600;
+  transition: background 0.2s;
+  text-decoration: none;
+}
+
+.get-premium-btn.compact:hover {
+  background: #1484d6;
+}
+
+.on-slxxk-badge {
+  font-size: 1.5rem;
+  color: white;
+  font-weight: 600;
+  padding: 0.35rem 0.65rem;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+/* --- Premium list (for subscribers) --- */
+.mobile-premium-section {
+  margin: 1rem 0;
+  border-top: 1px solid #2f3336;
+  padding-top: 1rem;
+}
+
+.premium-heading {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.premium-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0.75rem 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.premium-item + .premium-item {
+  border-top: 1px solid #2f3336;
+}
+
+.premium-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.premium-title {
+  font-weight: 700;
+  margin: 2px 0;
+}
+
+.premium-meta {
+  font-size: 0.8rem;
+  color: #71767b;
 }
 
 
+.mobile-trending-section {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #2f3336;
+}
 
-
-
-
+.get-premium-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+/* ==== PREMIUM BTN AND PREMIUM AND TRENDING LIST FOR MobileSidebar.jsx ===== */
 
 
 

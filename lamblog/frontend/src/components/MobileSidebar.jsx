@@ -17,6 +17,7 @@ function MobileSidebar({ isOpen, onClose }) {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [trendingPosts, setTrendingPosts] = useState([]);
   const { user, logout } = useContext(AuthContext);
+   const [premiumPosts, setPremiumPosts] = useState([]);  
 
 
 
@@ -33,6 +34,23 @@ function MobileSidebar({ isOpen, onClose }) {
   
     fetchCategories();
   }, []);
+
+
+   /* ---------------- Premium (only for subscribers) ---------------- */
+  useEffect(() => {
+    if (!user?.isSubscriber) return;
+
+    (async () => {
+      try {
+        const { data } = await axios.get(
+          `${API_URL}/api/posts/premium/posts?limit=3`
+        );
+        setPremiumPosts(data.slice(0, 3)); // we just need the first 3
+      } catch (err) {
+        console.error("Error fetching premium posts", err);
+      }
+    })();
+  }, [user]);
 
 
   useEffect(() => {
@@ -80,21 +98,61 @@ function MobileSidebar({ isOpen, onClose }) {
 
 
 
-        <div className="mobile-trending-section">
-          <h3># Trending Posts</h3>
-          {trendingPosts.map((post) => (
-            <Link
-              to={`/post/${post._id}`}
-              key={post._id}
-              onClick={onClose}
-              className="trending-item"
-            >
-              # {post.title}
-            </Link>
-          ))}
+         {/* -------- Premium Section -------- */}
+        {!user?.isSubscriber ? (
+          <div className="get-premium-row">
+          <Link
+            to="/subscribe"
+            onClick={onClose}
+            className="get-premium-btn compact"
+          >
+            Get Premium
+          </Link>
         </div>
 
+        ) : (
+          <div className="mobile-premium-section">
+            <h3 className="premium-heading">Premium Posts</h3>
+            {premiumPosts.map((post) => (
+              <Link
+                to={`/post/${post._id}`}
+                key={post._id}
+                onClick={onClose}
+                className="premium-item"
+              >
+                <div className="premium-text">
+                  <small className="premium-meta">
+                    {post.category || "Premium"} · Premium
+                  </small>
+                  <span className="premium-title">#{post.title}</span>
+                  <small className="premium-meta">Exclusive content</small>
+                </div>
+                <MoreHorizontal size={18} />
+              </Link>
+            ))}
+          </div>
+        )}
 
+<div className="mobile-trending-section">
+  <h3 className="premium-heading">Trending Posts</h3>
+  {trendingPosts.map((post) => (
+    <Link
+      to={`/post/${post._id}`}
+      key={post._id}
+      onClick={onClose}
+      className="premium-item"
+    >
+      <div className="premium-text">
+        <small className="premium-meta">{post.category || "General"} · Trending</small>
+        <span className="premium-title">#{post.title}</span>
+        <small className="premium-meta">
+          {post.views ? post.views.toLocaleString() + " views" : "Popular post"}
+        </small>
+      </div>
+      <MoreHorizontal size={18} />
+    </Link>
+  ))}
+</div>
 
 <div className="mobile-auth-links">
   {!user ? (
