@@ -160,48 +160,57 @@ function Home() {
   </div>
 ) : (
   <div className="posts-grid">
-    {posts.map((post) => (
-      <div key={post._id} className="post-card">
-        <Link to={`/post/${post._id}`}>
-          <Link to={`/profile/${post.author._id}`} className="profile-link">
-            @{post.author.username}
-          </Link>
-          <br />
+{posts.map((post) => {
+  const isLocked = post.isPremium && (!user || !user.isSubscriber);
+  const postLink = isLocked ? "/subscribe" : `/post/${post._id}`;
 
-          {/* PREMIUM CHECK */}
-          {post.isPremium && (!user || !user.isSubscriber) ? (
-            <>
-              <div className="post-image-wrapper premium-locked">
-                {post.image && (
-                  <img src={post.image} alt="Premium" className="post-image" />
-                )}
-                <div className="locked-banner">
-                  <p className="locked-text">
-                    🔒 Premium content. Subscribe to view.
-                  </p>
-                  <Link to="/subscribe" className="locked-sub-btn">
-                    Subscribe
-                  </Link>
-                </div>
-              </div>
-              <h3>#{post.title}</h3>
-              <p>{post.content.substring(0, 100)}...</p>
-            </>
-          ) : (
-            <>
-              {post.image && (
-                <img src={post.image} alt="Post" className="post-image" />
-              )}
-              <h3>#{post.title}</h3>
-              <p>{post.content.substring(0, 100)}...</p>
-            </>
-          )}
+  return (
+    <Link to={postLink} key={post._id} className="post-card-link">
+      <div className="post-card">
+        <Link to={`/profile/${post.author._id}`} className="profile-link">
+          @{post.author.username}
         </Link>
+        <br />
+
+        {isLocked ? (
+          <>
+            <div className="post-image-wrapper premium-locked">
+              {post.image && (
+                <img src={post.image} alt="Premium" className="post-image" />
+              )}
+              <div className="locked-banner">
+                <p className="locked-text">
+                  🔒 Premium content. Subscribe to view.
+                </p>
+                <Link
+                  to="/subscribe"
+                  onClick={(e) => e.stopPropagation()}
+                  className="locked-sub-btn"
+                >
+                  Subscribe
+                </Link>
+              </div>
+            </div>
+            <h3>#{post.title}</h3>
+            <p>{post.content.substring(0, 100)}...</p>
+          </>
+        ) : (
+          <>
+            {post.image && (
+              <img src={post.image} alt="Post" className="post-image" />
+            )}
+            <h3>#{post.title}</h3>
+            <p>{post.content.substring(0, 100)}...</p>
+          </>
+        )}
 
         <p><strong>Category:</strong> {post.category || "Uncategorized"}</p>
         <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
       </div>
-    ))}
+    </Link>
+  );
+})}
+
   </div>
 )}
       </main>
