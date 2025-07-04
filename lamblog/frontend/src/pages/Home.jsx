@@ -193,7 +193,7 @@ function Home() {
         )}
       </main>
 
-   {/* Premium Section (Subscribe + 3 cards OR just 3 cards) */}
+  {/* Premium Section (Subscribe + 3 cards OR just 3 cards) */}
 <aside className="subscription-section">
   {!user?.isSubscriber && (
     <>
@@ -241,6 +241,7 @@ function Home() {
     <Link to="/premium">View all premium posts →</Link>
   </div>
 </aside>
+
 
 
       <BottomNav />
