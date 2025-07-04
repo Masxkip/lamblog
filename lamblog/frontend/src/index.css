@@ -2806,10 +2806,7 @@ html, body {
   margin-top: 2rem;
 }
 
-
-
-
-/* Ensure input doesn't shrink on small screens */
+/* Ensure input doesn't sscreens */
 @media (max-width: 600px) {
   .premium-page-searchbar {
     margin-top: 13%;
