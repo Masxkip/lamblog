@@ -270,6 +270,10 @@ function Home() {
   })}
 </div>
 
+
+  <div className="view-all-link">
+    <Link to="/premium">View all premium posts →</Link>
+  </div>
 </aside>
 
 
