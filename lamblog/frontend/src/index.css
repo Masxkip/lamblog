@@ -2825,11 +2825,13 @@ html, body {
 
   .premium-page-searchbar-wrapper {
     padding: 0.7 0.75rem;
+    margin-top: 30px;
   }
 
   .premium-page-searchbar {
     font-size: 0.9rem;
-    padding: 0.3rem 0.6rem;
+    padding: 0.7rem 1rem;
+    
   }
 
 }
