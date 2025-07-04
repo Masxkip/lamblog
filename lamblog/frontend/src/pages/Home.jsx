@@ -151,62 +151,59 @@ function Home() {
           )}
         </header>
 
-        <h2># SLXXK'S Latest!</h2>
-        {loading ? (
-          <div className="no-posts-message">
-          <p>Loading posts...</p>
-          </div>
-        ) : posts.length === 0 ? (
-          <div className="no-posts-message">
-            <p>No posts available for your search.</p>
-          </div>
-        ) : (
-          <div className="posts-grid">
-            {posts.map((post) => (
- <div key={post._id} className="post-card">
-  {post.isPremium && (!user || !user.isSubscriber) ? (
-    <>
-      <div className="profile-link">@{post.author.username}</div>
-      {post.image && (
-        <img
-          src={
-            post.image?.startsWith("http") ? post.image : `${API_URL}/${post.image}`
-          }
-          alt="Post"
-          className="post-image"
-        />
-      )}
-      <h3>#{post.title}</h3>
-      <div className="premium-overlay">
-        <p className="blurred-content">{post.content.substring(0, 80)}...</p>
-        <div className="locked-banner">
-          🔒 Premium Post — <Link to="/subscribe">Subscribe to Unlock</Link>
-        </div>
-      </div>
-    </>
-  ) : (
-    <Link to={`/post/${post._id}`}>
-      <div className="profile-link">@{post.author.username}</div>
-      {post.image && (
-        <img
-          src={
-            post.image?.startsWith("http") ? post.image : `${API_URL}/${post.image}`
-          }
-          alt="Post"
-          className="post-image"
-        />
-      )}
-      <h3>#{post.title}</h3>
-      <p>{post.content.substring(0, 100)}...</p>
-    </Link>
-  )}
-  <p><strong>Category:</strong> {post.category || "Uncategorized"}</p>
-  <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
-</div>
+       <h2>#SLXXK'S Latest!</h2>
+{loading ? (
+  <p>Loading posts...</p>
+) : posts.length === 0 ? (
+  <div className="no-posts-message">
+    <p>No posts available for your search.</p>
+  </div>
+) : (
+  <div className="posts-grid">
+    {posts.map((post) => (
+      <div key={post._id} className="post-card">
+        <Link to={`/post/${post._id}`}>
+          <Link to={`/profile/${post.author._id}`} className="profile-link">
+            @{post.author.username}
+          </Link>
+          <br />
 
-            ))}
-          </div>
-        )}
+          {/* PREMIUM CHECK */}
+          {post.isPremium && (!user || !user.isSubscriber) ? (
+            <>
+              <div className="post-image-wrapper premium-locked">
+                {post.image && (
+                  <img src={post.image} alt="Premium" className="post-image" />
+                )}
+                <div className="locked-banner">
+                  <p className="locked-text">
+                    🔒 Premium content. Subscribe to view.
+                  </p>
+                  <Link to="/subscribe" className="locked-sub-btn">
+                    Subscribe
+                  </Link>
+                </div>
+              </div>
+              <h3>#{post.title}</h3>
+              <p>{post.content.substring(0, 100)}...</p>
+            </>
+          ) : (
+            <>
+              {post.image && (
+                <img src={post.image} alt="Post" className="post-image" />
+              )}
+              <h3>#{post.title}</h3>
+              <p>{post.content.substring(0, 100)}...</p>
+            </>
+          )}
+        </Link>
+
+        <p><strong>Category:</strong> {post.category || "Uncategorized"}</p>
+        <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
+      </div>
+    ))}
+  </div>
+)}
       </main>
 
   {/* Premium Section (Subscribe + 3 cards OR just 3 cards) */}
