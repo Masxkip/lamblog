@@ -57,9 +57,8 @@ body {
 /* ===================================================================================== */
 
 
+
 /* ======== Profile.jsx ============================================================================= */
-
-
 /* ---------- LAYOUT ---------- */
 .profile-wrapper {
   display: flex;
@@ -211,7 +210,7 @@ body {
 }
 
 .premium {
-  background-color: gold;
+  background-color: #6a1bbd;
   color: #111;
   border: 1px solid #daa520;
 }
@@ -2972,7 +2971,7 @@ html, body {
 /* ==== BLUR CSS FOR PREMIUM POSTCARD FOR Home.jsx ===== */
 
 
-
+/* ==== FULL NAVBAR CSS FOR Navbar.jsx ===== */
 /* Navbar Container */
 .navbar {
   display: flex;
@@ -3140,7 +3139,6 @@ html, body {
   transform: scale(1.05);
 }
 
-
 /* --- Responsive Styles for Mobile --- */
 @media (max-width: 768px) {
   .hamburger-icon {
@@ -3187,11 +3185,11 @@ html, body {
     background-color: #31004f;
   }
 }
+/* ==== FULL NAVBAR CSS FOR Navbar.jsx ===== */
 
 
 
-
-
+/* ==== BOTTOM NAV CSS FOR BottomNav.jsx ===== */
 /* Base: hidden by default */
 .bottom-nav {
   display: none;
@@ -3240,9 +3238,67 @@ html, body {
     padding-bottom: 80px;
   }
 }
+/* ==== BOTTOM NAV CSS FOR BottomNav.jsx ===== */
 
 
 
+/* ==== PROFILE TRENDING & PREMIUM LIST CSS FOR BottomNav.jsx ===== */
+.profile-sidebar {
+  padding: 0 1.5rem;
+  border-left: 1px solid #222;
+}
+
+.sidebar-box + .sidebar-box {
+  margin-top: 2rem;
+}
+
+.sidebar-box h3 {
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.sidebar-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 8px 0;
+  text-decoration: none;
+  color: #eee;
+}
+
+.sidebar-item:hover { color: #c5b3ff; }
+
+.item-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.item-title { font-weight: 600; }
+
+.item-meta  { font-size: 0.75rem; color: #999; }
+
+.view-all-link {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: #8ab4ff;
+}
+
+.cta-box {
+  text-align: center;
+}
+
+.subscribe-btn {
+  margin-top: 10px;
+  padding: 6px 14px;
+  background: #7d3cff;
+  color: #fff;
+  border-radius: 20px;
+  font-weight: 600;
+}
+/* ==== PROFILE TRENDING & PREMIUM LIST CSS FOR BottomNav.jsx ===== */
 
 
 

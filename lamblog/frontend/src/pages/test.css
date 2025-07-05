@@ -1,103 +1,23 @@
-/* Navbar Container */
-.navbar {
-display: flex;
-justify-content: space-between;
-align-items: center;
-background-color: #31004f;
-padding: 15px 30px;
-box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-position: sticky;
-top: 0;
-width: 100%;
-z-index: 1000;
+.auth-link:hover {
+  color: #a682ff;
 }
 
-/* Logo Styling */
-.logo {
-font-size: 35px;
-font-weight: bold;
-text-decoration: none;
-color: whitesmoke;
+.category-scroll-wrapper::-webkit-scrollbar-thumb {
+  background: #6a1bbd;
+  border-radius: 10px;
 }
 
-/* Navigation Links */
-.nav-links {
-display: flex;
-align-items: center;
-gap: 20px;
+.category-item:hover {
+  background-color: #8a2be2;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.nav-links a {
-text-decoration: none;
-color: whitesmoke;
-font-size: 16px;
-font-weight: 500;
-padding: 8px 12px;
-border-radius: 5px;
-transition: background 0.3s ease;
-}
-
-.nav-links a:hover {
-color: silver;
-}
-
-/* Profile Icon */
-.nav-profile-pic {
-width: 50px;
-height: 50px;
-border-radius: 60%;
-object-fit: cover;
-cursor: pointer;
-}
-
-/* Logout Button */
-.logout-btn {
+.post-card {
 background-color: black;
-color: white;
-border: none;
-padding: 8px 12px;
-border-radius: 5px;
-cursor: pointer;
-transition: background 0.3s ease;
-}
-
-.logout-btn:hover {
-background-color: #111;
-color: whitesmoke;
-}
-
-.bottom-nav{
-display: none;
+padding: 15px;
+border-radius: 10px;
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+border: 1.5px solid #333;
 }
 
 
-/* Responsive Styles for Mobile */
-@media (max-width: 768px) {
-/* Navbar: Adjust Profile Icon & Logo */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #31004f;
-  padding: 22px;
-
-}
-
-.navbar .logo {
-  font-size: 30px;
-  font-weight: bold;
-  color: white;
-  text-decoration: none;
-}
-
-.nav-links .logout-btn {
-  display: none;
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-}

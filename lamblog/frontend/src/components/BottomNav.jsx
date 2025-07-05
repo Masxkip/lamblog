@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { UserCircle, Home as HomeIcon, FileText } from "lucide-react";
+import { UserCircle, Home as HomeIcon, FilePlus2 } from "lucide-react";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 
@@ -12,7 +12,7 @@ function BottomNav() {
         <HomeIcon className="icon" size={21} />
       </Link>
       <Link to="/new-post" className="sidebar-icon">
-        <FileText className="icon" size={21} />
+        <FilePlus2 size={22} />
       </Link>
       <Link to={user ? `/profile/${user._id}` : "/login"} className="sidebar-icon">
         <UserCircle className="default-profile-icon" size={24} />
