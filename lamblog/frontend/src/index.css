@@ -3402,7 +3402,7 @@ html, body {
 @media (max-width: 600px) {
   .subscribe-box {
     padding: 30px 20px;
-    margin-top: 100px;
+    margin-top: 60px;
     border-radius: 16px;
   }
 
