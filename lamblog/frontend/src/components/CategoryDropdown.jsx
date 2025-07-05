@@ -25,21 +25,14 @@ function CategoryDropdown({ categories, selectedCategory, onSelectCategory, onCl
           </button>
         ))}
 
-        <Link
-          to="/categories"
-          className="view-all-categories-link"
-          onClick={onClose}
-        >
-          View All &rarr;
-        </Link>
 
-          <div className="view-all-link">
      <Link
-    to="/categories"className="view-all-link"
+    to="/categories"
+    className="view-all-premium-btn"
   >
-    View all →
+    View all premium posts →
   </Link>
-  </div>
+
       </div>
     </div>
   );
