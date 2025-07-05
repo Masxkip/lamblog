@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePaystackPayment } from "react-paystack";
+import { CheckCircle, Flame } from "lucide-react";
 import AuthContext from "../context/AuthContext";
 import axios from "axios";
 
@@ -8,26 +9,28 @@ const Subscribe = () => {
   const { user, updateUserProfile } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // Fallback email
   const email = user?.email || "user@example.com";
 
   const config = {
     reference: new Date().getTime().toString(),
     email: email,
-    amount: 10000, // ₦500 in kobo
+    amount: 10000,
     publicKey: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
     plan: "PLN_jpid681yvrnqut2",
-    channels: ["card"]
+    channels: ["card"],
   };
 
   const onSuccess = async (reference) => {
     try {
-      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/users/verify-subscription`, { reference: reference.reference }, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/users/verify-subscription`,
+        { reference: reference.reference },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
-      });
-
+      );
       updateUserProfile(res.data.user);
       alert("Subscription successful!");
       navigate("/");
@@ -43,28 +46,32 @@ const Subscribe = () => {
 
   const initializePayment = usePaystackPayment(config);
 
-   return (
-  <div className="subscribe-page">
-    <div className="subscribe-box">
-      <h2 className="subscribe-title">Go Premium</h2>
-      <p className="subscribe-price">₦500 / month</p>
-      <p className="subscribe-subtext">Enjoy full access to premium features</p>
+  return (
+    <div className="subscribe-page">
+      <div className="subscribe-box">
+        {/* 🔥 BEST VALUE badge */}
+        <div className="badge">
+          <Flame size={16} /> Best Value
+        </div>
 
-      <ul className="benefits-list">
-        <li><span className="checkmark">✔</span> Reach a wider audience with your posts</li>
-        <li><span className="checkmark">✔</span> Add and download music in your posts</li>
-        <li><span className="checkmark">✔</span> Create exclusive premium posts</li>
-        <li><span className="checkmark">✔</span> Discover all premium content faster</li>
-        <li><span className="checkmark">✔</span> Support the SLXXK community</li>
-      </ul>
+        <h2 className="subscribe-title">Go Premium</h2>
+        <p className="subscribe-price">₦500 / month</p>
+        <p className="subscribe-subtext">Enjoy full access to premium features</p>
 
-      <button className="subscribe-btn" onClick={() => initializePayment(onSuccess, onClose)}>
-        Subscribe Now
-      </button>
+        <ul className="benefits-list">
+          <li><CheckCircle className="check-icon" size={18} /> Reach a wider audience with your posts</li>
+          <li><CheckCircle className="check-icon" size={18} /> Add and download music in your posts</li>
+          <li><CheckCircle className="check-icon" size={18} /> Create exclusive premium posts</li>
+          <li><CheckCircle className="check-icon" size={18} /> Discover premium content faster</li>
+          <li><CheckCircle className="check-icon" size={18} /> Support the SLXXK community</li>
+        </ul>
+
+        <button className="subscribe-btn" onClick={() => initializePayment(onSuccess, onClose)}>
+          Subscribe Now
+        </button>
+      </div>
     </div>
-  </div>
-);
-
+  );
 };
 
 export default Subscribe;

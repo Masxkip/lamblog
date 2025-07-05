@@ -3304,6 +3304,7 @@ html, body {
 
 /* ==== SUBSCRIBE PAGE CSS FOR Subscribe.jsx ===== */
 /* ====== Subscribe Page ====== */
+/* Subscribe Page */
 .subscribe-page {
   display: flex;
   justify-content: center;
@@ -3322,6 +3323,24 @@ html, body {
   max-width: 500px;
   width: 100%;
   text-align: center;
+  position: relative;
+}
+
+/* 🔥 Best Value Badge */
+.badge {
+  background: #ff5722;
+  color: white;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .subscribe-title {
@@ -3345,7 +3364,7 @@ html, body {
 .benefits-list {
   list-style: none;
   padding: 0;
-  text-align: left;
+  text-align: center;
   margin-bottom: 30px;
 }
 
@@ -3353,22 +3372,21 @@ html, body {
   margin-bottom: 12px;
   font-size: 1rem;
   display: flex;
+  justify-content: center;
   align-items: center;
+  gap: 10px;
 }
 
-.checkmark {
+.check-icon {
   color: #00e676;
-  margin-right: 10px;
-  font-weight: bold;
-  font-size: 1.2rem;
 }
 
-/* Subscribe button */
+/* Subscribe Button */
 .subscribe-btn {
   background-color: #7d3cff;
   color: white;
   border: none;
-  padding: 10px 24px;
+  padding: 12px 28px;
   font-size: 1rem;
   font-weight: 600;
   border-radius: 30px;
@@ -3378,6 +3396,35 @@ html, body {
 
 .subscribe-btn:hover {
   background-color: #9d6dff;
+}
+
+/* Mobile tweaks */
+@media (max-width: 600px) {
+  .subscribe-box {
+    padding: 30px 20px;
+    margin-top: 100px;
+    border-radius: 16px;
+  }
+
+  .subscribe-title {
+    font-size: 1.7rem;
+  }
+
+  .subscribe-price {
+    font-size: 1.3rem;
+  }
+
+  .benefits-list li {
+    font-size: 0.95rem;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .subscribe-btn {
+    width: 100%;
+    font-size: 1rem;
+  }
 }
 /* ==== SUBSCRIBE PAGE CSS FOR Subscribe.jsx ===== */
 
