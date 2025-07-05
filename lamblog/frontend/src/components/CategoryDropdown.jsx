@@ -32,6 +32,14 @@ function CategoryDropdown({ categories, selectedCategory, onSelectCategory, onCl
         >
           View All &rarr;
         </Link>
+
+          <div className="view-all-link">
+     <Link
+    to="/categories"className="view-all-link"
+  >
+    View all →
+  </Link>
+  </div>
       </div>
     </div>
   );
