@@ -43,13 +43,28 @@ const Subscribe = () => {
 
   const initializePayment = usePaystackPayment(config);
 
-  return (
-    <div className="subscribe-page">
-      <h2>Subscribe to Premium</h2>
-      <p>₦500 per month for full blog access</p>
-      <button onClick={() => initializePayment(onSuccess, onClose)}>Subscribe Now</button>
+   return (
+  <div className="subscribe-page">
+    <div className="subscribe-box">
+      <h2 className="subscribe-title">Go Premium</h2>
+      <p className="subscribe-price">₦500 / month</p>
+      <p className="subscribe-subtext">Enjoy full access to premium features</p>
+
+      <ul className="benefits-list">
+        <li><span className="checkmark">✔</span> Reach a wider audience with your posts</li>
+        <li><span className="checkmark">✔</span> Add and download music in your posts</li>
+        <li><span className="checkmark">✔</span> Create exclusive premium posts</li>
+        <li><span className="checkmark">✔</span> Discover all premium content faster</li>
+        <li><span className="checkmark">✔</span> Support the SLXXK community</li>
+      </ul>
+
+      <button className="subscribe-btn" onClick={() => initializePayment(onSuccess, onClose)}>
+        Subscribe Now
+      </button>
     </div>
-  );
+  </div>
+);
+
 };
 
 export default Subscribe;

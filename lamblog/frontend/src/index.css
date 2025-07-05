@@ -3242,7 +3242,7 @@ html, body {
 
 
 
-/* ==== PROFILE TRENDING & PREMIUM LIST CSS FOR BottomNav.jsx ===== */
+/* ==== PROFILE TRENDING & PREMIUM LIST CSS FOR Profile.jsx ===== */
 .profile-sidebar {
   padding: 0 1.5rem;
   border-left: 1px solid #222;
@@ -3298,7 +3298,90 @@ html, body {
   border-radius: 20px;
   font-weight: 600;
 }
-/* ==== PROFILE TRENDING & PREMIUM LIST CSS FOR BottomNav.jsx ===== */
+/* ==== PROFILE TRENDING & PREMIUM LIST CSS FOR Profile.jsx ===== */
+
+
+
+/* ==== SUBSCRIBE PAGE CSS FOR Subscribe.jsx ===== */
+/* ====== Subscribe Page ====== */
+.subscribe-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  min-height: 100vh;
+  background-color: #0b0b0c;
+  color: white;
+}
+
+.subscribe-box {
+  background-color: #1a1a1d;
+  padding: 40px 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+}
+
+.subscribe-title {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.subscribe-price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 5px 0;
+  color: #8ab4ff;
+}
+
+.subscribe-subtext {
+  font-size: 0.95rem;
+  color: #bbb;
+  margin-bottom: 25px;
+}
+
+.benefits-list {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+  margin-bottom: 30px;
+  margin-left: 68px;
+}
+
+.benefits-list li {
+  margin-bottom: 12px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.checkmark {
+  color: #00e676;
+  margin-right: 10px;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+/* Subscribe button */
+.subscribe-btn {
+  background-color: #7d3cff;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.subscribe-btn:hover {
+  background-color: #9d6dff;
+}
+/* ==== SUBSCRIBE PAGE CSS FOR Subscribe.jsx ===== */
+
 
 
 
