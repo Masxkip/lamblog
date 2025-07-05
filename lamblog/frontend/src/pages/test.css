@@ -1,0 +1,103 @@
+/* Navbar Container */
+.navbar {
+display: flex;
+justify-content: space-between;
+align-items: center;
+background-color: #31004f;
+padding: 15px 30px;
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+position: sticky;
+top: 0;
+width: 100%;
+z-index: 1000;
+}
+
+/* Logo Styling */
+.logo {
+font-size: 35px;
+font-weight: bold;
+text-decoration: none;
+color: whitesmoke;
+}
+
+/* Navigation Links */
+.nav-links {
+display: flex;
+align-items: center;
+gap: 20px;
+}
+
+.nav-links a {
+text-decoration: none;
+color: whitesmoke;
+font-size: 16px;
+font-weight: 500;
+padding: 8px 12px;
+border-radius: 5px;
+transition: background 0.3s ease;
+}
+
+.nav-links a:hover {
+color: silver;
+}
+
+/* Profile Icon */
+.nav-profile-pic {
+width: 50px;
+height: 50px;
+border-radius: 60%;
+object-fit: cover;
+cursor: pointer;
+}
+
+/* Logout Button */
+.logout-btn {
+background-color: black;
+color: white;
+border: none;
+padding: 8px 12px;
+border-radius: 5px;
+cursor: pointer;
+transition: background 0.3s ease;
+}
+
+.logout-btn:hover {
+background-color: #111;
+color: whitesmoke;
+}
+
+.bottom-nav{
+display: none;
+}
+
+
+/* Responsive Styles for Mobile */
+@media (max-width: 768px) {
+/* Navbar: Adjust Profile Icon & Logo */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #31004f;
+  padding: 22px;
+
+}
+
+.navbar .logo {
+  font-size: 30px;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
+
+.nav-links .logout-btn {
+  display: none;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+}

@@ -110,11 +110,9 @@ body {
   border-radius: 50%;
   object-fit: cover;
   border: 4px solid var(--clr-bg);
-  background: #d8d8d8;
 }
 
 .avatar.default {
-  background: #d8d8d8;
   color: var(--clr-bg);
 }
 
@@ -1021,74 +1019,6 @@ cursor: pointer;
 background-color: #8a2be2;
 }
 
-/* Navbar Container */
-.navbar {
-display: flex;
-justify-content: space-between;
-align-items: center;
-background-color: #31004f;
-padding: 15px 30px;
-box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-position: sticky;
-top: 0;
-width: 100%;
-z-index: 1000;
-}
-
-/* Logo Styling */
-.logo {
-font-size: 35px;
-font-weight: bold;
-text-decoration: none;
-color: whitesmoke;
-}
-
-/* Navigation Links */
-.nav-links {
-display: flex;
-align-items: center;
-gap: 20px;
-}
-
-.nav-links a {
-text-decoration: none;
-color: whitesmoke;
-font-size: 16px;
-font-weight: 500;
-padding: 8px 12px;
-border-radius: 5px;
-transition: background 0.3s ease;
-}
-
-.nav-links a:hover {
-color: silver;
-}
-
-/* Profile Icon */
-.nav-profile-pic {
-width: 50px;
-height: 50px;
-border-radius: 60%;
-object-fit: cover;
-cursor: pointer;
-}
-
-/* Logout Button */
-.logout-btn {
-background-color: black;
-color: white;
-border: none;
-padding: 8px 12px;
-border-radius: 5px;
-cursor: pointer;
-transition: background 0.3s ease;
-}
-
-.logout-btn:hover {
-background-color: #111;
-color: whitesmoke;
-}
-
 .bottom-nav{
 display: none;
 }
@@ -1133,33 +1063,6 @@ display: none;
  /* Hide User Avatar on Mobile */
  .user-avatar {
   display: none;
-}
-
-/* Navbar: Adjust Profile Icon & Logo */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #31004f;
-  padding: 22px;
-
-}
-
-.navbar .logo {
-  font-size: 30px;
-  font-weight: bold;
-  color: white;
-  text-decoration: none;
-}
-
-.nav-links .logout-btn {
-  display: none;
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
 /* Search Bar and Category Dropdown */
@@ -1288,22 +1191,6 @@ bottom: 0;
 width: 100%;
 }
 
-.nav-icon {
-display: flex;
-justify-content: center;
-align-items: center;
-padding: 10px;
-}
-
-.icon {
-color: white;
-transition: transform 0.2s ease-in-out;
-}
-
-.nav-icon:hover .icon,
-.sidebar-icon:hover .icon {
-transform: scale(1.2);
-}
 
 /* Hide Bottom Navbar on Desktop */
 @media (min-width: 769px) {
@@ -1631,43 +1518,6 @@ html, body {
 
 .mobile-sidebar-content {
   margin-top: 40px;
-}
-/* ===================================================================================== */
-
-
-/* =================== Hamburger Icon ================================================================== */
-/* Hamburger Icon (Visible on Mobile Only) */
-.hamburger-icon {
-  background: none;
-  border: none;
-  color: whitesmoke;
-  display: none;
-  cursor: pointer;
-}
-
-@media (max-width: 768px) {
-  .hamburger-icon {
-    display: block;
-  }
-
-  .logo {
-    margin: 0 auto;
-  }
-
-  .nav-links a:not(.profile-link),
-.logout-btn {
-  display: none; /* Only hide login/register and logout */
-}
-
-.profile-link {
-  display: block; /* Always show profile icon */
-}
-
-.profile-link img,
-.profile-link svg {
-  display: block;
-}
-
 }
 /* ===================================================================================== */
 
@@ -2400,14 +2250,6 @@ html, body {
 
 /* ==== NAVBAR RELATED CSS FOR Navbar.jsx ===== */
 @media (max-width: 768px) {
-  .navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    height: 66.5px; 
-  }
 
   .header {
     position: fixed;
@@ -3045,6 +2887,7 @@ html, body {
 
 
 
+/* ==== BLUR CSS FOR PREMIUM POSTCARD FOR Home.jsx ===== */
 /* wrapper so we can blur + overlay */
 .premium-img-wrapper { position: relative; }
 
@@ -3084,9 +2927,6 @@ html, body {
 .premium-card-link .premium-card:hover {
   background: rgba(0,0,0,0.04);
 }
-
-
-
 
 
 .premium-grid {
@@ -3129,7 +2969,224 @@ html, body {
   grid-template-columns: 1fr;
   gap: 0.75rem;
 }
+/* ==== BLUR CSS FOR PREMIUM POSTCARD FOR Home.jsx ===== */
 
+
+
+/* Navbar Container */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #31004f;
+  padding: 15px 30px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+/* Logo Styling */
+.logo {
+  font-size: 35px;
+  font-weight: bold;
+  text-decoration: none;
+  color: whitesmoke;
+}
+
+/* Navigation Links */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: whitesmoke;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: silver;
+}
+
+/* Profile Icon */
+.nav-profile-pic {
+  width: 50px;
+  height: 50px;
+  border-radius: 60%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+/* Logout Button */
+.logout-btn {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: #111;
+  color: whitesmoke;
+}
+
+.bottom-nav {
+  display: none;
+}
+
+/* Nav Icon */
+.nav-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.icon {
+  color: white;
+  transition: transform 0.2s ease-in-out;
+}
+
+.nav-icon:hover .icon,
+.sidebar-icon:hover .icon {
+  transform: scale(1.2);
+}
+
+/* Hamburger Icon (Visible on Mobile Only) */
+.hamburger-icon {
+  background: none;
+  border: none;
+  color: whitesmoke;
+  display: none;
+  cursor: pointer;
+}
+
+/* --- Right-side icons --- */
+.nav-icon {
+  background: none;
+  border: none;
+  color: whitesmoke;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+}
+
+.nav-icon:hover {
+  color: silver;
+}
+
+/* Kebab Dropdown */
+.kebab-dropdown {
+  position: absolute;
+  right: 30px;
+  top: 60px;
+  background: #222;
+  border: 1px solid #444;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  min-width: 140px;
+  z-index: 1200;
+}
+
+.kebab-dropdown a,
+.kebab-dropdown button {
+  color: whitesmoke;
+  padding: 8px 12px;
+  text-align: left;
+  background: none;
+  border: none;
+  width: 100%;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.kebab-dropdown a:hover,
+.kebab-dropdown button:hover {
+  background: #333;
+}
+
+/* Circle background around Create Post icon */
+.nav-icon.create-post {
+  background-color: white;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  transition: transform 0.2s ease;
+}
+
+.nav-icon.create-post .icon,
+.nav-icon.create-post svg {
+  color: #31004f; /* or any icon color you want */
+}
+
+.nav-icon.create-post:hover {
+  transform: scale(1.05);
+}
+
+
+/* --- Responsive Styles for Mobile --- */
+@media (max-width: 768px) {
+  .hamburger-icon {
+    display: block;
+    order: 1;
+  }
+
+  .nav-links {
+    display: none;
+    order: 2;
+  }
+
+  .logo {
+    order: 3;
+    margin-left: auto;
+    margin-right: 0;
+    font-size: 30px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+  }
+
+  .nav-links a:not(.profile-link),
+  .logout-btn {
+    display: none;
+  }
+
+  .profile-link {
+    display: block;
+  }
+
+  .profile-link img,
+  .profile-link svg {
+    display: block;
+  }
+
+  .navbar {
+    padding: 22px;
+    height: 60px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #31004f;
+  }
+}
 
 
 
