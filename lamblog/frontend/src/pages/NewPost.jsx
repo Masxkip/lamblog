@@ -1,9 +1,16 @@
 import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import {
+  Camera,
+  Music2,
+  Lock
+} from "lucide-react";
+
 import AuthContext from "../context/AuthContext";
 import BottomNav from "../components/BottomNav";
 import BackArrow from "../components/BackArrow";
+import LoadingButton from "../components/LoadingButton";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -14,11 +21,14 @@ function NewPost() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [music, setMusic] = useState(null);
+  const [musicPreview, setMusicPreview] = useState(null);
   const [category, setCategory] = useState("");
   const [customCategory, setCustomCategory] = useState("");
-  const [isPremium, setIsPremium] = useState(false);
   const [message, setMessage] = useState("");
+  const [isPremium, setIsPremium] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const categories = ["Technology", "Health", "Lifestyle", "Education", "Business", "Other"];
 
@@ -29,16 +39,42 @@ function NewPost() {
     }
   }, [message]);
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleMusicChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setMusic(file);
+      setMusicPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const removeImage = () => {
+    setImage(null);
+    setImagePreview(null);
+  };
+
+  const removeMusic = () => {
+    setMusic(null);
+    setMusicPreview(null);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const token = localStorage.getItem("token");
     if (!token) {
       setMessage("Unauthorized: No token found.");
       return;
     }
 
-    // ✅ Normalize category
+    setLoading(true);
+
     let finalCategory =
       category === "Other"
         ? customCategory.trim().toLowerCase().replace(/\s+/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
@@ -65,6 +101,8 @@ function NewPost() {
       setTimeout(() => navigate("/"), 2000);
     } catch (err) {
       setMessage(err.response?.data?.message || "Failed to create post.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -73,6 +111,7 @@ function NewPost() {
       <BackArrow />
       <h2>Create New Post</h2>
       {message && <p className="success-message">{message}</p>}
+
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -89,7 +128,7 @@ function NewPost() {
           required
         />
 
-        {/* Category */}
+        {/* Category Select */}
         <div className="file-upload-section">
           <select value={category} onChange={(e) => setCategory(e.target.value)} required>
             <option value="">-- Choose a Category --</option>
@@ -99,6 +138,7 @@ function NewPost() {
           </select>
         </div>
 
+        {/* Custom Category */}
         {category === "Other" && (
           <div className="file-upload-section">
             <label>Enter Custom Category:</label>
@@ -112,58 +152,87 @@ function NewPost() {
           </div>
         )}
 
-        {/* Image Upload */}
+        {/* Premium Toggle */}
+{/* --- Premium Toggle (modern switch) --- */}
+{user.isSubscriber ? (
+  <div className="file-upload-section premium-toggle">
+    <label className="toggle">
+      <input
+        type="checkbox"
+        checked={isPremium}
+        onChange={(e) => setIsPremium(e.target.checked)}
+      />
+      <span className="slider"></span>
+    </label>
+    <span className="toggle-label">Mark this post as Premium</span>
+  </div>
+) : (
+  <div className="file-upload-section premium-toggle">
+    <label className="toggle disabled">
+      <input type="checkbox" disabled />
+      <span className="slider"></span>
+    </label>
+
+    <div className="locked-inline">
+      <Lock size={14} style={{ marginRight: "6px" }} />
+      <span>Subscribe to unlock premium posting</span>
+      <Link to="/subscribe">
+        <button className="subscribe-btn small">Subscribe Now</button>
+      </Link>
+    </div>
+  </div>
+)}
+
+
+        {/* Image Upload with Preview */}
         <div className="file-upload-section">
-          <label>📷 Add an Image:</label>
-          <input type="file" onChange={(e) => setImage(e.target.files[0])} />
+          <label>
+            <Camera size={16} style={{ marginRight: "6px" }} />
+            Add an Image:
+          </label>
+          <input type="file" accept="image/*" onChange={handleImageChange} />
+          {imagePreview && (
+            <div className="preview-block">
+              <img src={imagePreview} alt="Preview" className="image-preview" />
+              <button type="button" className="remove-btn" onClick={removeImage}>Remove</button>
+            </div>
+          )}
         </div>
 
-        {/* Music Upload */}
+        {/* Music Upload with Preview */}
         {user.isSubscriber ? (
           <div className="file-upload-section">
-            <label>🎵 Add Music:</label>
-            <input type="file" accept="audio/*" onChange={(e) => setMusic(e.target.files[0])} />
+            <label>
+              <Music2 size={16} style={{ marginRight: "6px" }} />
+              Add Music:
+            </label>
+            <input type="file" accept="audio/*" onChange={handleMusicChange} />
+            {musicPreview && (
+              <div className="preview-block">
+                <audio controls src={musicPreview} className="audio-preview" />
+                <button type="button" className="remove-btn" onClick={removeMusic}>Remove</button>
+              </div>
+            )}
           </div>
         ) : (
           <div className="file-upload-section">
-            <label>🎵 Add Music:</label>
+            <label>
+              <Music2 size={16} style={{ marginRight: "6px" }} />
+              Add Music:
+            </label>
             <input type="file" disabled />
-            <p className="subscribe-notice">Subscribe to upload music 🎶</p>
-            <Link to="/subscribe">
-              <button className="subscribe-btn">Subscribe Now</button>
-            </Link>
+            <div className="locked-inline">
+              <Lock size={14} style={{ marginRight: "6px" }} />
+              <span>Subscribe to upload music</span>
+            </div>
           </div>
         )}
 
-        {/* Premium Post Toggle */}
-        {user.isSubscriber ? (
-          <div className="file-upload-section">
-            <label>
-              <input
-                type="checkbox"
-                checked={isPremium}
-                onChange={(e) => setIsPremium(e.target.checked)}
-              />
-              Mark this post as Premium
-            </label>
-          </div>
-        ) : (
-          <div className="file-upload-section">
-            <label>
-              <input type="checkbox" disabled />
-              Mark this post as Premium
-            </label>
-            <p className="subscribe-notice">
-              🔒 Subscribe to unlock premium posting.
-              <Link to="/subscribe">
-                <button className="subscribe-btn">Subscribe Now</button>
-              </Link>
-            </p>
-          </div>
-        )}
-
-        <button type="submit">Publish</button>
+        <LoadingButton isLoading={loading} type="submit">
+          Create Post
+        </LoadingButton>
       </form>
+
       <BottomNav />
     </div>
   );

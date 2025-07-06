@@ -672,170 +672,225 @@ background: #111;
 
 
 /* ================ New Post.jsx ===================================================================== */
-/* New Post (Create Post Page) */
 .post-container {
-max-width: 600px;
-margin: 40px auto;
-background-color: black;
-color: whitesmoke;
-padding: 30px;
-border: 1px solid #333;
-border-radius: 12px;
-box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
-margin-bottom: 75px;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 5rem;
+  background-color: #1a1a1d;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  color: white;
 }
 
 .post-container h2 {
-text-align: center;
-font-size: 1.8em;
-margin-bottom: 25px;
-color: #fff;
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
 }
 
-/* Message Feedback */
-.success-message {
-text-align: center;
-margin-bottom: 15px;
-color: silver;
-font-weight: bold;
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
 }
 
-.post-container form {
-align-items: center; 
-margin-right: 30px;
+input[type="text"],
+textarea,
+select {
+  background-color: #262629;
+  border: 1px solid #444;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  color: white;
+  font-size: 1rem;
+  width: 100%;
+  resize: vertical;
+  transition: border 0.2s ease;
 }
 
-/* Input & Textarea Fields */
-.post-container input[type="text"],
-.post-container textarea,
-.post-container select {
-width: 100%;
-padding: 12px;
-margin: 12px 0;
-border: 1px solid #555;
-border-radius: 6px;
-background-color: whitesmoke;
-color: black;
-font-size: 1em;
+textarea {
+  min-height: 150px;
 }
 
-.post-container select {
-width: 100%;
-padding: 12px;
-margin: 12px 0;
-border: 1px solid #555;
-border-radius: 6px;
-background-color: #6a1bbd;
-color: whitesmoke;
-font-size: 1em;
-}
-
-.post-container textarea {
-min-height: 120px;
-resize: vertical;
-}
-
-/* File Upload Sections */
-.file-upload-section {
-margin-top: 18px;
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #8ab4ff;
+  outline: none;
 }
 
 .file-upload-section label {
-display: block;
-font-weight: bold;
-margin-bottom: 5px;
-color: #ddd;
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
 }
 
-/* File Inputs */
 .file-upload-section input[type="file"] {
-background-color: transparent;
-color: whitesmoke;
-border: none;
-font-size: 0.9em;
+  background: none;
+  color: #aaa;
+  border: none;
+  font-size: 0.95rem;
 }
 
-/* Submit Button */
-.post-container button[type="submit"] {
-width: 100%;
-padding: 12px;
-margin-top: 20px;
-margin-bottom: 60px;
-background-color: #6a1bbd;
-color: whitesmoke;
-border: none;
-border-radius: 6px;
-font-weight: bold;
-font-size: 1em;
-cursor: pointer;
-transition: background 0.3s ease;
+/* Premium Toggle */
+.file-upload-section input[type="checkbox"] {
+  margin-right: 8px;
 }
 
-.post-container button[type="submit"]:hover {
-background-color: #8a2be2;
+.subscribe-notice {
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-top: 8px;
 }
 
-@media (max-width: 768px) {
-  .post-container input[type="text"],
-  .post-container textarea,
-  .post-container select,
-  .post-container button[type="submit"] {
-    font-size: 16px !important;
+.subscribe-btn {
+  margin-top: 8px;
+  background: #7d3cff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.subscribe-btn:hover {
+  background: #a18fff;
+}
+
+.success-message {
+  text-align: center;
+  color: #00e676;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+/* Responsive for Mobile */
+@media (max-width: 600px) {
+  .post-container {
+    padding: 1.5rem 1rem 4rem;
+  }
+
+  .post-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .subscribe-btn {
+    width: 100%;
   }
 }
 
-/* Tablet & Below */
-@media (max-width: 768px) {
-.post-container {
-  margin: 20px 15px;
-  padding: 20px;
-  margin-top: 18%;
-  margin-bottom: 25%;
+
+.preview-block {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
 }
 
-.post-container h2 {
-  font-size: 1.5em;
-}
-
-.post-container input[type="text"],
-.post-container textarea,
-.post-container select {
-  font-size: 0.95em;
-  padding: 10px;
-}
-
-.file-upload-section label {
-  font-size: 0.9em;
-}
-
-.post-container button[type="submit"] {
-  padding: 10px;
-  font-size: 0.95em;
-}
-}
-
-/* Small Mobile Devices */
-@media (max-width: 480px) {
-.post-container {
-  padding: 15px;
+.image-preview {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
   border-radius: 10px;
+  border: 1px solid #444;
 }
 
-.post-container h2 {
-  font-size: 1.3em;
+.audio-preview {
+  width: 100%;
 }
 
-.post-container textarea {
-  min-height: 100px;
+.remove-btn {
+  background-color: transparent;
+  border: 1px solid #ff4444;
+  color: #ff4444;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.file-upload-section label {
-  font-size: 0.85em;
+.remove-btn:hover {
+  background-color: #ff444430;
 }
 
-.post-container button[type="submit"] {
-  font-size: 0.9em;
+.locked-inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #aaa;
+  flex-wrap: wrap;
+  margin-top: 6px;
 }
+
+.subscribe-btn.small {
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  border-radius: 18px;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+/* ---- Modern Toggle Switch ---- */
+.premium-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.toggle {
+  position: relative;
+  width: 48px;
+  height: 24px;
+  margin-top: 8px;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: #555;
+  border-radius: 34px;
+  transition: background 0.25s ease;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.25s ease;
+}
+
+/* ---- ON state ---- */
+.toggle input:checked + .slider {
+  background: #7d3cff;               /* your brand purple */
+}
+
+.toggle input:checked + .slider::before {
+  transform: translateX(24px);
+}
+
+/* ---- Disabled look ---- */
+.toggle.disabled .slider {
+  background: #333;
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 /* ===================================================================================== */
@@ -3386,7 +3441,7 @@ html, body {
   background-color: #7d3cff;
   color: white;
   border: none;
-  padding: 12px 28px;
+  padding: 10px 24px;
   font-size: 1rem;
   font-weight: 600;
   border-radius: 30px;
@@ -3402,7 +3457,7 @@ html, body {
 @media (max-width: 600px) {
   .subscribe-box {
     padding: 30px 20px;
-    margin-top: 60px;
+    margin-top: 40px;
     border-radius: 16px;
   }
 
@@ -3415,7 +3470,7 @@ html, body {
   }
 
   .benefits-list li {
-    font-size: 0.95rem;
+    font-size: 1.01rem;
     flex-direction: row;
     justify-content: center;
     text-align: center;
