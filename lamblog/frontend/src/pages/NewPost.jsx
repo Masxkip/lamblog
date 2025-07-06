@@ -228,9 +228,13 @@ function NewPost() {
           </div>
         )}
 
-        <LoadingButton isLoading={loading} type="submit">
-          Create Post
-        </LoadingButton>
+       <LoadingButton
+  isLoading={loading}
+  type="submit"
+  className={`submit-btn ${loading ? "loading" : ""}`}
+>
+  Create Post
+</LoadingButton>
       </form>
 
       <BottomNav />

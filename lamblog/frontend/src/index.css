@@ -675,6 +675,8 @@ background: #111;
 .post-container {
   max-width: 700px;
   margin: 0 auto;
+  margin-top: 30px;
+  margin-bottom: 20px;
   padding: 2rem 1.5rem 5rem;
   background-color: #1a1a1d;
   border-radius: 16px;
@@ -892,6 +894,43 @@ select:focus {
   opacity: 0.4;
   cursor: not-allowed;
 }
+
+/* Modern Submit Button */
+.submit-btn {
+  background-color: #7d3cff;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.submit-btn:hover {
+  background-color: #9a6eff;
+  transform: scale(1.02);
+}
+
+.submit-btn:disabled,
+.submit-btn.loading {
+  background-color: #4b2a88;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Mobile: full width */
+@media (max-width: 600px) {
+  .submit-btn {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 1rem;
+  }
+}
+
+
 
 /* ===================================================================================== */
 
