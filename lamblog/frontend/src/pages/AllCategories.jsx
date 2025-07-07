@@ -5,6 +5,8 @@ import BottomNav from "../components/BottomNav";
 import BackArrow from "../components/BackArrow";
 import { MoreHorizontal } from "lucide-react";
 
+const API_URL = import.meta.env.VITE_BACKEND_URL;
+
 function AllCategories() {
   const [posts, setPosts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,7 +19,7 @@ function AllCategories() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/posts");
+        const res = await axios.get(`${API_URL}/api/posts`);
         setPosts(res.data);
       } catch (err) {
         console.error("Failed to fetch posts", err);
@@ -33,7 +35,7 @@ function AllCategories() {
     const fetchTrending = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/api/posts/trending/posts"
+          `${API_URL}/api/posts/trending/posts`
         );
         setTrendingPosts(res.data);
       } catch (err) {
