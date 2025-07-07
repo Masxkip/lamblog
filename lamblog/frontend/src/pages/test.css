@@ -21,3 +21,347 @@ border: 1.5px solid #333;
 }
 
 
+
+
+
+
+
+/* ==== BODY CSS FOR Body ===== */
+/* Prevent horizontal scroll on mobile */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+}
+/* ==== BODY CSS FOR Body ===== */
+
+
+
+/* ==== HEADER Home.jsx===== */
+/* Sticky search + avatar header */
+.header {
+  position: sticky; /* adjust this based on your navbar height */
+  z-index: 999;
+  background-color: black;
+  padding: 15px;
+  border-bottom: 1px solid #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Optional: shadow for floating effect */
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #444;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .header {
+    top: -40px; 
+    width: 100%;
+    padding: 10px;
+  }
+}
+/* ==== HEADER Home.jsx===== */
+
+
+/* ==== HEADER Home.jsx===== */
+.header {
+  position: sticky;
+  top: -7px; 
+  z-index: 999;
+  background-color: black;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #333;
+  border-radius: 0%;
+}
+@media (max-width: 768px) {
+  .header {
+    position: sticky;
+    top: 105px; 
+    width: 100%;
+    z-index: 1000;
+    background-color: black;
+    padding: 10px;
+    margin: 0;
+    border: none;
+  }
+}
+/* ==== HEADER Home.jsx===== */
+
+
+/* ==== NAVBAR RELATED CSS FOR Navbar.jsx ===== */
+@media (max-width: 768px) {
+
+  .header {
+    position: fixed;
+    top: 63px;
+    left: 0;
+    border: none;
+    width: 100%;
+    z-index: 999;
+    padding: 10px;
+    background-color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .search-bar {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .main-content {
+    margin-top: 130px; 
+  }
+}
+/* ===================================================================================== */
+
+
+
+/* ==== SINGLE POSTS RELATED CSS FOR SinglePosts.jsx ===== */
+.single-post-image {
+  width: 100%;
+  height: auto;
+  max-height: 600px; 
+  object-fit: cover;
+  border-radius: 8px;
+  margin-top: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+
+.music-player {
+  margin-top: 20px; 
+  text-align: left; 
+}
+/* ==== SINGLE POSTS RELATED CSS FOR SinglePosts.jsx ===== */
+
+
+
+/* ==== RATINGS STAR BTNS CSS FOR SinglePosts.jsx ===== */
+.rating-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.star-button {
+  background: transparent;
+  border: 1px solid #6a1bbd;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: white;
+  font-weight: bold;
+  transition: transform 0.2s ease;
+}
+
+.star-button:hover {
+  transform: scale(1.05);
+  background-color: rgba(255, 215, 0, 0.1);
+}
+/* ==== RATINGS STAR BTNS CSS FOR SinglePosts.jsx ===== */
+
+
+
+
+
+
+/* ==== AUTH FORM 2 CSS FOR  AUTH FORMS ===== */
+/* Wrapper & Container */
+.auth-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  min-height: 100vh;
+  background: #000;
+}
+
+.auth-box {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  max-width: 800px;
+  border: 2px solid #5b00b7;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(91, 0, 183, 0.6);
+  background: #111;
+  overflow: hidden;
+  flex-wrap: wrap;
+}
+
+/*  Left Side */
+.auth-info {
+  flex: 1;
+  background: #1a1a1a;
+  color: white;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 2px solid #333;
+}
+
+.auth-info h3 {
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.auth-link {
+  color: #a78bfa;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* Right Side Form */
+.auth-form {
+  flex: 2;
+  padding: 2rem;
+  color: white;
+}
+
+.auth-form h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/*  Form Controls */
+.form-control {
+  margin-bottom: 1rem;
+}
+
+.form-control label {
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.form-control input {
+  width: 100%;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  background-color: whitesmoke;
+  color: white;
+  font-size: 1rem;
+}
+
+/* Password Toggle */
+.password-field {
+  position: relative;
+}
+
+.password-field input {
+  padding-right: 40px;
+}
+
+.eye-icon {
+  position: absolute;
+  top: 75%;
+  right: 12px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: black;
+}
+
+/* Submit Button */
+.auth-button {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #5b00b7;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.auth-button:hover {
+  background-color: #9333ea;
+}
+
+/* Message Styles */
+.success-message {
+  color: whitesmoke;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .auth-box {
+    flex-direction: column;
+    border-radius: 12px;
+  }
+
+  .auth-info {
+    border-right: none;
+    border-bottom: 1px solid #333;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .auth-form {
+    padding: 1.5rem;
+  }
+}
+
+.form-control input {
+  width: 100%;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  background-color: whitesmoke;
+  color: black;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .verify-container {
+    margin: 40px auto; 
+    padding: 20px;
+  }
+
+  .auth-wrapper {
+    padding: 1rem;
+    min-height: 100dvh;
+    box-sizing: border-box;
+  }
+}
+/* ==== AUTH FORM 2 CSS FOR  AUTH FORMS ===== */
+
+
+
+

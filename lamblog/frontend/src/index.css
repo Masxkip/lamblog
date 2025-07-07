@@ -1,5 +1,5 @@
 
-/* Global Styles */
+/* ==== BODY CSS ===== */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -7,11 +7,25 @@ body {
   background-color: black;
   color: whitesmoke;
 }
-/* ===================================================================================== */
+
+/* ==== BODY CSS FOR Body ===== */
+/* Prevent horizontal scroll on mobile */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+}
+/* ==== BODY CSS FOR Body ===== */
+
+/* ==== BODY CSS ===== */
 
 
 
-/* ===== Login & Sing up Forms.jsx ================================================================================ */
+/* ==== LOGIN & SIGN UP CSS FOR Login & sign up.jsx ===== */
 /* Auth Forms */
 .auth-container {
   background: whitesmoke;
@@ -54,11 +68,190 @@ body {
 .auth-container button:hover {
   background: #8a2be2;
 }
-/* ===================================================================================== */
 
 
 
-/* ======== Profile.jsx ============================================================================= */
+/* ==== AUTH FORM 2 CSS FOR  AUTH FORMS ===== */
+/* Wrapper & Container */
+.auth-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  min-height: 100vh;
+  background: #000;
+}
+
+.auth-box {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  max-width: 800px;
+  border: 2px solid #5b00b7;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(91, 0, 183, 0.6);
+  background: #111;
+  overflow: hidden;
+  flex-wrap: wrap;
+}
+
+/*  Left Side */
+.auth-info {
+  flex: 1;
+  background: #1a1a1a;
+  color: white;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 2px solid #333;
+}
+
+.auth-info h3 {
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.auth-link {
+  color: #a78bfa;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* Right Side Form */
+.auth-form {
+  flex: 2;
+  padding: 2rem;
+  color: white;
+}
+
+.auth-form h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/*  Form Controls */
+.form-control {
+  margin-bottom: 1rem;
+}
+
+.form-control label {
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.form-control input {
+  width: 100%;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  background-color: whitesmoke;
+  color: white;
+  font-size: 1rem;
+}
+
+/* Password Toggle */
+.password-field {
+  position: relative;
+}
+
+.password-field input {
+  padding-right: 40px;
+}
+
+.eye-icon {
+  position: absolute;
+  top: 75%;
+  right: 12px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: black;
+}
+
+/* Submit Button */
+.auth-button {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #5b00b7;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.auth-button:hover {
+  background-color: #9333ea;
+}
+
+/* Message Styles */
+.success-message {
+  color: whitesmoke;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .auth-box {
+    flex-direction: column;
+    border-radius: 12px;
+  }
+
+  .auth-info {
+    border-right: none;
+    border-bottom: 1px solid #333;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .auth-form {
+    padding: 1.5rem;
+  }
+}
+
+.form-control input {
+  width: 100%;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  background-color: whitesmoke;
+  color: black;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .verify-container {
+    margin: 40px auto; 
+    padding: 20px;
+  }
+
+  .auth-wrapper {
+    padding: 1rem;
+    min-height: 100dvh;
+    box-sizing: border-box;
+  }
+}
+/* ==== AUTH FORM 2 CSS FOR  AUTH FORMS ===== */
+
+/* ==== LOGIN & SIGN UP CSS FOR Login & sign up.jsx ===== */
+
+
+
+/* ==== PROFILE CSS FOR Profile.jsx ===== */
 /* ---------- LAYOUT ---------- */
 .profile-wrapper {
   display: flex;
@@ -221,7 +414,6 @@ body {
   border: 1px solid #ccc;
 }
 
-
 /* ---------- BIO ---------- */
 .bio-section { margin: 1rem 0; }
 
@@ -333,12 +525,12 @@ body {
     font-size: 0.8rem;
     padding: 0.3rem 0.7rem;
   }
-
-  
 }
+/* ==== PROFILE CSS FOR Profile.jsx ===== */
 
 
-/* ========== Singlepost.jsx =========================================================================== */
+
+/* ==== SINGLE POST CSS FOR SinglePost.jsx ===== */
 /* Single Post Page */
 .single-post-container {
 max-width: 650px;
@@ -667,10 +859,60 @@ background: #111;
   }
 }
 
-/* ===================================================================================== */
 
 
-/* ========================= Home.jsx ============================================================ */
+/* ==== SINGLE POSTS RELATED CSS FOR SinglePosts.jsx ===== */
+.single-post-image {
+  width: 100%;
+  height: auto;
+  max-height: 600px; 
+  object-fit: cover;
+  border-radius: 8px;
+  margin-top: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+
+.music-player {
+  margin-top: 20px; 
+  text-align: left; 
+}
+/* ==== SINGLE POSTS RELATED CSS FOR SinglePosts.jsx ===== */
+
+
+
+/* ==== RATINGS STAR BTNS CSS FOR SinglePosts.jsx ===== */
+.rating-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.star-button {
+  background: transparent;
+  border: 1px solid #6a1bbd;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: white;
+  font-weight: bold;
+  transition: transform 0.2s ease;
+}
+
+.star-button:hover {
+  transform: scale(1.05);
+  background-color: rgba(255, 215, 0, 0.1);
+}
+/* ==== RATINGS STAR BTNS CSS FOR SinglePosts.jsx ===== */
+
+/* ==== SINGLE POST CSS FOR SinglePost.jsx ===== */
+
+
+
+/* ==== HOME LAYOUT CSS FOR Home.jsx ===== */
 /* General Layout */
 .home-layout {
 display: grid;
@@ -939,13 +1181,104 @@ display: none;
   flex-direction: column;
   align-items: center;
 }
-
 }
-/* ===================================================================================== */
+
+
+/* ==== HEADER Home.jsx===== */
+/* Sticky search + avatar header */
+.header {
+  position: sticky; /* adjust this based on your navbar height */
+  z-index: 999;
+  background-color: black;
+  padding: 15px;
+  border-bottom: 1px solid #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Optional: shadow for floating effect */
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #444;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .header {
+    top: -40px; 
+    width: 100%;
+    padding: 10px;
+  }
+}
+/* ==== HEADER Home.jsx===== */
+
+
+/* ==== HEADER Home.jsx===== */
+.header {
+  position: sticky;
+  top: -7px; 
+  z-index: 999;
+  background-color: black;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #333;
+  border-radius: 0%;
+}
+@media (max-width: 768px) {
+  .header {
+    position: sticky;
+    top: 105px; 
+    width: 100%;
+    z-index: 1000;
+    background-color: black;
+    padding: 10px;
+    margin: 0;
+    border: none;
+  }
+}
+/* ==== HEADER Home.jsx===== */
+
+
+/* ==== NAVBAR RELATED CSS FOR Navbar.jsx ===== */
+@media (max-width: 768px) {
+
+  .header {
+    position: fixed;
+    top: 63px;
+    left: 0;
+    border: none;
+    width: 100%;
+    z-index: 999;
+    padding: 10px;
+    background-color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .search-bar {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .main-content {
+    margin-top: 130px; 
+  }
+}
+
+/* ==== HOME LAYOUT CSS FOR Home.jsx ===== */
 
 
 
-/* ============================ Navbar.jsx ========================================================= */
+/* ==== NAVBAR PROFILE PIC CSS FOR Home.jsx ===== */
 /* Navbar Profile Picture */
 .nav-profile-pic {
 width: 45px;
@@ -1019,17 +1352,17 @@ bottom: 0;
 width: 100%;
 }
 
-
 /* Hide Bottom Navbar on Desktop */
 @media (min-width: 769px) {
 .bottom-nav {
   display: none;
 }
 }
-/* ===================================================================================== */
+/* ==== NAVBAR PROFILE PIC CSS FOR Home.jsx ===== */
 
 
-/* ===================================================================================== */
+
+/* ==== A LINKS CSS ===== */
 a, .profile-link {
 text-decoration: none;
 color: inherit; 
@@ -1038,10 +1371,11 @@ color: inherit;
 a:hover, .profile-link:hover {
 color: lightgray;
 }
-/* ===================================================================================== */
+/* ==== A LINKS CSS ===== */
 
 
-/* ============================ EditPost.jsx ========================================================= */
+
+/* ==== EDIT POST CSS FOR EditPost.jsx ===== */
 /* Edit Post Container */
 .edit-post-container {
 max-width: 800px;
@@ -1114,17 +1448,17 @@ background-color: #8a2be2;
   margin-bottom: 25%;
 
 }
-
 .edit-post-container input,
 .edit-post-container textarea {
   width: 100%;
   
 }
 }
-/* ===================================================================================== */
+/* ==== EDIT POST CSS FOR EditPost.jsx ===== */
 
 
-/* ================= EditProfile.jsx ==================================================================== */
+
+/* ==== EDIT PROFILE CSS FOR EditProfile.jsx ===== */
 /* Edit Profile Container */
 .edit-profile-container {
 max-width: 800px;
@@ -1195,86 +1529,11 @@ background-color: #8a2be2;
   width: 100%;
 }
 }
-/* ===================================================================================== */
+/* ==== EDIT PROFILE CSS FOR EditProfile.jsx ===== */
 
 
-/* ===================================================================================== */
-/* Prevent horizontal scroll on mobile */
-* {
-  box-sizing: border-box;
-}
 
-html, body {
-  margin: 0;
-  padding: 0;
-  max-width: 100%;
-}
-/* ===================================================================================== */
-
-
-/* ============================= NAVBAR ======================================================== */
-/* Sticky search + avatar header */
-.header {
-  position: sticky; /* adjust this based on your navbar height */
-  z-index: 999;
-  background-color: black;
-  padding: 15px;
-  border-bottom: 1px solid #333;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* Optional: shadow for floating effect */
-.header::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: #444;
-}
-
-/* Mobile adjustments */
-@media (max-width: 768px) {
-  .header {
-    top: -40px; 
-    width: 100%;
-    padding: 10px;
-  }
-}
-
-/* ====================== Navbar =============================================================== */
-.header {
-  position: sticky;
-  top: -7px; 
-  z-index: 999;
-  background-color: black;
-  padding: 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #333;
-  border-radius: 0%;
-}
-
-
-@media (max-width: 768px) {
-  .header {
-    position: sticky;
-    top: 105px; 
-    width: 100%;
-    z-index: 1000;
-    background-color: black;
-    padding: 10px;
-    margin: 0;
-    border: none;
-  }
-}
-
-
-/* ============================= Trending Post ======================================================== */
+/* ==== TRENDING POST CSS===== */
 /*  Trending Section Stylin */
 .trending-section1 {
   padding: 1rem 1rem 1rem 0rem;  /* Less padding on left */
@@ -1298,15 +1557,14 @@ html, body {
   border-bottom: 1px solid #333;
   
 }
-
 .trending-item1:hover {
   color: whitesmoke;
 }
+/* ==== TRENDING POST CSS===== */
 
-/* ===================================================================================== */
 
 
-/* =============== Mobile sidebar ====================================================================== */
+/* ==== MOBILE SIDEBAR CSS FOR MobileSidebar.jsx===== */
 /* Mobile Sidebar Drawer */
 .mobile-sidebar {
   position: fixed;
@@ -1347,10 +1605,10 @@ html, body {
 .mobile-sidebar-content {
   margin-top: 40px;
 }
-/* ===================================================================================== */
+/* ==== MOBILE SIDEBAR CSS FOR MobileSidebar.jsx===== */
 
 
-/* ======================== Trending Post Mobile ============================================================= */
+/* ==== TRENDING LIST MOBILE CSS FOR MobileSidebar.jsx===== */
 /* Trending List in Mobile Sidebar */
 .mobile-trending-section {
   margin-top: 30px;
@@ -1367,10 +1625,10 @@ html, body {
   font-size: 17px;
   transition: background 0.2s ease;
 }
-/* ===================================================================================== */
+/* ==== TRENDING LIST MOBILE CSS FOR MobileSidebar.jsx===== */
 
 
-/* ============================ mobile Logout and login ========================================================= */
+/* ==== MOBILE LOGOUT & LOGIN CSS FOR MobileSidebar.jsx===== */
 /* Mobile Sidebar Auth Links */
 .mobile-auth-links {
   margin-top: 25px;
@@ -1395,14 +1653,14 @@ html, body {
   color: #a682ff;
 }
 
-
 .logout {
   margin-bottom: 20px;
 }
-/* ===================================================================================== */
+/* ==== MOBILE LOGOUT & LOGIN CSS FOR MobileSidebar.jsx===== */
 
 
-/* =========================== Category Menu Mobile========================================================== */
+
+/* ==== TOP CATEGORT MENU CSS FOR MobileSidebar.jsx===== */
 /* Custom Category Dropdown */
 .category-dropdown-custom {
   margin-bottom: 20px;
@@ -1450,10 +1708,10 @@ html, body {
 .category-item:hover {
   background-color: #8a2be2;
 }
-/* ===================================================================================== */
+/* ==== TOP CATEGORT MENU CSS FOR MobileSidebar.jsx===== */
 
 
-/* ================== Hide scrollbar =================================================================== */
+/* ==== HIDE SCROLLBR ===== */
 /* Hide Scrollbar Outlines in Sidebar & Subscription */
 .sidebar,
 .subscription-section,
@@ -1468,16 +1726,15 @@ html, body {
   display: none;                    /* Chrome, Safari, Opera */
 }
 
-
 .sidebar,
 .subscription-section {
   overflow-y: auto;
   max-height: 100vh;
 }
-/* ===================================================================================== */
+/* ==== HIDE SCROLLBR ===== */
 
 
-/* ================= Verify.jsx ==================================================================== */
+/* ==== VERIFY CSS FOR VerifyEmail.jsx ===== */
 /* Verify Page Container */
 .verify-container {
   max-width: 400px;
@@ -1543,187 +1800,247 @@ html, body {
   margin-top: 15px;
   font-weight: bold;
 }
-/* ===================================================================================== */
+/* ==== VERIFY CSS FOR VerifyEmail.jsx ===== */
 
 
-/* ===========Auth login & logout form2 ========================================================================== */
-/* Wrapper & Container */
-.auth-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
-  min-height: 100vh;
-  background: #000;
-}
 
-.auth-box {
-  display: flex;
-  flex-direction: row;
-  width: 90%;
-  max-width: 800px;
-  border: 2px solid #5b00b7;
-  border-radius: 16px;
-  box-shadow: 0 0 20px rgba(91, 0, 183, 0.6);
-  background: #111;
-  overflow: hidden;
-  flex-wrap: wrap;
-}
-
-/*  Left Side */
-.auth-info {
-  flex: 1;
-  background: #1a1a1a;
-  color: white;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border-right: 2px solid #333;
-}
-
-.auth-info h3 {
-  margin-bottom: 1rem;
-  font-size: 1.3rem;
-}
-
-.auth-link {
-  color: #a78bfa;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 1rem;
-}
-
-/* Right Side Form */
-.auth-form {
-  flex: 2;
-  padding: 2rem;
-  color: white;
-}
-
-.auth-form h2 {
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-
-/*  Form Controls */
-.form-control {
-  margin-bottom: 1rem;
-}
-
-.form-control label {
-  display: block;
-  margin-bottom: 0.3rem;
-}
-
-.form-control input {
-  width: 100%;
-  padding: 0.6rem;
-  border: none;
-  border-radius: 8px;
-  outline: none;
-  background-color: whitesmoke;
-  color: white;
-  font-size: 1rem;
-}
-
-/* Password Toggle */
-.password-field {
-  position: relative;
-}
-
-.password-field input {
-  padding-right: 40px;
-}
-
-.eye-icon {
-  position: absolute;
-  top: 75%;
-  right: 12px;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: black;
-}
-
-/* Submit Button */
-.auth-button {
-  width: 100%;
-  padding: 0.75rem;
-  margin-top: 1rem;
-  border: none;
-  border-radius: 8px;
-  background-color: #5b00b7;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.auth-button:hover {
-  background-color: #9333ea;
-}
-
-/* Message Styles */
-.success-message {
+/* ==== VIEW ALL CATEGOIRES LINK CSS FOR AllCategories.jsx ===== */
+.view-all-categories-link {
   color: whitesmoke;
-  font-size: 0.9rem;
+  font-weight: bold;
+  text-decoration: none; 
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 10px; 
+}
+
+.view-all-categories-link:hover {
+  text-decoration: underline; 
+}
+
+/* Responsive mobile tweak */
+@media (max-width: 600px) {
+  .view-all-categories-link {
+    display: block;
+    margin-left: 0;
+    margin-top: 10px;
+    font-size: 15px;
+    text-align: left;
+  }
+}
+/* ==== VIEW ALL CATEGOIRES LINK CSS FOR AllCategories.jsx ===== */
+
+
+
+/* ==== BACKARROW CSS FOR BackArrow.jsx ===== */
+/* BackA */
+.back-circle {
+  width: 35px;
+  height: 35px;
+  margin-left: 15px;
+  margin-top: 20px;
+  border-radius: 50%;
+  background-color: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.3px solid whitesmoke;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.back-circle:hover {
+  background-color: black;
+  color: white;
+}
+/* ==== BACKARROW CSS FOR BackArrow.jsx ===== */
+
+
+/* ==== DYNAMIC ARROW CSS FOR DyanmicArrow.jsx ===== */
+.category-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  margin-top: 10px;
+}
+
+.category-title-text {
+  flex: 1;
   text-align: center;
-  margin-bottom: 1rem;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
 }
 
-.error-message {
-  color: red;
-  font-size: 0.9rem;
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .auth-box {
-    flex-direction: column;
-    border-radius: 12px;
-  }
-
-  .auth-info {
-    border-right: none;
-    border-bottom: 1px solid #333;
-    padding: 1.5rem;
-    text-align: center;
-  }
-
-  .auth-form {
-    padding: 1.5rem;
-  }
-}
-
-.form-control input {
-  width: 100%;
-  padding: 0.6rem;
+.back-circle,
+.next-arrow-button {
+  background: transparent;
   border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.back-circle:hover,
+.next-arrow-button:hover {
+  transform: scale(1.1);
+}
+
+.back-circle svg,
+.next-arrow-button svg,
+.lucid-icon {
+  color: whitesmoke;
+}
+/* ==== DYNAMIC ARROW CSS FOR DyanmicArrow.jsx ===== */
+
+
+/* ==== NO KEYWORD SEARCH MET CSS ===== */
+.no-posts-message {
+  padding: 2rem;
+  text-align: center;
+  font-style: italic;
+  color: #777;
+}
+/* ==== NO KEYWORD SEARCH MET CSS ===== */
+
+
+/* ==== lOADING CSS FOR BTNS ===== */
+.loading-btn {
+  opacity: 1;
+  transition: 0.3s;
+  padding: 0.5rem 1.2rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  background-color: #444;
+  color: #fff;
+  cursor: pointer;
+}
+
+.loading-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.loading-btn svg {
+  animation: spin 1.2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+/* ==== lOADING CSS FOR BTNS ===== */
+
+
+/* ==== PREMIUM POSTS LOCKED & BLURRED BANNER FOR Home.jsx ===== */
+.premium-overlay {
+  background-color: #f9f9f9;
+  padding: 1rem;
   border-radius: 8px;
-  outline: none;
-  background-color: whitesmoke;
-  color: black;
-  font-size: 1rem;
 }
 
-@media (max-width: 768px) {
-  .verify-container {
-    margin: 40px auto; 
-    padding: 20px;
-  }
-
-  .auth-wrapper {
-    padding: 1rem;
-    min-height: 100dvh;
-    box-sizing: border-box;
-  }
+.blurred-content {
+  filter: blur(4px);
+  opacity: 0.6;
+  user-select: none;
+  pointer-events: none;
 }
-/* ===================================================================================== */
+
+.locked-banner {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #b00;
+}
+/* ==== PREMIUM POSTS LOCKED & BLURRED BANNER FOR Home.jsx ===== */
 
 
-/* ================= AllCategories.jsx ==================================================================== */
+/* ==== PREMIUM POSTS RIGHT SIDEBAR FOR Home.jsx ===== */
+.premium-preview-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.premium-post-item {
+  text-decoration: none;
+  color: inherit;
+}
+
+.premium-thumbnail {
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+}
+
+.premium-title {
+  margin-top: 0.5rem;
+  font-weight: 500;
+  text-align: center;
+}
+/* ==== PREMIUM POSTS RIGHT SIDEBAR FOR Home.jsx ===== */
+
+
+/* ==== PREMIUM POSTS RIGHT SIDEBAR FOR Home.jsx ===== */
+.premium-card-link {
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+}
+
+.premium-card {
+  display: flex;
+  margin-top: 30px;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1rem;
+  border: 1.5px solid #999;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.premium-card:hover {
+  border-color: #333;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-link {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+/* ==== PREMIUM POSTS RIGHT SIDEBAR FOR Home.jsx ===== */
+
+
+/* ==== VIEW ALL PREMIUM POSTS LINKS FOR Home.jsx ===== */
+.view-all-link {
+  margin-top: 1rem;
+  text-align: left;
+}
+
+.view-all-link a {
+  color: var(--clr-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.view-all-link a:hover {
+  text-decoration: underline;
+}
+/* ==== VIEW ALL PREMIUM POSTS LINKS FOR Home.jsx ===== */
+
+
+
+/* ==== ALL CATEGORIES CSS FOR AllCategories.jsx ===== */
 .all-categories-page {
   padding: 20px;
   color: white;
@@ -1912,7 +2229,61 @@ html, body {
     display: inline-block;
   }
 }
-/* ===================================================================================== */
+
+
+/* === NEW: wrapper that holds arrow + input ===  allcate*/
+.category-searchbar-wrapper {
+  position: sticky;
+  top: 70px;              /* same offset you already liked */
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  z-index: 999;
+  margin-bottom: 20px;
+}
+
+/* reuse the arrow + result-label styles from Premium */
+.back-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  margin-top: -15px;
+}
+
+.search-results-heading {
+  margin: 0.5rem 0 1rem;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid #5c5cff;
+  background: #111;
+  color: #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+
+@media (max-width: 600px) {
+  .category-searchbar-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: sticky;
+    top: 62px;
+    z-index: 20;
+    background-color: #000;
+    padding: 12px 16px;
+    margin-top: 0;
+  }
+}
+/* ==== ALL CATEGORIES CSS FOR AllCategories.jsx ===== */
+
 
 
 /* ==== CATEGOIRES CSS FOR CategoryPosts.jsx ===== */
@@ -1998,321 +2369,7 @@ html, body {
     font-size: 14px;
   }
 }
-/* ===================================================================================== */
-
-
-
-/* ==== VIEW ALL CATEGOIRES LINK CSS FOR AllCategories.jsx ===== */
-.view-all-categories-link {
-  color: whitesmoke;
-  font-weight: bold;
-  text-decoration: none; 
-  font-size: 14px;
-  cursor: pointer;
-  margin-left: 10px; 
-}
-
-.view-all-categories-link:hover {
-  text-decoration: underline; 
-}
-
-/* Responsive mobile tweak */
-@media (max-width: 600px) {
-  .view-all-categories-link {
-    display: block;
-    margin-left: 0;
-    margin-top: 10px;
-    font-size: 15px;
-    text-align: left;
-  }
-}
-/* ==== VIEW ALL CATEGOIRES LINK CSS FOR AllCategories.jsx ===== */
-
-
-
-/* ==== BACKARROW CSS FOR BackArrow.jsx ===== */
-/* BackA */
-.back-circle {
-  width: 35px;
-  height: 35px;
-  margin-left: 15px;
-  margin-top: 20px;
-  border-radius: 50%;
-  background-color: black;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1.3px solid whitesmoke;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.back-circle:hover {
-  background-color: black;
-  color: white;
-}
-/* ==== BACKARROW CSS FOR BackArrow.jsx ===== */
-
-
-
-/* ==== SINGLE POSTS RELATED CSS FOR SinglePosts.jsx ===== */
-.single-post-image {
-  width: 100%;
-  height: auto;
-  max-height: 600px; 
-  object-fit: cover;
-  border-radius: 8px;
-  margin-top: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-
-.music-player {
-  margin-top: 20px; 
-  text-align: left; 
-}
-/* ==== SINGLE POSTS RELATED CSS FOR SinglePosts.jsx ===== */
-
-
-
-/* ==== NAVBAR RELATED CSS FOR Navbar.jsx ===== */
-@media (max-width: 768px) {
-
-  .header {
-    position: fixed;
-    top: 63px;
-    left: 0;
-    border: none;
-    width: 100%;
-    z-index: 999;
-    padding: 10px;
-    background-color: black;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .search-bar {
-    width: 100%;
-    margin: 0 auto;
-  }
-
-  .main-content {
-    margin-top: 130px; 
-  }
-}
-/* ===================================================================================== */
-
-
-/* ==== RATINGS STAR BTNS CSS FOR SinglePosts.jsx ===== */
-.rating-buttons {
-  display: flex;
-  gap: 12px;
-  margin-top: 10px;
-}
-
-.star-button {
-  background: transparent;
-  border: 1px solid #6a1bbd;
-  border-radius: 6px;
-  padding: 6px 10px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: white;
-  font-weight: bold;
-  transition: transform 0.2s ease;
-}
-
-.star-button:hover {
-  transform: scale(1.05);
-  background-color: rgba(255, 215, 0, 0.1);
-}
-/* ==== RATINGS STAR BTNS CSS FOR SinglePosts.jsx ===== */
-
-
-/* ==== DYNAMIC ARROW CSS FOR DyanmicArrow.jsx ===== */
-.category-header-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 16px;
-  margin-top: 10px;
-}
-
-.category-title-text {
-  flex: 1;
-  text-align: center;
-  margin: 0;
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: white;
-}
-
-.back-circle,
-.next-arrow-button {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.2s ease-in-out;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-}
-
-.back-circle:hover,
-.next-arrow-button:hover {
-  transform: scale(1.1);
-}
-
-.back-circle svg,
-.next-arrow-button svg,
-.lucid-icon {
-  color: whitesmoke;
-}
-/* ==== DYNAMIC ARROW CSS FOR DyanmicArrow.jsx ===== */
-
-
-/* ==== NO KEYWORD SEARCH MET CSS ===== */
-.no-posts-message {
-  padding: 2rem;
-  text-align: center;
-  font-style: italic;
-  color: #777;
-}
-/* ==== NO KEYWORD SEARCH MET CSS ===== */
-
-
-/* ==== lOADING CSS FOR BTNS ===== */
-.loading-btn {
-  opacity: 1;
-  transition: 0.3s;
-  padding: 0.5rem 1.2rem;
-  font-weight: 500;
-  border: none;
-  border-radius: 6px;
-  background-color: #444;
-  color: #fff;
-  cursor: pointer;
-}
-
-.loading-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.loading-btn svg {
-  animation: spin 1.2s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-/* ==== lOADING CSS FOR BTNS ===== */
-
-
-/* ==== PREMIUM POSTS LOCKED & BLURRED BANNER FOR Home.jsx ===== */
-.premium-overlay {
-  background-color: #f9f9f9;
-  padding: 1rem;
-  border-radius: 8px;
-}
-
-.blurred-content {
-  filter: blur(4px);
-  opacity: 0.6;
-  user-select: none;
-  pointer-events: none;
-}
-
-.locked-banner {
-  margin-top: 0.5rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #b00;
-}
-/* ==== PREMIUM POSTS LOCKED & BLURRED BANNER FOR Home.jsx ===== */
-
-
-/* ==== PREMIUM POSTS RIGHT SIDEBAR FOR Home.jsx ===== */
-.premium-preview-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.premium-post-item {
-  text-decoration: none;
-  color: inherit;
-}
-
-.premium-thumbnail {
-  width: 100%;
-  height: auto;
-  border-radius: 0.5rem;
-}
-
-.premium-title {
-  margin-top: 0.5rem;
-  font-weight: 500;
-  text-align: center;
-}
-/* ==== PREMIUM POSTS RIGHT SIDEBAR FOR Home.jsx ===== */
-
-
-/* ==== PREMIUM POSTS RIGHT SIDEBAR FOR Home.jsx ===== */
-.premium-card-link {
-  text-decoration: none;
-  color: inherit;
-  width: 100%;
-}
-
-.premium-card {
-  display: flex;
-  margin-top: 30px;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 1rem;
-  border: 1.5px solid #999;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  cursor: pointer;
-  transition: border 0.2s ease, box-shadow 0.2s ease;
-}
-
-.premium-card:hover {
-  border-color: #333;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.profile-link {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-/* ==== PREMIUM POSTS RIGHT SIDEBAR FOR Home.jsx ===== */
-
-
-/* ==== VIEW ALL PREMIUM POSTS LINKS FOR Home.jsx ===== */
-.view-all-link {
-  margin-top: 1rem;
-  text-align: left;
-}
-
-.view-all-link a {
-  color: var(--clr-primary);
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.view-all-link a:hover {
-  text-decoration: underline;
-}
-/* ==== VIEW ALL PREMIUM POSTS LINKS FOR Home.jsx ===== */
+/* ==== CATEGOIRES CSS FOR CategoryPosts.jsx ===== */
 
 
 
@@ -2329,7 +2386,7 @@ html, body {
   align-items: center;
   gap: 0.5rem;
   padding: 0.5 1rem;
-  margin-top: 1rem;
+  margin-top: 20px;
   position: sticky;
   top: 0;
   z-index: 20;
@@ -2400,10 +2457,10 @@ html, body {
   align-items: stretch;
 }
 
-
 /* Card styling */
 .premium-page-card {
   background-color: #111;
+  margin-top: 20px;
   border-radius: 12px;
   overflow: hidden;
   display: flex;
@@ -2481,33 +2538,47 @@ html, body {
   margin-top: 2rem;
 }
 
-/* Ensure input doesn't sscreens */
+/* ...existing Premium styles... */
+
+.premium-page-searchbar-wrapper {
+  position: sticky;
+  top: 70px;      /* ⬅️ was 0 — now matches AllCategories */
+  z-index: 20;
+  /* rest unchanged */
+}
+
+
 @media (max-width: 600px) {
-  .premium-page-searchbar {
-    margin-top: 13%;
-    font-size: 0.95rem;
-    padding: 0.6rem 0.9rem;
-  }
-
-   .back-icon {
-    font-size: 1.1rem;
-    padding: 0.2rem;
-    margin-top: 38px;
-  }
-
   .premium-page-searchbar-wrapper {
-    padding: 0.7 0.75rem;
-    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: sticky;
+    top: 62px;
+    z-index: 20;
+    background-color: #000;
+    padding: 12px 16px;
+    margin-top: 0;
   }
 
   .premium-page-searchbar {
-    font-size: 0.9rem;
-    padding: 0.7rem 1rem;
-    
+    flex: 1;
+    font-size: 0.95rem;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background-color: #1e1e1e;
+    color: #fff;
+    border: none;
+  }
+
+  .back-icon {
+    font-size: 1.2rem;
+    padding: 4px;
+    margin-top: -15px;
+    color: #fff;
   }
 }
 /* ==== PREMIUM PAGE CSS FOR Premium.jsx ===== */
-
 
 
 
