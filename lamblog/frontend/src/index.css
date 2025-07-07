@@ -2581,14 +2581,28 @@ background-color: #8a2be2;
 
 
 /* === Re-usable fixed-aspect image helpers (16:9) === */
-.fixed-image-wrapper {
+.fixed-image-wrapper1 {
   width: 100%;
   aspect-ratio: 16 / 9;
   overflow: hidden;
   border-radius: 8px;      /* matches Premium */
 }
 
-.fixed-image {
+.fixed-image1 {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.fixed-image-wrapper2 {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 8px;      /* matches Premium */
+}
+
+.fixed-image2 {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -2597,14 +2611,16 @@ background-color: #8a2be2;
 
 /* OPTIONAL: slightly tighter radius on mobile */
 @media (max-width: 768px) {
-  .fixed-image-wrapper { border-radius: 6px; }
+  .fixed-image-wrapper1 { border-radius: 6px; }
 }
 
 
+
+
 @media (max-width: 760px) {
-  .fixed-image-wrapper {
+  .fixed-image-wrapper1 {
     width: 140px;
-    aspect-ratio: 4 / 3;    /* ✅ taller image */
+    aspect-ratio: 4 / 4;    /* ✅ taller image */
     flex-shrink: 0;
     border-radius: 6px;
   }
@@ -2613,8 +2629,8 @@ background-color: #8a2be2;
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    min-width: 85%;
-    max-width: 85%;
+    min-width: 99%;
+    max-width: 99%;
     padding: 10px;
   }
 

@@ -62,11 +62,11 @@ function CategoryPosts() {
                 </Link>
                 <br />
 {post.image && (
-  <div className="fixed-image-wrapper">
+  <div className="fixed-image-wrapper2">
     <img
       src={post.image}
       alt="Post"
-      className="fixed-image"
+      className="fixed-image2"
     />
   </div>
 )}
