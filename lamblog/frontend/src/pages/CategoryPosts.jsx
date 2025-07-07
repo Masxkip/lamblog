@@ -57,9 +57,6 @@ function CategoryPosts() {
           {posts.map((post) => (
             <div key={post._id} className="category-post-card">
               <Link to={`/post/${post._id}`}>
-                <Link to={`/profile/${post.author._id}`} className="category-profile-link">
-                  @{post.author.username}
-                </Link>
                 <br />
 {post.image && (
   <div className="fixed-image-wrapper2">
@@ -70,11 +67,18 @@ function CategoryPosts() {
     />
   </div>
 )}
-                <h3>#{post.title}</h3>
-                <p>{post.content.substring(0, 100)}...</p>
+              <Link to={`/post/${post._id}`}>
+              <div className="premium-page-card-content">
+                <p className="premium-page-author">@{post.author.username}</p>
+                <h3 className="premium-page-title">#{post.title}</h3>
+                <p className="premium-page-snippet">
+                  {post.content.substring(0, 80)}...
+                </p>
+                <p><strong>Category:</strong> {post.category || "Uncategorized"}</p>
+                <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
+              </div>
               </Link>
-              <p><strong>Category:</strong> {post.category}</p>
-              <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
+              </Link>
             </div>
           ))}
         </div>

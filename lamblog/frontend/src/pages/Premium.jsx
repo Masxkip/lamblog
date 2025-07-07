@@ -101,6 +101,7 @@ function Premium() {
                 </div>
               )}
 
+                            <Link to={`/post/${post._id}`}>
               <div className="premium-page-card-content">
                 <p className="premium-page-author">@{post.author.username}</p>
                 <h3 className="premium-page-title">#{post.title}</h3>
@@ -110,6 +111,7 @@ function Premium() {
                 <p><strong>Category:</strong> {post.category || "Uncategorized"}</p>
                 <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
               </div>
+              </Link>
             </div>
           </Link>
         ))}

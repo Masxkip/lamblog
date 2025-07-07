@@ -126,23 +126,17 @@ function AllCategories() {
   )}
 
                     <div className="slider-post-content">
-                      <Link
-                        to={`/profile/${post.author._id}`}
-                        className="profile-link"
-                      >
-                        @{post.author.username}
-                      </Link>
-                      <Link to={`/post/${post._id}`}>
-                        <h3>#{post.title}</h3>
-                        <p>{post.content.substring(0, 80)}…</p>
-                      </Link>
-                      <p>
-                        <strong>Category:</strong> {post.category}
-                      </p>
-                      <p>
-                        <strong>Published:</strong>{" "}
-                        {new Date(post.createdAt).toLocaleString()}
-                      </p>
+                                   <Link to={`/post/${post._id}`}>
+              <div className="premium-page-card-content">
+                <p className="premium-page-author">@{post.author.username}</p>
+                <h3 className="premium-page-title">#{post.title}</h3>
+                <p className="premium-page-snippet">
+                  {post.content.substring(0, 80)}...
+                </p>
+                <p><strong>Category:</strong> {post.category || "Uncategorized"}</p>
+                <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
+              </div>
+              </Link>
                     </div>
                   </div>
                 ))}
