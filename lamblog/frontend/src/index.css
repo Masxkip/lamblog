@@ -69,184 +69,6 @@ html, body {
   background: #8a2be2;
 }
 
-
-
-/* ==== AUTH FORM 2 CSS FOR  AUTH FORMS ===== */
-/* Wrapper & Container */
-.auth-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
-  min-height: 100vh;
-  background: #000;
-}
-
-.auth-box {
-  display: flex;
-  flex-direction: row;
-  width: 90%;
-  max-width: 800px;
-  border: 2px solid #5b00b7;
-  border-radius: 16px;
-  box-shadow: 0 0 20px rgba(91, 0, 183, 0.6);
-  background: #111;
-  overflow: hidden;
-  flex-wrap: wrap;
-}
-
-/*  Left Side */
-.auth-info {
-  flex: 1;
-  background: #1a1a1a;
-  color: white;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border-right: 2px solid #333;
-}
-
-.auth-info h3 {
-  margin-bottom: 1rem;
-  font-size: 1.3rem;
-}
-
-.auth-link {
-  color: #a78bfa;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 1rem;
-}
-
-/* Right Side Form */
-.auth-form {
-  flex: 2;
-  padding: 2rem;
-  color: white;
-}
-
-.auth-form h2 {
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-
-/*  Form Controls */
-.form-control {
-  margin-bottom: 1rem;
-}
-
-.form-control label {
-  display: block;
-  margin-bottom: 0.3rem;
-}
-
-.form-control input {
-  width: 100%;
-  padding: 0.6rem;
-  border: none;
-  border-radius: 8px;
-  outline: none;
-  background-color: whitesmoke;
-  color: white;
-  font-size: 1rem;
-}
-
-/* Password Toggle */
-.password-field {
-  position: relative;
-}
-
-.password-field input {
-  padding-right: 40px;
-}
-
-.eye-icon {
-  position: absolute;
-  top: 75%;
-  right: 12px;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: black;
-}
-
-/* Submit Button */
-.auth-button {
-  width: 100%;
-  padding: 0.75rem;
-  margin-top: 1rem;
-  border: none;
-  border-radius: 8px;
-  background-color: #5b00b7;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.auth-button:hover {
-  background-color: #9333ea;
-}
-
-/* Message Styles */
-.success-message {
-  color: whitesmoke;
-  font-size: 0.9rem;
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-.error-message {
-  color: red;
-  font-size: 0.9rem;
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .auth-box {
-    flex-direction: column;
-    border-radius: 12px;
-  }
-
-  .auth-info {
-    border-right: none;
-    border-bottom: 1px solid #333;
-    padding: 1.5rem;
-    text-align: center;
-  }
-
-  .auth-form {
-    padding: 1.5rem;
-  }
-}
-
-.form-control input {
-  width: 100%;
-  padding: 0.6rem;
-  border: none;
-  border-radius: 8px;
-  outline: none;
-  background-color: whitesmoke;
-  color: black;
-  font-size: 1rem;
-}
-
-@media (max-width: 768px) {
-  .verify-container {
-    margin: 40px auto; 
-    padding: 20px;
-  }
-
-  .auth-wrapper {
-    padding: 1rem;
-    min-height: 100dvh;
-    box-sizing: border-box;
-  }
-}
-/* ==== AUTH FORM 2 CSS FOR  AUTH FORMS ===== */
-
 /* ==== LOGIN & SIGN UP CSS FOR Login & sign up.jsx ===== */
 
 
@@ -2438,7 +2260,7 @@ background-color: #8a2be2;
 .search-results-heading {
   margin: 0.5rem 0 1rem;
   padding: 0.75rem 1rem;
-  border-left: 4px solid #5c5cff;
+  border-left: 4px solid #8a2be2;
   background: #111;
   color: #ccc;
   border-radius: 6px;
@@ -2578,6 +2400,11 @@ background-color: #8a2be2;
     margin-top: -15px;
     color: #fff;
   }
+
+  .search-results-heading {
+    margin-top: 60px;
+    margin-bottom: 30px;
+  }
 }
 
 
@@ -2614,8 +2441,6 @@ background-color: #8a2be2;
 @media (max-width: 768px) {
   .fixed-image-wrapper1 { border-radius: 6px; }
 }
-
-
 
 
 @media (max-width: 760px) {
@@ -2661,7 +2486,7 @@ background-color: #8a2be2;
 }
 
 .get-premium-btn.compact:hover {
-  background: #1484d6;
+  background: #8a2be2;
 }
 
 .on-slxxk-badge {
@@ -2732,14 +2557,15 @@ background-color: #8a2be2;
   display: block;
   margin-top: 0.5rem;
   font-size: 0.85rem;
-  color: var(--clr-primary, #1d9bf0);
+  color: var(--clr-primary, #a78bfa);
   text-decoration: none;
   font-weight: 500;
   padding-left: 2px;
 }
 
 .view-all-premium-btn:hover {
-  text-decoration: underline;
+  text-decoration: none;
+  color: var(--clr-primary, #9a6eff);
 }
 /* ==== PREMIUM BTN AND PREMIUM AND TRENDING LIST FOR MobileSidebar.jsx ===== */
 
@@ -2816,7 +2642,7 @@ background-color: #8a2be2;
 .locked-sub-btn {
   display: inline-block;
   padding: 0.4rem 0.9rem;
-  background: var(--clr-primary, purple);
+  background: var(--clr-primary, #6a1bbd);
   color: #fff;
   border-radius: 20px;
   font-size: 0.8rem;
@@ -2827,9 +2653,11 @@ background-color: #8a2be2;
 }
 
 .locked-sub-btn:hover {
-  background: #1484d6;
+  background: #8a2be2;
+  color: whitesmoke;
 }
 /* ==== BLUR FOR IMAGE FOR Home.jsx ===== */
+
 
 
 /* ==== DESIGN FOR RESTRICTION OF POSTCARD IN FOR Home.jsx ===== */
@@ -3442,7 +3270,7 @@ textarea {
 input:focus,
 textarea:focus,
 select:focus {
-  border-color: #8ab4ff;
+  border-color: #8a2be2;
   outline: none;
 }
 
@@ -3472,7 +3300,7 @@ select:focus {
 
 .subscribe-btn {
   margin-top: 8px;
-  background: #7d3cff;
+  background: #6a1bbd;
   color: white;
   border: none;
   padding: 8px 16px;
@@ -3483,15 +3311,10 @@ select:focus {
 }
 
 .subscribe-btn:hover {
-  background: #a18fff;
+  background: #8a2be2;
+  transform: scale(1.02);
 }
 
-.success-message {
-  text-align: center;
-  color: #00e676;
-  margin-bottom: 1rem;
-  font-weight: 500;
-}
 
 /* Responsive for Mobile */
 @media (max-width: 600px) {
@@ -3636,7 +3459,7 @@ select:focus {
 }
 
 .submit-btn:hover {
-  background-color: #9a6eff;
+  background-color: #8a2be2;
   transform: scale(1.02);
 }
 
@@ -3658,6 +3481,182 @@ select:focus {
 
 /* ==== CREATE POST CSS FOR NewPost.jsx ===== */
 
+
+/* ==== AUTH FORM 2 CSS FOR  AUTH FORMS ===== */
+/* Wrapper & Container */
+.auth-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  min-height: 100vh;
+  background: #000;
+}
+
+.auth-box {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  max-width: 800px;
+  border: 2px solid #5b00b7;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(91, 0, 183, 0.6);
+  background: #111;
+  overflow: hidden;
+  flex-wrap: wrap;
+}
+
+/*  Left Side */
+.auth-info {
+  flex: 1;
+  background: #1a1a1a;
+  color: white;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 2px solid #333;
+}
+
+.auth-info h3 {
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.auth-link {
+  color: #a78bfa;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* Right Side Form */
+.auth-form {
+  flex: 2;
+  padding: 2rem;
+  color: white;
+}
+
+.auth-form h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/*  Form Controls */
+.form-control {
+  margin-bottom: 1rem;
+}
+
+.form-control label {
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.form-control input {
+  width: 100%;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  background-color: whitesmoke;
+  color: white;
+  font-size: 1rem;
+}
+
+/* Password Toggle */
+.password-field {
+  position: relative;
+}
+
+.password-field input {
+  padding-right: 40px;
+}
+
+.eye-icon {
+  position: absolute;
+  top: 75%;
+  right: 12px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: black;
+}
+
+/* Submit Button */
+.auth-button {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #5b00b7;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.auth-button:hover {
+  background-color: #9333ea;
+}
+
+/* Message Styles */
+.success-message {
+  color: whitesmoke;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .auth-box {
+    flex-direction: column;
+    border-radius: 12px;
+  }
+
+  .auth-info {
+    border-right: none;
+    border-bottom: 1px solid #333;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .auth-form {
+    padding: 1.5rem;
+  }
+}
+
+.form-control input {
+  width: 100%;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  background-color: whitesmoke;
+  color: black;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .verify-container {
+    margin: 40px auto; 
+    padding: 20px;
+  }
+
+  .auth-wrapper {
+    padding: 1rem;
+    min-height: 100dvh;
+    box-sizing: border-box;
+  }
+}
+/* ==== AUTH FORM 2 CSS FOR  AUTH FORMS ===== */
 
 
 

@@ -30,7 +30,7 @@ function CategoryDropdown({ categories, selectedCategory, onSelectCategory, onCl
     to="/categories"
     className="view-all-premium-btn"
   >
-    View all premium posts →
+    View all posts →
   </Link>
 
       </div>
