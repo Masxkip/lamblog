@@ -115,13 +115,15 @@ function AllCategories() {
               <div className="category-slider">
                 {posts.slice(0, 5).map((post) => (
                   <div className="slider-post-card" key={post._id}>
-                    {post.image && (
-                      <img
-                        src={post.image}
-                        alt="Post"
-                        className="slider-post-image"
-                      />
-                    )}
+                      {post.image && (
+    <div className="fixed-image-wrapper">
+      <img
+        src={post.image}
+        alt="Post"
+        className="fixed-image"
+      />
+    </div>
+  )}
 
                     <div className="slider-post-content">
                       <Link

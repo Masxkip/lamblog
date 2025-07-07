@@ -2578,6 +2578,54 @@ background-color: #8a2be2;
     color: #fff;
   }
 }
+
+
+/* === Re-usable fixed-aspect image helpers (16:9) === */
+.fixed-image-wrapper {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 8px;      /* matches Premium */
+}
+
+.fixed-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* OPTIONAL: slightly tighter radius on mobile */
+@media (max-width: 768px) {
+  .fixed-image-wrapper { border-radius: 6px; }
+}
+
+
+@media (max-width: 760px) {
+  .fixed-image-wrapper {
+    width: 140px;
+    aspect-ratio: 4 / 3;    /* ✅ taller image */
+    flex-shrink: 0;
+    border-radius: 6px;
+  }
+
+  .slider-post-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    min-width: 85%;
+    max-width: 85%;
+    padding: 10px;
+  }
+
+  .slider-post-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}
+
 /* ==== PREMIUM PAGE CSS FOR Premium.jsx ===== */
 
 

@@ -61,13 +61,15 @@ function CategoryPosts() {
                   @{post.author.username}
                 </Link>
                 <br />
-                {post.image && (
-                  <img
-                  src={post.image}
-                  alt="Post"
-                  className="category-post-image"
-                />
-                )}
+{post.image && (
+  <div className="fixed-image-wrapper">
+    <img
+      src={post.image}
+      alt="Post"
+      className="fixed-image"
+    />
+  </div>
+)}
                 <h3>#{post.title}</h3>
                 <p>{post.content.substring(0, 100)}...</p>
               </Link>
