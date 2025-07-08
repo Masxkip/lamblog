@@ -262,7 +262,7 @@ function Home() {
             {/* center call-out on locked card */}
             {isLocked && (
            <div className="locked-banner small">
-  <Lock size={14} style={{ marginRight: "6px", verticalAlign: "middle" }} />
+  <Lock size={14} style={{ marginRight: "6px", marginBottom: "5px",verticalAlign: "middle" }} />
   Premium — subscribe to view
 </div>
             )}
