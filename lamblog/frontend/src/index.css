@@ -1576,15 +1576,27 @@ color: lightgray;
 
 /* ==== lOADING CSS FOR BTNS ===== */
 .loading-btn {
-  opacity: 1;
-  transition: 0.3s;
-  padding: 0.5rem 1.2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
   font-weight: 500;
-  border: none;
-  border-radius: 6px;
-  background-color: #444;
-  color: #fff;
+  font-size: 1rem;
+  border-radius: 8px;
   cursor: pointer;
+  background-color: var(--clr-primary);
+  color: white;
+  border: none;
+  width: 100%;         /* Optional: full width */
+  min-height: 44px;     /* Ensures height for icon + text */
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.loading-btn.loading {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .loading-btn:disabled {
