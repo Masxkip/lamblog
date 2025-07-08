@@ -57,46 +57,45 @@ function CategoryPosts() {
         <p>No posts found under this category.</p>
       ) : (
         <div className="category-posts-container">
-          {posts.map((post) => (
-            <div key={post._id} className="category-post-card">
-              <Link to={`/post/${post._id}`}>
-                <br />
-{post.image && (
-  <div
-    className={`fixed-image-wrapper1 ${
-      post.isPremium && (!user || !user.isSubscriber) ? "premium-locked" : ""
-    }`}
-  >
-    <img
-      src={post.image}
-      alt="Post"
-      className={`fixed-image1 ${
-        post.isPremium && (!user || !user.isSubscriber) ? "blurred-content" : ""
-      }`}
-    />
+          {posts.map((post) => {
+  const isLocked = post.isPremium && (!user || !user.isSubscriber);
+  const target   = isLocked ? "/subscribe" : `/post/${post._id}`;
 
-    {post.isPremium && (!user || !user.isSubscriber) && (
-      <div className="locked-banner small">
-        <Lock size={14} style={{ marginRight: "6px" }} />
-        Subscribe to view
-      </div>
-    )}
-  </div>
-)}
-              <Link to={`/post/${post._id}`}>
-              <div className="premium-page-card-content">
-                <p className="premium-page-author">@{post.author.username}</p>
-                <h3 className="premium-page-title">#{post.title}</h3>
-                <p className="premium-page-snippet">
-                  {post.content.substring(0, 80)}...
-                </p>
-                <p><strong>Category:</strong> {post.category || "Uncategorized"}</p>
-                <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
-              </div>
-              </Link>
-              </Link>
+  return (
+    <Link to={target} key={post._id} className="category-post-card">
+      {/* --- Image / lock overlay --- */}
+      {post.image && (
+        <div
+          className={`fixed-image-wrapper1 ${isLocked ? "premium-locked" : ""}`}
+        >
+          <img
+            src={post.image}
+            alt="Post"
+            className={`fixed-image1 ${isLocked ? "blurred-content" : ""}`}
+          />
+
+          {isLocked && (
+            <div className="locked-banner small" onClick={(e) => e.stopPropagation()}>
+              <Lock size={14} style={{ marginRight: "6px" }} />
+              Subscribe to view
             </div>
-          ))}
+          )}
+        </div>
+      )}
+
+      {/* --- Text --- */}
+      <div className="premium-page-card-content">
+        <p className="premium-page-author">@{post.author.username}</p>
+        <h3 className="premium-page-title">#{post.title}</h3>
+        <p className="premium-page-snippet">
+          {post.content.substring(0, 80)}…
+        </p>
+        <p><strong>Category:</strong> {post.category || "Uncategorized"}</p>
+        <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
+      </div>
+    </Link>
+  );
+})}
         </div>
       )}
       <BottomNav />
