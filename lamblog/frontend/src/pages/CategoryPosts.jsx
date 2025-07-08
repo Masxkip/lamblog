@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import BottomNav from "../components/BottomNav";
 import BackArrow from "../components/BackArrow";
 import DynamicArrow from "../components/DynamicArrow";
+import {Lock } from "lucide-react";
+import AuthContext from "../context/AuthContext";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 function CategoryPosts() {
+  const { user } = useContext(AuthContext);
   const { name } = useParams(); 
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -59,12 +62,25 @@ function CategoryPosts() {
               <Link to={`/post/${post._id}`}>
                 <br />
 {post.image && (
-  <div className="fixed-image-wrapper2">
+  <div
+    className={`fixed-image-wrapper1 ${
+      post.isPremium && (!user || !user.isSubscriber) ? "premium-locked" : ""
+    }`}
+  >
     <img
       src={post.image}
       alt="Post"
-      className="fixed-image2"
+      className={`fixed-image1 ${
+        post.isPremium && (!user || !user.isSubscriber) ? "blurred-content" : ""
+      }`}
     />
+
+    {post.isPremium && (!user || !user.isSubscriber) && (
+      <div className="locked-banner small">
+        <Lock size={14} style={{ marginRight: "6px" }} />
+        Subscribe to view
+      </div>
+    )}
   </div>
 )}
               <Link to={`/post/${post._id}`}>

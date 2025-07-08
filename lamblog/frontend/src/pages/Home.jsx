@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext, useCallback } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { UserCircle, Home as HomeIcon, FileText, MoreHorizontal, Check } from "lucide-react";
+import { UserCircle, Home as HomeIcon, FileText, MoreHorizontal, Check, Lock } from "lucide-react";
 import AuthContext from "../context/AuthContext";
 import CategoryDropdown from "../components/CategoryDropdown";
 import BottomNav from "../components/BottomNav";
@@ -182,9 +182,10 @@ function Home() {
                 <img src={post.image} alt="Premium" className="post-image" />
               )}
               <div className="locked-banner">
-                <p className="locked-text">
-                  🔒 Premium content. Subscribe to view.
-                </p>
+         <p className="locked-text">
+  <Lock size={14} style={{ marginRight: "6px", verticalAlign: "middle" }} />
+  Premium content. Subscribe to view.
+</p>
                 <Link
                   to="/subscribe"
                   onClick={(e) => e.stopPropagation()}
@@ -260,9 +261,10 @@ function Home() {
 
             {/* center call-out on locked card */}
             {isLocked && (
-              <div className="locked-banner small">
-                🔒 Premium — subscribe to view
-              </div>
+           <div className="locked-banner small">
+  <Lock size={14} style={{ marginRight: "6px", verticalAlign: "middle" }} />
+  Premium — subscribe to view
+</div>
             )}
           </div>
 

@@ -1692,6 +1692,21 @@ color: lightgray;
 /* ==== PREMIUM POSTS RIGHT SIDEBAR FOR Home.jsx ===== */
 
 
+
+/* ==== PREMIUM POSTS BLURRED RIGHT SIDEBAR FOR AllCat & CatPost jsx ===== */
+.blurred-content {
+  filter: blur(4px);
+  opacity: 0.6;
+  user-select: none;
+  pointer-events: none;
+}
+
+.fixed-image-wrapper1 {
+  position: relative;
+}
+/* ==== PREMIUM POSTS BLURRED RIGHT SIDEBAR FOR AllCat & CatPost jsx ===== */
+
+
 /* ==== VIEW ALL PREMIUM POSTS LINKS FOR Home.jsx ===== */
 .view-all-link {
   margin-top: 1rem;
@@ -3655,10 +3670,11 @@ background-color: #8a2be2;
 }
 
 .verified-circle {
-  background-color: #a855f7; /* Purple */
+  background-color: #6a1bbd;
   width: 16px;
   height: 16px;
   border-radius: 50%;
+  margin-bottom: 8px;
   display: flex;
   align-items: center;
   justify-content: center;

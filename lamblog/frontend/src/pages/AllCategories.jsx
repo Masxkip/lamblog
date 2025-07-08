@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";   // ⬅️ NEW
 import axios from "axios";
 import BottomNav from "../components/BottomNav";
 import BackArrow from "../components/BackArrow";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, Lock } from "lucide-react";
+import AuthContext from "../context/AuthContext";
 
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 function AllCategories() {
+  const { user } = useContext(AuthContext);
   const [posts, setPosts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [trendingPosts, setTrendingPosts] = useState([]);
@@ -116,15 +118,28 @@ function AllCategories() {
               <div className="category-slider">
                 {posts.slice(0, 5).map((post) => (
                   <div className="slider-post-card" key={post._id}>
-                      {post.image && (
-    <div className="fixed-image-wrapper1">
-      <img
-        src={post.image}
-        alt="Post"
-        className="fixed-image1"
-      />
-    </div>
-  )}
+{post.image && (
+  <div
+    className={`fixed-image-wrapper1 ${
+      post.isPremium && (!user || !user.isSubscriber) ? "premium-locked" : ""
+    }`}
+  >
+    <img
+      src={post.image}
+      alt="Post"
+      className={`fixed-image1 ${
+        post.isPremium && (!user || !user.isSubscriber) ? "blurred-content" : ""
+      }`}
+    />
+
+    {post.isPremium && (!user || !user.isSubscriber) && (
+      <div className="locked-banner small">
+        <Lock size={14} style={{ marginRight: "6px" }} />
+        Subscribe to view
+      </div>
+    )}
+  </div>
+)}
 
                     <div className="slider-post-content">
                                    <Link to={`/post/${post._id}`}>
