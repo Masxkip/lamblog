@@ -51,7 +51,7 @@ function EditPost() {
   if (!post) return <p>Loading post...</p>;
 
   return (
-    <div className="edit-post-container">
+    <div className="post-container">
       <BackArrow />
       
       <h2>Edit Post</h2>

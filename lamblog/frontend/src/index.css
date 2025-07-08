@@ -1197,164 +1197,6 @@ color: lightgray;
 
 
 
-/* ==== EDIT POST CSS FOR EditPost.jsx ===== */
-/* Edit Post Container */
-.edit-post-container {
-max-width: 800px;
-margin: 40px auto;
-padding: 30px;
-background-color: black;
-border: 1px solid #333;
-border-radius: 12px;
-color: whitesmoke;
-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-
-}
-
-.edit-post-container h2 {
-text-align: center;
-margin-bottom: 25px;
-font-size: 2rem;
-font-weight: bold;
-}
-
-/* Success Message */
-.success-message {
-color: silver;
-text-align: center;
-margin-bottom: 15px;
-}
-
-.edit-post-container input[type="text"],
-.edit-post-container textarea {
-width: 90%;
-max-width: 100%;             
-margin: 20px auto;
-display: block;
-padding: 10px;
-font-size: 1rem;
-color: black;
-background-color: whitesmoke;
-border: 1px solid #555;
-border-radius: 6px;
-box-sizing: border-box;      
-}
-
-.edit-post-container textarea {
-resize: vertical;
-min-height: 200px;
-}
-
-
-.edit-post-container button[type="submit"] {
-display: block;
-margin: 30px auto 0;
-padding: 10px 25px;
-background: #6a1bbd;
-color: whitesmoke;
-border: none;
-border-radius: 6px;
-font-size: 1rem;
-cursor: pointer;
-}
-
-.edit-post-container button[type="submit"]:hover {
-background-color: #8a2be2;
-}
-
-/* Responsive Tweaks */
-@media (max-width: 600px) {
-.edit-post-container {
-  padding: 20px;
-  margin-top: 18%;
-  margin-bottom: 25%;
-
-}
-.edit-post-container input,
-.edit-post-container textarea {
-  width: 100%;
-  
-}
-}
-/* ==== EDIT POST CSS FOR EditPost.jsx ===== */
-
-
-
-/* ==== EDIT PROFILE CSS FOR EditProfile.jsx ===== */
-/* Edit Profile Container */
-.edit-profile-container {
-max-width: 800px;
-margin: 40px auto;
-padding: 30px;
-background-color: black;
-border: 1px solid #333;
-border-radius: 12px;
-color: whitesmoke;
-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
-
-.edit-profile-container h2 {
-text-align: center;
-margin-bottom: 25px;
-font-size: 2rem;
-font-weight: bold;
-}
-
-.edit-profile-container input[type="text"],
-.edit-profile-container textarea,
-.edit-profile-container input[type="file"] {
-width: 90%;
-max-width: 100%;               
-margin: 15px auto;
-display: block;
-padding: 12px;
-font-size: 1rem;
-color: black;
-background-color: whitesmoke;
-border: 1px solid #555;
-border-radius: 6px;
-box-sizing: border-box;
-}
-
-/* Textarea Consistency */
-.edit-profile-container textarea {
-resize: vertical;
-min-height: 120px;
-overflow: auto;
-
-}
-.edit-profile-container button[type="submit"] {
-display: block;
-margin: 30px auto 0;
-padding: 10px 25px;
-background-color: #6a1bbd;
-color: whitesmoke;
-border: none;
-border-radius: 6px;
-font-size: 1rem;
-cursor: pointer;
-}
-
-.edit-profile-container button[type="submit"]:hover {
-background-color: #8a2be2;
-}
-
-@media (max-width: 600px) {
-.edit-profile-container {
-  padding: 20px;
-  margin-top: 18%;
-  margin-bottom: 25%;
-}
-
-.edit-profile-container input,
-.edit-profile-container textarea {
-  width: 100%;
-}
-}
-/* ==== EDIT PROFILE CSS FOR EditProfile.jsx ===== */
-
-
-
 /* ==== TRENDING POST CSS===== */
 /*  Trending Section Stylin */
 .trending-section1 {
@@ -3477,6 +3319,10 @@ select:focus {
     padding: 10px 14px;
     font-size: 1rem;
   }
+
+   .toggle{
+    margin-top: 45px;
+  }
 }
 
 /* ==== CREATE POST CSS FOR NewPost.jsx ===== */
@@ -3657,6 +3503,146 @@ select:focus {
   }
 }
 /* ==== AUTH FORM 2 CSS FOR  AUTH FORMS ===== */
+
+
+
+
+/* ==== EDIT PROFILE CSS FOR EditProfile.jsx ===== */
+/* Edit Profile Container */
+.edit-profile-container {
+  max-width: 700px;
+  margin: 0 auto;
+  margin-top: 30px;
+  padding: 2rem 1.5rem 5rem;
+  background-color: #1a1a1d;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  color: white;
+  margin-bottom: 20px;
+}
+
+.edit-profile-container h2 {
+text-align: center;
+margin-bottom: 25px;
+font-size: 2rem;
+font-weight: bold;
+}
+
+.edit-profile-container button[type="submit"] {
+display: block;
+margin: 30px auto 0;
+padding: 10px 25px;
+background-color: #6a1bbd;
+color: whitesmoke;
+border: none;
+border-radius: 6px;
+font-size: 1rem;
+cursor: pointer;
+}
+
+.edit-profile-container button[type="submit"]:hover {
+background-color: #8a2be2;
+}
+
+@media (max-width: 600px) {
+.edit-profile-container {
+  padding: 20px;
+  margin-top: 18%;
+  margin-bottom: 25%;
+}
+
+}
+
+/* Wraps camera icon + "Add an Image:" + file name */
+.file-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+
+/* Clickable label ­– feels like a button */
+.file-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+  user-select: none;
+}
+
+.file-icon {
+  font-size: 1.1rem;      /* tweak as you like */
+}
+
+.file-name {
+  opacity: 0.8;
+  font-size: 0.9rem;
+}
+
+/* You already have .submit-btn /.loading in place */
+/* ==== EDIT PROFILE CSS FOR EditProfile.jsx ===== */
+
+
+
+/* ==== EDIT POST CSS FOR EditPost.jsx ===== */
+/* Edit Post Container */
+.edit-post-container {
+max-width: 800px;
+margin: 40px auto;
+padding: 30px;
+background-color: black;
+border: 1px solid #333;
+border-radius: 12px;
+color: whitesmoke;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+
+}
+
+.edit-post-container h2 {
+text-align: center;
+margin-bottom: 25px;
+font-size: 2rem;
+font-weight: bold;
+}
+
+
+.edit-post-container button[type="submit"] {
+display: block;
+margin: 30px auto 0;
+padding: 10px 25px;
+background: #6a1bbd;
+color: whitesmoke;
+border: none;
+border-radius: 6px;
+font-size: 1rem;
+cursor: pointer;
+}
+
+.edit-post-container button[type="submit"]:hover {
+background-color: #8a2be2;
+}
+
+/* Responsive Tweaks */
+@media (max-width: 600px) {
+.edit-post-container {
+  padding: 20px;
+  margin-top: 18%;
+  margin-bottom: 25%;
+
+}
+
+}
+/* ==== EDIT POST CSS FOR EditPost.jsx ===== */
+
+
+
+
+
+
+
+
 
 
 
