@@ -1589,17 +1589,12 @@ color: lightgray;
   color: white;
   border: none;
   width: 100%;         /* Optional: full width */
-  min-height: 44px;     /* Ensures height for icon + text */
+  min-height: 38px;     /* Ensures height for icon + text */
   text-align: center;
   transition: all 0.3s ease;
 }
 
 .loading-btn.loading {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.loading-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }

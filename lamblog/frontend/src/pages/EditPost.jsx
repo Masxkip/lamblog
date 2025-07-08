@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import BottomNav from "../components/BottomNav";
 import BackArrow from "../components/BackArrow";
+import LoadingButton from "../components/LoadingButton";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -13,6 +14,7 @@ function EditPost() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -46,6 +48,9 @@ function EditPost() {
     } catch (err) {
       console.error("Error updating post:", err);
     }
+     finally {
+      setLoading(false);
+    }
   };
 
   if (!post) return <p>Loading post...</p>;
@@ -59,7 +64,12 @@ function EditPost() {
       <form onSubmit={handleEdit}>
         <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
         <textarea value={content} onChange={(e) => setContent(e.target.value)} required />
-        <button type="submit">Update Post</button>
+        <LoadingButton
+          isLoading={loading}
+          type="submit"
+          className={`submit-btn ${loading ? "loading" : ""}`}>
+          Update Post
+        </LoadingButton>
       </form>
       <BottomNav />
     </div>
