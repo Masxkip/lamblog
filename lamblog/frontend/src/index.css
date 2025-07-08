@@ -3198,13 +3198,13 @@ select:focus {
 }
 
 .audio-preview {
-  width: 100%;
+  width: 60%;
 }
 
 .remove-btn {
   background-color: transparent;
-  border: 1px solid #ff4444;
-  color: #ff4444;
+  border: 1px solid #8a2be2;
+  color: #8a2be2;
   padding: 4px 10px;
   font-size: 0.8rem;
   border-radius: 6px;
@@ -3213,7 +3213,7 @@ select:focus {
 }
 
 .remove-btn:hover {
-  background-color: #ff444430;
+  background-color: #9a6eff;
 }
 
 .locked-inline {
@@ -3642,6 +3642,28 @@ background-color: #8a2be2;
 
 }
 /* ==== EDIT POST CSS FOR EditPost.jsx ===== */
+
+
+
+/* ==== VERIFIED USER CHECKMARK FOR USERNAMES ===== */
+.verified-user {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+.verified-circle {
+  background-color: #a855f7; /* Purple */
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* ==== VERIFIED USER CHECKMARK FOR USERNAMES ===== */
 
 
 

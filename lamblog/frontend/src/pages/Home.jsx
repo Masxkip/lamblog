@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext, useCallback } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { UserCircle, Home as HomeIcon, FileText, MoreHorizontal } from "lucide-react";
+import { UserCircle, Home as HomeIcon, FileText, MoreHorizontal, Check } from "lucide-react";
 import AuthContext from "../context/AuthContext";
 import CategoryDropdown from "../components/CategoryDropdown";
 import BottomNav from "../components/BottomNav";
@@ -121,8 +121,6 @@ function Home() {
     </Link>
   ))}
 </div>
-
-
       </aside>
       {/* Main Content */}
       <main className="main-content">
@@ -167,9 +165,14 @@ function Home() {
   return (
     <Link to={postLink} key={post._id} className="post-card-link">
       <div className="post-card">
-        <Link to={`/profile/${post.author._id}`} className="profile-link">
-          @{post.author.username}
-        </Link>
+<Link to={`/profile/${post.author._id}`} className="profile-link verified-user">
+  <span className="profile-link">@{post.author.username}</span>
+  {post.author?.isSubscriber && (
+  <span className="verified-circle">
+    <Check size={12} color="white" strokeWidth={3} />
+  </span>
+)}
+</Link>
         <br />
 
         {isLocked ? (

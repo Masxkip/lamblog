@@ -5,6 +5,7 @@ import BottomNav from "../components/BottomNav";
 import BackArrow from "../components/BackArrow";
 import { MoreHorizontal } from "lucide-react";
 
+
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 function AllCategories() {
