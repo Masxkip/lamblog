@@ -1074,7 +1074,7 @@ display: none;
 
   .header {
     position: fixed;
-    top: 63px;
+    top: 70px;
     left: 0;
     border: none;
     width: 100%;
@@ -2266,12 +2266,11 @@ color: lightgray;
   }
 
   .search-results-heading {
-    margin-top: 60px;
-    margin-bottom: 30px;
+    margin-top: 40px;
   }
 
-   .premium-page-card {
-    margin-top: 45px;
+  .premium-page-card {
+    margin-top: 30px;
   }
 }
 
@@ -2974,10 +2973,12 @@ color: lightgray;
   min-height: 100vh;
   background-color: #0b0b0c;
   color: white;
+  
 }
 
 .subscribe-box {
   background-color: #1a1a1d;
+  margin-top: 10px;
   padding: 40px 30px;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
@@ -2985,12 +2986,13 @@ color: lightgray;
   width: 100%;
   text-align: center;
   position: relative;
+  margin-bottom: 12px;
 }
 
 /* 🔥 Best Value Badge */
 .badge {
-  background: #ff5722;
-  color: white;
+  background: #edd199;
+  color: black;
   font-weight: 600;
   padding: 6px 12px;
   border-radius: 20px;
@@ -3013,7 +3015,7 @@ color: lightgray;
   font-size: 1.5rem;
   font-weight: bold;
   margin: 5px 0;
-  color: #8ab4ff;
+  color: #edd199;
 }
 
 .subscribe-subtext {
@@ -3039,7 +3041,7 @@ color: lightgray;
 }
 
 .check-icon {
-  color: #00e676;
+  color: #7d3cff;
 }
 
 /* Subscribe Button */
