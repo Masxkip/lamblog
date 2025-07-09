@@ -160,7 +160,7 @@ function AllCategories() {
 
               <Link
                 to={`/category/${encodeURIComponent(category)}`}
-                className="view-all-link"
+                className="view-all-premium-btn"
               >
                 View All Posts →
               </Link>
