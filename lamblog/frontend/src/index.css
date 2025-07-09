@@ -1610,6 +1610,27 @@ color: lightgray;
 /* ==== lOADING CSS FOR BTNS ===== */
 
 
+/* ==== PREMIUM POSTS LOCKED & BLURRED BANNER FOR Home.jsx ===== */
+.premium-overlay {
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.blurred-content {
+  filter: blur(4px);
+  opacity: 0.6;
+  user-select: none;
+  pointer-events: none;
+}
+
+.locked-banner {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #b00;
+}
+/* ==== PREMIUM POSTS LOCKED & BLURRED BANNER FOR Home.jsx ===== */
 
 
 /* ==== PREMIUM POSTS RIGHT SIDEBAR FOR Home.jsx ===== */
