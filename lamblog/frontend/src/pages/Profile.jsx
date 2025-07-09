@@ -176,7 +176,7 @@ export default function Profile() {
               {user.isSubscriber ? (
                 <span className="subscriber-badge pill premium">Premium</span>
               ) : (
-                <span className="subscriber-badge pill free">Free User</span>
+                <span className="subscriber-badge pill free">Get Premium</span>
               )}
             </div>
 
@@ -255,7 +255,7 @@ export default function Profile() {
         {/* ----- CTA FOR NON-SUBSCRIBERS ----- */}
         {!loggedInUser?.isSubscriber && (
           <div className="sidebar-box cta-box">
-            <h3>Subscribe for SLXXK Premium</h3>
+            <h3>Subscribe for SEEK Premium</h3>
             <p>Unlock exclusive posts and features.</p>
             <Link to="/subscribe" className="pill subscribe-btn">
               Subscribe
@@ -266,7 +266,7 @@ export default function Profile() {
         {/* ----- PREMIUM LIST (subscribers only) ----- */}
         {loggedInUser?.isSubscriber && (
           <div className="sidebar-box">
-            <h3>Latest on SLXXK&nbsp;Premium</h3>
+            <h3>Latest on SEEK&nbsp;Premium</h3>
 
             {premiumPosts.map((post) => (
               <Link

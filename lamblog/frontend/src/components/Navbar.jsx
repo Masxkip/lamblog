@@ -27,7 +27,7 @@ function Navbar() {
       </button>
 
       {/* Logo – flex-ordered via CSS */}
-      <Link to="/" className="logo">SLEEK</Link>
+      <Link to="/" className="logo">SEEK</Link>
 
       {/* Right-side icons */}
       <div className="nav-links">

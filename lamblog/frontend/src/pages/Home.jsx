@@ -149,7 +149,7 @@ function Home() {
           )}
         </header>
 
-       <h2>#SLXXK'S Latest!</h2>
+       <h2>#SEEK'S Latest!</h2>
 {loading ? (
   <p>Loading posts...</p>
 ) : posts.length === 0 ? (
@@ -233,7 +233,7 @@ function Home() {
   )}
 
   {/* ✅ Only show heading if user is a subscriber */}
-  {user?.isSubscriber && <h2>Latest on SLXX's Premium</h2>}
+  {user?.isSubscriber && <h2>Latest on SEEK's Premium</h2>}
 
 <div className="premium-grid">
   {premiumPosts.map((post) => {
