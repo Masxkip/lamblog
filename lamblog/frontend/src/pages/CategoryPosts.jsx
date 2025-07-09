@@ -66,12 +66,12 @@ function CategoryPosts() {
       {/* --- Image / lock overlay --- */}
       {post.image && (
         <div
-          className={`fixed-image-wrapper1 ${isLocked ? "premium-locked" : ""}`}
+          className={`fixed-image-wrapper2 ${isLocked ? "premium-locked" : ""}`}
         >
           <img
             src={post.image}
             alt="Post"
-            className={`fixed-image1 ${isLocked ? "blurred-content" : ""}`}
+            className={`fixed-image2 ${isLocked ? "blurred-content" : ""}`}
           />
 
           {isLocked && (
