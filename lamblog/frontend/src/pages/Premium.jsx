@@ -86,7 +86,7 @@ function Premium() {
             key={post._id}
             className="premium-page-card-link"
           >
-            <div className="category-post-card">
+            <div className="premium-page-card">
               {post.image && (
                 <div className="premium-page-image-wrapper">
                   <img
