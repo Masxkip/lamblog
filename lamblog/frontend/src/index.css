@@ -2196,106 +2196,6 @@ color: lightgray;
 
 
 
-/* ==== PREMIUM BTN AND PREMIUM AND TRENDING LIST FOR MobileSidebar.jsx ===== */
-/* Compact version of button */
-.get-premium-btn.compact {
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
-  border-radius: 20px;
-  background: var(--clr-primary, #6a1bbd);
-  color: #fff;
-  font-weight: 600;
-  transition: background 0.2s;
-  text-decoration: none;
-}
-
-.get-premium-btn.compact:hover {
-  background: #8a2be2;
-}
-
-.on-slxxk-badge {
-  font-size: 1.5rem;
-  color: white;
-  font-weight: 600;
-  padding: 0.35rem 0.65rem;
-  border-radius: 12px;
-  white-space: nowrap;
-}
-
-/* --- Premium list (for subscribers) --- */
-.mobile-premium-section {
-  margin: 1rem 0;
-  border-top: 1px solid #2f3336;
-  padding-top: 1rem;
-}
-
-.premium-heading {
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-.premium-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 0.75rem 0;
-  text-decoration: none;
-  color: inherit;
-}
-
-.premium-item + .premium-item {
-  border-top: 1px solid #2f3336;
-}
-
-.premium-text {
-  display: flex;
-  flex-direction: column;
-}
-
-.premium-title {
-  font-weight: 700;
-  margin: 2px 0;
-}
-
-.premium-meta {
-  font-size: 0.8rem;
-  color: #71767b;
-}
-
-
-.mobile-trending-section {
-  margin-top: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid #2f3336;
-}
-
-.get-premium-row {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 0.75rem;
-  margin: 1rem 0;
-}
-
-.view-all-premium-btn {
-  display: block;
-  margin-top: 0.5rem;
-  font-size: 0.85rem;
-  color: var(--clr-primary, #a78bfa);
-  text-decoration: none;
-  font-weight: 500;
-  padding-left: 2px;
-}
-
-.view-all-premium-btn:hover {
-  text-decoration: none;
-  color: var(--clr-primary, #9a6eff);
-}
-/* ==== PREMIUM BTN AND PREMIUM AND TRENDING LIST FOR MobileSidebar.jsx ===== */
-
-
-
-
 /* ==== FULL NAVBAR CSS FOR Navbar.jsx ===== */
 /* Navbar Container */
 .navbar {
@@ -3719,6 +3619,109 @@ select:focus {
 
 /* ==== CREATE POST CSS FOR NewPost.jsx ===== */
 
+
+
+
+
+
+
+
+/* ==== PREMIUM BTN AND PREMIUM AND TRENDING LIST FOR MobileSidebar.jsx ===== */
+/* Compact version of button */
+.get-premium-btn.compact {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border-radius: 20px;
+  background: var(--clr-primary, #6a1bbd);
+  color: #fff;
+  font-weight: 600;
+  transition: background 0.2s;
+  text-decoration: none;
+}
+
+.get-premium-btn.compact:hover {
+  background: #8a2be2;
+}
+
+.on-slxxk-badge {
+  font-size: 1.5rem;
+  color: white;
+  font-weight: 600;
+  padding: 0.35rem 0.65rem;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+/* --- Premium list (for subscribers) --- */
+.mobile-premium-section {
+  margin: 1rem 0;
+  border-top: 1px solid #2f3336;
+  padding-top: 1rem;
+}
+
+.premium-heading {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.premium-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0.75rem 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.premium-item + .premium-item {
+  border-top: 1px solid #2f3336;
+}
+
+.premium-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.premium-title {
+  font-weight: 700;
+  margin: 2px 0;
+}
+
+.premium-meta {
+  font-size: 0.8rem;
+  color: #71767b;
+}
+
+
+.mobile-trending-section {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #2f3336;
+}
+
+.get-premium-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.view-all-premium-btn {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--clr-primary, #a78bfa);
+  text-decoration: none;
+  font-weight: 500;
+  padding-left: 2px;
+}
+
+.view-all-premium-btn:hover {
+  text-decoration: none;
+  color: var(--clr-primary, #9a6eff);
+}
+/* ==== PREMIUM BTN AND PREMIUM AND TRENDING LIST FOR MobileSidebar.jsx ===== */
 
 
 
