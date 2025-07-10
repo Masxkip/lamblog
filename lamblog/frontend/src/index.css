@@ -3704,6 +3704,52 @@ background-color: #8a2be2;
 
 
 
+.fixed-image-wrapper2 {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+
+.locked-banner.small {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.75rem;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.75);
+  padding: 6px 12px;
+  border-radius: 4px;
+  z-index: 2;
+  white-space: nowrap;
+}
+
+
+
+.fixed-image-wrapper2 img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.premium-locked img {
+  filter: blur(6px);
+}
+
+.premium-locked::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 8px;
+  z-index: 1;
+}
+
+
+
+
 
 
 
