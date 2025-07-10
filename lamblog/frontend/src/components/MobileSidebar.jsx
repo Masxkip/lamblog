@@ -126,7 +126,7 @@ function MobileSidebar({ isOpen, onClose }) {
                   <small className="premium-meta">
                     {post.category || "Premium"} · Premium
                   </small>
-                  <span className="premium-title">#{post.title}</span>
+                  <span className="item-title">#{post.title}</span>
                   <small className="premium-meta">Exclusive content</small>
                 </div>
                 <MoreHorizontal size={18} />
@@ -155,7 +155,7 @@ function MobileSidebar({ isOpen, onClose }) {
     >
       <div className="premium-text">
         <small className="premium-meta">{post.category || "General"} · Trending</small>
-        <span className="premium-title">#{post.title}</span>
+        <span className="item-title">#{post.title}</span>
         <small className="premium-meta">
           {post.views ? post.views.toLocaleString() + " views" : "Popular post"}
         </small>

@@ -145,7 +145,7 @@ function AllCategories() {
       {/* --- Text --- */}
       <div className="slider-post-content">
         <p className="premium-page-author">@{post.author.username}</p>
-        <h3 className="premium-page-title">#{post.title}</h3>
+        <h3 className="item-title">#{post.title}</h3>
         <p className="premium-page-snippet">
           {post.content.substring(0, 80)}…
         </p>
