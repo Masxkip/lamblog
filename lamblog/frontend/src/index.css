@@ -3623,9 +3623,6 @@ select:focus {
 
 
 
-
-
-
 /* ==== PREMIUM BTN AND PREMIUM AND TRENDING LIST FOR MobileSidebar.jsx ===== */
 /* Compact version of button */
 .get-premium-btn.compact {
@@ -3711,7 +3708,7 @@ select:focus {
   display: block;
   margin-top: 0.5rem;
   font-size: 0.85rem;
-  color: var(--clr-primary, #a78bfa);
+  color: var(#a78bfa);
   text-decoration: none;
   font-weight: 500;
   padding-left: 2px;
@@ -3719,7 +3716,7 @@ select:focus {
 
 .view-all-premium-btn:hover {
   text-decoration: none;
-  color: var(--clr-primary, #9a6eff);
+  color: var(#9a6eff);
 }
 /* ==== PREMIUM BTN AND PREMIUM AND TRENDING LIST FOR MobileSidebar.jsx ===== */
 

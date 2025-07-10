@@ -101,24 +101,24 @@ function Home() {
 <div className="trending-section1">
   <h3 className="premium-heading">Trending Posts</h3>
   {trendingPosts.map((post) => (
-    <Link
-      to={`/post/${post._id}`}
-      key={post._id}
-      className="premium-item"
-    >
-      <div className="premium-text">
-        <small className="premium-meta">
-          {post.category || "General"} · Trending
-        </small>
-        <span className="item-title">#{post.title}</span>
-        <small className="premium-meta">
-          {post.views
-            ? post.views.toLocaleString() + " views"
-            : "Popular post"}
-        </small>
-      </div>
-      <MoreHorizontal size={18} />
-    </Link>
+              <Link
+              to={`/post/${post._id}`}
+              key={post._id}
+              className="sidebar-item"
+            >
+              <div className="item-text">
+                <small className="item-meta">
+                  {post.category || "General"} · Trending
+                </small>
+                <span className="item-title">#{post.title}</span>
+                <small className="item-meta">
+                  {post.views
+                    ? post.views.toLocaleString() + " views"
+                    : "Popular post"}
+                </small>
+              </div>
+              <MoreHorizontal size={18} />
+            </Link>
   ))}
 </div>
       </aside>
