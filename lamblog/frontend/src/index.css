@@ -25,53 +25,6 @@ html, body {
 
 
 
-/* ==== LOGIN & SIGN UP CSS FOR Login & sign up.jsx ===== */
-/* Auth Forms */
-.auth-container {
-  background: whitesmoke;
-  padding: 20px;
-  width: 300px;
-  margin: 50px auto;
-  color: black;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 60px;
-}
-
-.auth-container h2 {
-  text-align: center;
-  color: black;
-}
-
-.auth-container form {
-  display: flex;
-  flex-direction: column;
-  color: black;
-  font-weight: bold;
-}
-
-.auth-container input {
-  margin-bottom: 10px;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.auth-container button {
-  background: #6a1bbd;
-  color: white;
-  padding: 10px;
-  border: none;
-  cursor: pointer;
-}
-
-.auth-container button:hover {
-  background: #8a2be2;
-}
-
-/* ==== LOGIN & SIGN UP CSS FOR Login & sign up.jsx ===== */
-
-
 
 /* ==== PROFILE CSS FOR Profile.jsx ===== */
 /* ---------- LAYOUT ---------- */
@@ -2805,267 +2758,7 @@ color: lightgray;
 
 
 
-/* ==== CREATE POST CSS FOR NewPost.jsx ===== */
-.post-container {
-  max-width: 700px;
-  margin: 0 auto;
-  margin-top: 30px;
-  padding: 2rem 1.5rem 5rem;
-  background-color: #1a1a1d;
-  border-radius: 16px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.3);
-  color: white;
-  margin-bottom: 20px;
-  
-}
 
-.post-container h2 {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.4rem;
-}
-
-input[type="text"],
-textarea,
-select {
-  background-color: #262629;
-  border: 1px solid #444;
-  border-radius: 10px;
-  padding: 0.75rem 1rem;
-  color: white;
-  font-size: 1rem;
-  width: 100%;
-  resize: vertical;
-  transition: border 0.2s ease;
-}
-
-textarea {
-  min-height: 150px;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-  border-color: #8a2be2;
-  outline: none;
-}
-
-.file-upload-section label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 500;
-}
-
-.file-upload-section input[type="file"] {
-  background: none;
-  color: #aaa;
-  border: none;
-  font-size: 0.95rem;
-}
-
-/* Premium Toggle */
-.file-upload-section input[type="checkbox"] {
-  margin-right: 8px;
-}
-
-.subscribe-notice {
-  font-size: 0.85rem;
-  color: #aaa;
-  margin-top: 8px;
-}
-
-.subscribe-btn {
-  margin-top: 8px;
-  background: #6a1bbd;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.subscribe-btn:hover {
-  background: #8a2be2;
-  transform: scale(1.02);
-}
-
-
-/* Responsive for Mobile */
-@media (max-width: 600px) {
-  .post-container {
-    padding: 1.5rem 1rem 4rem;
-  }
-
-  .post-container h2 {
-    font-size: 1.5rem;
-  }
-
-  .subscribe-btn {
-    width: 100%;
-  }
-}
-
-
-.preview-block {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 6px;
-}
-
-.image-preview {
-  width: 100%;
-  max-height: 200px;
-  object-fit: cover;
-  border-radius: 10px;
-  border: 1px solid #444;
-}
-
-.audio-preview {
-  width: 60%;
-}
-
-.remove-btn {
-  background-color: transparent;
-  border: 1px solid #8a2be2;
-  color: #8a2be2;
-  padding: 4px 10px;
-  font-size: 0.8rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.remove-btn:hover {
-  background-color: #9a6eff;
-}
-
-.locked-inline {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.85rem;
-  color: #aaa;
-  flex-wrap: wrap;
-  margin-top: 6px;
-}
-
-.subscribe-btn.small {
-  padding: 6px 14px;
-  font-size: 0.8rem;
-  border-radius: 18px;
-  margin-left: auto;
-  margin-right: 0;
-}
-
-/* ---- Modern Toggle Switch ---- */
-.premium-toggle {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 4px;
-}
-
-.toggle {
-  position: relative;
-  width: 48px;
-  height: 24px;
-  margin-top: 8px;
-}
-
-.toggle input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  inset: 0;
-  background: #555;
-  border-radius: 34px;
-  transition: background 0.25s ease;
-}
-
-.slider::before {
-  content: "";
-  position: absolute;
-  height: 18px;
-  width: 18px;
-  left: 3px;
-  bottom: 3px;
-  background: #fff;
-  border-radius: 50%;
-  transition: transform 0.25s ease;
-}
-
-/* ---- ON state ---- */
-.toggle input:checked + .slider {
-  background: #7d3cff;               /* your brand purple */
-}
-
-.toggle input:checked + .slider::before {
-  transform: translateX(24px);
-}
-
-/* ---- Disabled look ---- */
-.toggle.disabled .slider {
-  background: #333;
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-
-/* Modern Submit Button */
-.submit-btn {
-  background-color: #7d3cff;
-  color: white;
-  border: none;
-  padding: 8px 18px;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-align: center;
-}
-
-.submit-btn:hover {
-  background-color: #8a2be2;
-  transform: scale(1.02);
-}
-
-.submit-btn:disabled,
-.submit-btn.loading {
-  background-color: #4b2a88;
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-/* Mobile: full width */
-@media (max-width: 600px) {
-  .submit-btn {
-    width: 100%;
-    padding: 10px 14px;
-    font-size: 1rem;
-  }
-
-   .toggle{
-    margin-top: 45px;
-  }
-}
-
-/* ==== CREATE POST CSS FOR NewPost.jsx ===== */
 
 
 /* ==== AUTH FORM 2 CSS FOR  AUTH FORMS ===== */
@@ -3183,6 +2876,7 @@ select:focus {
 
 .auth-button:hover {
   background-color: #9333ea;
+  transform: scale(1.02);
 }
 
 /* Message Styles */
@@ -3225,9 +2919,15 @@ select:focus {
   border: none;
   border-radius: 8px;
   outline: none;
-  background-color: whitesmoke;
-  color: black;
+  background-color: #262629;
+  border: 1px solid #444;
+  color: white;
   font-size: 1rem;
+}
+
+.form-control input:focus{
+  border-color: #8a2be2;
+  outline: none;
 }
 
 @media (max-width: 768px) {
@@ -3752,6 +3452,272 @@ background-color: #8a2be2;
 
 
 
+
+
+
+
+
+/* ==== CREATE POST CSS FOR NewPost.jsx ===== */
+.post-container {
+  max-width: 700px;
+  margin: 0 auto;
+  margin-top: 30px;
+  padding: 2rem 1.5rem 5rem;
+  background-color: #1a1a1d;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  color: white;
+  margin-bottom: 20px;
+  
+}
+
+.post-container h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+input[type="text"],
+textarea,
+select {
+  background-color: #262629;
+  border: 1px solid #444;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  color: white;
+  font-size: 1rem;
+  width: 100%;
+  resize: vertical;
+  transition: border 0.2s ease;
+}
+
+textarea {
+  min-height: 150px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #8a2be2;
+  outline: none;
+}
+
+.file-upload-section label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.file-upload-section input[type="file"] {
+  background: none;
+  color: #aaa;
+  border: none;
+  font-size: 0.95rem;
+}
+
+/* Premium Toggle */
+.file-upload-section input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.subscribe-notice {
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-top: 8px;
+}
+
+.subscribe-btn {
+  margin-top: 8px;
+  background: #6a1bbd;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.subscribe-btn:hover {
+  background: #8a2be2;
+  transform: scale(1.02);
+}
+
+
+/* Responsive for Mobile */
+@media (max-width: 600px) {
+  .post-container {
+    padding: 1.5rem 1rem 4rem;
+  }
+
+  .post-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .subscribe-btn {
+    width: 100%;
+  }
+}
+
+
+.preview-block {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.image-preview {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #444;
+}
+
+.audio-preview {
+  width: 60%;
+}
+
+.remove-btn {
+  background-color: transparent;
+  border: 1px solid #8a2be2;
+  color: #8a2be2;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.remove-btn:hover {
+  background-color: #9a6eff;
+}
+
+.locked-inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #aaa;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.subscribe-btn.small {
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  border-radius: 18px;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+/* ---- Modern Toggle Switch ---- */
+.premium-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.toggle {
+  position: relative;
+  width: 48px;
+  height: 24px;
+  margin-top: 8px;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: #555;
+  border-radius: 34px;
+  transition: background 0.25s ease;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.25s ease;
+}
+
+/* ---- ON state ---- */
+.toggle input:checked + .slider {
+  background: #7d3cff;               /* your brand purple */
+}
+
+.toggle input:checked + .slider::before {
+  transform: translateX(24px);
+}
+
+/* ---- Disabled look ---- */
+.toggle.disabled .slider {
+  background: #333;
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+
+/* Modern Submit Button */
+.submit-btn {
+  background-color: #7d3cff;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.submit-btn:hover {
+  background-color: #8a2be2;
+  transform: scale(1.02);
+}
+
+.submit-btn:disabled,
+.submit-btn.loading {
+  background-color: #4b2a88;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Mobile: full width */
+@media (max-width: 600px) {
+  .submit-btn {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 1rem;
+  }
+
+   .toggle{
+    margin-top: 45px;
+  }
+}
+
+/* ==== CREATE POST CSS FOR NewPost.jsx ===== */
 
 
 
