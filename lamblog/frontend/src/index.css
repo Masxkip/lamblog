@@ -1074,7 +1074,7 @@ display: none;
 
   .header {
     position: fixed;
-    top: 72px;
+    top: 72.5px;
     left: 0;
     border: none;
     width: 100%;
@@ -3686,6 +3686,21 @@ background-color: #8a2be2;
   justify-content: center;
 }
 /* ==== VERIFIED USER CHECKMARK FOR USERNAMES ===== */
+
+
+
+/* ==== PREMIUM POSTS BLURRED RIGHT SIDEBAR FOR AllCat & CatPost jsx ===== */
+.blurred-content {
+  filter: blur(4px);
+  opacity: 0.6;
+  user-select: none;
+  pointer-events: none;
+}
+
+.fixed-image-wrapper1 {
+  position: relative;
+}
+/* ==== PREMIUM POSTS BLURRED RIGHT SIDEBAR FOR AllCat & CatPost jsx ===== */
 
 
 
