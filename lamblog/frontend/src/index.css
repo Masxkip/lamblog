@@ -1610,102 +1610,6 @@ color: lightgray;
 /* ==== lOADING CSS FOR BTNS ===== */
 
 
-/* ==== PREMIUM POSTS LOCKED & BLURRED BANNER FOR Home.jsx ===== */
-.premium-overlay {
-  background-color: #f9f9f9;
-  padding: 1rem;
-  border-radius: 8px;
-}
-
-.blurred-content {
-  filter: blur(4px);
-  opacity: 0.6;
-  user-select: none;
-  pointer-events: none;
-}
-
-.locked-banner {
-  margin-top: 0.5rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #b00;
-}
-/* ==== PREMIUM POSTS LOCKED & BLURRED BANNER FOR Home.jsx ===== */
-
-
-/* ==== PREMIUM POSTS RIGHT SIDEBAR FOR Home.jsx ===== */
-.premium-preview-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.premium-post-item {
-  text-decoration: none;
-  color: inherit;
-}
-
-.premium-thumbnail {
-  width: 100%;
-  height: auto;
-  border-radius: 0.5rem;
-}
-
-.premium-title {
-  margin-top: 0.5rem;
-  font-weight: 500;
-  text-align: center;
-}
-/* ==== PREMIUM POSTS RIGHT SIDEBAR FOR Home.jsx ===== */
-
-
-/* ==== PREMIUM POSTS RIGHT SIDEBAR FOR Home.jsx ===== */
-.premium-card-link {
-  text-decoration: none;
-  color: inherit;
-  width: 100%;
-}
-
-.premium-card {
-  display: flex;
-  margin-top: 30px;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 1rem;
-  border: 1.5px solid #999;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  cursor: pointer;
-  transition: border 0.2s ease, box-shadow 0.2s ease;
-}
-
-.premium-card:hover {
-  border-color: #333;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.profile-link {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-/* ==== PREMIUM POSTS RIGHT SIDEBAR FOR Home.jsx ===== */
-
-
-
-/* ==== PREMIUM POSTS BLURRED RIGHT SIDEBAR FOR AllCat & CatPost jsx ===== */
-.blurred-content {
-  filter: blur(4px);
-  opacity: 0.6;
-  user-select: none;
-  pointer-events: none;
-}
-
-.fixed-image-wrapper1 {
-  position: relative;
-}
-/* ==== PREMIUM POSTS BLURRED RIGHT SIDEBAR FOR AllCat & CatPost jsx ===== */
-
 
 /* ==== VIEW ALL PREMIUM POSTS LINKS FOR Home.jsx ===== */
 .view-all-link {
@@ -2437,198 +2341,6 @@ color: lightgray;
 /* ==== PREMIUM BTN AND PREMIUM AND TRENDING LIST FOR MobileSidebar.jsx ===== */
 
 
-
-/* ==== BLUR FOR IMAGE FOR Home.jsx ===== */
-.premium-overlay {
-  position: relative;
-  background: rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  border: 1px dashed #888;
-  margin-top: 10px;
-}
-
-.blurred-content {
-  filter: blur(2px);
-  color: #888;
-}
-
-.locked-banner {
-  background: black;
-  color: #000;
-  padding: 5px 10px;
-  margin-top: 10px;
-  font-weight: bold;
-  text-align: center;
-  border-radius: 6px;
-}
-
-.post-image-wrapper {
-  position: relative;
-}
-
-.premium-locked img {
-  filter: blur(6px);
-}
-
-.premium-locked::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.35);
-  border-radius: 4px;
-}
-
-.locked-banner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  z-index: 2;
-  width: 100%;
-  padding: 0 1rem;
-}
-
-.locked-banner::before {
-  content: "";
-  display: block;
-  width: 100%;
-  height: 1px; /* thinner line */
-  background-color: #ccc;
-  margin-bottom: 0.75rem;
-  opacity: 0.6;
-}
-
-.locked-text {
-  color: #fff;
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
-  line-height: 1.3;
-}
-
-.locked-sub-btn {
-  display: inline-block;
-  padding: 0.4rem 0.9rem;
-  background: var(--clr-primary, #6a1bbd);
-  color: #fff;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: background 0.2s;
-  margin-bottom: 10px;
-}
-
-.locked-sub-btn:hover {
-  background: #8a2be2;
-  color: whitesmoke;
-}
-/* ==== BLUR FOR IMAGE FOR Home.jsx ===== */
-
-
-
-/* ==== DESIGN FOR RESTRICTION OF POSTCARD IN FOR Home.jsx ===== */
-.post-card-link {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-}
-
-.post-card-link .post-card {
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.post-card-link .post-card:hover {
-  background: rgba(0, 0, 0, 0.03);
-}
-/* ==== DESIGN FOR RESTRICTION OF POSTCARD IN FOR Home.jsx ===== */
-
-
-
-/* ==== BLUR CSS FOR PREMIUM POSTCARD FOR Home.jsx ===== */
-/* wrapper so we can blur + overlay */
-.premium-img-wrapper { position: relative; }
-
-/* blur & veil */
-.premium-locked img { filter: blur(5px); }
-.premium-locked::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.35);
-  border-radius: 4px;
-}
-
-/* overlay message (compact version) */
-.locked-banner.small {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 0.75rem;
-  color: #fff;
-  text-align: center;
-  padding: 0 0.5rem;
-  z-index: 2;
-}
-
-/* make entire card feel clickable */
-.premium-card-link {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-}
-.premium-card-link .premium-card {
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-.premium-card-link .premium-card:hover {
-  background: rgba(0,0,0,0.04);
-}
-
-
-.premium-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.premium-card {
-  display: flex;
-  flex-direction: column;
-  padding: 0.5rem;
-  border-radius: 8px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-  height: auto; /* allow card to adjust to content */
-  overflow: hidden;
-  min-height: 280px; /* ⬅ reduce this if needed further */
-}
-
-.premium-card img.post-image {
-  height: 250px;      /* 🔽 reduced from default (e.g., 180px) */
-  object-fit: cover;
-  border-radius: 6px;
-  width: 100%;
-}
-
-.premium-card h3 {
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin: 0.5rem 0 0;
-  line-height: 1.2;
-  max-height: 2.4em; /* ~2 lines */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.premium-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.75rem;
-}
-/* ==== BLUR CSS FOR PREMIUM POSTCARD FOR Home.jsx ===== */
 
 
 /* ==== FULL NAVBAR CSS FOR Navbar.jsx ===== */
@@ -3689,6 +3401,297 @@ background-color: #8a2be2;
 
 
 
+/* ==== PREMIUM POSTS LOCKED & BLURRED BANNER FOR Home.jsx ===== */
+.premium-overlay {
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.blurred-content {
+  filter: blur(4px);
+  opacity: 0.6;
+  user-select: none;
+  pointer-events: none;
+}
+
+.locked-banner {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #b00;
+}
+/* ==== PREMIUM POSTS LOCKED & BLURRED BANNER FOR Home.jsx ===== */
+
+
+
+/* ==== PREMIUM POSTS RIGHT SIDEBAR FOR Home.jsx ===== */
+.premium-preview-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.premium-post-item {
+  text-decoration: none;
+  color: inherit;
+}
+
+.premium-thumbnail {
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+}
+
+.premium-title {
+  margin-top: 0.5rem;
+  font-weight: 500;
+  text-align: center;
+}
+/* ==== PREMIUM POSTS RIGHT SIDEBAR FOR Home.jsx ===== */
+
+
+
+/* ==== PREMIUM POSTS RIGHT SIDEBAR FOR Home.jsx ===== */
+.premium-card-link {
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+}
+
+.premium-card {
+  display: flex;
+  margin-top: 30px;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1rem;
+  border: 1.5px solid #999;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.premium-card:hover {
+  border-color: #333;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-link {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+/* ==== PREMIUM POSTS RIGHT SIDEBAR FOR Home.jsx ===== */
+
+
+
+/* ==== PREMIUM POSTS BLURRED RIGHT SIDEBAR FOR AllCat & CatPost jsx ===== */
+.blurred-content {
+  filter: blur(4px);
+  opacity: 0.6;
+  user-select: none;
+  pointer-events: none;
+}
+
+.fixed-image-wrapper1 {
+  position: relative;
+}
+/* ==== PREMIUM POSTS BLURRED RIGHT SIDEBAR FOR AllCat & CatPost jsx ===== */
+
+
+/* ==== BLUR FOR IMAGE FOR Home.jsx ===== */
+.premium-overlay {
+  position: relative;
+  background: rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border: 1px dashed #888;
+  margin-top: 10px;
+}
+
+.blurred-content {
+  filter: blur(2px);
+  color: #888;
+}
+
+.locked-banner {
+  background: black;
+  color: #000;
+  padding: 5px 10px;
+  margin-top: 10px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 6px;
+}
+
+.post-image-wrapper {
+  position: relative;
+}
+
+.premium-locked img {
+  filter: blur(6px);
+}
+
+.premium-locked::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 4px;
+}
+
+.locked-banner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 2;
+  width: 100%;
+  padding: 0 1rem;
+}
+
+.locked-banner::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 1px; /* thinner line */
+  background-color: #ccc;
+  margin-bottom: 0.75rem;
+  opacity: 0.6;
+}
+
+.locked-text {
+  color: #fff;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.locked-sub-btn {
+  display: inline-block;
+  padding: 0.4rem 0.9rem;
+  background: var(--clr-primary, #6a1bbd);
+  color: #fff;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s;
+  margin-bottom: 10px;
+}
+
+.locked-sub-btn:hover {
+  background: #8a2be2;
+  color: whitesmoke;
+}
+/* ==== BLUR FOR IMAGE FOR Home.jsx ===== */
+
+
+/* ==== DESIGN FOR RESTRICTION OF POSTCARD IN FOR Home.jsx ===== */
+.post-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.post-card-link .post-card {
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.post-card-link .post-card:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+/* ==== DESIGN FOR RESTRICTION OF POSTCARD IN FOR Home.jsx ===== */
+
+
+
+/* ==== BLUR CSS FOR PREMIUM POSTCARD FOR Home.jsx ===== */
+/* wrapper so we can blur + overlay */
+.premium-img-wrapper { position: relative; }
+
+/* blur & veil */
+.premium-locked img { filter: blur(5px); }
+.premium-locked::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  border-radius: 4px;
+}
+
+/* overlay message (compact version) */
+.locked-banner.small {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.75rem;
+  color: #fff;
+  text-align: center;
+  padding: 0 0.5rem;
+  z-index: 2;
+}
+
+/* make entire card feel clickable */
+.premium-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.premium-card-link .premium-card {
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.premium-card-link .premium-card:hover {
+  background: rgba(0,0,0,0.04);
+}
+
+
+.premium-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.premium-card {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  height: auto; /* allow card to adjust to content */
+  overflow: hidden;
+  min-height: 280px; /* ⬅ reduce this if needed further */
+}
+
+.premium-card img.post-image {
+  height: 250px;      /* 🔽 reduced from default (e.g., 180px) */
+  object-fit: cover;
+  border-radius: 6px;
+  width: 100%;
+}
+
+.premium-card h3 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0.5rem 0 0;
+  line-height: 1.2;
+  max-height: 2.4em; /* ~2 lines */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.premium-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+/* ==== BLUR CSS FOR PREMIUM POSTCARD FOR Home.jsx ===== */
+
+
 /* ==== PREMIUM POSTS BLURRED RIGHT SIDEBAR FOR AllCat & CatPost jsx ===== */
 .blurred-content {
   filter: blur(4px);
@@ -3746,8 +3749,6 @@ background-color: #8a2be2;
   border-radius: 8px;
   z-index: 1;
 }
-
-
 
 
 
