@@ -3307,12 +3307,14 @@ background-color: #8a2be2;
 
 
 
+
+
+/* ==== PREMIUM POSTS BLURRED FIX FOR AllCat & CatPost jsx ===== */
 .fixed-image-wrapper2 {
   position: relative;
   overflow: hidden;
   border-radius: 8px;
 }
-
 
 .locked-banner.small {
   position: absolute;
@@ -3327,8 +3329,6 @@ background-color: #8a2be2;
   z-index: 2;
   white-space: nowrap;
 }
-
-
 
 .fixed-image-wrapper2 img {
   width: 100%;
@@ -3349,8 +3349,7 @@ background-color: #8a2be2;
   border-radius: 8px;
   z-index: 1;
 }
-
-
+/* ==== PREMIUM POSTS BLURRED FIX FOR AllCat & CatPost jsx ===== */
 
 
 
@@ -3433,7 +3432,7 @@ select:focus {
 }
 
 .subscribe-btn {
-  margin-top: 8px;
+  margin-top: -10px;
   background: #6a1bbd;
   color: white;
   border: none;
@@ -3464,7 +3463,6 @@ select:focus {
     width: 100%;
   }
 }
-
 
 .preview-block {
   margin-top: 10px;
@@ -3519,6 +3517,14 @@ select:focus {
   margin-right: 0;
 }
 
+.locked-text {
+  flex-grow: 1;
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-top: 41px;
+  margin-right: auto;
+}
+
 /* ---- Modern Toggle Switch ---- */
 .premium-toggle {
   display: flex;
@@ -3529,9 +3535,9 @@ select:focus {
 
 .toggle {
   position: relative;
-  width: 48px;
-  height: 24px;
-  margin-top: 8px;
+  width: 45px;
+  height: 21px;
+  margin-top: 43px;
 }
 
 .toggle input {
@@ -3580,7 +3586,7 @@ select:focus {
 
 /* Modern Submit Button */
 .submit-btn {
-  background-color: #7d3cff;
+  background-color: #6a1bbd;
   color: white;
   border: none;
   padding: 8px 18px;
@@ -3608,16 +3614,35 @@ select:focus {
 @media (max-width: 600px) {
   .submit-btn {
     width: 100%;
-    padding: 10px 14px;
+    padding: 10px 12px;
     font-size: 1rem;
   }
 
    .toggle{
     margin-top: 45px;
+    
   }
+
+  /* Ensure text doesn’t overflow on smaller screens */
+.locked-text {
+  flex-grow: 1;
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-top: 41px;
+  margin-right: auto;
 }
 
+/* Subscribe button styling for inline use */
+.subscribe-btn.small {
+  white-space: nowrap;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  border-radius: 18px;
+}
+
+}
 /* ==== CREATE POST CSS FOR NewPost.jsx ===== */
+
 
 
 
