@@ -173,15 +173,15 @@ function NewPost() {
       <span className="slider"></span>
     </label>
 
-    <div className="locked-inline">
-      <Lock size={14} style={{ marginRight: "6px" }} />
-      <span>Subscribe to unlock premium posting</span>
-      <Link to="/subscribe">
-        <button className="subscribe-btn small">Subscribe Now</button>
-      </Link>
-    </div>
+  <div className="locked-inline">
+ <Lock size={14} style={{ marginRight: "6px", marginTop: "30px" }} />
+  <span className="locked-text">Subscribe to unlock premium posting</span>
+</div>
   </div>
 )}
+    <Link to="/subscribe">
+    <button className="subscribe-btn small">Subscribe Now</button>
+  </Link>
 
 
         {/* Image Upload with Preview */}
