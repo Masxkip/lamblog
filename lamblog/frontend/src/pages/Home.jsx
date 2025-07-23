@@ -90,17 +90,17 @@ function Home() {
 }, [posts]);   // <- re-run if the main feed changes
 
 
-// Auto-hide after 5 seconds
 useEffect(() => {
   if (user?.isSubscriber && sessionStorage.getItem("justSubscribed") === "true") {
     setShowSubscriberBanner(true);
-    sessionStorage.removeItem("justSubscribed"); // ✅ Remove so it doesn't reappear
+    sessionStorage.removeItem("justSubscribed"); // ✅ Show once
     const timer = setTimeout(() => {
       setShowSubscriberBanner(false);
     }, 5000);
     return () => clearTimeout(timer);
   }
 }, [user]);
+
 
   return (
     <div className="home-layout">

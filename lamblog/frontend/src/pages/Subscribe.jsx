@@ -6,7 +6,7 @@ import AuthContext from "../context/AuthContext";
 import axios from "axios";
 
 const Subscribe = () => {
-  const { user, refreshUser } = useContext(AuthContext); // ✅ use refreshUser
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const email = user?.email || "user@example.com";
@@ -20,28 +20,29 @@ const Subscribe = () => {
     channels: ["card"],
   };
 
-  const onSuccess = async (reference) => {
-    try {
-      await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/users/verify-subscription`,
-        { reference: reference.reference },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+const onSuccess = async (reference) => {
+  try {
+    await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/users/verify-subscription`,
+      { reference: reference.reference },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
 
-      sessionStorage.setItem("justSubscribed", "true"); // ✅ Flag set for banner
-      await refreshUser(); // ✅ Load latest user from backend
+    // ✅ Set flag to show banner on Home after login
+    sessionStorage.setItem("justSubscribed", "true");
 
-      alert("Subscription successful!");
-      navigate("/"); // ✅ Redirect to home (no reload)
-    } catch (error) {
-      console.error("❌ Verification failed", error);
-      alert("Payment verified but user update failed.");
-    }
-  };
+    // ✅ Redirect to login with query
+    navigate("/login?subscribed=true");
+  } catch (error) {
+    console.error("❌ Verification failed", error);
+    alert("Payment verified but user update failed.");
+  }
+};
+
 
   const onClose = () => {
     alert("Payment window closed.");
