@@ -50,7 +50,7 @@ const Subscribe = () => {
     // Try a regular redirect first
     navigate("/", { replace: true });
 
-    // Uncomment this if the above fails:
+    // U
     // window.location.href = "/";
   } catch (error) {
     console.error("❌ Verification or refreshUser failed:", error);
