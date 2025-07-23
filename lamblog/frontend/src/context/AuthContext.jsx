@@ -1,6 +1,9 @@
 import { createContext, useState, useEffect } from "react";
+import axios from "axios";
 
 const AuthContext = createContext();
+
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -29,14 +32,34 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
-  // Update user after subscription or profile change
+  // Update user manually
   const updateUserProfile = (updatedUser) => {
     setUser(updatedUser);
     localStorage.setItem("user", JSON.stringify(updatedUser));
   };
 
+  // ✅ Refresh user from backend (e.g. after subscription)
+  const refreshUser = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      const response = await axios.get(`${API_URL}/users/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const updatedUser = response.data;
+      setUser(updatedUser);
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+    } catch (error) {
+      console.error("Failed to refresh user:", error);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, updateUserProfile, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, updateUserProfile, logout, refreshUser, loading }}>
       {children}
     </AuthContext.Provider>
   );

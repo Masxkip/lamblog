@@ -1,5 +1,5 @@
-import { useState, useContext, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
 import { Eye, EyeOff } from "lucide-react";
@@ -12,18 +12,8 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
-  const location = useLocation();
-
-  // ✅ Detect post-subscription login
-  const subscribed = new URLSearchParams(location.search).get("subscribed") === "true";
-
-  useEffect(() => {
-    if (subscribed) {
-      setSuccess("🎉 Subscription successful! Please log in to access premium features.");
-    }
-  }, [subscribed]);
+  const { login } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,16 +24,15 @@ function Login() {
       const response = await axios.post(`${API_URL}/api/auth/login`, { email, password });
       const { token, user } = response.data;
       login(user, token);
+      setSuccess(`Welcome, ${user.username}!`);
 
-      // ✅ After login, banner will be shown in Home.jsx via sessionStorage
       setTimeout(() => {
         navigate("/");
-      }, 1000);
+      }, 2000);
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
     }
   };
-
 
   return (
     <div className="auth-wrapper">
