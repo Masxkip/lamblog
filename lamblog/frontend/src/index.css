@@ -3755,3 +3755,50 @@ select:focus {
 
 
 
+
+
+.subscriber-banner {
+  background-color: #e6ffed;
+  color: #046b2c;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #a3e7c2;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+/* Close button */
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  color: #046b2c;
+  cursor: pointer;
+  margin-left: 1rem;
+  line-height: 1;
+}
+
+.close-btn:hover {
+  color: #02461e;
+}
+
+@media (max-width: 600px) {
+  .subscriber-banner {
+    font-size: 0.9rem;
+    padding: 0.6rem 0.8rem;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+  }
+}

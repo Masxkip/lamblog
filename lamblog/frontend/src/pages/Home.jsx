@@ -17,6 +17,7 @@ function Home() {
   const [categories, setCategories] = useState([]);
   const [trendingPosts, setTrendingPosts] = useState([]);
   const [premiumPosts, setPremiumPosts] = useState([]);
+  const [showSubscriberBanner, setShowSubscriberBanner] = useState(true);
 
   // Fetch post
   const fetchPosts = useCallback(async () => {
@@ -88,6 +89,17 @@ function Home() {
   fetchPremium();
 }, [posts]);   // <- re-run if the main feed changes
 
+
+// Auto-hide after 5 seconds
+useEffect(() => {
+  if (user?.isSubscriber) {
+    const timer = setTimeout(() => {
+      setShowSubscriberBanner(false);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }
+}, [user]);
+
   return (
     <div className="home-layout">
       {/* Sidebar */}
@@ -124,30 +136,52 @@ function Home() {
       </aside>
       {/* Main Content */}
       <main className="main-content">
-        <header className="header">
-          <input
-            type="text"
-            placeholder="Search posts..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="search-bar"
-          />
-          {user && (
-            <div className="user-info">
-              <span>{user.username}</span>
-              {user.profilePicture ? (
-              <img 
-              src={user.profilePicture} 
-              alt="User" 
-              className="user-avatar" 
-            />
-            ) : (
-              <UserCircle className="default-profile-icon" size={32} />
-            )}
+       <header className="header">
+  {/* 🎉 Success Message */}
+  {user?.isSubscriber && showSubscriberBanner && (
+    <div className="subscriber-banner">
+      🎉 <strong>Congratulations!</strong> You're now a subscribed user.
+      <button
+        onClick={() => setShowSubscriberBanner(false)}
+        className="close-btn"
+        aria-label="Close"
+      >
+        &times;
+      </button>
+    </div>
+  )}
 
-            </div>
-          )}
-        </header>
+  <input
+    type="text"
+    placeholder="Search posts..."
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+    className="search-bar"
+  />
+  <br /><br />
+  <input
+    type="text"
+    placeholder="Search posts..."
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+    className="search-bar"
+  />
+
+  {user && (
+    <div className="user-info">
+      {user.profilePicture ? (
+        <img
+          src={user.profilePicture}
+          alt="User"
+          className="user-avatar"
+        />
+      ) : (
+        <UserCircle className="default-profile-icon" size={32} />
+      )}
+    </div>
+  )}
+</header>
+
 
        <h2>#SEEK Latest!</h2>
 {loading ? (
