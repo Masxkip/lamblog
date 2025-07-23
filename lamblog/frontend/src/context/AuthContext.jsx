@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react";
+import axios from "axios"; // ✅ Required for API call
 
 const AuthContext = createContext();
 
@@ -35,8 +36,27 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("user", JSON.stringify(updatedUser));
   };
 
+  // ✅ NEW: Refresh user from backend
+  const refreshUser = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token || !user?._id) return;
+
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/users/${user._id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setUser(res.data);
+      localStorage.setItem("user", JSON.stringify(res.data));
+    } catch (err) {
+      console.error("Failed to refresh user:", err);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, updateUserProfile, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, updateUserProfile, refreshUser, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );

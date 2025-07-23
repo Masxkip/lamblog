@@ -6,7 +6,7 @@ import AuthContext from "../context/AuthContext";
 import axios from "axios";
 
 const Subscribe = () => {
-  const { user, updateUserProfile } = useContext(AuthContext);
+  const { user, refreshUser } = useContext(AuthContext); // ✅ use refreshUser
   const navigate = useNavigate();
 
   const email = user?.email || "user@example.com";
@@ -22,7 +22,7 @@ const Subscribe = () => {
 
   const onSuccess = async (reference) => {
     try {
-      const res = await axios.post(
+      await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/users/verify-subscription`,
         { reference: reference.reference },
         {
@@ -32,16 +32,11 @@ const Subscribe = () => {
         }
       );
 
-updateUserProfile(res.data.user);
-sessionStorage.setItem("justSubscribed", "true"); // ✅ Flag set
+      sessionStorage.setItem("justSubscribed", "true"); // ✅ Flag set for banner
+      await refreshUser(); // ✅ Load latest user from backend
 
-alert("Subscription successful!");
-setTimeout(() => {
-  navigate("/");
-  window.location.reload(); // triggers Home.jsx to read the flag
-}, 300);
-
-
+      alert("Subscription successful!");
+      navigate("/"); // ✅ Redirect to home (no reload)
     } catch (error) {
       console.error("❌ Verification failed", error);
       alert("Payment verified but user update failed.");
