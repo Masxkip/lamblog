@@ -150,15 +150,6 @@ useEffect(() => {
       </button>
     </div>
   )}
-
-  <input
-    type="text"
-    placeholder="Search posts..."
-    value={search}
-    onChange={(e) => setSearch(e.target.value)}
-    className="search-bar"
-  />
-  <br /><br />
   <input
     type="text"
     placeholder="Search posts..."
