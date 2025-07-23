@@ -20,31 +20,33 @@ const Subscribe = () => {
     channels: ["card"],
   };
 
-const onSuccess = async (reference) => {
-  try {
-    const res = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/users/verify-subscription`,
-      { reference: reference.reference },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+  const onSuccess = async (reference) => {
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/users/verify-subscription`,
+        { reference: reference.reference },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
-    updateUserProfile(res.data.user); // 🔄 sync global user
-    alert("Subscription successful!");
+      updateUserProfile(res.data.user);
+      console.log("✅ Subscription verified. Updated user:", res.data.user);
+      alert("Subscription successful!");
 
-    setTimeout(() => {
-      navigate("/"); // 🏠 go home
-    }, 100); // short delay to avoid premature routing
+      // ✅ Delay + full refresh to re-mount context everywhere
+      setTimeout(() => {
+        navigate("/");
+        window.location.reload(); // ensures context and UI fully reflect update
+      }, 300);
 
-  } catch (error) {
-    console.error("Verification failed", error);
-    alert("Payment verified but user update failed.");
-  }
-};
-
+    } catch (error) {
+      console.error("❌ Verification failed", error);
+      alert("Payment verified but user update failed.");
+    }
+  };
 
   const onClose = () => {
     alert("Payment window closed.");
@@ -55,7 +57,6 @@ const onSuccess = async (reference) => {
   return (
     <div className="subscribe-page">
       <div className="subscribe-box">
-        {/* 🔥 BEST VALUE badge */}
         <div className="badge">
           <Flame size={16} /> Best Value
         </div>
