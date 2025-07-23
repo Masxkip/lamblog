@@ -20,25 +20,31 @@ const Subscribe = () => {
     channels: ["card"],
   };
 
-  const onSuccess = async (reference) => {
-    try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/users/verify-subscription`,
-        { reference: reference.reference },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      updateUserProfile(res.data.user);
-      alert("Subscription successful!");
-      navigate("/");
-    } catch (error) {
-      console.error("Verification failed", error);
-      alert("Payment verified but user update failed.");
-    }
-  };
+const onSuccess = async (reference) => {
+  try {
+    const res = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/users/verify-subscription`,
+      { reference: reference.reference },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    updateUserProfile(res.data.user); // 🔄 sync global user
+    alert("Subscription successful!");
+
+    setTimeout(() => {
+      navigate("/"); // 🏠 go home
+    }, 100); // short delay to avoid premature routing
+
+  } catch (error) {
+    console.error("Verification failed", error);
+    alert("Payment verified but user update failed.");
+  }
+};
+
 
   const onClose = () => {
     alert("Payment window closed.");
