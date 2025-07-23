@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { usePaystackPayment } from "react-paystack";
 import { CheckCircle, Flame } from "lucide-react";
 import AuthContext from "../context/AuthContext";
@@ -6,8 +7,8 @@ import BackArrow from "../components/BackArrow";
 import axios from "axios";
 
 const Subscribe = () => {
-  const { user } = useContext(AuthContext);
-
+  const { user, refreshUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const email = user?.email || "user@example.com";
 
@@ -20,11 +21,11 @@ const Subscribe = () => {
     channels: ["card"],
   };
 
- const onSuccess = async (reference) => {
-  try {
-    const token = localStorage.getItem("token");
-
-    await axios.post(
+  const onSuccess = async (reference) => {
+    console.log("🎉 onSuccess triggered with reference:", reference);
+    try {
+      const token = localStorage.getItem("token");
+     await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/users/verify-subscription`,
       { reference: reference.reference },
       {
@@ -34,17 +35,21 @@ const Subscribe = () => {
       }
     );
 
-    // ✅ Set success flag for banner on home page
-    sessionStorage.setItem("justSubscribed", "true");
+      // ✅ Update local user state via context
+      if (typeof refreshUser === "function") {
+        await refreshUser();
+      }
 
-    // ✅ Force full reload to home (ensures context updates)
-    window.location.href = "/";
-  } catch (error) {
-    console.error("❌ Verification failed:", error);
-    alert("Payment verified but user update failed.");
-  }
-};
+      // ✅ Set banner flag for Home page
+      sessionStorage.setItem("justSubscribed", "true");
 
+      // ✅ Redirect to Home (not login)
+      navigate("/");
+    } catch (error) {
+      console.error("❌ Verification failed:", error);
+      alert("Payment verified but user update failed.");
+    }
+  };
 
   const onClose = () => {
     alert("Payment popup closed.");
