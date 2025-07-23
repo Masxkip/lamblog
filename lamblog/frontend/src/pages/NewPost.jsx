@@ -109,7 +109,7 @@ function NewPost() {
   return (
     <div className="post-container">
       <BackArrow />
-      <h2>Share Your Views with SEEK</h2>
+      <h2>What's On Your Mind</h2>
       {message && <p className="success-message">{message}</p>}
 
       <form onSubmit={handleSubmit}>

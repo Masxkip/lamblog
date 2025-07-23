@@ -16,7 +16,7 @@ const Subscribe = () => {
     email: email,
     amount: 10000,
     publicKey: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
-    plan: "PLN_jpid681yvrnqut2",
+    plan: "PLN_wneh0dnfabvv1cq",
     channels: ["card"],
   };
 
