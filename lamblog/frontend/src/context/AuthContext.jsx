@@ -39,24 +39,27 @@ export const AuthProvider = ({ children }) => {
   };
 
   // ✅ Refresh user from backend (e.g. after subscription)
-  const refreshUser = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) return;
+ const refreshUser = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) return;
 
-      const response = await axios.get(`${API_URL}/users/me`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    const res = await axios.get(`${API_URL}/users/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-      const updatedUser = response.data;
-      setUser(updatedUser);
-      localStorage.setItem("user", JSON.stringify(updatedUser));
-    } catch (error) {
-      console.error("Failed to refresh user:", error);
-    }
-  };
+    const updatedUser = res.data;
+    setUser(updatedUser);
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+  } catch (err) {
+    console.error("Failed to refresh user:", err);
+    setUser(null); // fallback
+    localStorage.removeItem("user");
+  }
+};
+
 
   return (
     <AuthContext.Provider value={{ user, login, updateUserProfile, logout, refreshUser, loading }}>
