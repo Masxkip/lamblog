@@ -32,15 +32,15 @@ const Subscribe = () => {
         }
       );
 
-      updateUserProfile(res.data.user);
-      console.log("✅ Subscription verified. Updated user:", res.data.user);
-      alert("Subscription successful!");
+updateUserProfile(res.data.user);
+sessionStorage.setItem("justSubscribed", "true"); // ✅ Flag set
 
-      // ✅ Delay + full refresh to re-mount context everywhere
-      setTimeout(() => {
-        navigate("/");
-        window.location.reload(); // ensures context and UI fully reflect update
-      }, 300);
+alert("Subscription successful!");
+setTimeout(() => {
+  navigate("/");
+  window.location.reload(); // triggers Home.jsx to read the flag
+}, 300);
+
 
     } catch (error) {
       console.error("❌ Verification failed", error);

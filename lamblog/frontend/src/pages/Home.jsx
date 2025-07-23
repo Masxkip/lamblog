@@ -92,7 +92,9 @@ function Home() {
 
 // Auto-hide after 5 seconds
 useEffect(() => {
-  if (user?.isSubscriber) {
+  if (user?.isSubscriber && sessionStorage.getItem("justSubscribed") === "true") {
+    setShowSubscriberBanner(true);
+    sessionStorage.removeItem("justSubscribed"); // ✅ Remove so it doesn't reappear
     const timer = setTimeout(() => {
       setShowSubscriberBanner(false);
     }, 5000);
