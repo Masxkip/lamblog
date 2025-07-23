@@ -136,20 +136,22 @@ useEffect(() => {
       </aside>
       {/* Main Content */}
       <main className="main-content">
-       <header className="header">
-  {/* 🎉 Success Message */}
+  <header className="header">
+  {/* ✅ Subscription success banner */}
   {user?.isSubscriber && showSubscriberBanner && (
     <div className="subscriber-banner">
-      🎉 <strong>Congratulations!</strong> You're now a subscribed user.
+      <span>🎉 <strong>Congratulations!</strong> You're now a subscribed user.</span>
       <button
+        className="close-banner"
         onClick={() => setShowSubscriberBanner(false)}
-        className="close-btn"
         aria-label="Close"
       >
         &times;
       </button>
     </div>
   )}
+
+  {/* Search bars */}
   <input
     type="text"
     placeholder="Search posts..."
