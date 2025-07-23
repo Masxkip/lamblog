@@ -132,13 +132,6 @@ function Home() {
             onChange={(e) => setSearch(e.target.value)}
             className="search-bar"
           />
-           <input
-            type="text"
-            placeholder="Search posts..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="search-bar"
-          />
           {user && (
             <div className="user-info">
               <span>{user.username}</span>
