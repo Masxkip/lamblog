@@ -106,7 +106,7 @@ function NewPost() {
     <div className="post-container">
       <BackArrow />
       <h2>What's On Your Mind</h2>
-      {message && <p className="success-message">{message}</p>}
+      
 
       <form onSubmit={handleSubmit}>
         <input
@@ -226,7 +226,7 @@ function NewPost() {
             </div>
           </div>
         )}
-
+{message && <p className="success-message">{message}</p>}
        <LoadingButton
   isLoading={loading}
   type="submit"

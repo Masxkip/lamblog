@@ -124,7 +124,7 @@ function EditProfile() {
           onChange={(e) => setWebsite(e.target.value)}
           placeholder="Website"
         />
-
+        {message && <p className="success-message">{message}</p>}
         {/* Submit */}
         <LoadingButton
           isLoading={loading}
@@ -134,7 +134,7 @@ function EditProfile() {
           Save Changes
         </LoadingButton>
 
-        {message && <p className="success-message">{message}</p>}
+        
       </form>
 
       <BottomNav />

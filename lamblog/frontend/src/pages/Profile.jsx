@@ -6,7 +6,7 @@ import AuthContext from "../context/AuthContext";
 import { UserCircle, MoreHorizontal } from "lucide-react";
 import BottomNav from "../components/BottomNav";
 
-const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+const API_URL = import.meta.env.VITE_BACKEND_URL
 
 export default function Profile() {
   const { id } = useParams();
@@ -218,19 +218,6 @@ export default function Profile() {
               </div>
             )}
           </div>
-
-          {loggedInUser &&
-            loggedInUser._id === user._id &&
-            user.isSubscriber && (
-              <a
-                href={`https://paystack.com/pay/${user.paystackCustomerCode}`}
-                className="pill update-payment"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Update payment method
-              </a>
-            )}
         </section>
 
         {/* -------- TAB NAV -------- */}
