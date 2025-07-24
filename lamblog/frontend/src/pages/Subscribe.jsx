@@ -21,13 +21,11 @@ const Subscribe = () => {
     channels: ["card"],
   };
 
- const onSuccess = async (reference) => {
-  console.log("🎉 onSuccess triggered with reference:", reference);
+  const onSuccess = async (reference) => {
 
-  try {
-    const token = localStorage.getItem("token");
-
-    const res = await axios.post(
+    try {
+      const token = localStorage.getItem("token");
+     await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/users/verify-subscription`,
       { reference: reference.reference },
       {
@@ -37,26 +35,21 @@ const Subscribe = () => {
       }
     );
 
-    console.log("✅ Verification response:", res.data);
+      // ✅ Update local user state via context
+      if (typeof refreshUser === "function") {
+        await refreshUser();
+      }
 
-    if (typeof refreshUser === "function") {
-      await refreshUser();
-      console.log("🔄 User refreshed successfully");
+      // ✅ Set banner flag for Home page
+      sessionStorage.setItem("justSubscribed", "true");
+
+      // ✅ Redirect to Home (not login)
+      navigate("/");
+    } catch (error) {
+      console.error("❌ Verification failed:", error);
+      alert("Payment verified but user update failed.");
     }
-
-    sessionStorage.setItem("justSubscribed", "true");
-    console.log("📦 Banner flag set in sessionStorage");
-
-    // Try a regular redirect first
-    navigate("/", { replace: true });
-
-    // U
-    // window.location.href = "/";
-  } catch (error) {
-    console.error("❌ Verification or refreshUser failed:", error);
-    alert("Payment verified but user update failed.");
-  }
-};
+  };
 
   const onClose = () => {
     alert("Payment popup closed.");

@@ -264,8 +264,10 @@ useEffect(() => {
   {/* ✅ Only show heading if user is a subscriber */}
   {user?.isSubscriber && <h2>Latest on SEEK Premium</h2>}
 
+
+
 <div className="premium-grid">
-  {premiumPosts.map((post) => {
+   {premiumPosts.slice(0, 3).map((post) => {
     const isLocked = !user?.isSubscriber;            // they’re all premium
     const target   = isLocked ? "/subscribe" : `/post/${post._id}`;
 

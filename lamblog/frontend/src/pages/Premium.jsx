@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useCallback } from "react";
+import { useState, useEffect, useContext, useCallback, useRef  } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
@@ -20,6 +20,9 @@ function Premium() {
   const [premiumPosts, setPremiumPosts] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(6);
+
+  const observer = useRef();
 
   // Fetch premium posts (only once)
   const fetchPremium = useCallback(async () => {
@@ -48,78 +51,108 @@ function Premium() {
     );
   });
 
+
+  // Reset count on search
+  useEffect(() => {
+    setVisibleCount(6);
+  }, [search]);
+
+  // Infinite scroll logic
+  const lastPostRef = useCallback((node) => {
+    if (loading) return;
+    if (observer.current) observer.current.disconnect();
+
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && visibleCount < filteredPosts.length) {
+        setTimeout(() => {
+          setVisibleCount((prev) => prev + 6);
+        }, 800); // loading effect
+      }
+    });
+
+    if (node) observer.current.observe(node);
+  }, [loading, visibleCount, filteredPosts.length]);
+
+
   return (
 <div className="premium-page-container">
   {/* Sticky Back Arrow + Search Bar */}
   <div className="premium-page-searchbar-wrapper">
     <button className="back-icon" onClick={() => navigate(-1)}>
       <BackArrow />
-    </button>
+        </button>
 
-    <input
-      type="text"
-      placeholder="Search categories or titles..."
-      value={search}
-      onChange={(e) => setSearch(e.target.value)}
-      className="premium-page-searchbar"
-    />
-  </div>
-
-  {loading ? (
-    <p className="premium-page-status">Loading premium content…</p>
-  ) : filteredPosts.length === 0 ? (
-    <p className="premium-page-status">No premium posts found for your search.</p>
-  ) : (
-    <>
-      {/* ✅ Optional Search Summary Row */}
-      {search && (
-        <div className="search-results-heading">
-          Showing {filteredPosts.length} result{filteredPosts.length !== 1 ? "s" : ""} for: <strong>"{search}"</strong>
-        </div>
-      )}
-
-      {/* ✅ Consistent 3-Column Grid Layout */}
-      <div className="premium-page-grid">
-        {filteredPosts.map((post) => (
-          <Link
-            to={`/post/${post._id}`}
-            key={post._id}
-            className="premium-page-card-link"
-          >
-            <div className="premium-page-card">
-              {post.image && (
-                <div className="premium-page-image-wrapper">
-                  <img
-                    src={
-                      post.image.startsWith("http")
-                        ? post.image
-                        : `${API_URL}/${post.image}`
-                    }
-                    alt={post.title}
-                    className="premium-page-image"
-                  />
-                </div>
-              )}
-
-                            <Link to={`/post/${post._id}`}>
-              <div className="premium-page-card-content">
-                <p className="premium-page-author">@{post.author.username}</p>
-                <h3 className="premium-page-title">#{post.title}</h3>
-                <p className="premium-page-snippet">
-                  {post.content.substring(0, 80)}...
-                </p>
-                <p><strong>Category:</strong> {post.category || "Uncategorized"}</p>
-                <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
-              </div>
-              </Link>
-            </div>
-          </Link>
-        ))}
+        <input
+          type="text"
+          placeholder="Search categories or titles..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="premium-page-searchbar"
+        />
       </div>
-    </>
-  )}
-</div>
 
+      {loading ? (
+        <p className="premium-page-status">Loading premium content…</p>
+      ) : filteredPosts.length === 0 ? (
+        <p className="premium-page-status">No premium posts found for your search.</p>
+      ) : (
+        <>
+          {search && (
+            <div className="search-results-heading">
+              Showing {filteredPosts.length} result{filteredPosts.length !== 1 ? "s" : ""} for: <strong>"{search}"</strong>
+            </div>
+          )}
+
+          <div className="premium-page-grid">
+            {filteredPosts.slice(0, visibleCount).map((post, index) => {
+              const isLast = index === visibleCount - 1;
+
+              return (
+                <Link
+                  to={`/post/${post._id}`}
+                  key={post._id}
+                  ref={isLast ? lastPostRef : null}
+                  className="premium-page-card-link"
+                >
+                  <div className="premium-page-card">
+                    {post.image && (
+                      <div className="premium-page-image-wrapper">
+                        <img
+                          src={
+                            post.image.startsWith("http")
+                              ? post.image
+                              : `${API_URL}/${post.image}`
+                          }
+                          alt={post.title}
+                          className="premium-page-image"
+                        />
+                      </div>
+                    )}
+
+                    <div className="premium-page-card-content">
+                      <p className="premium-page-author">@{post.author.username}</p>
+                      <h3 className="premium-page-title">#{post.title}</h3>
+                      <p className="premium-page-snippet">
+                        {post.content.substring(0, 80)}...
+                      </p>
+                      <p><strong>Category:</strong> {post.category || "Uncategorized"}</p>
+                      <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Spinner loader at bottom */}
+          {visibleCount < filteredPosts.length && (
+            <div className="infinite-spinner">
+              <span className="spinner" />
+            </div>
+          )}
+        </>
+      )}
+    </div>
   );
 }
 

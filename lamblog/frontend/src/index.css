@@ -3751,12 +3751,7 @@ select:focus {
 
 
 
-
-
-
-
-
-
+/* ==== SUCCESS MESSAGE BANNER FOR Home.jsx ===== */
 .subscriber-banner {
   background-color: #240041; /* Deep purple background */
   color: #a3f5c9; /* Soft green text */
@@ -3807,5 +3802,33 @@ select:focus {
     position: absolute;
     top: 8px;
     right: 12px;
+  }
+}
+/* ==== SUCCESS MESSAGE BANNER FOR Home.jsx ===== */
+
+
+
+
+
+
+
+.infinite-spinner {
+  display: flex;
+  justify-content: center;
+  margin: 2rem auto;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid white;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
