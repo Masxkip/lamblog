@@ -1,11 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import {
-  Camera,
-  Music2,
-  Lock
-} from "lucide-react";
+import { Camera, Music2, Lock} from "lucide-react";
 
 import AuthContext from "../context/AuthContext";
 import BottomNav from "../components/BottomNav";

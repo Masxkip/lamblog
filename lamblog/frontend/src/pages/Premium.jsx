@@ -78,7 +78,7 @@ function Premium() {
 <div className="premium-page-container">
   {/* Sticky Back Arrow + Search Bar */}
   <div className="premium-page-searchbar-wrapper">
-    <button className="back-icon" onClick={() => navigate(-1)}>
+    <button className="back-icon">
       <BackArrow />
         </button>
 
