@@ -3812,6 +3812,7 @@ select:focus {
 
 
 
+/* ==== INFINITE SPINNER CSS FOR PAGINATIONS ===== */
 .infinite-spinner {
   display: flex;
   justify-content: center;
@@ -3832,3 +3833,4 @@ select:focus {
     transform: rotate(360deg);
   }
 }
+/* ==== INFINITE SPINNER CSS FOR PAGINATIONS ===== */

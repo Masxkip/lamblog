@@ -160,7 +160,7 @@ function NewPost() {
       />
       <span className="slider"></span>
     </label>
-    <span className="toggle-label">Mark this post as Premium</span>
+    <span className="locked-text">Mark this post as Premium</span>
   </div>
 ) : (
   <div className="file-upload-section premium-toggle">
@@ -175,9 +175,12 @@ function NewPost() {
 </div>
   </div>
 )}
-    <Link to="/subscribe">
+   {!user?.isSubscriber && (
+  <Link to="/subscribe">
     <button className="subscribe-btn small">Subscribe Now</button>
   </Link>
+)}
+
 
 
         {/* Image Upload with Preview */}
