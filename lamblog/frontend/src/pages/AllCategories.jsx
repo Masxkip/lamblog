@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";   // ⬅️ NEW
+import React, { useEffect, useState, useContext, useRef, useCallback } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import BottomNav from "../components/BottomNav";
 import BackArrow from "../components/BackArrow";
-import { MoreHorizontal, Lock } from "lucide-react";
+import { MoreHorizontal, Check, Lock } from "lucide-react";
 import AuthContext from "../context/AuthContext";
-
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -15,10 +14,11 @@ function AllCategories() {
   const [searchTerm, setSearchTerm] = useState("");
   const [trendingPosts, setTrendingPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(3);
+  const observer = useRef();
 
-  const navigate = useNavigate();                       // ⬅️ NEW
+  const navigate = useNavigate();
 
-  /* ---------- Fetch all posts ---------- */
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -33,13 +33,10 @@ function AllCategories() {
     fetchPosts();
   }, []);
 
-  /* ---------- Fetch trending ---------- */
   useEffect(() => {
     const fetchTrending = async () => {
       try {
-        const res = await axios.get(
-          `${API_URL}/api/posts/trending/posts`
-        );
+        const res = await axios.get(`${API_URL}/api/posts/trending/posts`);
         setTrendingPosts(res.data);
       } catch (err) {
         console.error("Failed to fetch trending posts", err);
@@ -48,7 +45,6 @@ function AllCategories() {
     fetchTrending();
   }, []);
 
-  /* ---------- Filtering + grouping ---------- */
   const filteredPosts = posts.filter(
     (post) =>
       post.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -66,14 +62,27 @@ function AllCategories() {
       .toLowerCase()
       .replace(/\s+/g, " ")
       .replace(/\b\w/g, (c) => c.toUpperCase());
-    if (!postsByCategory[formattedCategory])
-      postsByCategory[formattedCategory] = [];
+    if (!postsByCategory[formattedCategory]) postsByCategory[formattedCategory] = [];
     postsByCategory[formattedCategory].push(post);
   });
 
   const categoryEntries = Object.entries(postsByCategory);
 
-  /* ---------- JSX ---------- */
+  const lastCategoryRef = useCallback((node) => {
+    if (loading) return;
+    if (observer.current) observer.current.disconnect();
+
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && visibleCount < categoryEntries.length) {
+        setTimeout(() => {
+          setVisibleCount((prev) => prev + 3);
+        }, 800); // simulate loading delay
+      }
+    });
+
+    if (node) observer.current.observe(node);
+  }, [loading, visibleCount, categoryEntries.length]);
+
   return (
     <div className="all-categories-page">
       {/* STICKY: back arrow + search bar */}
@@ -91,7 +100,6 @@ function AllCategories() {
         />
       </div>
 
-      {/* Optional “showing results for” label */}
       {searchTerm && (
         <div className="search-results-heading">
           Showing {filteredPosts.length} result
@@ -100,7 +108,6 @@ function AllCategories() {
         </div>
       )}
 
-      {/* --------- CONTENT --------- */}
       {loading ? (
         <div className="loading-posts-message">
           <p>Loading posts…</p>
@@ -110,92 +117,124 @@ function AllCategories() {
           <p>No posts available for your search.</p>
         </div>
       ) : (
-        categoryEntries.map(([category, posts], index) => (
-          <React.Fragment key={category}>
-            <section className="category-block">
-              <h2 className="category-title">#{category}</h2>
+        categoryEntries.slice(0, visibleCount).map(([category, posts], index) => {
+          const isLast = index === visibleCount - 1;
 
-              <div className="category-slider">
-               {posts.slice(0, 5).map((post) => {
-  const isLocked = post.isPremium && (!user || !user.isSubscriber);
-  const target   = isLocked ? "/subscribe" : `/post/${post._id}`;
+          return (
+            <React.Fragment key={category}>
+              <section
+                className="category-block"
+                ref={isLast ? lastCategoryRef : null}
+              >
+                <h2 className="category-title">#{category}</h2>
 
-  return (
-    <Link to={target} key={post._id} className="slider-post-card">
-      {/* --- Image / lock overlay --- */}
-      {post.image && (
-        <div
-          className={`fixed-image-wrapper1 ${isLocked ? "premium-locked" : ""}`}
-        >
-          <img
-            src={post.image}
-            alt="Post"
-            className={`fixed-image1 ${isLocked ? "blurred-content" : ""}`}
-          />
+                <div className="category-slider">
+                  {posts.slice(0, 5).map((post) => (
+                    <div className="slider-post-card" key={post._id}>
+                      <Link to={`/post/${post._id}`}>
+                        {post.image && (
+                          <div
+                            className={`fixed-image-wrapper1 ${
+                              post.isPremium && (!user || !user.isSubscriber)
+                                ? "premium-locked"
+                                : ""
+                            }`}
+                          >
+                            <img
+                              src={post.image}
+                              alt="Post"
+                              className={`fixed-image1 ${
+                                post.isPremium && (!user || !user.isSubscriber)
+                                  ? "blurred-content"
+                                  : ""
+                              }`}
+                            />
+                            {post.isPremium && (!user || !user.isSubscriber) && (
+                              <div className="locked-banner small">
+                                <Lock size={14} style={{ marginRight: "6px" }} />
+                                Subscribe to view
+                              </div>
+                            )}
+                          </div>
+                        )}
 
-          {isLocked && (
-            <div className="locked-banner small" onClick={(e) => e.stopPropagation()}>
-              <Lock size={14} style={{ marginRight: "6px" }} />
-              Subscribe to view
-            </div>
-          )}
-        </div>
+                        <div className="premium-page-card-content">
+                          <Link
+                            to={`/profile/${post.author._id}`}
+                            className="profile-link verified-user"
+                          >
+                            <span className="premium-page-author">
+                              @{post.author.username}
+                            </span>
+                            {post.author?.isSubscriber && (
+                              <span className="verified-circle">
+                                <Check size={12} color="white" strokeWidth={3} />
+                              </span>
+                            )}
+                          </Link>
+                          <h3 className="premium-page-title">#{post.title}</h3>
+                          <p className="premium-page-snippet">
+                            {post.content.substring(0, 80)}...
+                          </p>
+                          <p>
+                            <strong>Category:</strong>{" "}
+                            {post.category || "Uncategorized"}
+                          </p>
+                          <p>
+                            <strong>Published:</strong>{" "}
+                            {new Date(post.createdAt).toLocaleString()}
+                          </p>
+                        </div>
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+
+                <Link
+                  to={`/category/${encodeURIComponent(category)}`}
+                  className="view-all-link"
+                >
+                  View All Posts →
+                </Link>
+
+                <hr className="category-divider" />
+              </section>
+
+              {index === 1 && (
+                <div className="trending-categories-section">
+                  <h3 className="premium-heading">Trending Posts</h3>
+                  {trendingPosts.map((post) => (
+                    <Link
+                      to={`/post/${post._id}`}
+                      key={post._id}
+                      className="premium-item"
+                    >
+                      <div className="premium-text">
+                        <small className="premium-meta">
+                          {post.category || "General"} · Trending
+                        </small>
+                        <span className="premium-title">#{post.title}</span>
+                        <small className="premium-meta">
+                          {post.views
+                            ? post.views.toLocaleString() + " views"
+                            : "Popular post"}
+                        </small>
+                      </div>
+                      <MoreHorizontal size={18} />
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </React.Fragment>
+          );
+        })
       )}
 
-      {/* --- Text --- */}
-      <div className="slider-post-content">
-        <p className="premium-page-author">@{post.author.username}</p>
-        <h3 className="premium-page-title">#{post.title}</h3>
-        <p className="premium-page-snippet">
-          {post.content.substring(0, 80)}…
-        </p>
-        <p><strong>Category:</strong> {post.category || "Uncategorized"}</p>
-        <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
-      </div>
-    </Link>
-  );
-})}
-
-              </div>
-
-              <Link
-                to={`/category/${encodeURIComponent(category)}`}
-                className="view-all-premium-btn"
-              >
-                View All Posts →
-              </Link>
-
-              <hr className="category-divider" />
-            </section>
-
-            {/* Insert Trending after 2nd category */}
-            {index === 1 && (
-              <div className="trending-categories-section">
-                <h3 className="premium-heading">Trending Posts</h3>
-                {trendingPosts.map((post) => (
-                            <Link
-              to={`/post/${post._id}`}
-              key={post._id}
-              className="sidebar-item"
-            >
-              <div className="item-text">
-                <small className="item-meta">
-                  {post.category || "General"} · Trending
-                </small>
-                <span className="item-title">#{post.title}</span>
-                <small className="item-meta">
-                  {post.views
-                    ? post.views.toLocaleString() + " views"
-                    : "Popular post"}
-                </small>
-              </div>
-              <MoreHorizontal size={18} />
-            </Link>
-                ))}
-              </div>
-            )}
-          </React.Fragment>
-        ))
+      {/* Infinite Spinner */}
+      {visibleCount < categoryEntries.length && (
+        <div className="infinite-spinner">
+          <span className="spinner" />
+        </div>
       )}
 
       <BottomNav />
