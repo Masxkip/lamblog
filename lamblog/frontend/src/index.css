@@ -1022,7 +1022,7 @@ display: none;
 
   .header {
     position: fixed;
-    top: 72.5px;
+    top: 68px;
     left: 0;
     border: none;
     width: 100%;
@@ -1247,7 +1247,7 @@ color: lightgray;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-bottom: 70px;
+  margin-bottom: 66px;
 }
 
 .auth-link {
@@ -3765,7 +3765,7 @@ select:focus {
 
 
 
-
+/* ==== VIEW ALL ARROW LINK AND TREND & PREM LIST HOVER ===== */
 .view-all-premium-btn{
   color: white;
 }
@@ -3774,6 +3774,7 @@ select:focus {
   color: whitesmoke;
 }
 
-.item-title{
+.item-title:hover{
   color: #9a6eff;
 }
+/* ==== VIEW ALL ARROW LINK AND TREND & PREM LIST HOVER ===== */
