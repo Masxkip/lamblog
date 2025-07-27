@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
 import BackArrow from "../components/BackArrow";
+import {Check, Lock } from "lucide-react";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -130,7 +131,16 @@ function Premium() {
                     )}
 
                     <div className="premium-page-card-content">
-                      <p className="premium-page-author">@{post.author.username}</p>
+                       <div className="profile-link verified-user">
+          <span className="slider-post-card-author">
+            @{post.author.username}
+          </span>
+          {post.author?.isSubscriber && (
+            <span className="verified-circle">
+              <Check size={12} color="white" strokeWidth={3} />
+            </span>
+          )}
+        </div>
                       <h3 className="premium-page-title">#{post.title}</h3>
                       <p className="premium-page-snippet">
                         {post.content.substring(0, 80)}...

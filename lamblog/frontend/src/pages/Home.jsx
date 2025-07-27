@@ -274,7 +274,16 @@ useEffect(() => {
     return (
       <Link to={target} key={post._id} className="premium-card-link">
         <div className="premium-card">
-          <div className="profile-link">@{post.author.username}</div>
+           <div className="profile-link verified-user">
+          <span className="slider-post-card-author">
+            @{post.author.username}
+          </span>
+          {post.author?.isSubscriber && (
+            <span className="verified-circle">
+              <Check size={12} color="white" strokeWidth={3} />
+            </span>
+          )}
+        </div>
 
           {/* ---- Image (blur if locked) ---- */}
           <div className={`premium-img-wrapper ${isLocked ? "premium-locked" : ""}`}>

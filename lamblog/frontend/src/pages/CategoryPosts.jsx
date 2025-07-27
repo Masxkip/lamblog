@@ -5,7 +5,7 @@ import BottomNav from "../components/BottomNav";
 import BackArrow from "../components/BackArrow";
 import DynamicArrow from "../components/DynamicArrow";
 import AuthContext from "../context/AuthContext";
-import { Lock } from "lucide-react";
+import {Check, Lock } from "lucide-react";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -111,7 +111,16 @@ function CategoryPosts() {
                   )}
 
                   <div className="premium-page-card-content">
-                    <p className="premium-page-author">@{post.author.username}</p>
+                     <div className="profile-link verified-user">
+          <span className="slider-post-card-author">
+            @{post.author.username}
+          </span>
+          {post.author?.isSubscriber && (
+            <span className="verified-circle">
+              <Check size={12} color="white" strokeWidth={3} />
+            </span>
+          )}
+        </div>
                     <h3 className="premium-page-title">#{post.title}</h3>
                     <p className="premium-page-snippet">
                       {post.content.substring(0, 80)}...

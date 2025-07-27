@@ -1589,6 +1589,7 @@ color: lightgray;
   padding: 20px;
   color: white;
   position: relative;
+  margin-bottom: 35px;
 }
 
 /* Trending Posts Section */
@@ -2393,7 +2394,7 @@ color: lightgray;
 
   .bottom-nav .sidebar-icon {
     background-color: black;             /* ✅ Black background */
-    border: 1px solid #333;             /* ✅ Grey outline */
+   border: 1px solid #262626; 
     border-radius: 50%;                  /* ✅ Make it circular */
     width: 42px;
     height: 42px;
@@ -2408,7 +2409,6 @@ color: lightgray;
 
   .bottom-nav .sidebar-icon:hover {
     background-color: #111;
-    border-color: silver;
     color: silver;
   }
 
@@ -3019,17 +3019,17 @@ background-color: #8a2be2;
   margin-top: 30px;
   flex-direction: column;
   align-items: flex-start;
+  border: 1.5px solid #333;
   padding: 1rem;
-  border: 1.5px solid #999;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   cursor: pointer;
-  transition: border 0.2s ease, box-shadow 0.2s ease;
 }
 
 .premium-card:hover {
   border-color: #333;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 1.5px solid #9a6eff;
+ transition: border 0.2s ease, box-shadow 0.2s ease;
 }
 
 .profile-link {
@@ -3039,19 +3039,6 @@ background-color: #8a2be2;
 /* ==== PREMIUM POSTS RIGHT SIDEBAR FOR Home.jsx ===== */
 
 
-
-/* ==== PREMIUM POSTS BLURRED RIGHT SIDEBAR FOR AllCat & CatPost jsx ===== */
-.blurred-content {
-  filter: blur(4px);
-  opacity: 0.6;
-  user-select: none;
-  pointer-events: none;
-}
-
-.fixed-image-wrapper1 {
-  position: relative;
-}
-/* ==== PREMIUM POSTS BLURRED RIGHT SIDEBAR FOR AllCat & CatPost jsx ===== */
 
 
 /* ==== BLUR FOR IMAGE FOR Home.jsx ===== */
@@ -3304,8 +3291,6 @@ background-color: #8a2be2;
   z-index: 1;
 }
 /* ==== PREMIUM POSTS BLURRED FIX FOR AllCat & CatPost jsx ===== */
-
-
 
 
 
@@ -3602,7 +3587,7 @@ select:focus {
 
 
 
-/* ==== PREMIUM BTN AND PREMIUM AND TRENDING LIST FOR MobileSidebar.jsx ===== */
+/* ==== PREMIUM BTN AND PREMIUM, TRENDING LIST FOR MobileSidebar.jsx ===== */
 /* Compact version of button */
 .get-premium-btn.compact {
   padding: 0.5rem 1rem;
@@ -3759,9 +3744,6 @@ select:focus {
   }
 }
 /* ==== SUCCESS MESSAGE BANNER FOR Home.jsx ===== */
-
-
-
 
 
 
