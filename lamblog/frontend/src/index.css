@@ -1247,6 +1247,7 @@ color: lightgray;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-bottom: 70px;
 }
 
 .auth-link {
@@ -1263,10 +1264,6 @@ color: lightgray;
 
 .auth-link:hover {
   color: #a682ff;
-}
-
-.logout {
-  margin-bottom: 20px;
 }
 /* ==== MOBILE LOGOUT & LOGIN CSS FOR MobileSidebar.jsx===== */
 
@@ -3770,9 +3767,13 @@ select:focus {
 
 
 .view-all-premium-btn{
-  color: #a78bfa;
+  color: white;
 }
 
 .view-all-premium-btn:hover{
-  color: #b49ef5;
+  color: whitesmoke;
+}
+
+.item-title{
+  color: #9a6eff;
 }

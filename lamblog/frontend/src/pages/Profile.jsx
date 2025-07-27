@@ -271,7 +271,7 @@ export default function Profile() {
               </Link>
             ))}
 
-            <Link to="/premium" className="view-all-link">
+            <Link to="/premium" className="view-all-premium-btn">
               View all premium posts →
             </Link>
           </div>
