@@ -1583,31 +1583,12 @@ color: lightgray;
 
 
 
+
 /* ==== ALL CATEGORIES CSS FOR AllCategories.jsx ===== */
 .all-categories-page {
   padding: 20px;
   color: white;
   position: relative;
-}
-
-/* Sticky Search Bar */
-.sticky-category-search {
-  position: sticky;
-  top: 70px;
-  background-color: #000;
-  padding: 15px 0;
-  z-index: 999;
-}
-
-
-.category-search-bar {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #333;
-  border-radius: 6px;
-  background-color: whitesmoke;
-  color: black;
 }
 
 /* Trending Posts Section */
@@ -1664,43 +1645,6 @@ color: lightgray;
   display: none;
 }
 
-/* Post Card in Slider */
-.slider-post-card {
-  background-color: #111;
-  border: 1px solid #333;
-  border-radius: 10px;
-  padding: 12px;
-  min-width: 420px;
-  max-width: 420px;
-  flex-shrink: 0;
-}
-
-
-.slider-post-card h3 {
-  margin: 10px 0 5px;
-  font-size: 19px;
-}
-
-.slider-post-card p {
-  font-size: 14px;
-  margin: 5px 0;
-  line-height: 1.5;
-}
-
-.slider-post-image {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  border-radius: 6px;
-}
-
-.profile-link {
-  color: #ccc;
-  font-size: 18px;
-  display: inline-block;
-  margin-bottom: 6px;
-}
-
 /* View All Button */
 .view-all-link {
   display: inline-block;
@@ -1717,63 +1661,6 @@ color: lightgray;
   border-bottom: 1px solid #444;
 }
 
-@media screen and (max-width: 768px) {
-
-  .all-categories-page {
-    margin-top: 15%;
-    margin-bottom: 25%;
-  }
-
-  .slider-post-card {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    min-width: 95%;
-    max-width: 95%;
-    padding: 10px;
-  }
-
-  .sticky-category-search {
-    position: sticky;
-    top: 62px;
-    background-color: #000;
-  }
-
-  .slider-post-image {
-    width: 140px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 6px;
-    flex-shrink: 0;
-  }
-
-  .slider-post-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .slider-post-content h3 {
-    font-size: 16px;
-    margin: 8px 0 4px;
-  }
-
-  .slider-post-content p {
-    font-size: 13px;
-    margin: 2px 0;
-    line-height: 1.4;
-  }
-
-  .profile-link {
-    font-size: 15.5px;
-    color: #ccc;
-    margin-bottom: 6px;
-    display: inline-block;
-  }
-}
-
-
 /* === NEW: wrapper that holds arrow + input ===  allcate*/
 .category-searchbar-wrapper {
   position: sticky;
@@ -1787,20 +1674,6 @@ color: lightgray;
   margin-bottom: 20px;
 }
 
-/* reuse the arrow + result-label styles from Premium */
-.back-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 1.25rem;
-  cursor: pointer;
-  padding: 0.25rem;
-  margin-top: -15px;
-}
-
 .search-results-heading {
   margin: 0.5rem 0 1rem;
   padding: 0.75rem 1rem;
@@ -1811,8 +1684,76 @@ color: lightgray;
   font-size: 0.95rem;
 }
 
+/* Post Card in Slider */
+.slider-post-card {
+  background-color: #111;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 12px;
+  min-width: 400px;
+  max-width: 400px;
+  flex-shrink: 0;
+}
 
-@media (max-width: 600px) {
+/* === Re-usable fixed-aspect image helpers (16:9) === */
+.fixed-image-wrapper1 {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 8px;      /* matches Premium */
+}
+
+.fixed-image1 {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Card text section */
+.slider-post-card-content {
+  padding: 1rem;
+  color: #eee;
+}
+
+.slider-post-card-author {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  color: #ccc;
+}
+
+.slider-post-card-title {
+  font-size: 1.1rem;
+  margin: 0.25rem 0;
+  font-weight: 600;
+  color: #fff;
+}
+
+.slider-post-card-snippet {
+  font-size: 0.95rem;
+  color: #bbb;
+  margin-bottom: 0.5rem;
+}
+
+.slider-post-card-content p {
+  font-size: 0.85rem;
+  margin: 0.15rem 0;
+  color: #aaa;
+}
+
+.slider-post-card strong {
+  color: #eee;
+}
+
+.slider-post-card-status {
+  text-align: center;
+  color: #888;
+  font-size: 1rem;
+  margin-top: 2rem;
+}
+
+/* OPTIONAL: slightly tighter radius on mobile */
+@media (max-width: 768px) {
   .category-searchbar-wrapper {
     display: flex;
     align-items: center;
@@ -1824,7 +1765,68 @@ color: lightgray;
     padding: 12px 16px;
     margin-top: 0;
   }
+
+  .slider-post-card {
+    display: flex;
+    gap: 0.75rem;
+    min-width: 75%;
+    max-width: 75%;
+    padding: 10px;
+    border-radius: 12px;
+  }
+
+  .slider-post-card-link {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .slider-post-card-inner {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .fixed-image-wrapper1 {
+    flex: 1;
+    height: 100px;
+    max-width: 120px;
+    aspect-ratio: unset;
+    border-radius: 8px;
+  }
+
+  .fixed-image1 {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .slider-post-card-content {
+    flex: 2;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.3rem;
+  }
+
+  .slider-post-card-title {
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  .slider-post-card-snippet,
+  .slider-post-card-content p {
+    font-size: 0.8rem;
+    margin: 0;
+  }
+
+  .slider-post-card-author {
+    font-size: 0.8rem;
+  }
 }
+
 /* ==== ALL CATEGORIES CSS FOR AllCategories.jsx ===== */
 
 
@@ -1879,6 +1881,20 @@ color: lightgray;
   text-decoration: none;
 }
 
+.fixed-image-wrapper2 {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 8px;      /* matches Premium */
+}
+
+.fixed-image2 {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 /* Mobile View */
 @media screen and (max-width: 768px) {
   .category-posts-page {
@@ -1889,7 +1905,6 @@ color: lightgray;
   .category-posts-page h2 {
     margin-left: 16px;
   }
-
 
   .category-posts-container {
     grid-template-columns: 1fr; /* stack cards vertically */
@@ -2128,67 +2143,6 @@ color: lightgray;
 
   .premium-page-card {
     margin-top: 30px;
-  }
-}
-
-
-/* === Re-usable fixed-aspect image helpers (16:9) === */
-.fixed-image-wrapper1 {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  border-radius: 8px;      /* matches Premium */
-}
-
-.fixed-image1 {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.fixed-image-wrapper2 {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  border-radius: 8px;      /* matches Premium */
-}
-
-.fixed-image2 {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* OPTIONAL: slightly tighter radius on mobile */
-@media (max-width: 768px) {
-  .fixed-image-wrapper1 { border-radius: 6px; }
-}
-
-
-@media (max-width: 760px) {
-  .fixed-image-wrapper1 {
-    width: 140px;
-    aspect-ratio: 4 / 4;    /* ✅ taller image */
-    flex-shrink: 0;
-    border-radius: 6px;
-  }
-
-  .slider-post-card {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    min-width: 99%;
-    max-width: 99%;
-    padding: 10px;
-  }
-
-  .slider-post-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
   }
 }
 

@@ -126,7 +126,7 @@ function MobileSidebar({ isOpen, onClose }) {
                   <small className="premium-meta">
                     {post.category || "Premium"} · Premium
                   </small>
-                  <span className="premium-title">#{post.title}</span>
+                  <span className="item-title">#{post.title}</span>
                   <small className="premium-meta">Exclusive content</small>
                 </div>
                 <MoreHorizontal size={18} />

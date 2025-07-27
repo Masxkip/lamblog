@@ -131,62 +131,64 @@ function AllCategories() {
                 <div className="category-slider">
                   {posts.slice(0, 5).map((post) => (
                     <div className="slider-post-card" key={post._id}>
-                      <Link to={`/post/${post._id}`}>
-                        {post.image && (
-                          <div
-                            className={`fixed-image-wrapper1 ${
-                              post.isPremium && (!user || !user.isSubscriber)
-                                ? "premium-locked"
-                                : ""
-                            }`}
-                          >
-                            <img
-                              src={post.image}
-                              alt="Post"
-                              className={`fixed-image1 ${
-                                post.isPremium && (!user || !user.isSubscriber)
-                                  ? "blurred-content"
-                                  : ""
-                              }`}
-                            />
-                            {post.isPremium && (!user || !user.isSubscriber) && (
-                              <div className="locked-banner small">
-                                <Lock size={14} style={{ marginRight: "6px" }} />
-                                Subscribe to view
-                              </div>
-                            )}
-                          </div>
-                        )}
+  <Link to={`/post/${post._id}`} className="slider-post-card-link">
+    <div className="slider-post-card-inner">
+      {/* Image on the left */}
+      {post.image && (
+        <div
+          className={`fixed-image-wrapper1 ${
+            post.isPremium && (!user || !user.isSubscriber)
+              ? "premium-locked"
+              : ""
+          }`}
+        >
+          <img
+            src={post.image.startsWith("http") ? post.image : `${API_URL}/${post.image}`}
+            alt={post.title}
+            className={`fixed-image1 ${
+              post.isPremium && (!user || !user.isSubscriber)
+                ? "blurred-content"
+                : ""
+            }`}
+          />
+          {post.isPremium && (!user || !user.isSubscriber) && (
+            <div className="locked-banner small">
+              <Lock size={14} style={{ marginRight: "6px" }} />
+              Subscribe to view
+            </div>
+          )}
+        </div>
+      )}
 
-                        <div className="premium-page-card-content">
-                          <Link
-                            to={`/profile/${post.author._id}`}
-                            className="profile-link verified-user"
-                          >
-                            <span className="premium-page-author">
-                              @{post.author.username}
-                            </span>
-                            {post.author?.isSubscriber && (
-                              <span className="verified-circle">
-                                <Check size={12} color="white" strokeWidth={3} />
-                              </span>
-                            )}
-                          </Link>
-                          <h3 className="premium-page-title">#{post.title}</h3>
-                          <p className="premium-page-snippet">
-                            {post.content.substring(0, 80)}...
-                          </p>
-                          <p>
-                            <strong>Category:</strong>{" "}
-                            {post.category || "Uncategorized"}
-                          </p>
-                          <p>
-                            <strong>Published:</strong>{" "}
-                            {new Date(post.createdAt).toLocaleString()}
-                          </p>
-                        </div>
-                      </Link>
-                    </div>
+      {/* Content on the right */}
+      <div className="slider-post-card-content">
+        <div className="profile-link verified-user">
+          <span className="slider-post-card-author">
+            @{post.author.username}
+          </span>
+          {post.author?.isSubscriber && (
+            <span className="verified-circle">
+              <Check size={12} color="white" strokeWidth={3} />
+            </span>
+          )}
+        </div>
+        <h3 className="slider-post-card-title">#{post.title}</h3>
+        <p className="slider-post-card-snippet">
+          {post.content.substring(0, 80)}...
+        </p>
+        <p>
+          <strong>Category:</strong>{" "}
+          {post.category || "Uncategorized"}
+        </p>
+        <p>
+          <strong>Published:</strong>{" "}
+          {new Date(post.createdAt).toLocaleString()}
+        </p>
+      </div>
+    </div>
+  </Link>
+</div>
+
                   ))}
                 </div>
 
