@@ -5,6 +5,7 @@ import AuthContext from "../context/AuthContext";
 import { FaStar } from "react-icons/fa";
 import BottomNav from "../components/BottomNav";
 import BackArrow from "../components/BackArrow";
+import { FaReply } from "react-icons/fa";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
