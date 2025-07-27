@@ -23,6 +23,7 @@ function SinglePost() {
   const [averageRating, setAverageRating] = useState(0);
 const [userRating, setUserRating] = useState(null);
 const [error, setError] = useState(null);
+const [openReplies, setOpenReplies] = useState({});
 
 
   // Fetch comments
@@ -209,6 +210,15 @@ const [error, setError] = useState(null);
   };
   
 
+
+    const toggleReplies = (commentId) => {
+  setOpenReplies((prev) => ({
+    ...prev,
+    [commentId]: !prev[commentId],
+  }));
+};
+
+
   
   const handleRatePost = async (rating) => {
     try {
@@ -358,32 +368,62 @@ const [error, setError] = useState(null);
             )}
 
             {/* Display Replies & Add Reply Input */}
-            <div className="replies">
-              {comment.replies?.map((reply) => (
-                <div key={reply._id} className="reply">
-                  <p><strong>@{reply.author?.username || "Unknown"}:</strong> {reply.text}</p>
-                  <small>{reply.createdAt ? new Date(reply.createdAt).toLocaleString() : "Unknown Date"}</small>
-                   {/* Show Delete Button for Reply Owner Only */}
-                  {user && user._id === reply.author?._id && (
-                    <button onClick={() => handleDeleteReply(comment._id, reply._id)}>Delete</button>
-                  )}
-                </div>
-              ))}
+            {/* Display Replies & Add Reply Input */}
+<div className="comment-replies-section">
+  {comment.replies?.length > 0 ? (
+    <button
+      onClick={() => toggleReplies(comment._id)}
+      className="toggle-replies-btn"
+    >
+      {openReplies[comment._id]
+        ? "▲ Hide replies"
+        : `${comment.replies.length} repl${comment.replies.length > 1 ? "ies" : "y"} ▼`}
+    </button>
+  ) : (
+   <button
+  onClick={() => toggleReplies(comment._id)}
+  className="toggle-replies-btn"
+>
+  <FaReply size={14} style={{ marginRight: "5px", position: "relative", top: "1px" }} />
+  Reply
+</button>
 
-              {user && (
-                <div className="reply-box">
-                  <input
-                    type="text"
-                    placeholder="Write a reply..."
-                    value={replyText[comment._id] || ""}
-                    onChange={(e) =>
-                      setReplyText({ ...replyText, [comment._id]: e.target.value })
-                    }
-                  />
-                  <button onClick={() => handleAddReply(comment._id)}>Reply</button>
-                </div>
-              )}
-            </div>
+  )}
+
+  {openReplies[comment._id] && (
+    <div className="replies">
+      {comment.replies?.map((reply) => (
+        <div key={reply._id} className="reply">
+          <p>
+            <strong>@{reply.author?.username || "Unknown"}:</strong> {reply.text}
+          </p>
+          <small>{new Date(reply.createdAt).toLocaleString()}</small>
+          {user && user._id === reply.author?._id && (
+            <button onClick={() => handleDeleteReply(comment._id, reply._id)}>
+              Delete
+            </button>
+          )}
+        </div>
+      ))}
+
+      {/* ✅ Reply box always appears if reply toggle is open and user is logged in */}
+      {user && (
+        <div className="reply-box">
+          <input
+            type="text"
+            placeholder="Write a reply..."
+            value={replyText[comment._id] || ""}
+            onChange={(e) =>
+              setReplyText({ ...replyText, [comment._id]: e.target.value })
+            }
+          />
+          <button onClick={() => handleAddReply(comment._id)}>Reply</button>
+        </div>
+      )}
+    </div>
+  )}
+</div>
+
           </div>
         ))}
 
