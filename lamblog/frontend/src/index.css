@@ -1022,7 +1022,7 @@ display: none;
 
   .header {
     position: fixed;
-    top: 68px;
+    top: 66.5px;
     left: 0;
     border: none;
     width: 100%;
@@ -2386,7 +2386,7 @@ color: lightgray;
 
   .bottom-nav .sidebar-icon {
     background-color: black;             /* ✅ Black background */
-   border: 1px solid #262626; 
+   border: 1px solid #1c1c1c; 
     border-radius: 50%;                  /* ✅ Make it circular */
     width: 42px;
     height: 42px;
