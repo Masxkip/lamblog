@@ -194,7 +194,7 @@ function AllCategories() {
 
                 <Link
                   to={`/category/${encodeURIComponent(category)}`}
-                  className="view-all-link"
+                  className="view-all-premium-btn"
                 >
                   View All Posts →
                 </Link>
@@ -215,7 +215,7 @@ function AllCategories() {
                         <small className="premium-meta">
                           {post.category || "General"} · Trending
                         </small>
-                        <span className="premium-title">#{post.title}</span>
+                        <span className="item-title">#{post.title}</span>
                         <small className="premium-meta">
                           {post.views
                             ? post.views.toLocaleString() + " views"

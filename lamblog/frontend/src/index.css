@@ -161,11 +161,10 @@ html, body {
   transition: opacity 0.2s;
 }
 
-.pill:hover { opacity: 0.85; }
+.pill:hover { background:#8a2be2; color: white; }
 
 .primary   { background: #6a1bbd; color: var(--clr-text); }
 .secondary { background: #6a1bbd; color: var(--clr-text); }
-.update-payment { background: #6a1bbd; color: var(--clr-text); display: inline-block; margin-top: 0.5rem; }
 
 .pill {
   display: inline-block;
@@ -179,14 +178,12 @@ html, body {
 
 .premium {
   background-color: #6a1bbd;
-  color: #111;
-  border: 1px solid #daa520;
+  color: white
 }
 
 .free {
   background-color: #eee;
-  color: #666;
-  border: 1px solid #ccc;
+  color: black;
 }
 
 /* ---------- BIO ---------- */
@@ -200,7 +197,6 @@ html, body {
   margin-top: 1.9rem;
 }
 
-
 .tab-item {
   background: transparent;
   border: none;
@@ -212,9 +208,8 @@ html, body {
   text-align: center;
 }
 
-
 .tab-item.active {
-  color: #6a1bbd;
+  color: #9a6eff;
   border-bottom: 3px solid var(--clr-primary);
 }
 
@@ -3770,3 +3765,14 @@ select:focus {
   }
 }
 /* ==== INFINITE SPINNER CSS FOR PAGINATIONS ===== */
+
+
+
+
+.view-all-premium-btn{
+  color: #a78bfa;
+}
+
+.view-all-premium-btn:hover{
+  color: #b49ef5;
+}
