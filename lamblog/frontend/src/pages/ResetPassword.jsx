@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { Eye, EyeOff } from "lucide-react";
+import LoadingButton from "../components/LoadingButton";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -14,11 +15,14 @@ function ResetPassword() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
     setMessage("");
     setError("");
+    setLoading(true);
+
 
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
@@ -79,7 +83,13 @@ function ResetPassword() {
               </div>
             </div>
 
-            <button type="submit" className="auth-button">Reset Password</button>
+                        <LoadingButton
+  isLoading={loading}
+  type="submit"
+  className={`submit-btn ${loading ? "loading" : ""}`}
+>
+  Reset Password
+</LoadingButton>
           </form>
 
           {/* Resend link */}

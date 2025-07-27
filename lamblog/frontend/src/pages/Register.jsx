@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { Eye, EyeOff } from "lucide-react";
+import LoadingButton from "../components/LoadingButton";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -13,11 +14,13 @@ function Register() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
+    setLoading(true);
 
     try {
       const response = await axios.post(`${API_URL}/api/auth/register`, {
@@ -83,7 +86,15 @@ function Register() {
     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
   </span>
 </div>
-            <button type="submit" className="auth-button">Register</button>
+                       <LoadingButton
+  isLoading={loading}
+  type="submit"
+  className={`submit-btn ${loading ? "loading" : ""}`}
+>
+  Register
+</LoadingButton>
+
+
           </form>
         </div>
       </div>

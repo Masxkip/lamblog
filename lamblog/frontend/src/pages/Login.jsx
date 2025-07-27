@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
 import { Eye, EyeOff } from "lucide-react";
+import LoadingButton from "../components/LoadingButton";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -14,11 +15,13 @@ function Login() {
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
+    setLoading(true); 
 
     try {
       const response = await axios.post(`${API_URL}/api/auth/login`, { email, password });
@@ -73,7 +76,14 @@ function Login() {
               </span>
             </div>
 
-            <button type="submit" className="auth-button">Login</button>
+
+            <LoadingButton
+  isLoading={loading}
+  type="submit"
+  className={`submit-btn ${loading ? "loading" : ""}`}
+>
+  Login
+</LoadingButton>
           </form>
 
           <p style={{ marginTop: "10px" }}>
