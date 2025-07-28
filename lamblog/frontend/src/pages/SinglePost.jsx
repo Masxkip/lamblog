@@ -22,9 +22,11 @@ function SinglePost() {
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editedCommentText, setEditedCommentText] = useState("");
   const [averageRating, setAverageRating] = useState(0);
-const [userRating, setUserRating] = useState(null);
-const [error, setError] = useState(null);
-const [openReplies, setOpenReplies] = useState({});
+  const [userRating, setUserRating] = useState(null);
+  const [error, setError] = useState(null);
+  const [openReplies, setOpenReplies] = useState({});
+  const [activeMenu, setActiveMenu] = useState(null);
+  const [activeReplyMenu, setActiveReplyMenu] = useState(null);
 
 
   // Fetch comments
@@ -190,6 +192,7 @@ const [openReplies, setOpenReplies] = useState({});
   };
 
 
+   // Handle Adding Delete Reply
   const handleDeleteReply = async (commentId, replyId) => {
     try {
       const token = localStorage.getItem("token");
@@ -211,7 +214,7 @@ const [openReplies, setOpenReplies] = useState({});
   };
   
 
-
+   // Handle dropdown Reply
     const toggleReplies = (commentId) => {
   setOpenReplies((prev) => ({
     ...prev,
@@ -220,7 +223,27 @@ const [openReplies, setOpenReplies] = useState({});
 };
 
 
-  
+
+ // Handle dot toggle menu Reply
+useEffect(() => {
+  const handleClickOutside = (e) => {
+    if (!e.target.closest(".comment-menu-wrapper")) {
+      setActiveMenu(null);
+    }
+    if (!e.target.closest(".reply-menu-wrapper")) {
+      setActiveReplyMenu(null);
+    }
+  };
+
+  document.addEventListener("click", handleClickOutside);
+  return () => {
+    document.removeEventListener("click", handleClickOutside);
+  };
+}, []);
+
+
+
+ // Handle Adding ratepost
   const handleRatePost = async (rating) => {
     try {
       const token = localStorage.getItem("token");
@@ -342,11 +365,10 @@ const [openReplies, setOpenReplies] = useState({});
             {editingCommentId === comment._id ? (
               <>
                 <input 
-                type="text"
-                className="edit-comment-input"
-                value={editedCommentText}
-                onChange={(e) => setEditedCommentText(e.target.value)}
-              />
+                  type="text" 
+                  value={editedCommentText} 
+                  onChange={(e) => setEditedCommentText(e.target.value)} 
+                />
                 <button onClick={() => handleEditComment(comment._id)}>Save</button>
                 <button onClick={() => setEditingCommentId(null)}>Cancel</button>
               </>
@@ -355,20 +377,43 @@ const [openReplies, setOpenReplies] = useState({});
                 <p><strong>@{comment.author?.username || "Unknown"}:</strong> {comment.text}</p>
                 <small>{comment.createdAt ? new Date(comment.createdAt).toLocaleString() : "Unknown Date"}</small>
                 {user && user._id === comment.author?._id && (
-                  <>
-                    <button onClick={() => { 
-                      setEditingCommentId(comment._id);
-                      setEditedCommentText(comment.text);
-                    }}>
-                      Edit
-                    </button>
-                    <button onClick={() => handleDeleteComment(comment._id)}>Delete</button>
-                  </>
-                )}
+  <div className="comment-menu-wrapper">
+<button
+  className="menu-toggle-btn"
+  style={{
+    backgroundColor: "transparent",
+    border: "none",
+    padding: "4px",
+    cursor: "pointer"
+  }}
+  onClick={(e) => {
+    e.stopPropagation();
+    setActiveMenu(activeMenu === comment._id ? null : comment._id);
+  }}
+>
+  <MoreVertical size={20} />
+</button>
+
+
+    {activeMenu === comment._id && (
+      <div className="comment-dropdown-menu">
+        <button onClick={() => {
+          setEditingCommentId(comment._id);
+          setEditedCommentText(comment.text);
+          setActiveMenu(null);
+        }}>Edit</button>
+        <button onClick={() => {
+          handleDeleteComment(comment._id);
+          setActiveMenu(null);
+        }}>Delete</button>
+      </div>
+    )}
+  </div>
+)}
+
               </>
             )}
 
-            {/* Display Replies & Add Reply Input */}
             {/* Display Replies & Add Reply Input */}
 <div className="comment-replies-section">
   {comment.replies?.length > 0 ? (
@@ -385,7 +430,7 @@ const [openReplies, setOpenReplies] = useState({});
   onClick={() => toggleReplies(comment._id)}
   className="toggle-replies-btn"
 >
-  <FaReply size={12} style={{ marginRight: "5px", position: "relative", top: "1px" }} />
+  <FaReply size={14} style={{ marginRight: "5px", position: "relative", top: "1px" }} />
   Reply
 </button>
 
@@ -399,11 +444,39 @@ const [openReplies, setOpenReplies] = useState({});
             <strong>@{reply.author?.username || "Unknown"}:</strong> {reply.text}
           </p>
           <small>{new Date(reply.createdAt).toLocaleString()}</small>
-          {user && user._id === reply.author?._id && (
-            <button onClick={() => handleDeleteReply(comment._id, reply._id)}>
-              Delete
-            </button>
-          )}
+        {user && user._id === reply.author?._id && (
+  <div className="reply-menu-wrapper">
+    <button
+      className="menu-toggle-btn"
+      style={{
+        backgroundColor: "transparent",
+        border: "none",
+        padding: "4px",
+        cursor: "pointer"
+      }}
+      onClick={(e) => {
+        e.stopPropagation();
+        setActiveReplyMenu(activeReplyMenu === reply._id ? null : reply._id);
+      }}
+    >
+      <MoreVertical size={18} />
+    </button>
+
+    {activeReplyMenu === reply._id && (
+      <div className="comment-dropdown-menu">
+        <button
+          onClick={() => {
+            handleDeleteReply(comment._id, reply._id);
+            setActiveReplyMenu(null);
+          }}
+        >
+          Delete
+        </button>
+      </div>
+    )}
+  </div>
+)}
+
         </div>
       ))}
 
@@ -460,6 +533,7 @@ const [openReplies, setOpenReplies] = useState({});
   </div>
 
 )}
+
         {message && <p className="success-message">{message}</p>}
       </div>
       <BottomNav />
