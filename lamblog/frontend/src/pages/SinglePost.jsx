@@ -6,6 +6,7 @@ import { FaStar } from "react-icons/fa";
 import BottomNav from "../components/BottomNav";
 import BackArrow from "../components/BackArrow";
 import { FaReply } from "react-icons/fa";
+import { MoreVertical } from "lucide-react";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
