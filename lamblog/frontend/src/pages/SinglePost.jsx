@@ -385,7 +385,7 @@ const [openReplies, setOpenReplies] = useState({});
   onClick={() => toggleReplies(comment._id)}
   className="toggle-replies-btn"
 >
-  <FaReply size={14} style={{ marginRight: "5px", position: "relative", top: "1px" }} />
+  <FaReply size={12} style={{ marginRight: "5px", position: "relative", top: "1px" }} />
   Reply
 </button>
 
@@ -429,20 +429,37 @@ const [openReplies, setOpenReplies] = useState({});
         ))}
 
         {/* Add Comment Input */}
-{user ? (
-  <div className="add-comment">
-    <input
-      type="text"
-      placeholder="Write a comment..."
-      value={newComment}
-      onChange={(e) => setNewComment(e.target.value)}
-    />
-    <button onClick={handleAddComment}>Comment</button>
+
+{user && (
+  <div className="bottom-comment-bar-wrapper">
+    <div className="bottom-comment-bar">
+      <input
+        type="text"
+        placeholder="Add a comment..."
+        value={newComment}
+        onChange={(e) => setNewComment(e.target.value)}
+      />
+      <button onClick={handleAddComment}>Comment</button>
+    </div>
   </div>
-) : (
-  <p>Please <Link to="/login">login</Link> to comment.</p>
+
 )}
 
+
+{user && (
+  <div className="bottom-comment-bar-m-wrapper">
+    <div className="bottom-comment-bar-m">
+      <input
+        type="text"
+        placeholder="Add a comment..."
+        value={newComment}
+        onChange={(e) => setNewComment(e.target.value)}
+      />
+      <button onClick={handleAddComment}>Comment</button>
+    </div>
+  </div>
+
+)}
         {message && <p className="success-message">{message}</p>}
       </div>
       <BottomNav />
