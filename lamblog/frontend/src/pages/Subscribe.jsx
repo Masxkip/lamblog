@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { usePaystackPayment } from "react-paystack";
 import { CheckCircle, Flame } from "lucide-react";
 import AuthContext from "../context/AuthContext";
-import BackArrow from "../components/BackArrow";
 import axios from "axios";
 
 const Subscribe = () => {
@@ -59,7 +58,6 @@ const Subscribe = () => {
 
   return (
     <div className="subscribe-page">
-      <BackArrow />
       <div className="subscribe-box">
         <div className="badge">
           <Flame size={16} /> Best Value
