@@ -17,7 +17,6 @@ function Home() {
   const [categories, setCategories] = useState([]);
   const [trendingPosts, setTrendingPosts] = useState([]);
   const [premiumPosts, setPremiumPosts] = useState([]);
-  const [showSubscriberBanner, setShowSubscriberBanner] = useState(true);
 
   // Fetch post
   const fetchPosts = useCallback(async () => {
@@ -90,18 +89,6 @@ function Home() {
 }, [posts]);   // <- re-run if the main feed changes
 
 
-useEffect(() => {
-  if (user?.isSubscriber && sessionStorage.getItem("justSubscribed") === "true") {
-    setShowSubscriberBanner(true);
-    sessionStorage.removeItem("justSubscribed"); // ✅ Show once
-    const timer = setTimeout(() => {
-      setShowSubscriberBanner(false);
-    }, 5000);
-    return () => clearTimeout(timer);
-  }
-}, [user]);
-
-
   return (
     <div className="home-layout">
       {/* Sidebar */}
@@ -139,20 +126,6 @@ useEffect(() => {
       {/* Main Content */}
       <main className="main-content">
   <header className="header">
-  {/* ✅ Subscription success banner */}
-  {user?.isSubscriber && showSubscriberBanner && (
-    <div className="subscriber-banner">
-      <span>🎉 <strong>Congratulations!</strong> You're now a subscribed user.</span>
-      <button
-        className="close-banner"
-        onClick={() => setShowSubscriberBanner(false)}
-        aria-label="Close"
-      >
-        &times;
-      </button>
-    </div>
-  )}
-
   {/* Search bars */}
   <input
     type="text"

@@ -31,6 +31,8 @@ function EditPost() {
     fetchPost();
   }, [id]);
 
+  setLoading(true);
+
   const handleEdit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
