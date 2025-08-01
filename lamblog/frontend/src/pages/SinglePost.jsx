@@ -305,7 +305,6 @@ useEffect(() => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <button className="download-music-btn">⬇️ Download Music</button>
         </a>
       </div>
     ) : (
