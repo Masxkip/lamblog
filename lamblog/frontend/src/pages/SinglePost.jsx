@@ -279,10 +279,10 @@ useEffect(() => {
       
       <p>{post.content}</p>
       <p>
-      <strong>@</strong> 
+      <strong>@
       <Link to={`/profile/${post.author._id}`} className="profile-link">
         {post.author.username}
-      </Link>
+      </Link></strong> 
     </p>
       <p><strong>Date:</strong> {post.createdAt ? new Date(post.createdAt).toLocaleString() : "Unknown"}</p>
 
