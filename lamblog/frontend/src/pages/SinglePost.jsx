@@ -278,9 +278,11 @@ useEffect(() => {
       )}
       
       <p>{post.content}</p>
-      <p>@<Link to={`/profile/${post.author._id}`} className="profile-link">
+      <p>
+      <strong>@
+      <Link to={`/profile/${post.author._id}`} className="slider-post-card-author">
         {post.author.username}
-      </Link>
+      </Link></strong>
     </p>
       <p><strong>Date:</strong> {post.createdAt ? new Date(post.createdAt).toLocaleString() : "Unknown"}</p>
 
