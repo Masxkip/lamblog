@@ -64,7 +64,7 @@ const Subscribe = () => {
         </div>
 
         <h2 className="subscribe-title">Go Premium</h2>
-        <p className="subscribe-price">₦500 / month</p>
+        <p className="subscribe-price">₦100 / month</p>
         <p className="subscribe-subtext">Enjoy full access to premium features</p>
 
         <ul className="benefits-list">

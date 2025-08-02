@@ -3976,67 +3976,6 @@ select:focus {
 
 
 
-
-
-
-/* ==== SUCCESS MESSAGE BANNER FOR Home.jsx ===== */
-.subscriber-banner {
-  background-color: #240041; /* Deep purple background */
-  color: #a3f5c9; /* Soft green text */
-  border: 1px solid #7a3bdc;
-  border-radius: 10px;
-  padding: 0.75rem 1rem;
-  margin-bottom: 1rem;
-  margin-top: 0.9rem;
-  font-size: 0.95rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  position: relative;
-  animation: fade-in 0.3s ease-in-out;
-}
-
-.close-banner {
-  background: transparent;
-  border: none;
-  color: #a3f5c9;
-  font-size: 1.3rem;
-  cursor: pointer;
-  line-height: 1;
-  transition: color 0.2s ease;
-}
-
-.close-banner:hover {
-  color: #ffffff;
-}
-
-/* Fade animation */
-@keyframes fade-in {
-  from { opacity: 0; transform: translateY(-5px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* Mobile tweaks */
-@media (max-width: 600px) {
-  .subscriber-banner {
-    flex-direction: column;
-    text-align: center;
-    font-size: 0.9rem;
-    padding: 0.7rem 0.9rem;
-  }
-
-  .close-banner {
-    position: absolute;
-    top: 8px;
-    right: 12px;
-  }
-}
-/* ==== SUCCESS MESSAGE BANNER FOR Home.jsx ===== */
-
-
-
-
 /* ==== INFINITE SPINNER CSS FOR PAGINATIONS ===== */
 .infinite-spinner {
   display: flex;
@@ -4075,3 +4014,27 @@ select:focus {
   color: #9a6eff;
 }
 /* ==== VIEW ALL ARROW LINK AND TREND & PREM LIST HOVER ===== */
+
+
+
+
+
+
+
+
+.subscription-banner {
+  background-color: #d1ffe1;
+  color: #046c2c;
+  padding: 12px 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  animation: fadeInSlide 0.3s ease-in-out;
+}
+
+@keyframes fadeInSlide {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
