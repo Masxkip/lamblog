@@ -76,7 +76,7 @@ function AllCategories() {
       if (entries[0].isIntersecting && visibleCount < categoryEntries.length) {
         setTimeout(() => {
           setVisibleCount((prev) => prev + 3);
-        }, 800); // simulate loading delay
+        }, 800);
       }
     });
 
@@ -85,7 +85,6 @@ function AllCategories() {
 
   return (
     <div className="all-categories-page">
-      {/* STICKY: back arrow + search bar */}
       <div className="category-searchbar-wrapper">
         <button className="back-icon" onClick={() => navigate(-1)}>
           <BackArrow />
@@ -129,67 +128,60 @@ function AllCategories() {
                 <h2 className="category-title">#{category}</h2>
 
                 <div className="category-slider">
-                  {posts.slice(0, 5).map((post) => (
-                    <div className="slider-post-card" key={post._id}>
-  <Link to={`/post/${post._id}`} className="slider-post-card-link">
-    <div className="slider-post-card-inner">
-      {/* Image on the left */}
-      {post.image && (
-        <div
-          className={`fixed-image-wrapper1 ${
-            post.isPremium && (!user || !user.isSubscriber)
-              ? "premium-locked"
-              : ""
-          }`}
-        >
-          <img
-            src={post.image.startsWith("http") ? post.image : `${API_URL}/${post.image}`}
-            alt={post.title}
-            className={`fixed-image1 ${
-              post.isPremium && (!user || !user.isSubscriber)
-                ? "blurred-content"
-                : ""
-            }`}
-          />
-          {post.isPremium && (!user || !user.isSubscriber) && (
-            <div className="locked-banner small">
-              <Lock size={14} style={{ marginRight: "6px" }} />
-              Subscribe to view
-            </div>
-          )}
-        </div>
-      )}
+                  {posts.slice(0, 5).map((post) => {
+                    const isLocked = post.isPremium && (!user || !user.isSubscriber);
+                    const target = isLocked ? "/subscribe" : `/post/${post._id}`;
 
-      {/* Content on the right */}
-      <div className="slider-post-card-content">
-        <div className="profile-link verified-user">
-          <span className="slider-post-card-author">
-            @{post.author.username}
-          </span>
-          {post.author?.isSubscriber && (
-            <span className="verified-circle">
-              <Check size={12} color="white" strokeWidth={3} />
-            </span>
-          )}
-        </div>
-        <h3 className="slider-post-card-title">#{post.title}</h3>
-        <p className="slider-post-card-snippet">
-          {post.content.substring(0, 80)}...
-        </p>
-        <p>
-          <strong>Category:</strong>{" "}
-          {post.category || "Uncategorized"}
-        </p>
-        <p>
-          <strong>Published:</strong>{" "}
-          {new Date(post.createdAt).toLocaleString()}
-        </p>
-      </div>
-    </div>
-  </Link>
-</div>
+                    return (
+                      <div className="slider-post-card" key={post._id}>
+                        <Link to={target} className="slider-post-card-link">
+                          <div className="slider-post-card-inner">
+                            {/* Image section */}
+                            {post.image && (
+                              <div className={`fixed-image-wrapper1 ${isLocked ? "premium-locked" : ""}`}>
+                                <img
+                                  src={post.image.startsWith("http") ? post.image : `${API_URL}/${post.image}`}
+                                  alt={post.title}
+                                  className={`fixed-image1 ${isLocked ? "blurred-content" : ""}`}
+                                />
+                                {isLocked && (
+                                  <div className="locked-banner small">
+                                    <Lock size={14} style={{ marginRight: "6px" }} />
+                                    Subscribe to view
+                                  </div>
+                                )}
+                              </div>
+                            )}
 
-                  ))}
+                            {/* Text content */}
+                            <div className="slider-post-card-content">
+                              <div className="profile-link verified-user">
+                                <span className="slider-post-card-author">
+                                  @{post.author.username}
+                                </span>
+                                {post.author?.isSubscriber && (
+                                  <span className="verified-circle">
+                                    <Check size={12} color="white" strokeWidth={3} />
+                                  </span>
+                                )}
+                              </div>
+                              <h3 className="slider-post-card-title">#{post.title}</h3>
+                              <p className="slider-post-card-snippet">
+                                {post.content.substring(0, 80)}...
+                              </p>
+                              <p>
+                                <strong>Category:</strong> {post.category || "Uncategorized"}
+                              </p>
+                              <p>
+                                <strong>Published:</strong>{" "}
+                                {new Date(post.createdAt).toLocaleString()}
+                              </p>
+                            </div>
+                          </div>
+                        </Link>
+                      </div>
+                    );
+                  })}
                 </div>
 
                 <Link
@@ -232,7 +224,6 @@ function AllCategories() {
         })
       )}
 
-      {/* Infinite Spinner */}
       {visibleCount < categoryEntries.length && (
         <div className="infinite-spinner">
           <span className="spinner" />
