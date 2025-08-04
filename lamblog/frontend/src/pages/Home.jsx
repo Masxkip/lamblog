@@ -190,20 +190,20 @@ function Home() {
       <main className="main-content">
         {justSubscribed && (
           <div className="subscription-success-banner">
-            🎉 Welcome to SLXXK Premium! Enjoy your exclusive content.
+            Welcome to SLXXK Premium! Enjoy your exclusive content.
           </div>
         )}
 
         {subscriptionExpiresSoon && (
           <div className="subscription-warning-banner">
-            ⏳ Your SLXXK Premium subscription will expire on{" "}
+             Your SLXXK Premium subscription will expire on{" "}
             <strong>{expiryDateFormatted}</strong>. Please renew to continue enjoying premium features.
           </div>
         )}
 
         {subscriptionExpired && (
           <div className="subscription-expired-banner">
-            ❌ Your SLXXK Premium subscription has expired. Please renew to access premium features.
+           Your SLXXK Premium subscription has expired. Please renew to access premium features.
           </div>
         )}
 
@@ -229,7 +229,9 @@ function Home() {
         <h2>#SEEK Latest!</h2>
 
         {loading ? (
-          <p>Loading posts...</p>
+          <div className="full-page-spinner">
+    <span className="spinner1" />
+  </div>
         ) : displayedPosts.length === 0 ? (
           <div className="no-posts-message">
             <p>No posts available for your search.</p>
