@@ -19,6 +19,7 @@ function Home() {
   const [premiumPosts, setPremiumPosts] = useState([]);
   const location = useLocation();
 const [subSuccess, setSubSuccess] = useState(false);
+const [justSubscribed, setJustSubscribed] = useState(false);
 
   // Fetch post
   const fetchPosts = useCallback(async () => {
@@ -101,6 +102,18 @@ useEffect(() => {
 
 
 
+
+useEffect(() => {
+  const wasSubscribed = localStorage.getItem("justSubscribed") === "true";
+  if (wasSubscribed) {
+    setJustSubscribed(true);
+    localStorage.removeItem("justSubscribed"); // ✅ Clear it immediately
+    setTimeout(() => setJustSubscribed(false), 5000); // Hide after 5s
+  }
+}, []);
+
+
+
   return (
     <div className="home-layout">
       {/* Sidebar */}
@@ -140,9 +153,17 @@ useEffect(() => {
 
         {subSuccess && (
   <div className="subscription-success-banner">
-    🎉 Subscription successful! You now have access to all premium content.
+    Subscription successful! You now have access to all premium content.
   </div>
 )}
+
+
+{justSubscribed && (
+  <div className="subscription-success-banner">
+    🎉 Congratulations! You’re now a SLXXK Premium member. Enjoy exclusive content.
+  </div>
+)}
+
 
 
   <header className="header">
