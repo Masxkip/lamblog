@@ -18,6 +18,11 @@ function Home() {
   const [trendingPosts, setTrendingPosts] = useState([]);
   const [premiumPosts, setPremiumPosts] = useState([]);
 const [justSubscribed, setJustSubscribed] = useState(false);
+const [subscriptionExpiresSoon, setSubscriptionExpiresSoon] = useState(false);
+const [expiryDateFormatted, setExpiryDateFormatted] = useState("");
+const [subscriptionExpired, setSubscriptionExpired] = useState(false);
+
+
 
 
   // Fetch post
@@ -75,6 +80,7 @@ const [justSubscribed, setJustSubscribed] = useState(false);
   }, []);
 
 
+   // Fetch premium posts
     useEffect(() => {
   const fetchPremium = async () => {
     try {
@@ -92,8 +98,7 @@ const [justSubscribed, setJustSubscribed] = useState(false);
 
 
 
-
-
+ // Fetch justsubscribed message.
 useEffect(() => {
   const wasJustSubscribed = localStorage.getItem("justSubscribedHome") === "true";
   if (wasJustSubscribed) {
@@ -102,6 +107,44 @@ useEffect(() => {
     setTimeout(() => setJustSubscribed(false), 5000);
   }
 }, []);
+
+
+ // for susbribption expired message
+useEffect(() => {
+  if (user?.isSubscriber && user?.subscriptionStart) {
+    const startDate = new Date(user.subscriptionStart);
+    const expiryDate = new Date(startDate);
+    expiryDate.setDate(startDate.getDate() + 30); // assume 30-day plan
+
+    const today = new Date();
+    const timeDiff = expiryDate - today;
+    const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+    if (daysLeft <= 5 && daysLeft >= 0) {
+      setSubscriptionExpiresSoon(true);
+      setExpiryDateFormatted(expiryDate.toDateString());
+    }
+  }
+}, [user]);
+
+
+
+// for subscription disable
+useEffect(() => {
+  if (user && !user.isSubscriber && user.subscriptionStart) {
+    const startDate = new Date(user.subscriptionStart);
+    const expiryDate = new Date(startDate);
+    expiryDate.setDate(startDate.getDate() + 30);
+
+    const today = new Date();
+
+    // Check if the subscription period has passed
+    if (today > expiryDate) {
+      setSubscriptionExpired(true);
+    }
+  }
+}, [user]);
+
 
 
 
@@ -150,6 +193,21 @@ useEffect(() => {
     🎉 Welcome to SLXXK Premium! Enjoy your exclusive content.
   </div>
 )}
+
+
+{subscriptionExpiresSoon && (
+  <div className="subscription-warning-banner">
+    ⏳ Your SLXXK Premium subscription will expire on <strong>{expiryDateFormatted}</strong>. Please renew to continue enjoying premium features.
+  </div>
+)}
+
+
+{subscriptionExpired && (
+  <div className="subscription-expired-banner">
+    ❌ Your SLXXK Premium subscription has expired. To continue enjoying premium features, please update your payment method.
+  </div>
+)}
+
 
 
 

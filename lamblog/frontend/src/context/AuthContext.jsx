@@ -20,6 +20,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
+
   // ✅ Login: persist token + user
   const login = (userData, token) => {
     localStorage.setItem("token", token);
@@ -60,7 +61,9 @@ export const AuthProvider = ({ children }) => {
       console.error("Failed to refresh user:", err);
       logout(); // fallback
     }
+
   };
+
 
   return (
     <AuthContext.Provider
