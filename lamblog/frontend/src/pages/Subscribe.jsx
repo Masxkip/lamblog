@@ -34,11 +34,9 @@ function Subscribe() {
 
       await refreshUser(); // ✅ update user data
 
-      // ✅ Mark the user as newly subscribed (for 1-time message in Home.jsx)
-      localStorage.setItem("justSubscribed", "true");
+   localStorage.setItem("justSubscribedLogin", "true");
+   navigate("/login");
 
-      // ✅ Redirect with flag
-      navigate("/?subscribed=1");
     } catch (err) {
       console.error("Verification error:", err);
       setError("Subscription verification failed.");
