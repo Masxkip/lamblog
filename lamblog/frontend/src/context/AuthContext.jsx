@@ -9,34 +9,17 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Load user from localStorage AND refresh from backend
+  // Load user from localStorage on first mount
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    const token = localStorage.getItem("token");
-
-    if (storedUser && token) {
+    if (storedUser) {
       setUser(JSON.parse(storedUser));
-
-      // Immediately refresh to get latest subscription status
-      axios.get(`${API_URL}/users/me`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        const updatedUser = res.data;
-        login(updatedUser, token); // sync localStorage + state
-      })
-      .catch((err) => {
-        console.error("Auto-refresh failed:", err);
-        logout(); // fallback if token is invalid
-      });
     } else {
       setUser(null);
     }
-
     setLoading(false);
   }, []);
+
 
   // ✅ Login: persist token + user
   const login = (userData, token) => {
@@ -52,13 +35,13 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
-  // ✅ Manual profile update (edit profile)
+  // ✅ Update user profile manually (e.g. edit profile)
   const updateUserProfile = (updatedUser) => {
     setUser(updatedUser);
     localStorage.setItem("user", JSON.stringify(updatedUser));
   };
 
-  // ✅ Manual refresh call (e.g. after payment success)
+  // ✅ Refresh user from backend and auto-login again
   const refreshUser = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -71,12 +54,16 @@ export const AuthProvider = ({ children }) => {
       });
 
       const updatedUser = res.data;
-      login(updatedUser, token); // re-sync
+
+      // ✅ Re-apply login to sync memory + localStorage
+      login(updatedUser, token);
     } catch (err) {
       console.error("Failed to refresh user:", err);
       logout(); // fallback
     }
+
   };
+
 
   return (
     <AuthContext.Provider
