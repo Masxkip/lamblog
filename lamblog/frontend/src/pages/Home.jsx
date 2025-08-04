@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext, useCallback } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link} from "react-router-dom";
 import axios from "axios";
 import { UserCircle, Home as HomeIcon, FileText, MoreHorizontal, Check, Lock } from "lucide-react";
 import AuthContext from "../context/AuthContext";
@@ -17,8 +17,7 @@ function Home() {
   const [categories, setCategories] = useState([]);
   const [trendingPosts, setTrendingPosts] = useState([]);
   const [premiumPosts, setPremiumPosts] = useState([]);
-  const location = useLocation();
-  const [subSuccess, setSubSuccess] = useState(false);
+  const [justSubscribed, setJustSubscribed] = useState(false);
 
   // Fetch post
   const fetchPosts = useCallback(async () => {
@@ -94,14 +93,14 @@ function Home() {
 
 
 
-
 useEffect(() => {
-  const params = new URLSearchParams(location.search);
-  if (params.get("subscribed") === "1") {
-    setSubSuccess(true);
-    setTimeout(() => setSubSuccess(false), 5000);
+  const wasSubscribed = localStorage.getItem("justSubscribed") === "true";
+  if (wasSubscribed) {
+    setJustSubscribed(true);
+    localStorage.removeItem("justSubscribed"); // ✅ Clear it immediately
+    setTimeout(() => setJustSubscribed(false), 5000); // Hide after 5s
   }
-}, [location.search]);
+}, []);
 
 
   return (
@@ -143,9 +142,10 @@ useEffect(() => {
 
 
 
-{subSuccess && (
+
+{justSubscribed && (
   <div className="subscription-success-banner">
-    Welcome to SLXXK Premium! Enjoy your exclusive content.
+    🎉 Congratulations! You’re now a SLXXK Premium member. Enjoy exclusive content.
   </div>
 )}
 
