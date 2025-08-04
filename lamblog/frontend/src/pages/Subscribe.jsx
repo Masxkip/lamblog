@@ -9,6 +9,7 @@ function Subscribe() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false); // ✅ new state
 
   const publicKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY;
   const backendURL = import.meta.env.VITE_BACKEND_URL;
@@ -21,19 +22,24 @@ function Subscribe() {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("No token found");
 
-     await axios.post(
+      await axios.post(
         `${backendURL}/api/users/verify-subscription`,
         { reference: reference.reference },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // ✅ Include token
+            Authorization: `Bearer ${token}`,
           },
           withCredentials: true,
         }
       );
 
-      await refreshUser(); // ✅ Update context with new user info
-      navigate("/"); // ✅ Redirect to home or premium section
+      await refreshUser(); // ✅ update UI immediately
+      setSuccess(true); // ✅ show success message
+
+      // ✅ redirect after short delay
+      setTimeout(() => {
+        navigate("/");
+      }, 2500);
     } catch (err) {
       console.error("Verification error:", err);
       setError("Subscription verification failed.");
@@ -62,8 +68,11 @@ function Subscribe() {
     <div className="subscribe-container">
       <h2>Subscribe to Premium</h2>
       <p>Get full access for ₦100/month</p>
+
       {error && <p style={{ color: "red" }}>{error}</p>}
-      <PaystackButton {...componentProps} />
+      {success && <p style={{ color: "green" }}>🎉 Subscription successful! Redirecting...</p>}
+
+      {!success && <PaystackButton {...componentProps} />}
     </div>
   );
 }
