@@ -1,7 +1,14 @@
-import { useEffect, useState, useContext, useCallback } from "react";
-import { Link} from "react-router-dom";
+import { useEffect, useState, useContext, useCallback, useRef } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
-import { UserCircle, Home as HomeIcon, FileText, MoreHorizontal, Check, Lock } from "lucide-react";
+import {
+  UserCircle,
+  Home as HomeIcon,
+  FileText,
+  MoreHorizontal,
+  Check,
+  Lock,
+} from "lucide-react";
 import AuthContext from "../context/AuthContext";
 import CategoryDropdown from "../components/CategoryDropdown";
 import BottomNav from "../components/BottomNav";
@@ -17,13 +24,32 @@ function Home() {
   const [categories, setCategories] = useState([]);
   const [trendingPosts, setTrendingPosts] = useState([]);
   const [premiumPosts, setPremiumPosts] = useState([]);
-const [justSubscribed, setJustSubscribed] = useState(false);
-const [subscriptionExpiresSoon, setSubscriptionExpiresSoon] = useState(false);
-const [expiryDateFormatted, setExpiryDateFormatted] = useState("");
-const [subscriptionExpired, setSubscriptionExpired] = useState(false);
+  const [justSubscribed, setJustSubscribed] = useState(false);
+  const [subscriptionExpiresSoon, setSubscriptionExpiresSoon] = useState(false);
+  const [expiryDateFormatted, setExpiryDateFormatted] = useState("");
+  const [subscriptionExpired, setSubscriptionExpired] = useState(false);
 
+  // Pagination
+  const [visibleCount, setVisibleCount] = useState(10);
+  const observer = useRef();
 
+  const lastPostRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
 
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && visibleCount < posts.length) {
+          setTimeout(() => {
+            setVisibleCount((prev) => prev + 10);
+          }, 800);
+        }
+      });
+
+      if (node) observer.current.observe(node);
+    },
+    [loading, visibleCount, posts.length]
+  );
 
   // Fetch post
   const fetchPosts = useCallback(async () => {
@@ -33,25 +59,24 @@ const [subscriptionExpired, setSubscriptionExpired] = useState(false);
       if (search) queryParams.push(`search=${search}`);
       if (category) queryParams.push(`category=${category}`);
       const queryString = queryParams.length ? `?${queryParams.join("&")}` : "";
-  
+
       const response = await axios.get(`${API_URL}/api/posts${queryString}`);
-  
-      // Sort posts by createdAt (newest first)
-      const sortedPosts = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-  
+      const sortedPosts = response.data.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
       setPosts(sortedPosts);
     } catch (err) {
       console.error("Error fetching posts:", err);
     }
     setLoading(false);
   }, [search, category]);
-  
 
-  // Fetch categories
   const fetchCategories = useCallback(async () => {
     try {
       const response = await axios.get(`${API_URL}/api/posts`);
-      const uniqueCategories = [...new Set(response.data.map((post) => post.category).filter(Boolean))];
+      const uniqueCategories = [
+        ...new Set(response.data.map((post) => post.category).filter(Boolean)),
+      ];
       setCategories(uniqueCategories);
     } catch (err) {
       console.error("Error fetching categories:", err);
@@ -75,317 +100,281 @@ const [subscriptionExpired, setSubscriptionExpired] = useState(false);
         console.error("Failed to fetch trending posts", err);
       }
     };
-  
+
     fetchTrending();
   }, []);
 
+  useEffect(() => {
+    const fetchPremium = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/api/posts/premium/posts`);
+        setPremiumPosts(res.data);
+      } catch (err) {
+        console.error("Failed to fetch premium posts", err);
+      }
+    };
+    fetchPremium();
+  }, [posts]);
 
-   // Fetch premium posts
-    useEffect(() => {
-  const fetchPremium = async () => {
-    try {
-      // If you added the route:
-      const res = await axios.get(`${API_URL}/api/posts/premium/posts`);
-      // If you DIDN’T add the route, comment the line above and use:
-      // const res = { data: posts.filter(p => p.isPremium).slice(0, 3) };
-      setPremiumPosts(res.data);
-    } catch (err) {
-      console.error("Failed to fetch premium posts", err);
+  useEffect(() => {
+    const wasJustSubscribed = localStorage.getItem("justSubscribedHome") === "true";
+    if (wasJustSubscribed) {
+      setJustSubscribed(true);
+      localStorage.removeItem("justSubscribedHome");
+      setTimeout(() => setJustSubscribed(false), 5000);
     }
-  };
-  fetchPremium();
-}, [posts]);   // <- re-run if the main feed changes
+  }, []);
 
+  useEffect(() => {
+    if (user?.isSubscriber && user?.subscriptionStart) {
+      const startDate = new Date(user.subscriptionStart);
+      const expiryDate = new Date(startDate);
+      expiryDate.setDate(startDate.getDate() + 30);
 
+      const today = new Date();
+      const timeDiff = expiryDate - today;
+      const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
 
- // Fetch justsubscribed message.
-useEffect(() => {
-  const wasJustSubscribed = localStorage.getItem("justSubscribedHome") === "true";
-  if (wasJustSubscribed) {
-    setJustSubscribed(true);
-    localStorage.removeItem("justSubscribedHome"); // ✅ Show only once
-    setTimeout(() => setJustSubscribed(false), 5000);
-  }
-}, []);
-
-
- // for susbribption expired message
-useEffect(() => {
-  if (user?.isSubscriber && user?.subscriptionStart) {
-    const startDate = new Date(user.subscriptionStart);
-    const expiryDate = new Date(startDate);
-    expiryDate.setDate(startDate.getDate() + 30); // assume 30-day plan
-
-    const today = new Date();
-    const timeDiff = expiryDate - today;
-    const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-
-    if (daysLeft <= 5 && daysLeft >= 0) {
-      setSubscriptionExpiresSoon(true);
-      setExpiryDateFormatted(expiryDate.toDateString());
+      if (daysLeft <= 5 && daysLeft >= 0) {
+        setSubscriptionExpiresSoon(true);
+        setExpiryDateFormatted(expiryDate.toDateString());
+      }
     }
-  }
-}, [user]);
+  }, [user]);
 
+  useEffect(() => {
+    if (user && !user.isSubscriber && user.subscriptionStart) {
+      const startDate = new Date(user.subscriptionStart);
+      const expiryDate = new Date(startDate);
+      expiryDate.setDate(startDate.getDate() + 30);
 
-
-// for subscription disable
-useEffect(() => {
-  if (user && !user.isSubscriber && user.subscriptionStart) {
-    const startDate = new Date(user.subscriptionStart);
-    const expiryDate = new Date(startDate);
-    expiryDate.setDate(startDate.getDate() + 30);
-
-    const today = new Date();
-
-    // Check if the subscription period has passed
-    if (today > expiryDate) {
-      setSubscriptionExpired(true);
+      const today = new Date();
+      if (today > expiryDate) {
+        setSubscriptionExpired(true);
+      }
     }
-  }
-}, [user]);
+  }, [user]);
 
-
-
+  const displayedPosts = posts.slice(0, visibleCount);
 
   return (
     <div className="home-layout">
       {/* Sidebar */}
       <aside className="sidebar">
-      <CategoryDropdown
-  categories={categories}
-  selectedCategory={category}
-  onSelectCategory={setCategory}
-/>
+        <CategoryDropdown
+          categories={categories}
+          selectedCategory={category}
+          onSelectCategory={setCategory}
+        />
 
-<div className="trending-section1">
-  <h3 className="premium-heading">Trending Posts</h3>
-  {trendingPosts.map((post) => (
-              <Link
-              to={`/post/${post._id}`}
-              key={post._id}
-              className="sidebar-item"
-            >
+        <div className="trending-section1">
+          <h3 className="premium-heading">Trending Posts</h3>
+          {trendingPosts.map((post) => (
+            <Link to={`/post/${post._id}`} key={post._id} className="sidebar-item">
               <div className="item-text">
                 <small className="item-meta">
                   {post.category || "General"} · Trending
                 </small>
                 <span className="item-title">#{post.title}</span>
                 <small className="item-meta">
-                  {post.views
-                    ? post.views.toLocaleString() + " views"
-                    : "Popular post"}
+                  {post.views ? post.views.toLocaleString() + " views" : "Popular post"}
                 </small>
               </div>
               <MoreHorizontal size={18} />
             </Link>
-  ))}
-</div>
+          ))}
+        </div>
       </aside>
+
       {/* Main Content */}
       <main className="main-content">
+        {justSubscribed && (
+          <div className="subscription-success-banner">
+            🎉 Welcome to SLXXK Premium! Enjoy your exclusive content.
+          </div>
+        )}
 
+        {subscriptionExpiresSoon && (
+          <div className="subscription-warning-banner">
+            ⏳ Your SLXXK Premium subscription will expire on{" "}
+            <strong>{expiryDateFormatted}</strong>. Please renew to continue enjoying premium features.
+          </div>
+        )}
 
+        {subscriptionExpired && (
+          <div className="subscription-expired-banner">
+            ❌ Your SLXXK Premium subscription has expired. Please renew to access premium features.
+          </div>
+        )}
 
-
-{justSubscribed && (
-  <div className="subscription-success-banner">
-    🎉 Welcome to SLXXK Premium! Enjoy your exclusive content.
-  </div>
-)}
-
-
-{subscriptionExpiresSoon && (
-  <div className="subscription-warning-banner">
-    ⏳ Your SLXXK Premium subscription will expire on <strong>{expiryDateFormatted}</strong>. Please renew to continue enjoying premium features.
-  </div>
-)}
-
-
-{subscriptionExpired && (
-  <div className="subscription-expired-banner">
-    ❌ Your SLXXK Premium subscription has expired. To continue enjoying premium features, please update your payment method.
-  </div>
-)}
-
-
-
-
-  <header className="header">
-  {/* Search bars */}
-  <input
-    type="text"
-    placeholder="Search posts..."
-    value={search}
-    onChange={(e) => setSearch(e.target.value)}
-    className="search-bar"
-  />
-
-  {user && (
-    <div className="user-info">
-      {user.profilePicture ? (
-        <img
-          src={user.profilePicture}
-          alt="User"
-          className="user-avatar"
-        />
-      ) : (
-        <UserCircle className="default-profile-icon" size={32} />
-      )}
-    </div>
-  )}
-</header>
-
-
-       <h2>#SEEK Latest!</h2>
-{loading ? (
-  <p>Loading posts...</p>
-) : posts.length === 0 ? (
-  <div className="no-posts-message">
-    <p>No posts available for your search.</p>
-  </div>
-) : (
-  <div className="posts-grid">
-{posts.map((post) => {
-  const isLocked = post.isPremium && (!user || !user.isSubscriber);
-  const postLink = isLocked ? "/subscribe" : `/post/${post._id}`;
-
-  return (
-    <Link to={postLink} key={post._id} className="post-card-link">
-      <div className="post-card">
-<Link to={`/profile/${post.author._id}`} className="profile-link verified-user">
-  <span className="profile-link">@{post.author.username}</span>
-  {post.author?.isSubscriber && (
-  <span className="verified-circle">
-    <Check size={12} color="white" strokeWidth={3} />
-  </span>
-)}
-</Link>
-        <br />
-
-        {isLocked ? (
-          <>
-            <div className="post-image-wrapper premium-locked">
-              {post.image && (
-                <img src={post.image} alt="Premium" className="post-image" />
+        <header className="header">
+          <input
+            type="text"
+            placeholder="Search posts..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="search-bar"
+          />
+          {user && (
+            <div className="user-info">
+              {user.profilePicture ? (
+                <img src={user.profilePicture} alt="User" className="user-avatar" />
+              ) : (
+                <UserCircle className="default-profile-icon" size={32} />
               )}
-              <div className="locked-banner">
-         <p className="locked-text">
-  <Lock size={14} style={{ marginRight: "6px", verticalAlign: "middle" }} />
-  Premium content. Subscribe to view.
-</p>
-                <Link
-                  to="/subscribe"
-                  onClick={(e) => e.stopPropagation()}
-                  className="locked-sub-btn"
-                >
-                  Subscribe
-                </Link>
-              </div>
             </div>
-            <h3>#{post.title}</h3>
-            <p>{post.content.substring(0, 100)}...</p>
-          </>
+          )}
+        </header>
+
+        <h2>#SEEK Latest!</h2>
+
+        {loading ? (
+          <p>Loading posts...</p>
+        ) : displayedPosts.length === 0 ? (
+          <div className="no-posts-message">
+            <p>No posts available for your search.</p>
+          </div>
         ) : (
+          <div className="posts-grid">
+            {displayedPosts.map((post, index) => {
+              const isLocked = post.isPremium && (!user || !user.isSubscriber);
+              const postLink = isLocked ? "/subscribe" : `/post/${post._id}`;
+              const isLast = index === displayedPosts.length - 1;
+
+              return (
+                <Link
+                  to={postLink}
+                  key={post._id}
+                  className="post-card-link"
+                  ref={isLast ? lastPostRef : null}
+                >
+                  <div className="post-card">
+                    <Link to={`/profile/${post.author._id}`} className="profile-link verified-user">
+                      <span className="profile-link">@{post.author.username}</span>
+                      {post.author?.isSubscriber && (
+                        <span className="verified-circle">
+                          <Check size={12} color="white" strokeWidth={3} />
+                        </span>
+                      )}
+                    </Link>
+                    <br />
+
+                    {isLocked ? (
+                      <>
+                        <div className="post-image-wrapper premium-locked">
+                          {post.image && (
+                            <img src={post.image} alt="Premium" className="post-image" />
+                          )}
+                          <div className="locked-banner">
+                            <p className="locked-text">
+                              <Lock
+                                size={14}
+                                style={{ marginRight: "6px", verticalAlign: "middle" }}
+                              />
+                              Premium content. Subscribe to view.
+                            </p>
+                            <Link
+                              to="/subscribe"
+                              onClick={(e) => e.stopPropagation()}
+                              className="locked-sub-btn"
+                            >
+                              Subscribe
+                            </Link>
+                          </div>
+                        </div>
+                        <h3>#{post.title}</h3>
+                        <p>{post.content.substring(0, 100)}...</p>
+                      </>
+                    ) : (
+                      <>
+                        {post.image && (
+                          <img src={post.image} alt="Post" className="post-image" />
+                        )}
+                        <h3>#{post.title}</h3>
+                        <p>{post.content.substring(0, 100)}...</p>
+                      </>
+                    )}
+
+                    <p><strong>Category:</strong> {post.category || "Uncategorized"}</p>
+                    <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        )}
+
+        {visibleCount < posts.length && (
+          <div className="infinite-spinner">
+            <span className="spinner" />
+          </div>
+        )}
+      </main>
+
+      {/* Premium Sidebar Section */}
+      <aside className="subscription-section">
+        {!user?.isSubscriber && (
           <>
-            {post.image && (
-              <img src={post.image} alt="Post" className="post-image" />
-            )}
-            <h3>#{post.title}</h3>
-            <p>{post.content.substring(0, 100)}...</p>
+            <h2>Subscribe for SLXXK Premium Content</h2>
+            <p>Unlock exclusive posts and features by subscribing.</p>
+            <Link to="/subscribe">
+              <button className="subscribe-btn">Subscribe</button>
+            </Link>
           </>
         )}
 
-        <p><strong>Category:</strong> {post.category || "Uncategorized"}</p>
-        <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
-      </div>
-    </Link>
-  );
-})}
+        {user?.isSubscriber && <h2>Latest on SEEK Premium</h2>}
 
-  </div>
-)}
-      </main>
+        <div className="premium-grid">
+          {premiumPosts.slice(0, 3).map((post) => {
+            const isLocked = !user?.isSubscriber;
+            const target = isLocked ? "/subscribe" : `/post/${post._id}`;
 
-  {/* Premium Section (Subscribe + 3 cards OR just 3 cards) */}
-<aside className="subscription-section">
-  {!user?.isSubscriber && (
-    <>
-      <h2>Subscribe for SLXXK Premium Content</h2>
-      <p>Unlock exclusive posts and features by subscribing.</p>
+            return (
+              <Link to={target} key={post._id} className="premium-card-link">
+                <div className="premium-card">
+                  <div className="profile-link verified-user">
+                    <span className="slider-post-card-author">@{post.author.username}</span>
+                    {post.author?.isSubscriber && (
+                      <span className="verified-circle">
+                        <Check size={12} color="white" strokeWidth={3} />
+                      </span>
+                    )}
+                  </div>
 
-      <Link to="/subscribe">
-        <button className="subscribe-btn">Subscribe</button>
-      </Link>
-    </>
-  )}
+                  <div className={`premium-img-wrapper ${isLocked ? "premium-locked" : ""}`}>
+                    {post.image && (
+                      <img
+                        src={
+                          post.image.startsWith("http")
+                            ? post.image
+                            : `${API_URL}/${post.image}`
+                        }
+                        alt={post.title}
+                        className="post-image"
+                      />
+                    )}
+                    {isLocked && (
+                      <div className="locked-banner small">
+                        <Lock size={14} style={{ marginRight: "6px", marginBottom: "3px", verticalAlign: "middle" }} />
+                        Premium — subscribe to view
+                      </div>
+                    )}
+                  </div>
 
-  {/* ✅ Only show heading if user is a subscriber */}
-  {user?.isSubscriber && <h2>Latest on SEEK Premium</h2>}
-
-
-
-<div className="premium-grid">
-   {premiumPosts.slice(0, 3).map((post) => {
-    const isLocked = !user?.isSubscriber;            // they’re all premium
-    const target   = isLocked ? "/subscribe" : `/post/${post._id}`;
-
-    return (
-      <Link to={target} key={post._id} className="premium-card-link">
-        <div className="premium-card">
-           <div className="profile-link verified-user">
-          <span className="slider-post-card-author">
-            @{post.author.username}
-          </span>
-          {post.author?.isSubscriber && (
-            <span className="verified-circle">
-              <Check size={12} color="white" strokeWidth={3} />
-            </span>
-          )}
+                  <h3>#{post.title}</h3>
+                </div>
+              </Link>
+            );
+          })}
         </div>
 
-          {/* ---- Image (blur if locked) ---- */}
-          <div className={`premium-img-wrapper ${isLocked ? "premium-locked" : ""}`}>
-            {post.image && (
-              <img
-                src={
-                  post.image.startsWith("http")
-                    ? post.image
-                    : `${API_URL}/${post.image}`
-                }
-                alt={post.title}
-                className="post-image"
-              />
-            )}
-
-            {/* center call-out on locked card */}
-            {isLocked && (
-           <div className="locked-banner small">
-  <Lock size={14} style={{ marginRight: "6px", marginBottom: "3px",verticalAlign: "middle" }} />
-  Premium — subscribe to view
-</div>
-            )}
-          </div>
-
-          <h3>#{post.title}</h3>
-        </div>
-      </Link>
-    );
-  })}
-</div>
-
-   <Link
-    to="/premium"
-    className="view-all-premium-btn"
-  >
-    View all premium posts →
-  </Link>
-</aside>
-
-
+        <Link to="/premium" className="view-all-premium-btn">
+          View all premium posts →
+        </Link>
+      </aside>
 
       <BottomNav />
-     
     </div>
   );
 }
