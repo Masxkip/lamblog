@@ -108,9 +108,9 @@ function AllCategories() {
       )}
 
       {loading ? (
-        <div className="loading-posts-message">
-          <p>Loading posts…</p>
-        </div>
+           <div className="full-page-spinner">
+    <span className="spinner1" />
+  </div>
       ) : categoryEntries.length === 0 ? (
         <div className="no-posts-message">
           <p>No posts available for your search.</p>

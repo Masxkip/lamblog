@@ -150,7 +150,9 @@ export default function Profile() {
   };
 
   /* ============ EARLY RETURNS ============ */
-  if (loading) return <p className="loading">Loading profile…</p>;
+  if (loading) return    <div className="full-page-spinner">
+    <span className="spinner1" />
+  </div>;
   if (error)   return <p className="error-message">{error}</p>;
   if (!user)   return <p className="error-message">User not found.</p>;
 

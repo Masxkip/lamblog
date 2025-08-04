@@ -266,7 +266,9 @@ useEffect(() => {
     }
   };
   
-  if (loading) return <p>Loading...</p>;
+  if (loading) return    <div className="full-page-spinner">
+    <span className="spinner1" />
+  </div>;
   if (error) return <p className="error-message">{error}</p>;
 
   return (

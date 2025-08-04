@@ -77,7 +77,9 @@ function CategoryPosts() {
       </div>
 
       {loading ? (
-        <p>Loading posts...</p>
+           <div className="full-page-spinner">
+    <span className="spinner1" />
+  </div>
       ) : posts.length === 0 ? (
         <p>No posts found under this category.</p>
       ) : (
