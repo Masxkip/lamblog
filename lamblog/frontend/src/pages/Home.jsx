@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext, useCallback } from "react";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { UserCircle, Home as HomeIcon, FileText, MoreHorizontal, Check, Lock } from "lucide-react";
 import AuthContext from "../context/AuthContext";
@@ -17,7 +17,7 @@ function Home() {
   const [categories, setCategories] = useState([]);
   const [trendingPosts, setTrendingPosts] = useState([]);
   const [premiumPosts, setPremiumPosts] = useState([]);
-const [justSubscribed, setJustSubscribed] = useState(false);
+  const [justSubscribed, setJustSubscribed] = useState(false);
 
   // Fetch post
   const fetchPosts = useCallback(async () => {
@@ -92,6 +92,9 @@ const [justSubscribed, setJustSubscribed] = useState(false);
 
 
 
+
+
+
 useEffect(() => {
   const wasSubscribed = localStorage.getItem("justSubscribed") === "true";
   if (wasSubscribed) {
@@ -139,6 +142,7 @@ useEffect(() => {
       </aside>
       {/* Main Content */}
       <main className="main-content">
+
 
 
 

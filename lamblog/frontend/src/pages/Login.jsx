@@ -1,5 +1,5 @@
-import { useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useContext,  useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
 import { Eye, EyeOff } from "lucide-react";
@@ -16,6 +16,8 @@ function Login() {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const [subSuccess, setSubSuccess] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,8 +39,22 @@ function Login() {
     }
   };
 
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get("subscribed") === "1") {
+      setSubSuccess(true);
+      setTimeout(() => setSubSuccess(false), 5000); // Hide after 5s
+    }
+  }, [location.search]);
+
   return (
     <div className="auth-wrapper">
+              {subSuccess && (
+  <div className="subscription-success-banner">
+    Subscription successful! You now have access to all premium content.
+  </div>
+)}
       <div className="auth-box">
         {/* Left side content */}
         <div className="auth-info">
