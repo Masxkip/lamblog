@@ -17,7 +17,8 @@ function Home() {
   const [categories, setCategories] = useState([]);
   const [trendingPosts, setTrendingPosts] = useState([]);
   const [premiumPosts, setPremiumPosts] = useState([]);
-  const [justSubscribed, setJustSubscribed] = useState(false);
+const [justSubscribed, setJustSubscribed] = useState(false);
+
 
   // Fetch post
   const fetchPosts = useCallback(async () => {
@@ -94,13 +95,14 @@ function Home() {
 
 
 useEffect(() => {
-  const wasSubscribed = localStorage.getItem("justSubscribed") === "true";
-  if (wasSubscribed) {
+  const wasJustSubscribed = localStorage.getItem("justSubscribedHome") === "true";
+  if (wasJustSubscribed) {
     setJustSubscribed(true);
-    localStorage.removeItem("justSubscribed"); // ✅ Clear it immediately
-    setTimeout(() => setJustSubscribed(false), 5000); // Hide after 5s
+    localStorage.removeItem("justSubscribedHome"); // ✅ Show only once
+    setTimeout(() => setJustSubscribed(false), 5000);
   }
 }, []);
+
 
 
   return (
@@ -145,7 +147,7 @@ useEffect(() => {
 
 {justSubscribed && (
   <div className="subscription-success-banner">
-    🎉 Congratulations! You’re now a SLXXK Premium member. Enjoy exclusive content.
+    🎉 Welcome to SLXXK Premium! Enjoy your exclusive content.
   </div>
 )}
 

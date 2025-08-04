@@ -35,6 +35,7 @@ function Subscribe() {
       await refreshUser(); // ✅ update user data
 
    localStorage.setItem("justSubscribedLogin", "true");
+   localStorage.setItem("justSubscribedHome", "true");
    navigate("/login");
 
     } catch (err) {
