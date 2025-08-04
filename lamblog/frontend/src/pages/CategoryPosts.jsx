@@ -5,14 +5,13 @@ import BottomNav from "../components/BottomNav";
 import BackArrow from "../components/BackArrow";
 import DynamicArrow from "../components/DynamicArrow";
 import AuthContext from "../context/AuthContext";
-import {Check, Lock } from "lucide-react";
+import { Check, Lock } from "lucide-react";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
-
 function CategoryPosts() {
   const { user } = useContext(AuthContext);
-  const { name } = useParams(); 
+  const { name } = useParams();
 
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -86,6 +85,7 @@ function CategoryPosts() {
           {paginatedPosts.map((post, index) => {
             const isLocked = post.isPremium && (!user || !user.isSubscriber);
             const isLast = index === paginatedPosts.length - 1;
+            const target = isLocked ? "/subscribe" : `/post/${post._id}`;
 
             return (
               <div
@@ -93,7 +93,7 @@ function CategoryPosts() {
                 ref={isLast ? lastPostRef : null}
                 className="category-post-card"
               >
-                <Link to={`/post/${post._id}`}>
+                <Link to={target}>
                   {post.image && (
                     <div className={`fixed-image-wrapper2 ${isLocked ? "premium-locked" : ""}`}>
                       <img
@@ -111,16 +111,17 @@ function CategoryPosts() {
                   )}
 
                   <div className="premium-page-card-content">
-                     <div className="profile-link verified-user">
-          <span className="slider-post-card-author">
-            @{post.author.username}
-          </span>
-          {post.author?.isSubscriber && (
-            <span className="verified-circle">
-              <Check size={12} color="white" strokeWidth={3} />
-            </span>
-          )}
-        </div>
+                    <div className="profile-link verified-user">
+                      <span className="slider-post-card-author">
+                        @{post.author.username}
+                      </span>
+                      {post.author?.isSubscriber && (
+                        <span className="verified-circle">
+                          <Check size={12} color="white" strokeWidth={3} />
+                        </span>
+                      )}
+                    </div>
+
                     <h3 className="premium-page-title">#{post.title}</h3>
                     <p className="premium-page-snippet">
                       {post.content.substring(0, 80)}...
@@ -135,7 +136,6 @@ function CategoryPosts() {
         </div>
       )}
 
-      {/* Infinite loader spinner */}
       {visibleCount < posts.length && (
         <div className="infinite-spinner">
           <span className="spinner" />

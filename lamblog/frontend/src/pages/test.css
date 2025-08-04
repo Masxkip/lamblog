@@ -365,3 +365,42 @@ html, body {
 
 
 
+
+    <div className="subscribe-page">
+      <BackArrow />
+      <div className="subscribe-box">
+        <div className="badge">
+          <Flame size={16} /> Best Value
+        </div>
+
+        <h2 className="subscribe-title">Go Premium</h2>
+        <p className="subscribe-price">₦500 / month</p>
+        <p className="subscribe-subtext">Enjoy full access to premium features</p>
+
+        <ul className="benefits-list">
+          <li>
+            <CheckCircle className="check-icon" size={18} /> Reach a wider audience with your posts
+          </li>
+          <li>
+            <CheckCircle className="check-icon" size={18} /> Add and download music in your posts
+          </li>
+          <li>
+            <CheckCircle className="check-icon" size={18} /> Create exclusive premium posts
+          </li>
+          <li>
+            <CheckCircle className="check-icon" size={18} /> Discover premium content faster
+          </li>
+          <li>
+            <CheckCircle className="check-icon" size={18} /> Support the SLXXK community
+          </li>
+        </ul>
+
+        <button className="subscribe-btn" onClick={() => initializePayment(onSuccess, onClose)}>
+          Subscribe Now
+        </button>
+      </div>
+    </div>
+
+
+
+
