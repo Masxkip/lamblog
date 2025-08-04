@@ -1,9 +1,9 @@
-import { useState, useEffect, useContext, useCallback, useRef  } from "react";
+import { useState, useEffect, useContext, useCallback, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
 import BackArrow from "../components/BackArrow";
-import {Check, Lock } from "lucide-react";
+import { Check } from "lucide-react";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -11,7 +11,7 @@ function Premium() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // ⛔ Guard: if somehow a non-subscriber lands here, boot them out
+  // ⛔ Redirect if not subscribed
   useEffect(() => {
     if (!user?.isSubscriber) {
       navigate("/subscribe");
@@ -25,7 +25,6 @@ function Premium() {
 
   const observer = useRef();
 
-  // Fetch premium posts (only once)
   const fetchPremium = useCallback(async () => {
     setLoading(true);
     try {
@@ -41,7 +40,6 @@ function Premium() {
     fetchPremium();
   }, [fetchPremium]);
 
-  // Client-side search filter
   const filteredPosts = premiumPosts.filter((post) => {
     const needle = search.toLowerCase();
     return (
@@ -52,35 +50,36 @@ function Premium() {
     );
   });
 
-
-  // Reset count on search
+  // Reset on search change
   useEffect(() => {
     setVisibleCount(6);
   }, [search]);
 
   // Infinite scroll logic
-  const lastPostRef = useCallback((node) => {
-    if (loading) return;
-    if (observer.current) observer.current.disconnect();
+  const lastPostRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
 
-    observer.current = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && visibleCount < filteredPosts.length) {
-        setTimeout(() => {
-          setVisibleCount((prev) => prev + 6);
-        }, 800); // loading effect
-      }
-    });
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && visibleCount < filteredPosts.length) {
+          setTimeout(() => {
+            setVisibleCount((prev) => prev + 6);
+          }, 800);
+        }
+      });
 
-    if (node) observer.current.observe(node);
-  }, [loading, visibleCount, filteredPosts.length]);
-
+      if (node) observer.current.observe(node);
+    },
+    [loading, visibleCount, filteredPosts.length]
+  );
 
   return (
-<div className="premium-page-container">
-  {/* Sticky Back Arrow + Search Bar */}
-  <div className="premium-page-searchbar-wrapper">
-    <button className="back-icon">
-      <BackArrow />
+    <div className="premium-page-container">
+      {/* Sticky Back + Search */}
+      <div className="premium-page-searchbar-wrapper">
+        <button className="back-icon">
+          <BackArrow />
         </button>
 
         <input
@@ -100,7 +99,9 @@ function Premium() {
         <>
           {search && (
             <div className="search-results-heading">
-              Showing {filteredPosts.length} result{filteredPosts.length !== 1 ? "s" : ""} for: <strong>"{search}"</strong>
+              Showing {filteredPosts.length} result
+              {filteredPosts.length !== 1 ? "s" : ""} for:{" "}
+              <strong>"{search}"</strong>
             </div>
           )}
 
@@ -131,22 +132,28 @@ function Premium() {
                     )}
 
                     <div className="premium-page-card-content">
-                       <div className="profile-link verified-user">
-          <span className="slider-post-card-author">
-            @{post.author.username}
-          </span>
-          {post.author?.isSubscriber && (
-            <span className="verified-circle">
-              <Check size={12} color="white" strokeWidth={3} />
-            </span>
-          )}
-        </div>
+                      <div className="profile-link verified-user">
+                        <span className="slider-post-card-author">
+                          @{post.author.username}
+                        </span>
+                        {post.author?.isSubscriber && (
+                          <span className="verified-circle">
+                            <Check size={12} color="white" strokeWidth={3} />
+                          </span>
+                        )}
+                      </div>
+
                       <h3 className="premium-page-title">#{post.title}</h3>
                       <p className="premium-page-snippet">
                         {post.content.substring(0, 80)}...
                       </p>
-                      <p><strong>Category:</strong> {post.category || "Uncategorized"}</p>
-                      <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
+                      <p>
+                        <strong>Category:</strong> {post.category || "Uncategorized"}
+                      </p>
+                      <p>
+                        <strong>Published:</strong>{" "}
+                        {new Date(post.createdAt).toLocaleString()}
+                      </p>
                     </div>
                   </div>
                 </Link>
@@ -154,7 +161,7 @@ function Premium() {
             })}
           </div>
 
-          {/* Spinner loader at bottom */}
+          {/* Infinite scroll spinner */}
           {visibleCount < filteredPosts.length && (
             <div className="infinite-spinner">
               <span className="spinner" />
