@@ -10,13 +10,16 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   // Load user from localStorage on first mount
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-    setLoading(false);
-  }, []);
+useEffect(() => {
+  const storedUser = localStorage.getItem("user");
+  if (storedUser) {
+    setUser(JSON.parse(storedUser));
+  } else {
+    setUser(null); // ✅ prevent undefined state
+  }
+  setLoading(false);
+}, []);
+
 
   // Login: persist token + user
   const login = (userData, token) => {

@@ -4039,3 +4039,18 @@ select:focus {
   border-radius: 5px;
   cursor: pointer;
 }
+
+
+
+
+
+.subscription-success-banner {
+  background-color: #d1ffe5;
+  color: #1a7f37;
+  border: 1px solid #1a7f37;
+  padding: 10px 15px;
+  margin: 1rem 0;
+  border-radius: 6px;
+  font-weight: bold;
+  text-align: center;
+}

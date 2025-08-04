@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext, useCallback } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import { UserCircle, Home as HomeIcon, FileText, MoreHorizontal, Check, Lock } from "lucide-react";
 import AuthContext from "../context/AuthContext";
@@ -17,6 +17,8 @@ function Home() {
   const [categories, setCategories] = useState([]);
   const [trendingPosts, setTrendingPosts] = useState([]);
   const [premiumPosts, setPremiumPosts] = useState([]);
+  const location = useLocation();
+const [subSuccess, setSubSuccess] = useState(false);
 
   // Fetch post
   const fetchPosts = useCallback(async () => {
@@ -89,6 +91,14 @@ function Home() {
 }, [posts]);   // <- re-run if the main feed changes
 
 
+useEffect(() => {
+  const params = new URLSearchParams(location.search);
+  if (params.get("subscribed") === "1") {
+    setSubSuccess(true);
+    setTimeout(() => setSubSuccess(false), 5000); // Hide after 5s
+  }
+}, [location.search]);
+
 
 
   return (
@@ -127,6 +137,13 @@ function Home() {
       </aside>
       {/* Main Content */}
       <main className="main-content">
+
+        {subSuccess && (
+  <div className="subscription-success-banner">
+    🎉 Subscription successful! You now have access to all premium content.
+  </div>
+)}
+
 
   <header className="header">
   {/* Search bars */}

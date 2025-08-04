@@ -38,7 +38,7 @@ function Subscribe() {
 
       // ✅ redirect after short delay
       setTimeout(() => {
-        navigate("/");
+        navigate("/?subscribed=1");
       }, 2500);
     } catch (err) {
       console.error("Verification error:", err);
