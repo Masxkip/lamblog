@@ -266,19 +266,21 @@ useEffect(() => {
     }
   };
   
- 
+  if (loading) return <p>Loading...</p>;
   if (error) return <p className="error-message">{error}</p>;
 
   return (
     <div className="single-post-container">
+       {loading ? (
+      <div className="full-page-spinner">
+        <span className="spinner1" />
+      </div>
+    ) : error ? (
+      <p className="error-message">{error}</p>
+    ) : (
+      <>
       <BackArrow />
       <h2># {post.title}</h2>
-      {loading ? (
-  <div className="full-page-spinner">
-    <span className="spinner1" />
-  </div>
-) : (
-  <>
       {post.image && (
         <img src={post.image} alt="Post" className="single-post-image" />
       )}
@@ -542,9 +544,9 @@ useEffect(() => {
 
         {message && <p className="success-message">{message}</p>}
       </div>
-        </>
-)}
       <BottomNav />
+      </>
+    )}
     </div>
   );
 }
