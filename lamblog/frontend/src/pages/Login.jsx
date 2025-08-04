@@ -52,13 +52,12 @@ useEffect(() => {
 
   return (
     <div className="auth-wrapper">
-
-{subSuccess && (
+      <div className="auth-box">
+        {subSuccess && (
   <div className="subscription-success-banner">
    Subscription successful! You can now log in and enjoy SLXXK Premium.
   </div>
 )}
-      <div className="auth-box">
         {/* Left side content */}
         <div className="auth-info">
           <h3>Don’t have an account? Register one Today</h3>
