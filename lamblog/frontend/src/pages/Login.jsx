@@ -1,5 +1,5 @@
 import { useState, useContext,  useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
 import { Eye, EyeOff } from "lucide-react";
@@ -16,8 +16,8 @@ function Login() {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
-  const location = useLocation();
-  const [subSuccess, setSubSuccess] = useState(false);
+  const [justSubscribed, setJustSubscribed] = useState(false);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,19 +40,22 @@ function Login() {
   };
 
 
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    if (params.get("subscribed") === "1") {
-      setSubSuccess(true);
-      setTimeout(() => setSubSuccess(false), 5000); // Hide after 5s
-    }
-  }, [location.search]);
+useEffect(() => {
+  const wasSubscribed = localStorage.getItem("justSubscribed") === "true";
+  if (wasSubscribed) {
+    setJustSubscribed(true);
+    localStorage.removeItem("justSubscribed"); // ✅ Clear it immediately
+    setTimeout(() => setJustSubscribed(false), 5000); // Hide after 5s
+  }
+}, []);
+
 
   return (
     <div className="auth-wrapper">
-              {subSuccess && (
+
+ {justSubscribed && (
   <div className="subscription-success-banner">
-    Subscription successful! You now have access to all premium content.
+  Congratulations! You’re now a SLXXK Premium member. Enjoy exclusive content.
   </div>
 )}
       <div className="auth-box">
