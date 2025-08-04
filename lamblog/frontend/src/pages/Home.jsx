@@ -17,7 +17,6 @@ function Home() {
   const [categories, setCategories] = useState([]);
   const [trendingPosts, setTrendingPosts] = useState([]);
   const [premiumPosts, setPremiumPosts] = useState([]);
-  const [showBanner, setShowBanner] = useState(false);
 
   // Fetch post
   const fetchPosts = useCallback(async () => {
@@ -90,18 +89,6 @@ function Home() {
 }, [posts]);   // <- re-run if the main feed changes
 
 
-useEffect(() => {
-  const justSubscribed = sessionStorage.getItem("justSubscribed");
-  if (justSubscribed === "true") {
-    setShowBanner(true);
-    sessionStorage.removeItem("justSubscribed");
-
-    // Hide banner after 5 seconds
-    setTimeout(() => {
-      setShowBanner(false);
-    }, 5000);
-  }
-}, []);
 
 
   return (
@@ -140,14 +127,6 @@ useEffect(() => {
       </aside>
       {/* Main Content */}
       <main className="main-content">
-        {/* ✅ One-time success banner after subscription */}
-{user?.isSubscriber && (
-  showBanner && (
-    <div className="subscription-banner success-banner">
-      🎉 Subscription successful! Enjoy premium content on SLXXK.
-    </div>
-  )
-)}
 
   <header className="header">
   {/* Search bars */}

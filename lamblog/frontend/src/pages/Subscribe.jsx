@@ -1,96 +1,62 @@
-import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { usePaystackPayment } from "react-paystack";
-import { CheckCircle, Flame } from "lucide-react";
+import { useContext, useState } from "react";
+import { PaystackButton } from "react-paystack";
 import AuthContext from "../context/AuthContext";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const Subscribe = () => {
+function Subscribe() {
   const { user, refreshUser } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const email = user?.email || "user@example.com";
+  const publicKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY;
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
+  const amount = 10000; // NGN 100 in kobo
+  const planCode = "PLN_wneh0dnfabvv1cq";
 
-  const config = {
-    reference: new Date().getTime().toString(),
-    email: email,
-    amount: 10000, // ₦10000 = ₦100.00 in Paystack (amount is in kobo)
-    publicKey: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
-    plan: "PLN_wneh0dnfabvv1cq", // Your Paystack plan code
-    channels: ["card"],
-  };
-
-  const onSuccess = async (reference) => {
-
+  const handleSuccess = async (reference) => {
     try {
-      const token = localStorage.getItem("token");
-     await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/users/verify-subscription`,
-      { reference: reference.reference },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-      // ✅ Update local user state via context
-      if (typeof refreshUser === "function") {
-        await refreshUser();
-      }
-
-      // ✅ Set banner flag for Home page
-      sessionStorage.setItem("justSubscribed", "true");
-
-      // ✅ Redirect to Home (not login)
-      navigate("/");
-    } catch (error) {
-      console.error("❌ Verification failed:", error);
-      alert("Payment verified but user update failed.");
+      setLoading(true);
+      await axios.post(
+        `${backendURL}/api/users/verify-subscription`,
+        { reference: reference.reference },
+        { withCredentials: true }
+      );
+      await refreshUser(); // update context
+      navigate("/"); // or navigate to premium page
+    } catch (err) {
+      console.error("Verification error:", err);
+      setError("Subscription verification failed.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const onClose = () => {
-    alert("Payment popup closed.");
+  const handleClose = () => {
+    console.log("Payment window closed");
   };
 
-  const initializePayment = usePaystackPayment(config);
+  const componentProps = {
+    email: user.email,
+    amount,
+    plan: planCode,
+    publicKey,
+    text: loading ? "Processing..." : "Subscribe Now",
+    onSuccess: handleSuccess,
+    onClose: handleClose,
+    disabled: loading,
+    className: "subscribe-button",
+  };
 
   return (
-    <div className="subscribe-page">
-      <div className="subscribe-box">
-        <div className="badge">
-          <Flame size={16} /> Best Value
-        </div>
-
-        <h2 className="subscribe-title">Go Premium</h2>
-        <p className="subscribe-price">₦100 / month</p>
-        <p className="subscribe-subtext">Enjoy full access to premium features</p>
-
-        <ul className="benefits-list">
-          <li>
-            <CheckCircle className="check-icon" size={18} /> Reach a wider audience with your posts
-          </li>
-          <li>
-            <CheckCircle className="check-icon" size={18} /> Add and download music in your posts
-          </li>
-          <li>
-            <CheckCircle className="check-icon" size={18} /> Create exclusive premium posts
-          </li>
-          <li>
-            <CheckCircle className="check-icon" size={18} /> Discover premium content faster
-          </li>
-          <li>
-            <CheckCircle className="check-icon" size={18} /> Support the SLXXK community
-          </li>
-        </ul>
-
-        <button className="subscribe-btn" onClick={() => initializePayment(onSuccess, onClose)}>
-          Subscribe Now
-        </button>
-      </div>
+    <div className="subscribe-container">
+      <h2>Subscribe to Premium</h2>
+      <p>Access exclusive content for just ₦100/month</p>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      <PaystackButton {...componentProps} />
     </div>
   );
-};
+}
 
 export default Subscribe;

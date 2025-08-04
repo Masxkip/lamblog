@@ -4021,20 +4021,21 @@ select:focus {
 
 
 
-
-.subscription-banner {
-  background-color: #d1ffe1;
-  color: #046c2c;
-  padding: 12px 24px;
-  font-weight: bold;
+.subscribe-container {
+  max-width: 400px;
+  margin: 2rem auto;
   text-align: center;
-  margin-bottom: 16px;
+  padding: 2rem;
+  border: 1px solid #eee;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  animation: fadeInSlide 0.3s ease-in-out;
 }
 
-@keyframes fadeInSlide {
-  from { opacity: 0; transform: translateY(-10px); }
-  to   { opacity: 1; transform: translateY(0); }
+.subscribe-button {
+  background-color: #0aa83f;
+  color: white;
+  padding: 10px 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
