@@ -18,13 +18,22 @@ function Subscribe() {
   const handleSuccess = async (reference) => {
     try {
       setLoading(true);
-      await axios.post(
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("No token found");
+
+     await axios.post(
         `${backendURL}/api/users/verify-subscription`,
         { reference: reference.reference },
-        { withCredentials: true }
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // ✅ Include token
+          },
+          withCredentials: true,
+        }
       );
-      await refreshUser(); // update context
-      navigate("/"); // or navigate to premium page
+
+      await refreshUser(); // ✅ Update context with new user info
+      navigate("/"); // ✅ Redirect to home or premium section
     } catch (err) {
       console.error("Verification error:", err);
       setError("Subscription verification failed.");
@@ -34,7 +43,7 @@ function Subscribe() {
   };
 
   const handleClose = () => {
-    console.log("Payment window closed");
+    console.log("Payment popup closed.");
   };
 
   const componentProps = {
@@ -52,7 +61,7 @@ function Subscribe() {
   return (
     <div className="subscribe-container">
       <h2>Subscribe to Premium</h2>
-      <p>Access exclusive content for just ₦100/month</p>
+      <p>Get full access for ₦100/month</p>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <PaystackButton {...componentProps} />
     </div>
