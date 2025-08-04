@@ -9,6 +9,7 @@ function Subscribe() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false); // ✅ new state
 
   const publicKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY;
   const backendURL = import.meta.env.VITE_BACKEND_URL;
@@ -32,13 +33,15 @@ function Subscribe() {
         }
       );
 
-      await refreshUser(); // ✅ update user data
+      await refreshUser(); // ✅ update UI immediately
+      setSuccess(true); // ✅ show success message
 
-      // ✅ Mark the user as newly subscribed (for 1-time message in Home.jsx)
-      localStorage.setItem("justSubscribed", "true");
+       localStorage.setItem("justSubscribed", "true");
 
-      // ✅ Redirect with flag
-      navigate("/?subscribed=1");
+      // ✅ redirect after short delay
+      setTimeout(() => {
+        navigate("/?subscribed=1");
+      }, 2500);
     } catch (err) {
       console.error("Verification error:", err);
       setError("Subscription verification failed.");
@@ -69,8 +72,9 @@ function Subscribe() {
       <p>Get full access for ₦100/month</p>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
+      {success && <p style={{ color: "green" }}>🎉 Subscription successful! Redirecting...</p>}
 
-      <PaystackButton {...componentProps} />
+      {!success && <PaystackButton {...componentProps} />}
     </div>
   );
 }
