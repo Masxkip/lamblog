@@ -187,7 +187,8 @@ html, body {
 }
 
 .free:hover{
-  background:#8a2be2; color: white;
+   background-color: #eee;
+  color: black;
 }
 
 /* ---------- BIO ---------- */
