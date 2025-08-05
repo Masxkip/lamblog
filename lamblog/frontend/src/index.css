@@ -4107,8 +4107,9 @@ select:focus {
   position: relative;
 }
 
-.subscription-success-banner {
+.subscription-success-banner1 {
   background-color: #d1ffe5;
+  margin-top: 40px;
   color: #1a7f37;
   border: 1px solid #1a7f37;
   padding: 10px 15px;
