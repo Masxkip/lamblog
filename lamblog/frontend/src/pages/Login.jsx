@@ -51,13 +51,15 @@ useEffect(() => {
 }, []);
 
   return (
-    <div className="auth-wrapper">
+  <div className="auth-wrapper">
+    <div className="auth-container">
+      {subSuccess && (
+        <div className="subscription-success-banner">
+          Subscription successful! You can now log in and enjoy SLXXK Premium.
+        </div>
+      )}
+
       <div className="auth-box">
-        {subSuccess && (
-  <div className="subscription-success-banner">
-   Subscription successful! You can now log in and enjoy SLXXK Premium.
-  </div>
-)}
         {/* Left side content */}
         <div className="auth-info">
           <h3>Don’t have an account? Register one Today</h3>
@@ -94,14 +96,13 @@ useEffect(() => {
               </span>
             </div>
 
-
             <LoadingButton
-  isLoading={loading}
-  type="submit"
-  className={`submit-btn ${loading ? "loading" : ""}`}
->
-  Login
-</LoadingButton>
+              isLoading={loading}
+              type="submit"
+              className={`submit-btn ${loading ? "loading" : ""}`}
+            >
+              Login
+            </LoadingButton>
           </form>
 
           <p style={{ marginTop: "10px" }}>
@@ -110,7 +111,9 @@ useEffect(() => {
         </div>
       </div>
     </div>
-  );
+  </div>
+);
+
 }
 
 export default Login;

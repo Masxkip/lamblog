@@ -160,6 +160,7 @@ html, body {
   transition: opacity 0.2s;
 }
 
+.pill:hover { background:#8a2be2; color: white; }
 
 .primary   { background: #6a1bbd; color: var(--clr-text); }
 .secondary { background: #6a1bbd; color: var(--clr-text); }
@@ -183,6 +184,11 @@ html, body {
   background-color: #eee;
   color: black;
   cursor: pointer;
+}
+
+.free:hover{
+  background-color: #eee;
+  color: black;
 }
 
 /* ---------- BIO ---------- */
@@ -4088,3 +4094,29 @@ select:focus {
   100% { transform: rotate(360deg); }
 }
 /* ==== SPINNER CSS FOR LOADING DISPLAYS ===== */
+
+
+
+.auth-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.subscription-success-banner {
+  background-color: #d1ffe5;
+  color: #1a7f37;
+  border: 1px solid #1a7f37;
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+  max-width: 900px;
+  margin-bottom: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
