@@ -186,6 +186,10 @@ html, body {
   color: black;
 }
 
+.free:hover{
+  background:#8a2be2; color: white;
+}
+
 /* ---------- BIO ---------- */
 .bio-section { margin: 1rem 0; }
 
@@ -2869,6 +2873,18 @@ color: lightgray;
   background-color: #9d6dff;
 }
 
+
+.subscribe-button {
+  background-color: #6a1bbd;
+  color: white;
+  padding: 10px 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
 /* Mobile tweaks */
 @media (max-width: 600px) {
   .subscribe-box {
@@ -4018,32 +4034,7 @@ select:focus {
 
 
 
-
-
-
-.subscribe-container {
-  max-width: 400px;
-  margin: 2rem auto;
-  text-align: center;
-  padding: 2rem;
-  border: 1px solid #eee;
-  border-radius: 8px;
-}
-
-.subscribe-button {
-  background-color: #6a1bbd;
-  color: white;
-  padding: 10px 20px;
-  font-weight: bold;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-
-
-
-
+/* ==== MESSAGE STATUS CSS FOR WEBHOOKS ===== */
 .subscription-success-banner {
   background-color: #d1ffe5;
   color: #1a7f37;
@@ -4054,8 +4045,6 @@ select:focus {
   font-weight: bold;
   text-align: center;
 }
-
-
 
 .subscription-warning-banner {
   background-color: #fff3cd;
@@ -4068,8 +4057,6 @@ select:focus {
   text-align: center;
 }
 
-
-
 .subscription-expired-banner {
   background-color: #f8d7da;
   color: #721c24;
@@ -4080,12 +4067,11 @@ select:focus {
   font-weight: 500;
   text-align: center;
 }
+/* ==== MESSAGE STATUS CSS FOR WEBHOOKS ===== */
 
 
 
-
-
-
+/* ==== SPINNER CSS FOR LOADING DISPLAYS ===== */
 .full-page-spinner {
   display: flex;
   justify-content: center;
@@ -4106,3 +4092,4 @@ select:focus {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+/* ==== SPINNER CSS FOR LOADING DISPLAYS ===== */
