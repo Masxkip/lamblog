@@ -46,7 +46,7 @@ useEffect(() => {
   if (showLoginSuccess) {
     setSubSuccess(true);
     localStorage.removeItem("justSubscribedLogin"); // ✅ Show only once
-    setTimeout(() => setSubSuccess(false), 2700);
+    setTimeout(() => setSubSuccess(false), 2000);
   }
 }, []);
 
