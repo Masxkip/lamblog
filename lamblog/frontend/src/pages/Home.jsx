@@ -121,7 +121,7 @@ function Home() {
     if (wasJustSubscribed) {
       setJustSubscribed(true);
       localStorage.removeItem("justSubscribedHome");
-      setTimeout(() => setJustSubscribed(false), 5000);
+      setTimeout(() => setJustSubscribed(false), 2700);
     }
   }, []);
 
