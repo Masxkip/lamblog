@@ -157,7 +157,6 @@ html, body {
   border-radius: 9999px;
   padding: 0.4rem 1rem;
   font-size: 0.85rem;
-  cursor: pointer;
   transition: opacity 0.2s;
 }
 
@@ -184,6 +183,7 @@ html, body {
 .free {
   background-color: #eee;
   color: black;
+  cursor: pointer;
 }
 
 .free:hover{
