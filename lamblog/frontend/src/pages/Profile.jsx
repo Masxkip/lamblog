@@ -180,11 +180,14 @@ export default function Profile() {
           <div className="header-details">
             <div className="username-row">
               <h2 className="username">{user.username}</h2>
-              {user.isSubscriber ? (
-                <span className="subscriber-badge pill premium">Premium</span>
-              ) : (
-                <span className="subscriber-badge pill free">Get Premium</span>
-              )}
+             {user.isSubscriber ? (
+  <span className="subscriber-badge pill premium">Premium</span>
+) : (
+  <Link to="/subscribe" className="subscriber-badge pill free">
+    Get Premium
+  </Link>
+)}
+
             </div>
 
             <p className="handle">@{user.username?.toLowerCase()}</p>
