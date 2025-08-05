@@ -71,7 +71,7 @@ function Subscribe() {
         </div>
 
         <h2 className="subscribe-title">Go Premium</h2>
-        <p className="subscribe-price">₦500 / month</p>
+        <p className="subscribe-price">₦100 / month</p>
         <p className="subscribe-subtext">Enjoy full access to premium features</p>
 
         <ul className="benefits-list">
@@ -88,7 +88,7 @@ function Subscribe() {
             <CheckCircle className="check-icon" size={18} /> Discover premium content faster
           </li>
           <li>
-            <CheckCircle className="check-icon" size={18} /> Support the SLXXK community
+            <CheckCircle className="check-icon" size={18} /> Support the SEEK community
           </li>
         </ul>
 

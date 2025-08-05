@@ -156,7 +156,7 @@ export default function Profile() {
     <div className="profile-wrapper">
         {loading ? (
       <div className="full-page-spinner">
-        
+         <span className="spinner1" />
       </div>
     ) : error ? (
       <p className="error-message">{error}</p>

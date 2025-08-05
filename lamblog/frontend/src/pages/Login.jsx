@@ -55,7 +55,7 @@ useEffect(() => {
     <div className="auth-container">
       {subSuccess && (
         <div className="subscription-success-banner1">
-          Subscription successful! You can now log in and enjoy SLXXK Premium.
+          Subscription successful! You can now log in and enjoy SEEK Premium.
         </div>
       )}
 

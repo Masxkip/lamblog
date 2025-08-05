@@ -190,20 +190,20 @@ function Home() {
       <main className="main-content">
         {justSubscribed && (
           <div className="subscription-success-banner">
-            Welcome to SLXXK Premium! Enjoy your exclusive content.
+            Welcome to SEEK Premium! Enjoy your exclusive content.
           </div>
         )}
 
         {subscriptionExpiresSoon && (
           <div className="subscription-warning-banner">
-             Your SLXXK Premium subscription will expire on{" "}
+             Your SEEK Premium subscription will expire on{" "}
             <strong>{expiryDateFormatted}</strong>. Please renew to continue enjoying premium features.
           </div>
         )}
 
         {subscriptionExpired && (
           <div className="subscription-expired-banner">
-           Your SLXXK Premium subscription has expired. Please renew to access premium features.
+           Your SEEK Premium subscription has expired. Please renew to access premium features.
           </div>
         )}
 
@@ -317,7 +317,7 @@ function Home() {
       <aside className="subscription-section">
         {!user?.isSubscriber && (
           <>
-            <h2>Subscribe for SLXXK Premium Content</h2>
+            <h2>Subscribe for SEEK Premium Content</h2>
             <p>Unlock exclusive posts and features by subscribing.</p>
             <Link to="/subscribe">
               <button className="subscribe-btn">Subscribe</button>
