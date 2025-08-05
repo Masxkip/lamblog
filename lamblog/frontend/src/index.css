@@ -160,7 +160,6 @@ html, body {
   transition: opacity 0.2s;
 }
 
-.pill:hover { background:#8a2be2; color: white; }
 
 .primary   { background: #6a1bbd; color: var(--clr-text); }
 .secondary { background: #6a1bbd; color: var(--clr-text); }
@@ -176,7 +175,7 @@ html, body {
 }
 
 .premium {
-  background-color: #6a1bbd;
+  background-color: #8a2be2;
   color: white
 }
 
@@ -184,11 +183,6 @@ html, body {
   background-color: #eee;
   color: black;
   cursor: pointer;
-}
-
-.free:hover{
-  background-color: #eee;
-  color: black;
 }
 
 /* ---------- BIO ---------- */
