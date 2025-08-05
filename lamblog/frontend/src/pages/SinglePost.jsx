@@ -277,11 +277,11 @@ useEffect(() => {
     ) : (
       <>
       <BackArrow />
-      <h2># {post.title}</h2>
+      
       {post.image && (
         <img src={post.image} alt="Post" className="single-post-image" />
       )}
-      
+      <h2># {post.title}</h2>
       <p>{post.content}</p>
       <p>
       <strong>@
