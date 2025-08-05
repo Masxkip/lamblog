@@ -150,15 +150,20 @@ export default function Profile() {
   };
 
   /* ============ EARLY RETURNS ============ */
-  if (loading) return    <div className="full-page-spinner">
-    <span className="spinner1" />
-  </div>;
-  if (error)   return <p className="error-message">{error}</p>;
-  if (!user)   return <p className="error-message">User not found.</p>;
 
   /* ============ JSX ============ */
   return (
     <div className="profile-wrapper">
+        {loading ? (
+      <div className="full-page-spinner">
+        <span className="spinner1" />
+      </div>
+    ) : error ? (
+      <p className="error-message">{error}</p>
+    ) : !user ? (
+      <p className="error-message">User not found.</p>
+    ) : (
+      <>
       {/* ---------- LEFT 70 % ---------- */}
       <main className="profile-main">
         {/* Banner strip */}
@@ -308,6 +313,8 @@ export default function Profile() {
 
       {/* Bottom nav (mobile) */}
       <BottomNav />
+       </>
+    )}
     </div>
   );
 }
