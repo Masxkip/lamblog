@@ -15,7 +15,8 @@ function AllCategories() {
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);        // network loading
+  const [batchLoading, setBatchLoading] = useState(false); // UI spinner for 3-category reveal
   const [error, setError] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [trendingPosts, setTrendingPosts] = useState([]);
@@ -80,24 +81,37 @@ function AllCategories() {
 
   const categoryEntries = Object.entries(postsByCategory);
 
+  // Reset visible groups when search changes
+  useEffect(() => {
+    setVisibleCategories(3);
+  }, [searchTerm]);
+
   // IO: after the last visible category intersects, reveal 3 more; if we lack data for more groups, fetch next page
   const lastCategoryRef = useCallback(
     (node) => {
       if (loading) return;
       if (observer.current) observer.current.disconnect();
 
-      observer.current = new IntersectionObserver((entries) => {
-        if (!entries[0].isIntersecting) return;
+      observer.current = new IntersectionObserver(
+        (entries) => {
+          if (!entries[0].isIntersecting) return;
 
-        // Reveal next 3 category sections
-        setVisibleCategories((prev) => prev + 3);
+          // UI spinner for the next batch reveal, regardless of network fetch
+          setBatchLoading(true);
+          setTimeout(() => setBatchLoading(false), 700); // tweak duration to taste
 
-        // If we don't have enough grouped categories to show the next 3, fetch another page
-        const needMoreGroupsSoon = categoryEntries.length < visibleCategories + 3;
-        if (needMoreGroupsSoon && hasMore && !loading) {
-          setPage((prev) => prev + 1);
-        }
-      });
+          // Reveal next 3 category sections
+          const nextVisible = visibleCategories + 3;
+          setVisibleCategories(nextVisible);
+
+          // If we won't have enough grouped categories for the *next* slice, fetch another page
+          const needMoreGroupsSoon = categoryEntries.length < nextVisible + 3;
+          if (needMoreGroupsSoon && hasMore && !loading) {
+            setPage((prev) => prev + 1);
+          }
+        },
+        { rootMargin: "200px" } // trigger slightly early for smoother loading
+      );
 
       if (node) observer.current.observe(node);
     },
@@ -238,18 +252,17 @@ function AllCategories() {
         })()
       )}
 
-      {loading && posts.length > 0 && (
+      {(batchLoading || (loading && posts.length > 0)) && (
         <div className="infinite-spinner">
           <span className="spinner" />
         </div>
       )}
 
       {error && (
-  <div className="error-message">
-    Failed to load posts. Please try again later.
-  </div>
-)}
-
+        <div className="error-message">
+          Failed to load posts. Please try again later.
+        </div>
+      )}
 
       <BottomNav />
     </div>
