@@ -47,6 +47,7 @@ function Home() {
     setHasMore(res.data.hasMore);
   } catch (err) {
     setError(true);
+    setPage((prev) => Math.max(prev - 1, 1));
     console.error("Error fetching posts:", err);
   } finally {
     setLoading(false);
@@ -72,21 +73,22 @@ function Home() {
 
 
 
-  const lastPostRef = useCallback(
-    (node) => {
-      if (loading) return;
-      if (observer.current) observer.current.disconnect();
+ const lastPostRef = useCallback(
+  (node) => {
+    if (loading || error || !hasMore) return; // block scroll trigger on error
+    if (observer.current) observer.current.disconnect();
 
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMore) {
-          setPage((prev) => prev + 1);
-        }
-      });
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        setPage((prev) => prev + 1);
+      }
+    });
 
-      if (node) observer.current.observe(node);
-    },
-    [loading, hasMore]
-  );
+    if (node) observer.current.observe(node);
+  },
+  [loading, error, hasMore]
+);
+
 
   useEffect(() => {
     fetchPosts();
@@ -300,11 +302,12 @@ function Home() {
           </div>
         )}
 
-        {error && (
-          <div className="error-message">
-            Failed to load more posts. Please check your connection.
-          </div>
-        )}
+       {error && (
+  <div className="error-message">
+    Failed to load more posts. Please check your connection.
+    <button onClick={() => setError(false)}>Retry</button>
+  </div>
+)}
 
         {!hasMore && !loading && (
           <div className="end-of-posts-message">
