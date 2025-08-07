@@ -1,4 +1,4 @@
-// AllCategories.jsx with paginated post fetching and category block pagination
+// AllCategories.jsx with paginated post fetching and category block pagination (3-category batches)
 
 import React, { useEffect, useState, useContext, useRef, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -19,10 +19,11 @@ function AllCategories() {
   const [error, setError] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [trendingPosts, setTrendingPosts] = useState([]);
-  const [visibleCategories, setVisibleCategories] = useState(3);
+  const [visibleCategories, setVisibleCategories] = useState(3); // show 3 category sections at a time
   const observer = useRef();
   const navigate = useNavigate();
 
+  // Fetch posts in pages to build categories client-side
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true);
@@ -41,6 +42,7 @@ function AllCategories() {
     fetchPosts();
   }, [page]);
 
+  // Trending sidebar
   useEffect(() => {
     const fetchTrending = async () => {
       try {
@@ -53,6 +55,7 @@ function AllCategories() {
     fetchTrending();
   }, []);
 
+  // Filter & group posts into categories
   const filteredPosts = posts.filter(
     (post) =>
       post.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -70,36 +73,41 @@ function AllCategories() {
       .toLowerCase()
       .replace(/\s+/g, " ")
       .replace(/\b\w/g, (c) => c.toUpperCase());
+    if (!formattedCategory) return;
     if (!postsByCategory[formattedCategory]) postsByCategory[formattedCategory] = [];
     postsByCategory[formattedCategory].push(post);
   });
 
   const categoryEntries = Object.entries(postsByCategory);
 
+  // IO: after the last visible category intersects, reveal 3 more; if we lack data for more groups, fetch next page
   const lastCategoryRef = useCallback(
     (node) => {
-      if (loading || error) return;
+      if (loading) return;
       if (observer.current) observer.current.disconnect();
 
       observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          if (visibleCategories < categoryEntries.length) {
-            setVisibleCategories((prev) => prev + 3);
-          } else if (hasMore) {
-            setPage((prev) => prev + 1);
-          }
+        if (!entries[0].isIntersecting) return;
+
+        // Reveal next 3 category sections
+        setVisibleCategories((prev) => prev + 3);
+
+        // If we don't have enough grouped categories to show the next 3, fetch another page
+        const needMoreGroupsSoon = categoryEntries.length < visibleCategories + 3;
+        if (needMoreGroupsSoon && hasMore && !loading) {
+          setPage((prev) => prev + 1);
         }
       });
 
       if (node) observer.current.observe(node);
     },
-    [loading, error, visibleCategories, categoryEntries.length, hasMore]
+    [loading, hasMore, visibleCategories, categoryEntries.length]
   );
 
   return (
     <div className="all-categories-page">
       <div className="category-searchbar-wrapper">
-        <button className="back-icon" onClick={() => navigate()}>
+        <button className="back-icon" onClick={() => navigate(-1)}>
           <BackArrow />
         </button>
 
@@ -128,103 +136,106 @@ function AllCategories() {
           <p>No posts available for your search.</p>
         </div>
       ) : (
-        categoryEntries.slice(0, visibleCategories).map(([category, posts], index) => {
-          const isLast = index === visibleCategories - 1;
+        (() => {
+          const visibleCategoryEntries = categoryEntries.slice(0, visibleCategories);
+          return visibleCategoryEntries.map(([category, posts], index) => {
+            const isLastVisible = index === visibleCategoryEntries.length - 1;
 
-          return (
-            <React.Fragment key={category}>
-              <section
-                className="category-block"
-                ref={isLast ? lastCategoryRef : null}
-              >
-                <h2 className="category-title">#{category}</h2>
-
-                <div className="category-slider">
-                  {posts.slice(0, 5).map((post) => {
-                    const isLocked = post.isPremium && (!user || !user.isSubscriber);
-                    const target = isLocked ? "/subscribe" : `/post/${post._id}`;
-
-                    return (
-                      <div className="slider-post-card" key={post._id}>
-                        <Link to={target} className="slider-post-card-link">
-                          <div className="slider-post-card-inner">
-                            {post.image && (
-                              <div className={`fixed-image-wrapper1 ${isLocked ? "premium-locked" : ""}`}>
-                                <img
-                                  src={post.image.startsWith("http") ? post.image : `${API_URL}/${post.image}`}
-                                  alt={post.title}
-                                  className={`fixed-image1 ${isLocked ? "blurred-content" : ""}`}
-                                />
-                                {isLocked && (
-                                  <div className="locked-banner small">
-                                    <Lock size={14} style={{ marginRight: "6px" }} />
-                                    Subscribe to view
-                                  </div>
-                                )}
-                              </div>
-                            )}
-
-                            <div className="slider-post-card-content">
-                              <div className="profile-link verified-user">
-                                <span className="slider-post-card-author">
-                                  @{post.author.username}
-                                </span>
-                                {post.author?.isSubscriber && (
-                                  <span className="verified-circle">
-                                    <Check size={12} color="white" strokeWidth={3} />
-                                  </span>
-                                )}
-                              </div>
-                              <h3 className="slider-post-card-title">#{post.title}</h3>
-                              <p className="slider-post-card-snippet">
-                                {post.content.substring(0, 80)}...
-                              </p>
-                              <p><strong>Category:</strong> {post.category || "Uncategorized"}</p>
-                              <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
-                            </div>
-                          </div>
-                        </Link>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                <Link
-                  to={`/category/${encodeURIComponent(category)}`}
-                  className="view-all-premium-btn"
+            return (
+              <React.Fragment key={category}>
+                <section
+                  className="category-block"
+                  ref={isLastVisible ? lastCategoryRef : null}
                 >
-                  View All Posts →
-                </Link>
+                  <h2 className="category-title">#{category}</h2>
 
-                <hr className="category-divider" />
-              </section>
+                  <div className="category-slider">
+                    {posts.slice(0, 5).map((post) => {
+                      const isLocked = post.isPremium && (!user || !user.isSubscriber);
+                      const target = isLocked ? "/subscribe" : `/post/${post._id}`;
 
-              {index === 1 && (
-                <div className="trending-categories-section">
-                  <h3 className="premium-heading">Trending Posts</h3>
-                  {trendingPosts.map((post) => (
-                    <Link
-                      to={`/post/${post._id}`}
-                      key={post._id}
-                      className="premium-item"
-                    >
-                      <div className="premium-text">
-                        <small className="premium-meta">
-                          {post.category || "General"} · Trending
-                        </small>
-                        <span className="item-title">#{post.title}</span>
-                        <small className="premium-meta">
-                          {post.views ? post.views.toLocaleString() + " views" : "Popular post"}
-                        </small>
-                      </div>
-                      <MoreHorizontal size={18} />
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </React.Fragment>
-          );
-        })
+                      return (
+                        <div className="slider-post-card" key={post._id}>
+                          <Link to={target} className="slider-post-card-link">
+                            <div className="slider-post-card-inner">
+                              {post.image && (
+                                <div className={`fixed-image-wrapper1 ${isLocked ? "premium-locked" : ""}`}>
+                                  <img
+                                    src={post.image.startsWith("http") ? post.image : `${API_URL}/${post.image}`}
+                                    alt={post.title}
+                                    className={`fixed-image1 ${isLocked ? "blurred-content" : ""}`}
+                                  />
+                                  {isLocked && (
+                                    <div className="locked-banner small">
+                                      <Lock size={14} style={{ marginRight: "6px" }} />
+                                      Subscribe to view
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+
+                              <div className="slider-post-card-content">
+                                <div className="profile-link verified-user">
+                                  <span className="slider-post-card-author">
+                                    @{post.author.username}
+                                  </span>
+                                  {post.author?.isSubscriber && (
+                                    <span className="verified-circle">
+                                      <Check size={12} color="white" strokeWidth={3} />
+                                    </span>
+                                  )}
+                                </div>
+                                <h3 className="slider-post-card-title">#{post.title}</h3>
+                                <p className="slider-post-card-snippet">
+                                  {post.content.substring(0, 80)}...
+                                </p>
+                                <p><strong>Category:</strong> {post.category || "Uncategorized"}</p>
+                                <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
+                              </div>
+                            </div>
+                          </Link>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <Link
+                    to={`/category/${encodeURIComponent(category)}`}
+                    className="view-all-premium-btn"
+                  >
+                    View All Posts →
+                  </Link>
+
+                  <hr className="category-divider" />
+                </section>
+
+                {index === 1 && (
+                  <div className="trending-categories-section">
+                    <h3 className="premium-heading">Trending Posts</h3>
+                    {trendingPosts.map((post) => (
+                      <Link
+                        to={`/post/${post._id}`}
+                        key={post._id}
+                        className="premium-item"
+                      >
+                        <div className="premium-text">
+                          <small className="premium-meta">
+                            {post.category || "General"} · Trending
+                          </small>
+                          <span className="item-title">#{post.title}</span>
+                          <small className="premium-meta">
+                            {post.views ? post.views.toLocaleString() + " views" : "Popular post"}
+                          </small>
+                        </div>
+                        <MoreHorizontal size={18} />
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </React.Fragment>
+            );
+          });
+        })()
       )}
 
       {loading && posts.length > 0 && (
@@ -232,6 +243,13 @@ function AllCategories() {
           <span className="spinner" />
         </div>
       )}
+
+      {error && (
+  <div className="error-message">
+    Failed to load posts. Please try again later.
+  </div>
+)}
+
 
       <BottomNav />
     </div>
