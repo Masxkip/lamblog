@@ -33,36 +33,37 @@ function Home() {
   const [expiryDateFormatted, setExpiryDateFormatted] = useState("");
   const [subscriptionExpired, setSubscriptionExpired] = useState(false);
   const observer = useRef();
+  const errorTimeoutRef = useRef(null);
 
- const fetchPosts = useCallback(async () => {
-  setLoading(true);
-  setError(false);
+   const fetchPosts = useCallback(async () => {
+    setLoading(true);
+    setError(false);
 
-  try {
-    const queryParams = [`page=${page}`, `limit=10`];
-    if (search) queryParams.push(`search=${search}`);
-    if (category) queryParams.push(`category=${category}`);
+    try {
+      const queryParams = [`page=${page}`, `limit=10`];
+      if (search) queryParams.push(`search=${search}`);
+      if (category) queryParams.push(`category=${category}`);
 
       const res = await axios.get(`${API_URL}/api/posts?${queryParams.join("&")}`);
-    setPosts((prev) => [...prev, ...res.data.posts]);
-    setHasMore(res.data.hasMore);
- } catch (err) {
-  setError(true);
-  setPage((prev) => Math.max(prev - 1, 1));
+      setPosts((prev) => [...prev, ...res.data.posts]);
+      setHasMore(res.data.hasMore);
+      setLoading(false); // Success path
+    } catch (err) {
+      setError(true);
+      setPage((prev) => Math.max(prev - 1, 1));
 
-  // ⏳ Delay showing the visual error for 10 seconds
-  setTimeout(() => {
-    setShowError(true);
-  }, 10000);
+      errorTimeoutRef.current = setTimeout(() => {
+        setShowError(true);
+        setLoading(false);
+      }, 10000);
 
-  console.error("Error fetching posts:", err);
-} finally {
-    setLoading(false);
-  }
-}, [page, search, category]);
+      console.error("Error fetching posts:", err);
+    }
+  }, [page, search, category]);
 
-
-
+  useEffect(() => {
+    return () => clearTimeout(errorTimeoutRef.current);
+  }, []);
 
 
   const fetchCategories = useCallback(async () => {
