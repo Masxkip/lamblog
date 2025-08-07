@@ -1,5 +1,3 @@
-// AllCategories.jsx with paginated post fetching and category block pagination
-
 import React, { useEffect, useState, useContext, useRef, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -13,33 +11,27 @@ const API_URL = import.meta.env.VITE_BACKEND_URL;
 function AllCategories() {
   const { user } = useContext(AuthContext);
   const [posts, setPosts] = useState([]);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [trendingPosts, setTrendingPosts] = useState([]);
-  const [visibleCategories, setVisibleCategories] = useState(6);
+  const [loading, setLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(3);
   const observer = useRef();
+
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPosts = async () => {
-      setLoading(true);
-      setError(false);
       try {
-        const res = await axios.get(`${API_URL}/api/posts?page=${page}&limit=60`);
-        setPosts((prev) => [...prev, ...res.data.posts]);
-        setHasMore(res.data.hasMore);
+        const res = await axios.get(`${API_URL}/api/posts`);
+        setPosts(res.data);
       } catch (err) {
-        setError(true);
         console.error("Failed to fetch posts", err);
       } finally {
         setLoading(false);
       }
     };
     fetchPosts();
-  }, [page]);
+  }, []);
 
   useEffect(() => {
     const fetchTrending = async () => {
@@ -76,30 +68,25 @@ function AllCategories() {
 
   const categoryEntries = Object.entries(postsByCategory);
 
-  const lastCategoryRef = useCallback(
-    (node) => {
-      if (loading || error) return;
-      if (observer.current) observer.current.disconnect();
+  const lastCategoryRef = useCallback((node) => {
+    if (loading) return;
+    if (observer.current) observer.current.disconnect();
 
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          if (visibleCategories < categoryEntries.length) {
-            setVisibleCategories((prev) => prev + 3);
-          } else if (hasMore) {
-            setPage((prev) => prev + 1);
-          }
-        }
-      });
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && visibleCount < categoryEntries.length) {
+        setTimeout(() => {
+          setVisibleCount((prev) => prev + 3);
+        }, 800);
+      }
+    });
 
-      if (node) observer.current.observe(node);
-    },
-    [loading, error, visibleCategories, categoryEntries.length, hasMore]
-  );
+    if (node) observer.current.observe(node);
+  }, [loading, visibleCount, categoryEntries.length]);
 
   return (
     <div className="all-categories-page">
       <div className="category-searchbar-wrapper">
-        <button className="back-icon" onClick={() => navigate()}>
+        <button className="back-icon" onClick={() => navigate(-1)}>
           <BackArrow />
         </button>
 
@@ -115,21 +102,22 @@ function AllCategories() {
       {searchTerm && (
         <div className="search-results-heading">
           Showing {filteredPosts.length} result
-          {filteredPosts.length !== 1 ? "s" : ""} for: <strong>"{searchTerm}"</strong>
+          {filteredPosts.length !== 1 ? "s" : ""} for:{" "}
+          <strong>"{searchTerm}"</strong>
         </div>
       )}
 
-      {loading && posts.length === 0 ? (
-        <div className="full-page-spinner">
-          <span className="spinner1" />
-        </div>
+      {loading ? (
+           <div className="full-page-spinner">
+    <span className="spinner1" />
+  </div>
       ) : categoryEntries.length === 0 ? (
         <div className="no-posts-message">
           <p>No posts available for your search.</p>
         </div>
       ) : (
-        categoryEntries.slice(0, visibleCategories).map(([category, posts], index) => {
-          const isLast = index === visibleCategories - 1;
+        categoryEntries.slice(0, visibleCount).map(([category, posts], index) => {
+          const isLast = index === visibleCount - 1;
 
           return (
             <React.Fragment key={category}>
@@ -148,6 +136,7 @@ function AllCategories() {
                       <div className="slider-post-card" key={post._id}>
                         <Link to={target} className="slider-post-card-link">
                           <div className="slider-post-card-inner">
+                            {/* Image section */}
                             {post.image && (
                               <div className={`fixed-image-wrapper1 ${isLocked ? "premium-locked" : ""}`}>
                                 <img
@@ -164,6 +153,7 @@ function AllCategories() {
                               </div>
                             )}
 
+                            {/* Text content */}
                             <div className="slider-post-card-content">
                               <div className="profile-link verified-user">
                                 <span className="slider-post-card-author">
@@ -179,8 +169,13 @@ function AllCategories() {
                               <p className="slider-post-card-snippet">
                                 {post.content.substring(0, 80)}...
                               </p>
-                              <p><strong>Category:</strong> {post.category || "Uncategorized"}</p>
-                              <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
+                              <p>
+                                <strong>Category:</strong> {post.category || "Uncategorized"}
+                              </p>
+                              <p>
+                                <strong>Published:</strong>{" "}
+                                {new Date(post.createdAt).toLocaleString()}
+                              </p>
                             </div>
                           </div>
                         </Link>
@@ -214,7 +209,9 @@ function AllCategories() {
                         </small>
                         <span className="item-title">#{post.title}</span>
                         <small className="premium-meta">
-                          {post.views ? post.views.toLocaleString() + " views" : "Popular post"}
+                          {post.views
+                            ? post.views.toLocaleString() + " views"
+                            : "Popular post"}
                         </small>
                       </div>
                       <MoreHorizontal size={18} />
@@ -227,7 +224,7 @@ function AllCategories() {
         })
       )}
 
-      {loading && posts.length > 0 && (
+      {visibleCount < categoryEntries.length && (
         <div className="infinite-spinner">
           <span className="spinner" />
         </div>
