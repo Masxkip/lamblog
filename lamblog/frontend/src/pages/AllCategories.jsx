@@ -19,7 +19,7 @@ function AllCategories() {
   const [error, setError] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [trendingPosts, setTrendingPosts] = useState([]);
-  const [visibleCategories, setVisibleCategories] = useState(6);
+  const [visibleCategories, setVisibleCategories] = useState(3);
   const observer = useRef();
   const navigate = useNavigate();
 
@@ -99,7 +99,7 @@ function AllCategories() {
   return (
     <div className="all-categories-page">
       <div className="category-searchbar-wrapper">
-        <button className="back-icon" onClick={() => navigate(-1)}>
+        <button className="back-icon" onClick={() => navigate()}>
           <BackArrow />
         </button>
 
