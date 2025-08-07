@@ -19,19 +19,20 @@ function AllCategories() {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const res = await axios.get(`${API_URL}/api/posts`);
-        setPosts(res.data);
-      } catch (err) {
-        console.error("Failed to fetch posts", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchPosts();
-  }, []);
+useEffect(() => {
+  const fetchPosts = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/api/posts?page=1&limit=50`);
+      setPosts(res.data.posts || []); // ✅ use array from backend
+    } catch (err) {
+      console.error("Failed to fetch posts", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchPosts();
+}, []);
+
 
   useEffect(() => {
     const fetchTrending = async () => {
@@ -67,21 +68,23 @@ function AllCategories() {
   });
 
   const categoryEntries = Object.entries(postsByCategory);
+  
 
-  const lastCategoryRef = useCallback((node) => {
-    if (loading) return;
-    if (observer.current) observer.current.disconnect();
+const lastCategoryRef = useCallback((node) => {
+  if (loading) return;
+  if (observer.current) observer.current.disconnect();
 
-    observer.current = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && visibleCount < categoryEntries.length) {
-        setTimeout(() => {
-          setVisibleCount((prev) => prev + 3);
-        }, 800);
-      }
-    });
+  observer.current = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && visibleCount < categoryEntries.length) {
+      setTimeout(() => {
+        setVisibleCount((prev) => prev + 3); // ✅ load next 3 categories
+      }, 800);
+    }
+  });
 
-    if (node) observer.current.observe(node);
-  }, [loading, visibleCount, categoryEntries.length]);
+  if (node) observer.current.observe(node);
+}, [loading, visibleCount, categoryEntries.length]);
+
 
   return (
     <div className="all-categories-page">
