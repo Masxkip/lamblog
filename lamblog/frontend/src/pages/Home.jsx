@@ -42,7 +42,9 @@ function Home() {
     if (search) queryParams.push(`search=${search}`);
     if (category) queryParams.push(`category=${category}`);
 
-    const res = await axios.get(`${API_URL}/api/posts?${queryParams.join("&")}`);
+     const res = await axios.get(`${API_URL}/api/posts?${queryParams.join("&")}`, {
+        timeout: 10000,
+      });
     setPosts((prev) => [...prev, ...res.data.posts]);
     setHasMore(res.data.hasMore);
   } catch (err) {
