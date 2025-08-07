@@ -22,6 +22,7 @@ function Home() {
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [showError, setShowError] = useState(false);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
   const [categories, setCategories] = useState([]);
@@ -42,16 +43,20 @@ function Home() {
     if (search) queryParams.push(`search=${search}`);
     if (category) queryParams.push(`category=${category}`);
 
-     const res = await axios.get(`${API_URL}/api/posts?${queryParams.join("&")}`, {
-        timeout: 10000,
-      });
+      const res = await axios.get(`${API_URL}/api/posts?${queryParams.join("&")}`);
     setPosts((prev) => [...prev, ...res.data.posts]);
     setHasMore(res.data.hasMore);
-  } catch (err) {
-    setError(true);
-    setPage((prev) => Math.max(prev - 1, 1));
-    console.error("Error fetching posts:", err);
-  } finally {
+ } catch (err) {
+  setError(true);
+  setPage((prev) => Math.max(prev - 1, 1));
+
+  // ⏳ Delay showing the visual error for 10 seconds
+  setTimeout(() => {
+    setShowError(true);
+  }, 10000);
+
+  console.error("Error fetching posts:", err);
+} finally {
     setLoading(false);
   }
 }, [page, search, category]);
@@ -304,12 +309,18 @@ function Home() {
           </div>
         )}
 
-       {error && (
+{showError && error && (
   <div className="error-message">
     Failed to load more posts. Please check your connection.
-    <button onClick={() => setError(false)}>Retry</button>
+    <button onClick={() => {
+      setError(false);
+      setShowError(false);
+    }}>
+      Retry
+    </button>
   </div>
 )}
+
 
         {!hasMore && !loading && (
           <div className="end-of-posts-message">
