@@ -320,13 +320,6 @@ function Home() {
     </button>
   </div>
 )}
-
-
-        {!hasMore && !loading && (
-          <div className="end-of-posts-message">
-            🎉 You've reached the end!
-          </div>
-        )}
       </main>
 
       <aside className="subscription-section">
