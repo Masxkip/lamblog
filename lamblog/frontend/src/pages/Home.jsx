@@ -21,7 +21,7 @@ function Home() {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
-
+  const [error, setError] = useState(false);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
   const [categories, setCategories] = useState([]);
@@ -33,27 +33,29 @@ function Home() {
   const [subscriptionExpired, setSubscriptionExpired] = useState(false);
   const observer = useRef();
 
-  const fetchPosts = useCallback(async () => {
-    setLoading(true);
- 
-    try {
-      const queryParams = [`page=${page}`, `limit=10`];
-      if (search) queryParams.push(`search=${search}`);
-      if (category) queryParams.push(`category=${category}`);
+ const fetchPosts = useCallback(async () => {
+  setLoading(true);
+  setError(false);
 
-      const res = await axios.get(`${API_URL}/api/posts?${queryParams.join("&")}`, {
-        timeout: 10000,
-      });
+  try {
+    const queryParams = [`page=${page}`, `limit=10`];
+    if (search) queryParams.push(`search=${search}`);
+    if (category) queryParams.push(`category=${category}`);
 
-      setPosts((prev) => [...prev, ...res.data.posts]);
-      setHasMore(res.data.hasMore);
-    } catch (err) {
-    
-      console.error("Error fetching posts:", err);
-    } finally {
-      setLoading(false);
-    }
-  }, [page, search, category]);
+    const res = await axios.get(`${API_URL}/api/posts?${queryParams.join("&")}`);
+    setPosts((prev) => [...prev, ...res.data.posts]);
+    setHasMore(res.data.hasMore);
+  } catch (err) {
+    setError(true);
+    console.error("Error fetching posts:", err);
+  } finally {
+    setLoading(false);
+  }
+}, [page, search, category]);
+
+
+
+
 
   const fetchCategories = useCallback(async () => {
     try {
@@ -66,6 +68,9 @@ function Home() {
       console.error("Error fetching categories:", err);
     }
   }, []);
+
+
+
 
   const lastPostRef = useCallback(
     (node) => {
@@ -295,8 +300,17 @@ function Home() {
           </div>
         )}
 
+        {error && (
+          <div className="error-message">
+            Failed to load more posts. Please check your connection.
+          </div>
+        )}
 
-
+        {!hasMore && !loading && (
+          <div className="end-of-posts-message">
+            🎉 You've reached the end!
+          </div>
+        )}
       </main>
 
       <aside className="subscription-section">
