@@ -66,17 +66,16 @@ function Home() {
   }, []);
 
 
-  const fetchCategories = useCallback(async () => {
-    try {
-      const res = await axios.get(`${API_URL}/api/posts`);
-      const uniqueCategories = [
-        ...new Set(res.data.map((post) => post.category).filter(Boolean)),
-      ];
-      setCategories(uniqueCategories);
-    } catch (err) {
-      console.error("Error fetching categories:", err);
-    }
-  }, []);
+  
+
+ const fetchCategories = useCallback(async () => {
+  try {
+    const res = await axios.get(`${API_URL}/api/posts/categories`);
+    setCategories(res.data);
+  } catch (err) {
+    console.error("Error fetching categories:", err);
+  }
+}, []);
 
 
 
