@@ -21,19 +21,19 @@ function MobileSidebar({ isOpen, onClose }) {
 
 
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const res = await axios.get(`${API_URL}/api/posts`);
-        const unique = [...new Set(res.data.map((post) => post.category))];
-        setCategories(unique);
-      } catch (err) {
-        console.error("Error fetching categories", err);
-      }
-    };
-  
-    fetchCategories();
-  }, []);
+useEffect(() => {
+  const fetchCategories = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/api/posts/categories`);
+      setCategories(res.data);
+    } catch (err) {
+      console.error("Error fetching categories", err);
+    }
+  };
+
+  fetchCategories();
+}, []);
+
 
 
    /* ---------------- Premium (only for subscribers) ---------------- */
