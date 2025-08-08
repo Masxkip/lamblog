@@ -118,6 +118,11 @@ function AllCategories() {
     [loading, error, hasMore]
   );
 
+  if (!loading && !error && hasMore) {
+  setLoading(true);
+  setPage(prev => prev + 1);
+}
+
   return (
     <div className="all-categories-page">
       {/* Search bar */}
@@ -156,9 +161,9 @@ function AllCategories() {
         return (
           <React.Fragment key={category}>
             <section
-              className="category-block"
-              ref={isLast ? lastCategoryRef : null}
-            >
+      key={category}
+      ref={isLast ? lastCategoryRef : null}
+    >
               <h2 className="category-title">#{category}</h2>
 
               <div className="category-slider">
@@ -261,11 +266,11 @@ function AllCategories() {
       })}
 
       {/* Spinner */}
-      {loading && (
-        <div className="infinite-spinner">
-          <span className="spinner" />
-        </div>
-      )}
+     {loading && hasMore && (
+  <div className="infinite-spinner">
+    <span className="spinner" />
+  </div>
+)}
 
       {/* Error banner */}
       {showError && error && (
