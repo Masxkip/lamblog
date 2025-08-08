@@ -69,21 +69,20 @@ useEffect(() => {
 
   const categoryEntries = Object.entries(postsByCategory);
 
-const lastCategoryRef = useCallback((node) => {
-  if (loading) return;
-  if (observer.current) observer.current.disconnect();
+  const lastCategoryRef = useCallback((node) => {
+    if (loading) return;
+    if (observer.current) observer.current.disconnect();
 
-  observer.current = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting && visibleCount < categoryEntries.length) {
-      setTimeout(() => {
-        setVisibleCount((prev) => prev + 3); // ✅ load next 3 categories
-      }, 800);
-    }
-  });
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && visibleCount < categoryEntries.length) {
+        setTimeout(() => {
+          setVisibleCount((prev) => prev + 3);
+        }, 800);
+      }
+    });
 
-  if (node) observer.current.observe(node);
-}, [loading, visibleCount, categoryEntries.length]);
-
+    if (node) observer.current.observe(node);
+  }, [loading, visibleCount, categoryEntries.length]);
 
   return (
     <div className="all-categories-page">
