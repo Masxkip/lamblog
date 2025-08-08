@@ -19,20 +19,19 @@ function AllCategories() {
 
   const navigate = useNavigate();
 
-useEffect(() => {
-  const fetchPosts = async () => {
-    try {
-      const res = await axios.get(`${API_URL}/api/posts?page=1&limit=50`);
-      setPosts(res.data.posts || []); // ✅ use array from backend
-    } catch (err) {
-      console.error("Failed to fetch posts", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-  fetchPosts();
-}, []);
-
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/api/posts`);
+        setPosts(res.data);
+      } catch (err) {
+        console.error("Failed to fetch posts", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPosts();
+  }, []);
 
   useEffect(() => {
     const fetchTrending = async () => {
