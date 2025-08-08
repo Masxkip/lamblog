@@ -13,67 +13,125 @@ function CategoryPosts() {
   const { user } = useContext(AuthContext);
   const { name } = useParams();
 
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [visibleCount, setVisibleCount] = useState(6);
-
+  // ---- normalized category (Title Case, single spaces) ----
   const normalizedCategory = name
     ?.trim()
     .toLowerCase()
     .replace(/\s+/g, " ")
     .replace(/\b\w/g, (c) => c.toUpperCase());
 
-  // Fetch posts when category changes
+  // ---- pagination + network state ----
+  const [posts, setPosts] = useState([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+
+  const [loadingInitial, setLoadingInitial] = useState(true); // first page
+  const [loadingMore, setLoadingMore] = useState(false);      // next pages
+  const [error, setError] = useState(null);                   // { message }
+  const [isOffline, setIsOffline] = useState(!navigator.onLine);
+
+  const limit = 9; // how many to fetch per page (tweak to taste)
+
+  // AbortController for in-flight requests (cancel on unmount/category switch)
+  const abortRef = useRef(null);
+
+  // ---- online/offline listeners ----
   useEffect(() => {
-    const fetchPosts = async () => {
-      setLoading(true);
-      try {
-        const res = await axios.get(`${API_URL}/api/posts`, {
-          params: { category: normalizedCategory, page: 1, limit: 100 },
-        });
-        const list = Array.isArray(res.data?.posts) ? res.data.posts : [];
-        const sorted = list.sort(
-          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-        );
-        setPosts(sorted);
-      } catch (err) {
-        console.error("Failed to fetch posts by category", err);
-        setPosts([]);
-      } finally {
-        setLoading(false);
-      }
+    const handleOnline = () => setIsOffline(false);
+    const handleOffline = () => setIsOffline(true);
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
     };
+  }, []);
 
-    fetchPosts();
-  }, [normalizedCategory]);
+  // ---- fetch function that shows spinner for actual network time ----
+ const fetchPage = useCallback(
+  async (pageToLoad, isFirstPage = false) => {
+    if (isOffline) {
+      setError({ message: "You’re offline. Check your connection and retry." });
+      return;
+    }
 
-  // Reset visible count when category changes
-  useEffect(() => {
-    setVisibleCount(6);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [normalizedCategory]);
+    if (abortRef.current) abortRef.current.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
 
-  // Infinite scroll observer
-  const observer = useRef();
-  const lastPostRef = useCallback(
-    (node) => {
-      if (loading) return;
-      if (observer.current) observer.current.disconnect();
+    setError(null);
+    if (isFirstPage) setLoadingInitial(true);
+    else setLoadingMore(true);
 
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && visibleCount < posts.length) {
-          setTimeout(() => {
-            setVisibleCount((prev) => prev + 6);
-          }, 800); // small UX delay for spinner
-        }
+    const start = performance.now();
+
+    try {
+      const res = await axios.get(`${API_URL}/api/posts`, {
+        params: { category: normalizedCategory, page: pageToLoad, limit },
+        signal: controller.signal,
+        timeout: 15000,
       });
 
+      const list = Array.isArray(res.data?.posts) ? res.data.posts : [];
+      setHasMore(Boolean(res.data?.hasMore));
+
+      setPosts(prev => (pageToLoad === 1 ? list : [...prev, ...list]));
+      setPage(pageToLoad + 1);
+    } catch (err) {
+      if (axios.isCancel(err)) return;
+      let message = "Failed to load posts. Please try again.";
+      if (err.code === "ECONNABORTED") message = "Request timed out. Retry?";
+      if (err.response?.status >= 500) message = "Server error. Please retry.";
+      if (!navigator.onLine) message = "You’re offline. Check connection and retry.";
+      setError({ message });
+    } finally {
+      const elapsed = performance.now() - start;
+      const minSpinner = 250;
+      const wait = elapsed < minSpinner ? minSpinner - elapsed : 0;
+      await new Promise(r => setTimeout(r, wait));
+      if (isFirstPage) setLoadingInitial(false);
+      else setLoadingMore(false);
+    }
+  },
+  [normalizedCategory, isOffline] // ⬅ removed API_URL
+);
+
+
+  // ---- (re)load first page when category changes ----
+  useEffect(() => {
+    setPosts([]);
+    setPage(1);
+    setHasMore(true);
+    setError(null);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    fetchPage(1, true);
+    return () => {
+      if (abortRef.current) abortRef.current.abort();
+    };
+  }, [normalizedCategory, fetchPage]);
+
+  // ---- infinite scroll (IntersectionObserver) ----
+  const observer = useRef(null);
+  const lastPostRef = useCallback(
+    (node) => {
+      if (loadingInitial || loadingMore || !hasMore || error || isOffline) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          fetchPage(page, false);
+        }
+      });
       if (node) observer.current.observe(node);
     },
-    [loading, visibleCount, posts.length]
+    [loadingInitial, loadingMore, hasMore, error, isOffline, fetchPage, page]
   );
 
-  const paginatedPosts = posts.slice(0, visibleCount);
+  // ---- retry button handler ----
+  const handleRetry = () => {
+    setError(null);
+    // If nothing loaded yet, retry first page; otherwise retry current page
+    fetchPage(posts.length ? page : 1, !posts.length);
+  };
 
   return (
     <div className="category-posts-page">
@@ -85,18 +143,32 @@ function CategoryPosts() {
         <DynamicArrow />
       </div>
 
-      {loading ? (
+      {/* offline banner */}
+      {isOffline && (
+        <div className="network-banner offline">
+          You’re offline. We’ll resume loading when you’re back online.
+        </div>
+      )}
+
+      {/* initial load */}
+      {loadingInitial ? (
         <div className="full-page-spinner">
           <span className="spinner1" />
+          <div className="spinner-note">Loading posts…</div>
+        </div>
+      ) : error && posts.length === 0 ? (
+        <div className="error-block">
+          <p>{error.message}</p>
+          <button className="retry-btn" onClick={handleRetry}>Retry</button>
         </div>
       ) : posts.length === 0 ? (
         <p>No posts found under this category.</p>
       ) : (
         <div className="category-posts-container">
-          {paginatedPosts.map((post, index) => {
+          {posts.map((post, index) => {
             const isLocked = post.isPremium && (!user || !user.isSubscriber);
-            const isLast = index === paginatedPosts.length - 1;
             const target = isLocked ? "/subscribe" : `/post/${post._id}`;
+            const isLast = index === posts.length - 1;
 
             const imgSrc =
               post.image && (post.image.startsWith("http") ? post.image : `${API_URL}/${post.image}`);
@@ -114,6 +186,7 @@ function CategoryPosts() {
                         src={imgSrc}
                         alt={post.title || "Post"}
                         className={`fixed-image2 ${isLocked ? "blurred-content" : ""}`}
+                        loading="lazy"
                       />
                       {isLocked && (
                         <div className="locked-banner small">
@@ -150,9 +223,18 @@ function CategoryPosts() {
         </div>
       )}
 
-      {visibleCount < posts.length && (
+      {/* load-more spinner */}
+      {!loadingInitial && !error && hasMore && (
         <div className="infinite-spinner">
-          <span className="spinner" />
+          {loadingMore ? <span className="spinner" /> : null}
+        </div>
+      )}
+
+      {/* error while loading more (show inline with retry) */}
+      {!loadingInitial && error && posts.length > 0 && (
+        <div className="error-inline">
+          <span>{error.message}</span>
+          <button className="retry-btn small" onClick={handleRetry}>Retry</button>
         </div>
       )}
 
