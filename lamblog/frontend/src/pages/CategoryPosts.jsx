@@ -26,12 +26,19 @@ function CategoryPosts() {
   // Fetch posts when category changes
   useEffect(() => {
     const fetchPosts = async () => {
+      setLoading(true);
       try {
-        const res = await axios.get(`${API_URL}/api/posts?category=${encodeURIComponent(normalizedCategory)}`);
-        const sortedPosts = res.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        setPosts(sortedPosts);
+        const res = await axios.get(`${API_URL}/api/posts`, {
+          params: { category: normalizedCategory, page: 1, limit: 100 },
+        });
+        const list = Array.isArray(res.data?.posts) ? res.data.posts : [];
+        const sorted = list.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+        setPosts(sorted);
       } catch (err) {
         console.error("Failed to fetch posts by category", err);
+        setPosts([]);
       } finally {
         setLoading(false);
       }
@@ -48,21 +55,23 @@ function CategoryPosts() {
 
   // Infinite scroll observer
   const observer = useRef();
+  const lastPostRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
 
-  const lastPostRef = useCallback((node) => {
-    if (loading) return;
-    if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && visibleCount < posts.length) {
+          setTimeout(() => {
+            setVisibleCount((prev) => prev + 6);
+          }, 800); // small UX delay for spinner
+        }
+      });
 
-    observer.current = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && visibleCount < posts.length) {
-        setTimeout(() => {
-          setVisibleCount((prev) => prev + 6);
-        }, 800); // Simulated delay
-      }
-    });
-
-    if (node) observer.current.observe(node);
-  }, [loading, visibleCount, posts.length]);
+      if (node) observer.current.observe(node);
+    },
+    [loading, visibleCount, posts.length]
+  );
 
   const paginatedPosts = posts.slice(0, visibleCount);
 
@@ -77,9 +86,9 @@ function CategoryPosts() {
       </div>
 
       {loading ? (
-           <div className="full-page-spinner">
-    <span className="spinner1" />
-  </div>
+        <div className="full-page-spinner">
+          <span className="spinner1" />
+        </div>
       ) : posts.length === 0 ? (
         <p>No posts found under this category.</p>
       ) : (
@@ -89,6 +98,9 @@ function CategoryPosts() {
             const isLast = index === paginatedPosts.length - 1;
             const target = isLocked ? "/subscribe" : `/post/${post._id}`;
 
+            const imgSrc =
+              post.image && (post.image.startsWith("http") ? post.image : `${API_URL}/${post.image}`);
+
             return (
               <div
                 key={post._id}
@@ -96,11 +108,11 @@ function CategoryPosts() {
                 className="category-post-card"
               >
                 <Link to={target}>
-                  {post.image && (
+                  {imgSrc && (
                     <div className={`fixed-image-wrapper2 ${isLocked ? "premium-locked" : ""}`}>
                       <img
-                        src={post.image}
-                        alt="Post"
+                        src={imgSrc}
+                        alt={post.title || "Post"}
                         className={`fixed-image2 ${isLocked ? "blurred-content" : ""}`}
                       />
                       {isLocked && (
@@ -115,7 +127,7 @@ function CategoryPosts() {
                   <div className="premium-page-card-content">
                     <div className="profile-link verified-user">
                       <span className="slider-post-card-author">
-                        @{post.author.username}
+                        @{post.author?.username || "user"}
                       </span>
                       {post.author?.isSubscriber && (
                         <span className="verified-circle">
@@ -126,7 +138,7 @@ function CategoryPosts() {
 
                     <h3 className="premium-page-title">#{post.title}</h3>
                     <p className="premium-page-snippet">
-                      {post.content.substring(0, 80)}...
+                      {post.content?.substring(0, 80)}...
                     </p>
                     <p><strong>Category:</strong> {post.category || "Uncategorized"}</p>
                     <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
