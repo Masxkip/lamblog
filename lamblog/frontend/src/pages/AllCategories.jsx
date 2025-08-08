@@ -22,10 +22,12 @@ function AllCategories() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await axios.get(`${API_URL}/api/posts`);
-        setPosts(res.data);
+        // pull a reasonable chunk so we can group by category
+        const res = await axios.get(`${API_URL}/api/posts?limit=200&page=1`);
+        setPosts(Array.isArray(res.data?.posts) ? res.data.posts : []);
       } catch (err) {
         console.error("Failed to fetch posts", err);
+        setPosts([]);
       } finally {
         setLoading(false);
       }
@@ -37,18 +39,19 @@ function AllCategories() {
     const fetchTrending = async () => {
       try {
         const res = await axios.get(`${API_URL}/api/posts/trending/posts`);
-        setTrendingPosts(res.data);
+        setTrendingPosts(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
         console.error("Failed to fetch trending posts", err);
+        setTrendingPosts([]);
       }
     };
     fetchTrending();
   }, []);
 
-  const filteredPosts = posts.filter(
+  const filteredPosts = (Array.isArray(posts) ? posts : []).filter(
     (post) =>
-      post.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.title?.toLowerCase().includes(searchTerm.toLowerCase())
+      post?.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post?.title?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const sortedPosts = filteredPosts.sort(
@@ -57,31 +60,32 @@ function AllCategories() {
 
   const postsByCategory = {};
   sortedPosts.forEach((post) => {
-    const formattedCategory = post.category
+    const formattedCategory = post?.category
       ?.trim()
       .toLowerCase()
       .replace(/\s+/g, " ")
-      .replace(/\b\w/g, (c) => c.toUpperCase());
+      .replace(/\b\w/g, (c) => c.toUpperCase()) || "Uncategorized";
     if (!postsByCategory[formattedCategory]) postsByCategory[formattedCategory] = [];
     postsByCategory[formattedCategory].push(post);
   });
 
   const categoryEntries = Object.entries(postsByCategory);
 
-  const lastCategoryRef = useCallback((node) => {
-    if (loading) return;
-    if (observer.current) observer.current.disconnect();
+  const lastCategoryRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
 
-    observer.current = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && visibleCount < categoryEntries.length) {
-        setTimeout(() => {
-          setVisibleCount((prev) => prev + 3);
-        }, 800);
-      }
-    });
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && visibleCount < categoryEntries.length) {
+          setTimeout(() => setVisibleCount((prev) => prev + 3), 800);
+        }
+      });
 
-    if (node) observer.current.observe(node);
-  }, [loading, visibleCount, categoryEntries.length]);
+      if (node) observer.current.observe(node);
+    },
+    [loading, visibleCount, categoryEntries.length]
+  );
 
   return (
     <div className="all-categories-page">
@@ -102,33 +106,29 @@ function AllCategories() {
       {searchTerm && (
         <div className="search-results-heading">
           Showing {filteredPosts.length} result
-          {filteredPosts.length !== 1 ? "s" : ""} for:{" "}
-          <strong>"{searchTerm}"</strong>
+          {filteredPosts.length !== 1 ? "s" : ""} for: <strong>"{searchTerm}"</strong>
         </div>
       )}
 
       {loading ? (
-           <div className="full-page-spinner">
-    <span className="spinner1" />
-  </div>
+        <div className="full-page-spinner">
+          <span className="spinner1" />
+        </div>
       ) : categoryEntries.length === 0 ? (
         <div className="no-posts-message">
           <p>No posts available for your search.</p>
         </div>
       ) : (
-        categoryEntries.slice(0, visibleCount).map(([category, posts], index) => {
+        categoryEntries.slice(0, visibleCount).map(([category, postsInCat], index) => {
           const isLast = index === visibleCount - 1;
 
           return (
             <React.Fragment key={category}>
-              <section
-                className="category-block"
-                ref={isLast ? lastCategoryRef : null}
-              >
+              <section className="category-block" ref={isLast ? lastCategoryRef : null}>
                 <h2 className="category-title">#{category}</h2>
 
                 <div className="category-slider">
-                  {posts.slice(0, 5).map((post) => {
+                  {postsInCat.slice(0, 5).map((post) => {
                     const isLocked = post.isPremium && (!user || !user.isSubscriber);
                     const target = isLocked ? "/subscribe" : `/post/${post._id}`;
 
@@ -138,9 +138,17 @@ function AllCategories() {
                           <div className="slider-post-card-inner">
                             {/* Image section */}
                             {post.image && (
-                              <div className={`fixed-image-wrapper1 ${isLocked ? "premium-locked" : ""}`}>
+                              <div
+                                className={`fixed-image-wrapper1 ${
+                                  isLocked ? "premium-locked" : ""
+                                }`}
+                              >
                                 <img
-                                  src={post.image.startsWith("http") ? post.image : `${API_URL}/${post.image}`}
+                                  src={
+                                    post.image.startsWith("http")
+                                      ? post.image
+                                      : `${API_URL}/${post.image}`
+                                  }
                                   alt={post.title}
                                   className={`fixed-image1 ${isLocked ? "blurred-content" : ""}`}
                                 />
@@ -157,17 +165,17 @@ function AllCategories() {
                             <div className="slider-post-card-content">
                               <div className="profile-link verified-user">
                                 <span className="slider-post-card-author">
-                                  @{post.author.username}
+                                  @{post.author?.username}
                                 </span>
                                 {post.author?.isSubscriber && (
                                   <span className="verified-circle">
-                                    <Check size={12} color="white" strokeWidth={3} />
+                                    <Check size={12} strokeWidth={3} />
                                   </span>
                                 )}
                               </div>
                               <h3 className="slider-post-card-title">#{post.title}</h3>
                               <p className="slider-post-card-snippet">
-                                {post.content.substring(0, 80)}...
+                                {post.content?.substring(0, 80)}...
                               </p>
                               <p>
                                 <strong>Category:</strong> {post.category || "Uncategorized"}
@@ -198,20 +206,14 @@ function AllCategories() {
                 <div className="trending-categories-section">
                   <h3 className="premium-heading">Trending Posts</h3>
                   {trendingPosts.map((post) => (
-                    <Link
-                      to={`/post/${post._id}`}
-                      key={post._id}
-                      className="premium-item"
-                    >
+                    <Link to={`/post/${post._id}`} key={post._id} className="premium-item">
                       <div className="premium-text">
                         <small className="premium-meta">
                           {post.category || "General"} · Trending
                         </small>
                         <span className="item-title">#{post.title}</span>
                         <small className="premium-meta">
-                          {post.views
-                            ? post.views.toLocaleString() + " views"
-                            : "Popular post"}
+                          {post.views ? `${post.views.toLocaleString()} views` : "Popular post"}
                         </small>
                       </div>
                       <MoreHorizontal size={18} />
