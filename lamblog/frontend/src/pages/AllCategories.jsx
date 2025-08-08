@@ -68,7 +68,6 @@ useEffect(() => {
   });
 
   const categoryEntries = Object.entries(postsByCategory);
-  
 
 const lastCategoryRef = useCallback((node) => {
   if (loading) return;
