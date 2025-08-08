@@ -14,8 +14,12 @@ function CategoryPosts() {
   const { name } = useParams();
 
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [visibleCount, setVisibleCount] = useState(6);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+
+  const observer = useRef();
 
   const normalizedCategory = name
     ?.trim()
@@ -23,48 +27,55 @@ function CategoryPosts() {
     .replace(/\s+/g, " ")
     .replace(/\b\w/g, (c) => c.toUpperCase());
 
-  // Fetch posts when category changes
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const res = await axios.get(`${API_URL}/api/posts?category=${encodeURIComponent(normalizedCategory)}`);
-        const sortedPosts = res.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        setPosts(sortedPosts);
-      } catch (err) {
-        console.error("Failed to fetch posts by category", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchPosts = useCallback(async () => {
+    if (!hasMore || loading) return;
 
+    setLoading(true);
+    setError(false);
+
+    try {
+      const res = await axios.get(
+        `${API_URL}/api/posts?category=${encodeURIComponent(normalizedCategory)}&page=${page}&limit=6`
+      );
+
+      setPosts((prev) => [...prev, ...res.data.posts]);
+      setHasMore(res.data.hasMore);
+    } catch (err) {
+      console.error("Failed to fetch posts by category", err);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  }, [normalizedCategory, page, hasMore, loading]);
+
+  // Reset when category changes
+  useEffect(() => {
+    setPosts([]);
+    setPage(1);
+    setHasMore(true);
+  }, [normalizedCategory]);
+
+  // Initial + next page load
+  useEffect(() => {
     fetchPosts();
-  }, [normalizedCategory]);
-
-  // Reset visible count when category changes
-  useEffect(() => {
-    setVisibleCount(6);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [normalizedCategory]);
+  }, [fetchPosts]);
 
   // Infinite scroll observer
-  const observer = useRef();
+  const lastPostRef = useCallback(
+    (node) => {
+      if (loading || error || !hasMore) return;
+      if (observer.current) observer.current.disconnect();
 
-  const lastPostRef = useCallback((node) => {
-    if (loading) return;
-    if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          setPage((prev) => prev + 1);
+        }
+      });
 
-    observer.current = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && visibleCount < posts.length) {
-        setTimeout(() => {
-          setVisibleCount((prev) => prev + 6);
-        }, 800); // Simulated delay
-      }
-    });
-
-    if (node) observer.current.observe(node);
-  }, [loading, visibleCount, posts.length]);
-
-  const paginatedPosts = posts.slice(0, visibleCount);
+      if (node) observer.current.observe(node);
+    },
+    [loading, error, hasMore]
+  );
 
   return (
     <div className="category-posts-page">
@@ -76,71 +87,70 @@ function CategoryPosts() {
         <DynamicArrow />
       </div>
 
-      {loading ? (
-           <div className="full-page-spinner">
-    <span className="spinner1" />
-  </div>
-      ) : posts.length === 0 ? (
-        <p>No posts found under this category.</p>
-      ) : (
-        <div className="category-posts-container">
-          {paginatedPosts.map((post, index) => {
-            const isLocked = post.isPremium && (!user || !user.isSubscriber);
-            const isLast = index === paginatedPosts.length - 1;
-            const target = isLocked ? "/subscribe" : `/post/${post._id}`;
+      {posts.length === 0 && !loading && <p>No posts found under this category.</p>}
 
-            return (
-              <div
-                key={post._id}
-                ref={isLast ? lastPostRef : null}
-                className="category-post-card"
-              >
-                <Link to={target}>
-                  {post.image && (
-                    <div className={`fixed-image-wrapper2 ${isLocked ? "premium-locked" : ""}`}>
-                      <img
-                        src={post.image}
-                        alt="Post"
-                        className={`fixed-image2 ${isLocked ? "blurred-content" : ""}`}
-                      />
-                      {isLocked && (
-                        <div className="locked-banner small">
-                          <Lock size={14} style={{ marginRight: "6px" }} />
-                          Subscribe to view
-                        </div>
-                      )}
-                    </div>
-                  )}
+      <div className="category-posts-container">
+        {posts.map((post, index) => {
+          const isLocked = post.isPremium && (!user || !user.isSubscriber);
+          const isLast = index === posts.length - 1;
+          const target = isLocked ? "/subscribe" : `/post/${post._id}`;
 
-                  <div className="premium-page-card-content">
-                    <div className="profile-link verified-user">
-                      <span className="slider-post-card-author">
-                        @{post.author.username}
-                      </span>
-                      {post.author?.isSubscriber && (
-                        <span className="verified-circle">
-                          <Check size={12} color="white" strokeWidth={3} />
-                        </span>
-                      )}
-                    </div>
-
-                    <h3 className="premium-page-title">#{post.title}</h3>
-                    <p className="premium-page-snippet">
-                      {post.content.substring(0, 80)}...
-                    </p>
-                    <p><strong>Category:</strong> {post.category || "Uncategorized"}</p>
-                    <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
+          return (
+            <div
+              key={post._id}
+              ref={isLast ? lastPostRef : null}
+              className="category-post-card"
+            >
+              <Link to={target}>
+                {post.image && (
+                  <div className={`fixed-image-wrapper2 ${isLocked ? "premium-locked" : ""}`}>
+                    <img
+                      src={post.image}
+                      alt="Post"
+                      className={`fixed-image2 ${isLocked ? "blurred-content" : ""}`}
+                    />
+                    {isLocked && (
+                      <div className="locked-banner small">
+                        <Lock size={14} style={{ marginRight: "6px" }} />
+                        Subscribe to view
+                      </div>
+                    )}
                   </div>
-                </Link>
-              </div>
-            );
-          })}
+                )}
+
+                <div className="premium-page-card-content">
+                  <div className="profile-link verified-user">
+                    <span className="slider-post-card-author">@{post.author.username}</span>
+                    {post.author?.isSubscriber && (
+                      <span className="verified-circle">
+                        <Check size={12} color="white" strokeWidth={3} />
+                      </span>
+                    )}
+                  </div>
+
+                  <h3 className="premium-page-title">#{post.title}</h3>
+                  <p className="premium-page-snippet">
+                    {post.content.substring(0, 80)}...
+                  </p>
+                  <p><strong>Category:</strong> {post.category || "Uncategorized"}</p>
+                  <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
+                </div>
+              </Link>
+            </div>
+          );
+        })}
+      </div>
+
+      {loading && (
+        <div className="infinite-spinner">
+          <span className="spinner" />
         </div>
       )}
 
-      {visibleCount < posts.length && (
-        <div className="infinite-spinner">
-          <span className="spinner" />
+      {error && (
+        <div className="error-message">
+          Failed to load posts.
+          <button onClick={() => fetchPosts()}>Retry</button>
         </div>
       )}
 
