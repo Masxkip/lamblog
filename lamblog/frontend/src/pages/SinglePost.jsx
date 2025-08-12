@@ -576,27 +576,6 @@ useEffect(() => {
 
         {/* Add Comment Input */}
 
-{user && (
-  <div className="bottom-comment-bar-wrapper">
-    <div className="bottom-comment-bar">
-      <input
-        type="text"
-        placeholder="Add a comment..."
-        value={newComment}
-        onChange={(e) => setNewComment(e.target.value)}
-      />
-      <button
-  onClick={handleAddComment}
-  disabled={disableButtons.addComment}
->
-  {disableButtons.addComment ? "Posting..." : "Comment"}
-</button>
-
-    </div>
-  </div>
-
-)}
-
 
 {user && (
   <div className="bottom-comment-bar-m-wrapper">
