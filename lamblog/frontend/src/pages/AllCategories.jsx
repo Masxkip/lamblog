@@ -1,15 +1,4 @@
-// AllCategories.jsx — network-driven infinite pagination (6 at a time)
-// - First load shows 6 posts (grouped by category), then a spinner, then next 6, etc.
-// - Uses a bottom sentinel so fetching is triggered by scroll, not timeouts.
-// - rootMargin: "-1px" forces a tiny user scroll before auto-loading the next page.
-
-import React, {
-  useEffect,
-  useState,
-  useContext,
-  useRef,
-  useCallback,
-} from "react";
+import React, { useEffect, useState, useContext, useRef, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import BottomNav from "../components/BottomNav";
@@ -23,7 +12,7 @@ function AllCategories() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // Pagination state (real network-driven, like Home)
+  // ✅ Network-driven pagination state (same pattern as Home)
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -31,19 +20,14 @@ function AllCategories() {
   const [error, setError] = useState(false);
   const [showError, setShowError] = useState(false);
 
-  // Client-side search (filters categories/titles locally)
+  // Local search (client-side filter for category/title)
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Trending list (unchanged)
   const [trendingPosts, setTrendingPosts] = useState([]);
 
-  // Refs
-  const sentinelRef = useRef(null);
+  const observer = useRef();
   const errorTimeoutRef = useRef(null);
-  const didFirstPageLoadRef = useRef(false);
-
-  // Fetch 6 at a time
-  const LIMIT = 6;
+  const LIMIT = 30; // fetch enough to reveal multiple category blocks at once
 
   const fetchPosts = useCallback(async () => {
     if (!hasMore) return;
@@ -54,12 +38,12 @@ function AllCategories() {
     try {
       const res = await axios.get(`${API_URL}/api/posts`, {
         params: { page, limit: LIMIT },
-        timeout: 10000, // 10s timeout like Home
+        timeout: 10000, // 10s real timeout like Home's behavior
       });
 
       const newPosts = Array.isArray(res.data?.posts) ? res.data.posts : [];
 
-      // De-dupe by _id across pages
+      // ✅ De-duplicate across pages by _id
       setPosts((prev) => {
         const map = new Map();
         prev.forEach((p) => map.set(p._id, p));
@@ -70,18 +54,13 @@ function AllCategories() {
       setHasMore(Boolean(res.data?.hasMore));
       setLoading(false);
       setShowError(false);
-
-      if (page === 1) {
-        // First page finished -> allow the observer to trigger next loads
-        didFirstPageLoadRef.current = true;
-      }
-
       clearTimeout(errorTimeoutRef.current);
     } catch (err) {
+      // Step back the page pointer so we can retry the same page
       setError(true);
-      // Step back page so we can retry this page
       setPage((prev) => Math.max(prev - 1, 1));
 
+      // After 10s, show the error UI + Retry
       clearTimeout(errorTimeoutRef.current);
       errorTimeoutRef.current = setTimeout(() => {
         setShowError(true);
@@ -90,9 +69,8 @@ function AllCategories() {
 
       console.error("Failed to fetch posts (AllCategories):", err);
     }
-  }, [page, hasMore]); // ✅ no API_URL here (ESLint-safe)
+  }, [page, hasMore]);
 
-  // Cleanup any pending error timers on unmount
   useEffect(() => {
     return () => clearTimeout(errorTimeoutRef.current);
   }, []);
@@ -102,21 +80,21 @@ function AllCategories() {
     fetchPosts();
   }, [fetchPosts]);
 
-  // Trending posts (one-off)
-  useEffect(() => {
-    const fetchTrending = async () => {
-      try {
-        const res = await axios.get(`${API_URL}/api/posts/trending/posts`);
-        setTrendingPosts(Array.isArray(res.data) ? res.data : []);
-      } catch (err) {
-        console.error("Failed to fetch trending posts", err);
-        setTrendingPosts([]);
-      }
-    };
-    fetchTrending();
-  }, []); // ✅ no API_URL dep needed
+  // Trending (unchanged)
+useEffect(() => {
+  const fetchTrending = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/api/posts/trending/posts`);
+      setTrendingPosts(Array.isArray(res.data) ? res.data : []);
+    } catch (err) {
+      console.error("Failed to fetch trending posts", err);
+      setTrendingPosts([]);
+    }
+  };
+  fetchTrending();
+}, []);
 
-  // Grouping helpers (client-side search on category/title)
+  // Filter & group by category with current posts
   const filteredPosts = (Array.isArray(posts) ? posts : []).filter(
     (post) =>
       post?.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -135,48 +113,36 @@ function AllCategories() {
         .toLowerCase()
         .replace(/\s+/g, " ")
         .replace(/\b\w/g, (c) => c.toUpperCase()) || "Uncategorized";
-    if (!postsByCategory[formattedCategory])
-      postsByCategory[formattedCategory] = [];
+    if (!postsByCategory[formattedCategory]) postsByCategory[formattedCategory] = [];
     postsByCategory[formattedCategory].push(post);
   });
 
   const categoryEntries = Object.entries(postsByCategory);
 
-  // IntersectionObserver on a single bottom sentinel
-  useEffect(() => {
-    // Block observer until first page has rendered
-    if (!didFirstPageLoadRef.current) return;
-    if (loading || error || !hasMore) return;
+  // IntersectionObserver: request NEXT PAGE from backend when the last category block is visible
+  const lastCategoryRef = useCallback(
+    (node) => {
+      if (loading || error || !hasMore) return;
+      if (observer.current) observer.current.disconnect();
 
-    const node = sentinelRef.current;
-    if (!node) return;
-
-    const io = new IntersectionObserver(
-      (entries) => {
+      observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
           setPage((prev) => prev + 1);
         }
-      },
-      {
-        root: null,
-        // TIP: To require a tiny user scroll (avoid instant auto-trigger),
-        // use "-1px". If you want eager prefetching, you can use "200px".
-        rootMargin: "-1px",
-        threshold: 0,
-      }
-    );
+      });
 
-    io.observe(node);
-    return () => io.disconnect();
-  }, [loading, error, hasMore]); // ✅ no API_URL dep needed
+      if (node) observer.current.observe(node);
+    },
+    [loading, error, hasMore]
+  );
 
-  // Reset when search changes (repeat the same first-load behavior)
+  // When search changes, reset to page 1 and clear posts (client-side search)
+  // If you prefer server-side search here, wire ?search= to the backend and include it in fetchPosts.
   useEffect(() => {
     setPosts([]);
     setPage(1);
     setHasMore(true);
     setShowError(false);
-    didFirstPageLoadRef.current = false;
     clearTimeout(errorTimeoutRef.current);
   }, [searchTerm]);
 
@@ -199,12 +165,10 @@ function AllCategories() {
       {searchTerm && (
         <div className="search-results-heading">
           Showing {filteredPosts.length} result
-          {filteredPosts.length !== 1 ? "s" : ""} for:{" "}
-          <strong>"{searchTerm}"</strong>
+          {filteredPosts.length !== 1 ? "s" : ""} for: <strong>"{searchTerm}"</strong>
         </div>
       )}
 
-      {/* First page: full-screen spinner */}
       {posts.length === 0 && loading ? (
         <div className="full-page-spinner">
           <span className="spinner1" />
@@ -214,16 +178,17 @@ function AllCategories() {
           <p>No posts available for your search.</p>
         </div>
       ) : (
-        <>
-          {categoryEntries.map(([category, postsInCat], index) => (
+        categoryEntries.map(([category, postsInCat], index) => {
+          const isLast = index === categoryEntries.length - 1;
+
+          return (
             <React.Fragment key={category}>
-              <section className="category-block">
+              <section className="category-block" ref={isLast ? lastCategoryRef : null}>
                 <h2 className="category-title">#{category}</h2>
 
                 <div className="category-slider">
                   {postsInCat.slice(0, 5).map((post) => {
-                    const isLocked =
-                      post.isPremium && (!user || !user.isSubscriber);
+                    const isLocked = post.isPremium && (!user || !user.isSubscriber);
                     const target = isLocked ? "/subscribe" : `/post/${post._id}`;
 
                     return (
@@ -233,9 +198,7 @@ function AllCategories() {
                             {/* Image */}
                             {post.image && (
                               <div
-                                className={`fixed-image-wrapper1 ${
-                                  isLocked ? "premium-locked" : ""
-                                }`}
+                                className={`fixed-image-wrapper1 ${isLocked ? "premium-locked" : ""}`}
                               >
                                 <img
                                   src={
@@ -244,16 +207,11 @@ function AllCategories() {
                                       : `${API_URL}/${post.image}`
                                   }
                                   alt={post.title}
-                                  className={`fixed-image1 ${
-                                    isLocked ? "blurred-content" : ""
-                                  }`}
+                                  className={`fixed-image1 ${isLocked ? "blurred-content" : ""}`}
                                 />
                                 {isLocked && (
                                   <div className="locked-banner small">
-                                    <Lock
-                                      size={14}
-                                      style={{ marginRight: "6px" }}
-                                    />
+                                    <Lock size={14} style={{ marginRight: "6px" }} />
                                     Subscribe to view
                                   </div>
                                 )}
@@ -272,15 +230,12 @@ function AllCategories() {
                                   </span>
                                 )}
                               </div>
-                              <h3 className="slider-post-card-title">
-                                #{post.title}
-                              </h3>
+                              <h3 className="slider-post-card-title">#{post.title}</h3>
                               <p className="slider-post-card-snippet">
                                 {post.content?.substring(0, 80)}...
                               </p>
                               <p>
-                                <strong>Category:</strong>{" "}
-                                {post.category || "Uncategorized"}
+                                <strong>Category:</strong> {post.category || "Uncategorized"}
                               </p>
                               <p>
                                 <strong>Published:</strong>{" "}
@@ -304,25 +259,18 @@ function AllCategories() {
                 <hr className="category-divider" />
               </section>
 
-              {/* Insert the Trending section after the 2nd category block (as before) */}
               {index === 1 && (
                 <div className="trending-categories-section">
                   <h3 className="premium-heading">Trending Posts</h3>
                   {trendingPosts.map((post) => (
-                    <Link
-                      to={`/post/${post._id}`}
-                      key={post._id}
-                      className="premium-item"
-                    >
+                    <Link to={`/post/${post._id}`} key={post._id} className="premium-item">
                       <div className="premium-text">
                         <small className="premium-meta">
                           {post.category || "General"} · Trending
                         </small>
                         <span className="item-title">#{post.title}</span>
                         <small className="premium-meta">
-                          {post.views
-                            ? `${post.views.toLocaleString()} views`
-                            : "Popular post"}
+                          {post.views ? `${post.views.toLocaleString()} views` : "Popular post"}
                         </small>
                       </div>
                       <MoreHorizontal size={18} />
@@ -331,21 +279,18 @@ function AllCategories() {
                 </div>
               )}
             </React.Fragment>
-          ))}
-
-          {/* Bottom sentinel to trigger next page */}
-          <div ref={sentinelRef} />
-        </>
+          );
+        })
       )}
 
-      {/* Inline spinner for subsequent loads (page >= 2) */}
-      {posts.length > 0 && loading && (
+      {/* Real network-driven spinner */}
+      {loading && (
         <div className="infinite-spinner">
           <span className="spinner" />
         </div>
       )}
 
-      {/* 10s fail + Retry */}
+      {/* 10s fail + Retry (mirrors Home) */}
       {showError && error && (
         <div className="error-message">
           Failed to load more posts. Please check your connection.
@@ -354,7 +299,8 @@ function AllCategories() {
               setError(false);
               setShowError(false);
               setLoading(false);
-              fetchPosts(); // retry current page
+              // Retry the same page
+              fetchPosts();
             }}
           >
             Retry
