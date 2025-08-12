@@ -28,6 +28,14 @@ function SinglePost() {
   const [openReplies, setOpenReplies] = useState({});
   const [activeMenu, setActiveMenu] = useState(null);
   const [activeReplyMenu, setActiveReplyMenu] = useState(null);
+  const [disableButtons, setDisableButtons] = useState({
+  deletePost: false,
+  addComment: false,
+  editComment: false,
+  deleteComment: false,
+  addReply: {},
+  deleteReply: {}
+});
 
 
   // Fetch comments
@@ -89,130 +97,173 @@ function SinglePost() {
   
 
   // Handle Deleting a Post
-  const handleDelete = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
+ const handleDelete = async () => {
+  if (disableButtons.deletePost) return; // prevent multiple clicks
+  setDisableButtons(prev => ({ ...prev, deletePost: true }));
 
-    try {
-      await axios.delete(`${API_URL}/api/posts/${id}`, {
-        headers: { "Authorization": `Bearer ${token}` },
-      });
+  const token = localStorage.getItem("token");
+  if (!token) return;
 
-      setMessage("Post deleted successfully!");
-      setTimeout(() => navigate("/"), 2000);
-    } catch (err) {
-      console.error("Error deleting post:", err);
-    }
-  };
+  try {
+    await axios.delete(`${API_URL}/api/posts/${id}`, {
+      headers: { "Authorization": `Bearer ${token}` },
+    });
+    setMessage("Post deleted successfully!");
+    setTimeout(() => navigate("/"), 2000);
+  } catch (err) {
+    console.error("Error deleting post:", err);
+    setDisableButtons(prev => ({ ...prev, deletePost: false }));
+  }
+};
+
 
   // Handle Adding a Comment
-  const handleAddComment = async () => {
-    if (!newComment.trim()) return;
+ const handleAddComment = async () => {
+  if (!newComment.trim() || disableButtons.addComment) return;
+  setDisableButtons(prev => ({ ...prev, addComment: true }));
 
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.post(
-        `${API_URL}/api/comments/${id}`,
-        { text: newComment },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post(
+      `${API_URL}/api/comments/${id}`,
+      { text: newComment },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    setComments([...comments, { ...response.data.comment, author: { _id: user._id, username: user.username } }]);
+    setNewComment("");
+  } catch (err) {
+    console.error("Error adding comment:", err);
+  } finally {
+    setDisableButtons(prev => ({ ...prev, addComment: false }));
+  }
+};
 
-      setComments([...comments, {
-        ...response.data.comment,
-        author: { _id: user._id, username: user.username }, // Ensure author ID is included
-      }]);
-      setNewComment("");
-    } catch (err) {
-      console.error("Error adding comment:", err);
-    }
-  };
 
   // Handle Editing a Comment
-  const handleEditComment = async (commentId) => {
-    if (!editedCommentText.trim()) return;
+const handleEditComment = async (commentId) => {
+  if (!editedCommentText.trim() || disableButtons.editComment[commentId]) return;
 
-    try {
-      const token = localStorage.getItem("token");
-      await axios.put(
-        `${API_URL}/api/comments/${id}/comments/${commentId}`,
-        { text: editedCommentText },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+  // lock this specific comment's "Save" button
+  setDisableButtons(prev => ({
+    ...prev,
+    editComment: { ...prev.editComment, [commentId]: true }
+  }));
 
-      setComments(
-        comments.map((comment) =>
-          comment._id === commentId ? { ...comment, text: editedCommentText } : comment
-        )
-      );
+  try {
+    const token = localStorage.getItem("token");
+    await axios.put(
+      `${API_URL}/api/comments/${id}/comments/${commentId}`,
+      { text: editedCommentText },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
 
-      setEditingCommentId(null);
-      setEditedCommentText("");
-    } catch (err) {
-      console.error("Error updating comment:", err);
-    }
-  };
+    setComments(comments.map(c =>
+      c._id === commentId ? { ...c, text: editedCommentText } : c
+    ));
+    setEditingCommentId(null);
+    setEditedCommentText("");
+  } catch (err) {
+    console.error("Error updating comment:", err);
+  } finally {
+    setDisableButtons(prev => ({
+      ...prev,
+      editComment: { ...prev.editComment, [commentId]: false }
+    }));
+  }
+};
+
 
   // Handle Deleting a Comment
-  const handleDeleteComment = async (commentId) => {
-    try {
-      const token = localStorage.getItem("token");
-      await axios.delete(`${API_URL}/api/comments/${id}/comments/${commentId}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+const handleDeleteComment = async (commentId) => {
+  if (disableButtons.deleteComment[commentId]) return;
 
-      setComments(comments.filter((comment) => comment._id !== commentId));
-    } catch (err) {
-      console.error("Error deleting comment:", err);
-    }
-  };
+  setDisableButtons(prev => ({
+    ...prev,
+    deleteComment: { ...prev.deleteComment, [commentId]: true }
+  }));
+
+  try {
+    const token = localStorage.getItem("token");
+    await axios.delete(`${API_URL}/api/comments/${id}/comments/${commentId}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    setComments(comments.filter(c => c._id !== commentId));
+  } catch (err) {
+    console.error("Error deleting comment:", err);
+  } finally {
+    setDisableButtons(prev => ({
+      ...prev,
+      deleteComment: { ...prev.deleteComment, [commentId]: false }
+    }));
+  }
+};
+
 
   // Handle Adding a Reply
-  const handleAddReply = async (commentId) => {
-    if (!replyText[commentId]?.trim()) return;
+const handleAddReply = async (commentId) => {
+  if (!replyText[commentId]?.trim() || disableButtons.addReply[commentId]) return;
+  setDisableButtons(prev => ({
+    ...prev,
+    addReply: { ...prev.addReply, [commentId]: true }
+  }));
 
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.post(
-        `${API_URL}/api/comments/${id}/comments/${commentId}/reply`,
-        { text: replyText[commentId] },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post(
+      `${API_URL}/api/comments/${id}/comments/${commentId}/reply`,
+      { text: replyText[commentId] },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
 
-      setComments(
-        comments.map((comment) =>
-          comment._id === commentId
-            ? { ...comment, replies: [...comment.replies, { ...response.data.reply, author: { _id: user._id, username: user.username } }] }
-            : comment
-        )
-      );
+    setComments(comments.map(c =>
+      c._id === commentId
+        ? { ...c, replies: [...c.replies, { ...response.data.reply, author: { _id: user._id, username: user.username } }] }
+        : c
+    ));
+    setReplyText({ ...replyText, [commentId]: "" });
+  } catch (err) {
+    console.error("Error adding reply:", err);
+  } finally {
+    setDisableButtons(prev => ({
+      ...prev,
+      addReply: { ...prev.addReply, [commentId]: false }
+    }));
+  }
+};
 
-      setReplyText({ ...replyText, [commentId]: "" });
-    } catch (err) {
-      console.error("Error adding reply:", err);
-    }
-  };
 
 
    // Handle Adding Delete Reply
-  const handleDeleteReply = async (commentId, replyId) => {
-    try {
-      const token = localStorage.getItem("token");
-      await axios.delete(`${API_URL}/api/comments/${id}/comments/${commentId}/replies/${replyId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-  
-      // Remove reply from state
-      setComments(
-        comments.map((comment) =>
-          comment._id === commentId
-            ? { ...comment, replies: comment.replies.filter((reply) => reply._id !== replyId) }
-            : comment
-        )
-      );
-    } catch (err) {
-      console.error("Error deleting reply:", err);
-    }
-  };
+ const handleDeleteReply = async (commentId, replyId) => {
+  if (disableButtons.deleteReply[replyId]) return;
+
+  setDisableButtons(prev => ({
+    ...prev,
+    deleteReply: { ...prev.deleteReply, [replyId]: true }
+  }));
+
+  try {
+    const token = localStorage.getItem("token");
+    await axios.delete(`${API_URL}/api/comments/${id}/comments/${commentId}/replies/${replyId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    setComments(comments.map(c =>
+      c._id === commentId
+        ? { ...c, replies: c.replies.filter(r => r._id !== replyId) }
+        : c
+    ));
+  } catch (err) {
+    console.error("Error deleting reply:", err);
+  } finally {
+    setDisableButtons(prev => ({
+      ...prev,
+      deleteReply: { ...prev.deleteReply, [replyId]: false }
+    }));
+  }
+};
+
   
 
    // Handle dropdown Reply
@@ -294,7 +345,14 @@ useEffect(() => {
       {user && user._id === post.author?._id && (
         <div className="post-actions">
           <Link to={`/edit-post/${post._id}`} className="edit-btn">Edit</Link>
-          <button onClick={handleDelete} className="delete-btn">Delete</button>
+          <button
+  onClick={handleDelete}
+  className="delete-btn"
+  disabled={disableButtons.deletePost}
+>
+  {disableButtons.deletePost ? "Deleting..." : "Delete"}
+</button>
+
         </div>
       )}
 
@@ -470,13 +528,17 @@ useEffect(() => {
     {activeReplyMenu === reply._id && (
       <div className="comment-dropdown-menu">
         <button
-          onClick={() => {
-            handleDeleteReply(comment._id, reply._id);
-            setActiveReplyMenu(null);
-          }}
-        >
-          Delete
-        </button>
+  onClick={() => {
+    if (!disableButtons.deleteReply[reply._id]) {
+      handleDeleteReply(comment._id, reply._id);
+      setActiveReplyMenu(null);
+    }
+  }}
+  disabled={!!disableButtons.deleteReply[reply._id]}
+>
+  {disableButtons.deleteReply[reply._id] ? "Deleting..." : "Delete"}
+</button>
+
       </div>
     )}
   </div>
@@ -496,7 +558,13 @@ useEffect(() => {
               setReplyText({ ...replyText, [comment._id]: e.target.value })
             }
           />
-          <button onClick={() => handleAddReply(comment._id)}>Reply</button>
+          <button
+  onClick={() => handleAddReply(comment._id)}
+  disabled={disableButtons.addReply[comment._id]}
+>
+  {disableButtons.addReply[comment._id] ? "Replying..." : "Reply"}
+</button>
+
         </div>
       )}
     </div>
@@ -517,7 +585,13 @@ useEffect(() => {
         value={newComment}
         onChange={(e) => setNewComment(e.target.value)}
       />
-      <button onClick={handleAddComment}>Comment</button>
+      <button
+  onClick={handleAddComment}
+  disabled={disableButtons.addComment}
+>
+  {disableButtons.addComment ? "Posting..." : "Comment"}
+</button>
+
     </div>
   </div>
 
@@ -533,7 +607,12 @@ useEffect(() => {
         value={newComment}
         onChange={(e) => setNewComment(e.target.value)}
       />
-      <button onClick={handleAddComment}>Comment</button>
+         <button
+  onClick={handleAddComment}
+  disabled={disableButtons.addComment}
+>
+  {disableButtons.addComment ? "Posting..." : "Comment"}
+</button>
     </div>
   </div>
 
