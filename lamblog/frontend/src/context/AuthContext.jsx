@@ -5,54 +5,86 @@ const AuthContext = createContext();
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
-// Config
-const INACTIVITY_MS = 60 * 60 * 1000;    // 1 hour
-const REFRESH_EVERY_MS = 5 * 60 * 1000;  // every 5 mins
+// Inactivity window
+const INACTIVITY_MS = 60 * 60 * 1000; // 1 hour
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Refs for idle tracking
   const lastActiveRef = useRef(Date.now());
-  const isLoggingOutRef = useRef(false);
+  const logoutTimerRef = useRef(null);
 
-  // --- Mark activity helper ---
+  // --- core helpers ---
+  const clearLogoutTimer = useCallback(() => {
+    if (logoutTimerRef.current) {
+      clearTimeout(logoutTimerRef.current);
+      logoutTimerRef.current = null;
+    }
+  }, []);
+
+  const scheduleLogout = useCallback(() => {
+    clearLogoutTimer();
+
+    const last = lastActiveRef.current;
+    const timeSince = Date.now() - last;
+    const timeLeft = INACTIVITY_MS - timeSince;
+
+    if (timeLeft <= 0) {
+      // Already idle long enough
+      localStorage.setItem("authEvent", `logout:${Date.now()}`);
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      setUser(null);
+      return;
+    }
+
+    logoutTimerRef.current = setTimeout(() => {
+      // Idle reached -> log out
+      localStorage.setItem("authEvent", `logout:${Date.now()}`);
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      setUser(null);
+    }, timeLeft);
+  }, [clearLogoutTimer]);
+
   const markActive = useCallback(() => {
     const now = Date.now();
     lastActiveRef.current = now;
-    localStorage.setItem("lastActive", String(now)); // sync across tabs
-  }, []);
+    localStorage.setItem("lastActive", String(now)); // optional cross-tab sync
+    scheduleLogout();
+  }, [scheduleLogout]);
 
-  // ✅ Login: persist token + user
+  // --- auth actions ---
   const login = useCallback((userData, token) => {
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(userData));
     setUser(userData);
-    markActive();
-  }, [markActive]);
 
-  // ✅ Logout: clear all + sync across tabs
+    // (Re)start activity clock on login
+    if (!localStorage.getItem("lastActive")) {
+      localStorage.setItem("lastActive", String(Date.now()));
+    }
+    lastActiveRef.current = Number(localStorage.getItem("lastActive")) || Date.now();
+    scheduleLogout();
+  }, [scheduleLogout]);
+
   const logout = useCallback(() => {
-    if (isLoggingOutRef.current) return; // prevent double calls
-    isLoggingOutRef.current = true;
-
+    localStorage.setItem("authEvent", `logout:${Date.now()}`); // cross-tab
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);
+    clearLogoutTimer();
+  }, [clearLogoutTimer]);
 
-    localStorage.setItem("authEvent", `logout:${Date.now()}`);
-
-    setTimeout(() => { isLoggingOutRef.current = false; }, 500);
-  }, []);
-
-  // ✅ Update user profile manually
   const updateUserProfile = useCallback((updatedUser) => {
     setUser(updatedUser);
     localStorage.setItem("user", JSON.stringify(updatedUser));
     markActive();
   }, [markActive]);
 
-  // ✅ Refresh user from backend
+  // Keep this available (e.g., for profile screens), but don't auto-call it.
   const refreshUser = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");
@@ -61,16 +93,21 @@ export const AuthProvider = ({ children }) => {
       const res = await axios.get(`${API_URL}/users/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-
       const updatedUser = res.data;
+      // re-apply login to keep localStorage + state synced
       login(updatedUser, token);
     } catch (err) {
-      console.error("Failed to refresh user:", err);
-      logout();
+      const status = err?.response?.status;
+      // Only hard-logout on real auth failures; keep session on network hiccups
+      if (status === 401 || status === 403) {
+        logout();
+      } else {
+        console.warn("refreshUser failed (network or server). Keeping session.", err);
+      }
     }
   }, [login, logout]);
 
-  // Load user + lastActive on mount
+  // --- initial load ---
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -79,55 +116,52 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
     }
 
+    // Restore lastActive (don’t force logout on simple page refresh)
     const storedLast = Number(localStorage.getItem("lastActive"));
     lastActiveRef.current = Number.isFinite(storedLast) ? storedLast : Date.now();
+    if (!Number.isFinite(storedLast)) {
+      localStorage.setItem("lastActive", String(lastActiveRef.current));
+    }
+
+    // Schedule logout precisely when inactivity hits 1h
+    scheduleLogout();
 
     setLoading(false);
-  }, []);
+  }, [scheduleLogout]);
 
-  // Track activity events
+  // --- track activity (resets the single timeout) ---
   useEffect(() => {
     const events = ["click", "keydown", "mousemove", "scroll", "touchstart", "focus"];
     events.forEach((ev) => window.addEventListener(ev, markActive, { passive: true }));
     return () => events.forEach((ev) => window.removeEventListener(ev, markActive));
   }, [markActive]);
 
-  // Sync across tabs
+  // --- optional: cross-tab sync for lastActive + centralized logout ---
   useEffect(() => {
     const onStorage = (e) => {
       if (e.key === "lastActive" && e.newValue) {
         const v = Number(e.newValue);
-        if (Number.isFinite(v)) lastActiveRef.current = v;
+        if (Number.isFinite(v)) {
+          lastActiveRef.current = v;
+          scheduleLogout();
+        }
       }
       if (e.key === "authEvent" && e.newValue?.startsWith("logout:")) {
-        logout();
+        // another tab logged out
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        setUser(null);
+        clearLogoutTimer();
       }
     };
     window.addEventListener("storage", onStorage);
     return () => window.removeEventListener("storage", onStorage);
-  }, [logout]);
+  }, [scheduleLogout, clearLogoutTimer]);
 
-  // Background checker: logout if idle ≥ 1h, else refresh
+  // Cleanup on unmount
   useEffect(() => {
-    const tick = async () => {
-      const last = Number(localStorage.getItem("lastActive")) || lastActiveRef.current;
-      const idleFor = Date.now() - last;
-
-      if (idleFor >= INACTIVITY_MS) {
-        logout();
-      } else {
-        await refreshUser();
-      }
-    };
-
-    const immediate = setTimeout(tick, 1000);
-    const interval = setInterval(tick, REFRESH_EVERY_MS);
-
-    return () => {
-      clearTimeout(immediate);
-      clearInterval(interval);
-    };
-  }, [refreshUser, logout]);
+    return () => clearLogoutTimer();
+  }, [clearLogoutTimer]);
 
   return (
     <AuthContext.Provider
@@ -136,7 +170,7 @@ export const AuthProvider = ({ children }) => {
         login,
         updateUserProfile,
         logout,
-        refreshUser,
+        refreshUser, // available, but not auto-called
         loading,
       }}
     >
