@@ -10,44 +10,91 @@ const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 function AllCategories() {
   const { user } = useContext(AuthContext);
-  const [posts, setPosts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [trendingPosts, setTrendingPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [visibleCount, setVisibleCount] = useState(3);
-  const observer = useRef();
-
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        // pull a reasonable chunk so we can group by category
-        const res = await axios.get(`${API_URL}/api/posts?limit=200&page=1`);
-        setPosts(Array.isArray(res.data?.posts) ? res.data.posts : []);
-      } catch (err) {
-        console.error("Failed to fetch posts", err);
-        setPosts([]);
-      } finally {
+  // ✅ Network-driven pagination state (same pattern as Home)
+  const [posts, setPosts] = useState([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [showError, setShowError] = useState(false);
+
+  // Local search (client-side filter for category/title)
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const [trendingPosts, setTrendingPosts] = useState([]);
+
+  const observer = useRef();
+  const errorTimeoutRef = useRef(null);
+  const LIMIT = 30; // fetch enough to reveal multiple category blocks at once
+
+  const fetchPosts = useCallback(async () => {
+    if (!hasMore) return;
+
+    setLoading(true);
+    setError(false);
+
+    try {
+      const res = await axios.get(`${API_URL}/api/posts`, {
+        params: { page, limit: LIMIT },
+        timeout: 10000, // 10s real timeout like Home's behavior
+      });
+
+      const newPosts = Array.isArray(res.data?.posts) ? res.data.posts : [];
+
+      // ✅ De-duplicate across pages by _id
+      setPosts((prev) => {
+        const map = new Map();
+        prev.forEach((p) => map.set(p._id, p));
+        newPosts.forEach((p) => map.set(p._id, p));
+        return Array.from(map.values());
+      });
+
+      setHasMore(Boolean(res.data?.hasMore));
+      setLoading(false);
+      setShowError(false);
+      clearTimeout(errorTimeoutRef.current);
+    } catch (err) {
+      // Step back the page pointer so we can retry the same page
+      setError(true);
+      setPage((prev) => Math.max(prev - 1, 1));
+
+      // After 10s, show the error UI + Retry
+      clearTimeout(errorTimeoutRef.current);
+      errorTimeoutRef.current = setTimeout(() => {
+        setShowError(true);
         setLoading(false);
-      }
-    };
-    fetchPosts();
-  }, []);
+      }, 10000);
+
+      console.error("Failed to fetch posts (AllCategories):", err);
+    }
+  }, [page, hasMore]);
 
   useEffect(() => {
-    const fetchTrending = async () => {
-      try {
-        const res = await axios.get(`${API_URL}/api/posts/trending/posts`);
-        setTrendingPosts(Array.isArray(res.data) ? res.data : []);
-      } catch (err) {
-        console.error("Failed to fetch trending posts", err);
-        setTrendingPosts([]);
-      }
-    };
-    fetchTrending();
+    return () => clearTimeout(errorTimeoutRef.current);
   }, []);
 
+  // Initial load + subsequent page loads
+  useEffect(() => {
+    fetchPosts();
+  }, [fetchPosts]);
+
+  // Trending (unchanged)
+useEffect(() => {
+  const fetchTrending = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/api/posts/trending/posts`);
+      setTrendingPosts(Array.isArray(res.data) ? res.data : []);
+    } catch (err) {
+      console.error("Failed to fetch trending posts", err);
+      setTrendingPosts([]);
+    }
+  };
+  fetchTrending();
+}, []);
+
+  // Filter & group by category with current posts
   const filteredPosts = (Array.isArray(posts) ? posts : []).filter(
     (post) =>
       post?.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -60,32 +107,44 @@ function AllCategories() {
 
   const postsByCategory = {};
   sortedPosts.forEach((post) => {
-    const formattedCategory = post?.category
-      ?.trim()
-      .toLowerCase()
-      .replace(/\s+/g, " ")
-      .replace(/\b\w/g, (c) => c.toUpperCase()) || "Uncategorized";
+    const formattedCategory =
+      post?.category
+        ?.trim()
+        .toLowerCase()
+        .replace(/\s+/g, " ")
+        .replace(/\b\w/g, (c) => c.toUpperCase()) || "Uncategorized";
     if (!postsByCategory[formattedCategory]) postsByCategory[formattedCategory] = [];
     postsByCategory[formattedCategory].push(post);
   });
 
   const categoryEntries = Object.entries(postsByCategory);
 
+  // IntersectionObserver: request NEXT PAGE from backend when the last category block is visible
   const lastCategoryRef = useCallback(
     (node) => {
-      if (loading) return;
+      if (loading || error || !hasMore) return;
       if (observer.current) observer.current.disconnect();
 
       observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && visibleCount < categoryEntries.length) {
-          setTimeout(() => setVisibleCount((prev) => prev + 3), 800);
+        if (entries[0].isIntersecting) {
+          setPage((prev) => prev + 1);
         }
       });
 
       if (node) observer.current.observe(node);
     },
-    [loading, visibleCount, categoryEntries.length]
+    [loading, error, hasMore]
   );
+
+  // When search changes, reset to page 1 and clear posts (client-side search)
+  // If you prefer server-side search here, wire ?search= to the backend and include it in fetchPosts.
+  useEffect(() => {
+    setPosts([]);
+    setPage(1);
+    setHasMore(true);
+    setShowError(false);
+    clearTimeout(errorTimeoutRef.current);
+  }, [searchTerm]);
 
   return (
     <div className="all-categories-page">
@@ -110,7 +169,7 @@ function AllCategories() {
         </div>
       )}
 
-      {loading ? (
+      {posts.length === 0 && loading ? (
         <div className="full-page-spinner">
           <span className="spinner1" />
         </div>
@@ -119,8 +178,8 @@ function AllCategories() {
           <p>No posts available for your search.</p>
         </div>
       ) : (
-        categoryEntries.slice(0, visibleCount).map(([category, postsInCat], index) => {
-          const isLast = index === visibleCount - 1;
+        categoryEntries.map(([category, postsInCat], index) => {
+          const isLast = index === categoryEntries.length - 1;
 
           return (
             <React.Fragment key={category}>
@@ -136,12 +195,10 @@ function AllCategories() {
                       <div className="slider-post-card" key={post._id}>
                         <Link to={target} className="slider-post-card-link">
                           <div className="slider-post-card-inner">
-                            {/* Image section */}
+                            {/* Image */}
                             {post.image && (
                               <div
-                                className={`fixed-image-wrapper1 ${
-                                  isLocked ? "premium-locked" : ""
-                                }`}
+                                className={`fixed-image-wrapper1 ${isLocked ? "premium-locked" : ""}`}
                               >
                                 <img
                                   src={
@@ -161,7 +218,7 @@ function AllCategories() {
                               </div>
                             )}
 
-                            {/* Text content */}
+                            {/* Text */}
                             <div className="slider-post-card-content">
                               <div className="profile-link verified-user">
                                 <span className="slider-post-card-author">
@@ -226,9 +283,28 @@ function AllCategories() {
         })
       )}
 
-      {visibleCount < categoryEntries.length && (
+      {/* Real network-driven spinner */}
+      {loading && (
         <div className="infinite-spinner">
           <span className="spinner" />
+        </div>
+      )}
+
+      {/* 10s fail + Retry (mirrors Home) */}
+      {showError && error && (
+        <div className="error-message">
+          Failed to load more posts. Please check your connection.
+          <button
+            onClick={() => {
+              setError(false);
+              setShowError(false);
+              setLoading(false);
+              // Retry the same page
+              fetchPosts();
+            }}
+          >
+            Retry
+          </button>
         </div>
       )}
 

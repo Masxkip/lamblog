@@ -154,7 +154,6 @@ function CategoryPosts() {
       {loadingInitial ? (
         <div className="full-page-spinner">
           <span className="spinner1" />
-          <div className="spinner-note">Loading posts…</div>
         </div>
       ) : error && posts.length === 0 ? (
         <div className="error-block">
