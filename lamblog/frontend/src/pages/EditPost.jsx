@@ -10,69 +10,87 @@ const API_URL = import.meta.env.VITE_BACKEND_URL;
 function EditPost() {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const [post, setPost] = useState(null);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+
   const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true); // for fetching the post
+  const [saving, setSaving] = useState(false);          // for updating the post
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/posts/${id}`);
-        setPost(response.data);
-        setTitle(response.data.title);
-        setContent(response.data.content);
+        setPageLoading(true);
+        const { data } = await axios.get(`${API_URL}/api/posts/${id}`);
+        setPost(data);
+        setTitle(data.title || "");
+        setContent(data.content || "");
       } catch (err) {
         console.error("Error fetching post:", err);
+      } finally {
+        setPageLoading(false);
       }
     };
-
     fetchPost();
   }, [id]);
 
-  setLoading(true);
-
   const handleEdit = async (e) => {
     e.preventDefault();
+    if (saving) return; // prevent double submit
     const token = localStorage.getItem("token");
     if (!token) return;
 
     try {
+      setSaving(true);
       await axios.put(
         `${API_URL}/api/posts/${id}`,
         { title, content },
-        { headers: { "Authorization": `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-
       setMessage("Post updated successfully!");
-      setTimeout(() => navigate(`/post/${id}`), 2000);
+      setTimeout(() => navigate(`/post/${id}`), 1500);
     } catch (err) {
       console.error("Error updating post:", err);
-    }
-     finally {
-      setLoading(false);
+      setSaving(false); // re-enable on error
     }
   };
 
-  if (!post) return <p>Loading post...</p>;
+  if (pageLoading) return <p>Loading post...</p>;
+  if (!post) return <p>Post not found.</p>;
 
   return (
     <div className="post-container">
       <BackArrow />
-      
       <h2>Edit Post</h2>
+
       {message && <p className="success-message">{message}</p>}
+
       <form onSubmit={handleEdit}>
-        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
-        <textarea value={content} onChange={(e) => setContent(e.target.value)} required />
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+          disabled={saving}
+        />
+        <textarea
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          required
+          disabled={saving}
+        />
         <LoadingButton
-          isLoading={loading}
+          isLoading={saving}
           type="submit"
-          className={`submit-btn ${loading ? "loading" : ""}`}>
+          className={`submit-btn ${saving ? "loading" : ""}`}
+          disabled={saving}
+        >
           Update Post
         </LoadingButton>
       </form>
+
       <BottomNav />
     </div>
   );
