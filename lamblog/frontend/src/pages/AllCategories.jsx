@@ -1,4 +1,4 @@
-// AllCategories.jsx — paginated by posts, rendered in full 5-card category blocks
+// AllCategories.jsx — 6-category batches with network-driven paging
 
 import React, { useEffect, useState, useContext, useRef, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -14,7 +14,7 @@ function AllCategories() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // Network-driven pagination
+  // Network-driven pagination (by posts)
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -22,18 +22,21 @@ function AllCategories() {
   const [error, setError] = useState(false);
   const [showError, setShowError] = useState(false);
 
-  // Client-side search on category/title
+  // Client-side search
   const [searchTerm, setSearchTerm] = useState("");
 
   // Trending
   const [trendingPosts, setTrendingPosts] = useState([]);
 
+  // Batching by categories
+  const [visibleCats, setVisibleCats] = useState(6);
+
   // Refs
-  const errorTimeoutRef = useRef(null);
   const sentinelRef = useRef(null);
+  const errorTimeoutRef = useRef(null);
   const didFirstPageLoadRef = useRef(false);
 
-  // Pull a decent chunk so blocks can fill to 5 quickly
+  // Pull enough to fill several category blocks
   const LIMIT = 30;
 
   const fetchPosts = useCallback(async () => {
@@ -49,6 +52,7 @@ function AllCategories() {
       });
 
       const newPosts = Array.isArray(res.data?.posts) ? res.data.posts : [];
+
       // De-duplicate by _id
       setPosts((prev) => {
         const map = new Map();
@@ -76,8 +80,9 @@ function AllCategories() {
 
       console.error("Failed to fetch posts (AllCategories):", err);
     }
-  }, [page, hasMore]); // no API_URL dep
+  }, [page, hasMore]); // no API_URL dep (constant)
 
+  // Cleanup timer
   useEffect(() => {
     return () => clearTimeout(errorTimeoutRef.current);
   }, []);
@@ -115,59 +120,77 @@ function AllCategories() {
   // Group by normalized category
   const postsByCategory = {};
   sortedPosts.forEach((post) => {
-    const formattedCategory =
+    const cat =
       post?.category
         ?.trim()
         .toLowerCase()
         .replace(/\s+/g, " ")
         .replace(/\b\w/g, (c) => c.toUpperCase()) || "Uncategorized";
-    if (!postsByCategory[formattedCategory]) postsByCategory[formattedCategory] = [];
-    postsByCategory[formattedCategory].push(post);
+    if (!postsByCategory[cat]) postsByCategory[cat] = [];
+    postsByCategory[cat].push(post);
   });
 
   const allCategoryEntries = Object.entries(postsByCategory);
 
-  // 🚦 Only show category blocks that are "ready":
-  // - have at least 5 posts, OR
-  // - we've reached the end (hasMore === false) and they have at least 1 (so we don't hide forever)
+  // A category block is "ready" if it has 5 posts, OR (end reached) has >=1
   const readyCategoryEntries = allCategoryEntries.filter(
     ([, items]) => items.length >= 5 || (!hasMore && items.length > 0)
   );
 
-  // Infinite scroll using a bottom sentinel (wait until tiny user scroll)
-  useEffect(() => {
-    if (!didFirstPageLoadRef.current) return; // don't trigger page 2 before page 1 shows
-    if (loading || error || !hasMore) return;
+  // ✅ Ensure we don't show the list until the first 6 category blocks are ready (or end reached)
+  const initialBatchReady =
+    readyCategoryEntries.length >= 6 || (!hasMore && readyCategoryEntries.length > 0);
 
+  // Auto-fetch more pages to reach the first 6 ready categories (no UI flicker)
+  useEffect(() => {
+    if (!didFirstPageLoadRef.current) return;
+    if (initialBatchReady) return;
+    if (!loading && hasMore) {
+      setPage((p) => p + 1);
+    }
+  }, [initialBatchReady, loading, hasMore]);
+
+  // When searching, reset paging + visible category count
+  useEffect(() => {
+    setPosts([]);
+    setPage(1);
+    setHasMore(true);
+    setShowError(false);
+    setVisibleCats(6);
+    didFirstPageLoadRef.current = false;
+    clearTimeout(errorTimeoutRef.current);
+  }, [searchTerm]);
+
+  // IntersectionObserver on a bottom sentinel:
+  // - If we already have enough ready categories for the next batch, just reveal them (visibleCats += 6)
+  // - Else, fetch another page (if possible) to fill up to the next batch
+  useEffect(() => {
+    if (!didFirstPageLoadRef.current) return;
     const node = sentinelRef.current;
     if (!node) return;
 
     const io = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) {
-          setPage((prev) => prev + 1);
+        if (!entries[0].isIntersecting) return;
+
+        const need = visibleCats + 6;
+        if (readyCategoryEntries.length >= need) {
+          setVisibleCats((v) => v + 6);
+        } else if (hasMore && !loading) {
+          setPage((p) => p + 1);
         }
       },
       {
         root: null,
-        rootMargin: "-1px", // require a tiny scroll so it doesn't auto-fire on first paint
+        // Require a tiny user scroll, so it won't auto-fire on first paint
+        rootMargin: "-1px",
         threshold: 0,
       }
     );
 
     io.observe(node);
     return () => io.disconnect();
-  }, [loading, error, hasMore]);
-
-  // Reset on search change
-  useEffect(() => {
-    setPosts([]);
-    setPage(1);
-    setHasMore(true);
-    setShowError(false);
-    didFirstPageLoadRef.current = false;
-    clearTimeout(errorTimeoutRef.current);
-  }, [searchTerm]);
+  }, [readyCategoryEntries.length, visibleCats, hasMore, loading]);
 
   return (
     <div className="all-categories-page">
@@ -192,24 +215,14 @@ function AllCategories() {
         </div>
       )}
 
-      {/* First full-screen spinner */}
-      {posts.length === 0 && loading ? (
+      {/* First load: wait until 6 categories are ready (or end reached) */}
+      {!initialBatchReady ? (
         <div className="full-page-spinner">
           <span className="spinner1" />
         </div>
-      ) : readyCategoryEntries.length === 0 ? (
-        // If we fetched something but no category has 5 yet, keep space tidy and show bottom spinner
-        <>
-          {/* No ready categories yet */}
-          {loading && (
-            <div className="infinite-spinner">
-              <span className="spinner" />
-            </div>
-          )}
-        </>
       ) : (
         <>
-          {readyCategoryEntries.map(([category, postsInCat], index) => (
+          {readyCategoryEntries.slice(0, visibleCats).map(([category, postsInCat], index) => (
             <React.Fragment key={category}>
               <section className="category-block">
                 <h2 className="category-title">#{category}</h2>
@@ -310,16 +323,18 @@ function AllCategories() {
             </React.Fragment>
           ))}
 
-          {/* Bottom sentinel to load the next page */}
+          {/* Bottom sentinel to load next 6 categories or fetch more posts */}
           <div ref={sentinelRef} />
-        </>
-      )}
 
-      {/* Inline spinner for subsequent loads (page >= 2) */}
-      {posts.length > 0 && loading && (
-        <div className="infinite-spinner">
-          <span className="spinner" />
-        </div>
+          {/* Spinner after batches:
+              - Show while fetching next page, OR
+              - Show if fewer than visibleCats+6 ready categories exist and we still have more to load */}
+          {(loading || (readyCategoryEntries.length < visibleCats + 6 && hasMore)) && (
+            <div className="infinite-spinner">
+              <span className="spinner" />
+            </div>
+          )}
+        </>
       )}
 
       {/* 10s fail + Retry */}
