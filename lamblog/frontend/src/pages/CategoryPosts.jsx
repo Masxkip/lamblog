@@ -23,7 +23,7 @@ function CategoryPosts() {
     .replace(/\b\w/g, (c) => c.toUpperCase());
 
   // ---- pagination + network state ----
-  const limit = 9; // posts per page (UI shows 9 per “index” page)
+  const limit = 6; // posts per page (UI shows 9 per “index” page)
 
   // Progressive pagination state
   const [pagesData, setPagesData] = useState([]); // array of arrays; pagesData[0] = page 1 posts, etc.
@@ -280,12 +280,7 @@ function CategoryPosts() {
             })}
           </div>
 
-          {/* Inline “loading next page” indicator below grid (optional) */}
-          {loadingMore && (
-            <div className="infinite-spinner" style={{ marginTop: 12 }}>
-              <span className="spinner" />
-            </div>
-          )}
+        
 
           {/* Pager (bottom) */}
           <div className="pager" style={{ marginTop: 16 }}>
