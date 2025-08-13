@@ -1,4 +1,4 @@
-// CategoryPosts.jsx — indexed pagination (numbered) with ellipsis, progressive loading
+// CategoryPosts.jsx — numbered pagination with ellipsis, supports full index if API returns total
 
 import React, { useEffect, useState, useContext, useRef, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
@@ -15,7 +15,7 @@ function CategoryPosts() {
   const { user } = useContext(AuthContext);
   const { name } = useParams();
 
-  // ---- normalized category (Title Case, single spaces) ----
+  // ---- normalize category (Title Case, single spaces) ----
   const normalizedCategory = name
     ?.trim()
     .toLowerCase()
@@ -25,10 +25,14 @@ function CategoryPosts() {
   // ---- pagination + network state ----
   const limit = 3; // posts per backend page
 
-  // Progressive pagination state
-  const [pagesData, setPagesData] = useState([]); // pagesData[0] = page 1 posts
+  // Each array entry is a page of posts; pagesData[0] = page 1, etc.
+  const [pagesData, setPagesData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1); // 1-based
   const [hasMore, setHasMore] = useState(true);
+
+  // If known, total number of pages for the category (computed from total count / limit).
+  // If null, we don't know yet and will fall back to progressive pager.
+  const [totalPages, setTotalPages] = useState(null);
 
   const [loadingInitial, setLoadingInitial] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -77,7 +81,13 @@ function CategoryPosts() {
         const list = Array.isArray(res.data?.posts) ? res.data.posts : [];
         setHasMore(Boolean(res.data?.hasMore));
 
-        setPagesData(prev => {
+        // If the backend provides a total count, compute total pages once on first page load.
+        // Rename res.data.total to your actual field if different (e.g., totalCount).
+        if (isFirstPage && typeof res.data?.total === "number") {
+          setTotalPages(Math.max(1, Math.ceil(res.data.total / limit)));
+        }
+
+        setPagesData((prev) => {
           if (pageToLoad === 1) return [list];
           const next = prev.slice();
           while (next.length < pageToLoad - 1) next.push([]);
@@ -97,12 +107,12 @@ function CategoryPosts() {
         const elapsed = performance.now() - start;
         const minSpinner = 250;
         const wait = elapsed < minSpinner ? minSpinner - elapsed : 0;
-        await new Promise(r => setTimeout(r, wait));
+        await new Promise((r) => setTimeout(r, wait));
         if (isFirstPage) setLoadingInitial(false);
         else setLoadingMore(false);
       }
     },
-    [normalizedCategory, isOffline] // (intentionally excluding API_URL)
+    [normalizedCategory, isOffline] // (intentionally excluding API_URL to avoid ESLint noise)
   );
 
   // ---- (re)load first page when category changes ----
@@ -110,6 +120,7 @@ function CategoryPosts() {
     setPagesData([]);
     setCurrentPage(1);
     setHasMore(true);
+    setTotalPages(null); // reset known total when the category changes
     setError(null);
     window.scrollTo({ top: 0, behavior: "smooth" });
     fetchPage(1, true);
@@ -125,36 +136,47 @@ function CategoryPosts() {
     else fetchPage(currentPage, false);
   };
 
-  // ---- pagination control handlers ----
+  // ---- pagination helpers ----
   const totalLoadedPages = pagesData.length;
-  const totalPages = hasMore ? totalLoadedPages + 1 : totalLoadedPages; // unknown final total; expose next index if hasMore
+
+  // If we know totalPages, use it; otherwise show progressive count (loaded + 1 if hasMore)
+  const effectiveTotalPages =
+    totalPages != null ? totalPages : hasMore ? totalLoadedPages + 1 : totalLoadedPages;
+
   const canPrev = currentPage > 1;
-  const canNext = currentPage < totalPages;
+  const canNext = currentPage < effectiveTotalPages;
 
   const goToPage = (n) => {
-    if (n < 1) return;
+    if (n < 1 || n > effectiveTotalPages) return;
+
     // If already loaded, just switch
     if (n <= totalLoadedPages) {
       setCurrentPage(n);
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
-    // If n is the “next” index and backend has more, fetch it
-    if (n === totalLoadedPages + 1 && hasMore && !loadingMore && !loadingInitial) {
+
+    // Otherwise fetch it on demand
+    if (!loadingMore && !loadingInitial) {
       fetchPage(n, false);
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
-  const handlePrev = () => canPrev && goToPage(currentPage - 1);
-  const handleNext = () => canNext && goToPage(currentPage + 1);
+  const handlePrev = () => {
+    if (canPrev) goToPage(currentPage - 1);
+  };
 
-  // current page posts
+  const handleNext = () => {
+    if (canNext) goToPage(currentPage + 1);
+  };
+
+  // currently displayed posts
   const currentPosts = pagesData[currentPage - 1] || [];
 
-  // ---- Compact pager with ellipsis (same as Premium) ----
+  // ---- Compact pager with ellipsis (matches Premium) ----
   const Pagination = () => {
-    if (totalPages <= 1) return null;
+    if (effectiveTotalPages <= 1) return null;
 
     const pushBtn = (n) => (
       <button
@@ -167,26 +189,43 @@ function CategoryPosts() {
       </button>
     );
 
-    const ellipsis = (key) => <span key={key} className="pager-ellipsis">…</span>;
+    const dots = (key) => (
+      <span key={key} className="pager-ellipsis">
+        …
+      </span>
+    );
 
-    const buttons = [];
-    buttons.push(pushBtn(1));
+    const btns = [];
+    // Always show first
+    btns.push(pushBtn(1));
 
-    if (currentPage > 3) buttons.push(ellipsis("l"));
+    // Left dots
+    if (currentPage > 3) btns.push(dots("l"));
 
-    for (let n = Math.max(2, currentPage - 1); n <= Math.min(totalPages - 1, currentPage + 1); n++) {
-      if (n > 1 && n < totalPages) buttons.push(pushBtn(n));
+    // Middle neighbors
+    for (
+      let n = Math.max(2, currentPage - 1);
+      n <= Math.min(effectiveTotalPages - 1, currentPage + 1);
+      n++
+    ) {
+      if (n > 1 && n < effectiveTotalPages) btns.push(pushBtn(n));
     }
 
-    if (currentPage < totalPages - 2) buttons.push(ellipsis("r"));
+    // Right dots
+    if (currentPage < effectiveTotalPages - 2) btns.push(dots("r"));
 
-    if (totalPages > 1) buttons.push(pushBtn(totalPages));
+    // Always show last
+    if (effectiveTotalPages > 1) btns.push(pushBtn(effectiveTotalPages));
 
     return (
       <div className="pager">
-        <button className="pager-nav" onClick={handlePrev} disabled={!canPrev}>← Prev</button>
-        {buttons}
-        <button className="pager-nav" onClick={handleNext} disabled={!canNext}>Next →</button>
+        <button className="pager-nav" onClick={handlePrev} disabled={!canPrev}>
+          ← Prev
+        </button>
+        {btns}
+        <button className="pager-nav" onClick={handleNext} disabled={!canNext}>
+          Next →
+        </button>
       </div>
     );
   };
@@ -208,7 +247,7 @@ function CategoryPosts() {
         </div>
       )}
 
-      {/* initial load */}
+      {/* initial load / error / content */}
       {loadingInitial ? (
         <div className="full-page-spinner">
           <span className="spinner1" />
@@ -216,7 +255,9 @@ function CategoryPosts() {
       ) : error && pagesData.length === 0 ? (
         <div className="error-block">
           <p>{error.message}</p>
-          <button className="retry-btn" onClick={handleRetry}>Retry</button>
+          <button className="retry-btn" onClick={handleRetry}>
+            Retry
+          </button>
         </div>
       ) : currentPosts.length === 0 ? (
         <p>No posts found under this category.</p>
@@ -231,7 +272,8 @@ function CategoryPosts() {
               const isLocked = post.isPremium && (!user || !user.isSubscriber);
               const target = isLocked ? "/subscribe" : `/post/${post._id}`;
               const imgSrc =
-                post.image && (post.image.startsWith("http") ? post.image : `${API_URL}/${post.image}`);
+                post.image &&
+                (post.image.startsWith("http") ? post.image : `${API_URL}/${post.image}`);
 
               return (
                 <div key={post._id} className="category-post-card">
@@ -269,8 +311,13 @@ function CategoryPosts() {
                       <p className="premium-page-snippet">
                         {post.content?.substring(0, 80)}...
                       </p>
-                      <p><strong>Category:</strong> {post.category || "Uncategorized"}</p>
-                      <p><strong>Published:</strong> {new Date(post.createdAt).toLocaleString()}</p>
+                      <p>
+                        <strong>Category:</strong> {post.category || "Uncategorized"}
+                      </p>
+                      <p>
+                        <strong>Published:</strong>{" "}
+                        {new Date(post.createdAt).toLocaleString()}
+                      </p>
                     </div>
                   </Link>
                 </div>
@@ -278,7 +325,7 @@ function CategoryPosts() {
             })}
           </div>
 
-          {/* Inline “loading next page” indicator (optional) */}
+          {/* Optional inline next-page spinner (kept for UX parity) */}
           {loadingMore && (
             <div className="infinite-spinner" style={{ marginTop: 12 }}>
               <span className="spinner" />
@@ -294,7 +341,9 @@ function CategoryPosts() {
       {!loadingInitial && error && pagesData.length > 0 && (
         <div className="error-inline">
           <span>{error.message}</span>
-          <button className="retry-btn small" onClick={handleRetry}>Retry</button>
+          <button className="retry-btn small" onClick={handleRetry}>
+            Retry
+          </button>
         </div>
       )}
 
