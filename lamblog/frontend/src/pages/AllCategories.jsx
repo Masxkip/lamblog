@@ -12,40 +12,38 @@ function AllCategories() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // Network-driven pagination state (same pattern as Home)
+  // Backend pagination (posts)
   const [posts, setPosts] = useState([]);
-  const [page, setPage] = useState(1);              // backend page pointer (what we will request next)
-  const [loadedPages, setLoadedPages] = useState(0); // how many pages have finished loading (drives visible categories)
+  const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
-  // Loading states split to avoid double-spinner on first paint
-  const [initialLoading, setInitialLoading] = useState(true); // first load only
-  const [loading, setLoading] = useState(false);              // subsequent pages (infinite scroll)
+  // UI pagination (categories)
+  const CATS_PER_PAGE = 6;
+  const [uiPage, setUiPage] = useState(1); // 1 => show 6 categories, 2 => 12, etc.
+
+  // Loading split
+  const [initialLoading, setInitialLoading] = useState(true); // first-ever fetch
+  const [loading, setLoading] = useState(false);              // subsequent fetches
 
   const [error, setError] = useState(false);
   const [showError, setShowError] = useState(false);
 
-  // Local search (client-side filter for category/title)
+  // Search + trending
   const [searchTerm, setSearchTerm] = useState("");
   const [trendingPosts, setTrendingPosts] = useState([]);
 
-  const observer = useRef();
+  const observer = useRef(null);
   const errorTimeoutRef = useRef(null);
 
-  // Keep large enough to fill categories, but UI will still clamp to 6 × loadedPages
+  // Grab enough posts at a time. The UI will clamp how many categories it shows.
   const LIMIT = 30;
 
   const fetchPosts = useCallback(async () => {
-    // If already loading or no more data, don't refetch
     if (loading || !hasMore) return;
-
     setError(false);
-    // We consider "initial loading" specifically for the very first successful fetch.
-    // If nothing has loaded yet, this is the initial load; otherwise it's pagination.
-    const isFirstLoad = loadedPages === 0 && page === 1;
-    if (isFirstLoad) {
-      setInitialLoading(true);
-    }
+
+    const isFirstLoad = initialLoading && page === 1;
+    if (isFirstLoad) setInitialLoading(true);
     setLoading(true);
 
     try {
@@ -55,44 +53,36 @@ function AllCategories() {
       });
 
       const newPosts = Array.isArray(res.data?.posts) ? res.data.posts : [];
-
-      // ✅ De-duplicate across pages by _id
-      setPosts((prev) => {
+      setPosts(prev => {
         const map = new Map();
-        prev.forEach((p) => map.set(p._id, p));
-        newPosts.forEach((p) => map.set(p._id, p));
+        prev.forEach(p => map.set(p._id, p));
+        newPosts.forEach(p => map.set(p._id, p));
         return Array.from(map.values());
       });
 
       setHasMore(Boolean(res.data?.hasMore));
       setShowError(false);
       clearTimeout(errorTimeoutRef.current);
-
-      // Mark this page as successfully loaded — drives how many categories we show
-      setLoadedPages((prev) => Math.max(prev, page));
     } catch (err) {
-      // Step back the page pointer so we can retry the same page
       setError(true);
-      setPage((prev) => Math.max(prev - 1, 1));
-
+      setPage(prev => Math.max(prev - 1, 1));
       clearTimeout(errorTimeoutRef.current);
       errorTimeoutRef.current = setTimeout(() => {
         setShowError(true);
         setLoading(false);
       }, 10000);
-
       console.error("Failed to fetch posts (AllCategories):", err);
     } finally {
       setLoading(false);
       setInitialLoading(false);
     }
-  }, [page, hasMore, loading, loadedPages]);
+  }, [page, hasMore, loading, initialLoading]);
 
   useEffect(() => {
     return () => clearTimeout(errorTimeoutRef.current);
   }, []);
 
-  // Initial + subsequent backend page loads
+  // Kick off fetch whenever `page` changes
   useEffect(() => {
     fetchPosts();
   }, [fetchPosts]);
@@ -111,7 +101,7 @@ function AllCategories() {
     fetchTrending();
   }, []);
 
-  // Filter & group by category with current posts
+  // Filter & group by category
   const filteredPosts = (Array.isArray(posts) ? posts : []).filter(
     (post) =>
       post?.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -136,38 +126,44 @@ function AllCategories() {
 
   const categoryEntries = Object.entries(postsByCategory);
 
-  // UI shows exactly 6 categories per *loaded* page
-  const CATS_PER_PAGE = 6;
-  const visibleCategoryCount = Math.max(loadedPages, 0) * CATS_PER_PAGE || (initialLoading ? 0 : CATS_PER_PAGE);
-  const clampedVisibleCount = Math.min(visibleCategoryCount, categoryEntries.length);
-  const visibleCategories = categoryEntries.slice(0, clampedVisibleCount);
+  // How many categories we WANT to show based on uiPage
+  const desiredCategoryCount = uiPage * CATS_PER_PAGE;
+  const visibleCategories = categoryEntries.slice(0, desiredCategoryCount);
 
-  // IntersectionObserver: request NEXT backend page when the last *visible* category block is visible
+  // If user asks for more categories (uiPage++) but we don't yet have enough distinct
+  // categories from the backend, auto-fetch more pages until we fill the gap or run out.
+  useEffect(() => {
+    const have = categoryEntries.length;
+    const need = desiredCategoryCount;
+    if (!initialLoading && have < need && hasMore && !loading) {
+      setPage((p) => p + 1); // pull another backend page of posts
+    }
+  }, [categoryEntries.length, desiredCategoryCount, hasMore, loading, initialLoading]);
+
+  // Observe the last *visible* category block to advance uiPage
   const lastCategoryRef = useCallback(
     (node) => {
-      // Do not attach while initial load is happening, while loading more, on errors, or when no more pages.
-      if (initialLoading || loading || error || !hasMore) return;
+      if (initialLoading || loading) return;
       if (observer.current) observer.current.disconnect();
 
       observer.current = new IntersectionObserver((entries) => {
-        const first = entries[0];
-        if (first?.isIntersecting) {
-          // Ask for next backend page — UI will keep showing 6 × loadedPages
-          setPage((prev) => prev + 1);
+        if (entries[0]?.isIntersecting) {
+          // Ask UI to show 6 more categories
+          setUiPage((u) => u + 1);
         }
       });
 
       if (node) observer.current.observe(node);
     },
-    [initialLoading, loading, error, hasMore]
+    [initialLoading, loading]
   );
 
-  // When search changes, hard reset pagination + visibility
+  // Reset when searching
   useEffect(() => {
     setPosts([]);
     setPage(1);
-    setLoadedPages(0);
     setHasMore(true);
+    setUiPage(1);
     setShowError(false);
     setInitialLoading(true);
     clearTimeout(errorTimeoutRef.current);
@@ -196,7 +192,7 @@ function AllCategories() {
         </div>
       )}
 
-      {/* --- FIRST-LOAD SPINNER (only when nothing has loaded yet) --- */}
+      {/* First-load spinner */}
       {initialLoading && posts.length === 0 ? (
         <div className="full-page-spinner">
           <span className="spinner1" />
@@ -314,7 +310,7 @@ function AllCategories() {
         })
       )}
 
-      {/* --- PAGINATION SPINNER (never show during the very first load) --- */}
+      {/* Bottom spinner: never show on the very first load */}
       {!initialLoading && loading && (
         <div className="infinite-spinner">
           <span className="spinner" />
@@ -329,8 +325,7 @@ function AllCategories() {
             onClick={() => {
               setError(false);
               setShowError(false);
-              // leave loadedPages as-is; retry the same backend 'page'
-              fetchPosts();
+              fetchPosts(); // retry current 'page'
             }}
           >
             Retry
