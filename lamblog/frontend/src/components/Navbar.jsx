@@ -9,7 +9,7 @@ function Navbar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
-  // 🔔 auto-close kebab when viewport size changes
+  // auto-close kebab when viewport size changes
   useEffect(() => {
     const handleResize = () => setShowMenu(false);
     window.addEventListener("resize", handleResize);

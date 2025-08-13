@@ -47,7 +47,7 @@ function Home() {
       const res = await axios.get(`${API_URL}/api/posts?${queryParams.join("&")}`);
       setPosts((prev) => [...prev, ...res.data.posts]);
       setHasMore(res.data.hasMore);
-      setLoading(false); // Success path
+      setLoading(false); 
     } catch (err) {
       setError(true);
       setPage((prev) => Math.max(prev - 1, 1));

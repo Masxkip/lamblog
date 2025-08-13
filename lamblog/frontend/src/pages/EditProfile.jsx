@@ -5,7 +5,7 @@ import AuthContext from "../context/AuthContext";
 import BottomNav from "../components/BottomNav";
 import BackArrow from "../components/BackArrow";
 import LoadingButton from "../components/LoadingButton";
-import { FaCamera } from "react-icons/fa";          // ← NEW
+import { FaCamera } from "react-icons/fa";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 

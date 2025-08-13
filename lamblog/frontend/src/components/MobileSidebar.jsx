@@ -132,7 +132,6 @@ useEffect(() => {
                 <MoreHorizontal size={18} />
               </Link>
             ))}
-                          {/* ✅ View All Button */}
   <Link
     to="/premium"
     onClick={onClose}

@@ -6,7 +6,6 @@ function ProtectedRoute({ children }) {
   const { user, loading } = useContext(AuthContext);
 
   if (loading) {
-    // You can customize this loader however you like
     return (
       <div style={{ padding: "2rem", textAlign: "center" }}>
         <p>Checking authentication...</p>

@@ -16,8 +16,8 @@ function EditPost() {
   const [content, setContent] = useState("");
 
   const [message, setMessage] = useState("");
-  const [pageLoading, setPageLoading] = useState(true); // for fetching the post
-  const [saving, setSaving] = useState(false);          // for updating the post
+  const [pageLoading, setPageLoading] = useState(true); 
+  const [saving, setSaving] = useState(false);          
 
   useEffect(() => {
     const fetchPost = async () => {

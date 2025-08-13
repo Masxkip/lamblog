@@ -547,7 +547,7 @@ useEffect(() => {
         </div>
       ))}
 
-      {/* ✅ Reply box always appears if reply toggle is open and user is logged in */}
+      {/* Reply box always appears if reply toggle is open and user is logged in */}
       {user && (
         <div className="reply-box">
           <input
