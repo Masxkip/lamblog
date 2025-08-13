@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useRef, useCallback } from "react";
+import React, { useEffect, useMemo, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import BottomNav from "../components/BottomNav";
@@ -8,167 +8,195 @@ import AuthContext from "../context/AuthContext";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
+const CATS_PER_PAGE = 6;
+const POSTS_PER_CATEGORY = 5;
+
 function AllCategories() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // Backend pagination (posts)
-  const [posts, setPosts] = useState([]);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  // --- Categories list + loading state ---
+  const [categories, setCategories] = useState([]);     // array of strings
+  const [catsLoading, setCatsLoading] = useState(true);
+  const [catsError, setCatsError] = useState("");
 
-  // UI pagination (categories)
-  const CATS_PER_PAGE = 6;
-  const [uiPage, setUiPage] = useState(1); // 1 => show 6 categories, 2 => 12, etc.
+  // --- UI paging over categories ---
+  const [currentPage, setCurrentPage] = useState(1);
 
-  // Loading split
-  const [initialLoading, setInitialLoading] = useState(true); // first-ever fetch
-  const [loading, setLoading] = useState(false);              // subsequent fetches
-
-  const [error, setError] = useState(false);
-  const [showError, setShowError] = useState(false);
-
-  // Search + trending
+  // --- Search filters categories by name ---
   const [searchTerm, setSearchTerm] = useState("");
+
+  // --- Cache posts per category to avoid refetch on page change ---
+  const [catPostsCache, setCatPostsCache] = useState({});   // { [category]: Post[] }
+  const [catFetchState, setCatFetchState] = useState({});   // { [category]: "idle"|"loading"|"error" }
+
+  // --- Trending (unchanged) ---
   const [trendingPosts, setTrendingPosts] = useState([]);
 
-  const observer = useRef(null);
-  const errorTimeoutRef = useRef(null);
-
-  // Grab enough posts at a time. The UI will clamp how many categories it shows.
-  const LIMIT = 30;
-
-  const fetchPosts = useCallback(async () => {
-    if (loading || !hasMore) return;
-    setError(false);
-
-    const isFirstLoad = initialLoading && page === 1;
-    if (isFirstLoad) setInitialLoading(true);
-    setLoading(true);
-
-    try {
-      const res = await axios.get(`${API_URL}/api/posts`, {
-        params: { page, limit: LIMIT },
-        timeout: 10000,
-      });
-
-      const newPosts = Array.isArray(res.data?.posts) ? res.data.posts : [];
-      setPosts(prev => {
-        const map = new Map();
-        prev.forEach(p => map.set(p._id, p));
-        newPosts.forEach(p => map.set(p._id, p));
-        return Array.from(map.values());
-      });
-
-      setHasMore(Boolean(res.data?.hasMore));
-      setShowError(false);
-      clearTimeout(errorTimeoutRef.current);
-    } catch (err) {
-      setError(true);
-      setPage(prev => Math.max(prev - 1, 1));
-      clearTimeout(errorTimeoutRef.current);
-      errorTimeoutRef.current = setTimeout(() => {
-        setShowError(true);
-        setLoading(false);
-      }, 10000);
-      console.error("Failed to fetch posts (AllCategories):", err);
-    } finally {
-      setLoading(false);
-      setInitialLoading(false);
-    }
-  }, [page, hasMore, loading, initialLoading]);
-
+  // ---------- Fetch categories once ----------
   useEffect(() => {
-    return () => clearTimeout(errorTimeoutRef.current);
+    let cancelled = false;
+
+    async function loadCategories() {
+      setCatsLoading(true);
+      setCatsError("");
+      try {
+        const res = await axios.get(`${API_URL}/api/posts/categories`, { timeout: 10000 });
+        const list = Array.isArray(res.data) ? res.data : [];
+
+        // Normalize to Title Case with single spaces (matches your server normalization)
+        const normalized = list
+          .filter(Boolean)
+          .map((c) =>
+            c
+              .trim()
+              .toLowerCase()
+              .replace(/\s+/g, " ")
+              .replace(/\b\w/g, (ch) => ch.toUpperCase())
+          );
+
+        if (!cancelled) setCategories(normalized);
+      } catch (err) {
+        if (!cancelled) setCatsError("Failed to load categories.");
+        console.error("Categories fetch error:", err);
+      } finally {
+        if (!cancelled) setCatsLoading(false);
+      }
+    }
+
+    loadCategories();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  // Kick off fetch whenever `page` changes
+  // ---------- Fetch trending (once) ----------
   useEffect(() => {
-    fetchPosts();
-  }, [fetchPosts]);
+    let cancelled = false;
 
-  // Trending (unchanged)
-  useEffect(() => {
-    const fetchTrending = async () => {
+    async function loadTrending() {
       try {
-        const res = await axios.get(`${API_URL}/api/posts/trending/posts`);
-        setTrendingPosts(Array.isArray(res.data) ? res.data : []);
+        const res = await axios.get(`${API_URL}/api/posts/trending/posts`, { timeout: 10000 });
+        if (!cancelled) setTrendingPosts(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
         console.error("Failed to fetch trending posts", err);
-        setTrendingPosts([]);
+        if (!cancelled) setTrendingPosts([]);
       }
+    }
+
+    loadTrending();
+    return () => {
+      cancelled = true;
     };
-    fetchTrending();
   }, []);
 
-  // Filter & group by category
-  const filteredPosts = (Array.isArray(posts) ? posts : []).filter(
-    (post) =>
-      post?.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post?.title?.toLowerCase().includes(searchTerm.toLowerCase())
+  // ---------- Filter & paginate categories (client-side) ----------
+  const filteredCategories = useMemo(() => {
+    const t = searchTerm.trim().toLowerCase();
+    if (!t) return categories;
+    return categories.filter((c) => c.toLowerCase().includes(t));
+  }, [categories, searchTerm]);
+
+  const totalPages = useMemo(
+    () => (filteredCategories.length ? Math.ceil(filteredCategories.length / CATS_PER_PAGE) : 0),
+    [filteredCategories.length]
   );
 
-  const sortedPosts = filteredPosts.sort(
-    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-  );
-
-  const postsByCategory = {};
-  sortedPosts.forEach((post) => {
-    const formattedCategory =
-      post?.category
-        ?.trim()
-        .toLowerCase()
-        .replace(/\s+/g, " ")
-        .replace(/\b\w/g, (c) => c.toUpperCase()) || "Uncategorized";
-    if (!postsByCategory[formattedCategory]) postsByCategory[formattedCategory] = [];
-    postsByCategory[formattedCategory].push(post);
-  });
-
-  const categoryEntries = Object.entries(postsByCategory);
-
-  // How many categories we WANT to show based on uiPage
-  const desiredCategoryCount = uiPage * CATS_PER_PAGE;
-  const visibleCategories = categoryEntries.slice(0, desiredCategoryCount);
-
-  // If user asks for more categories (uiPage++) but we don't yet have enough distinct
-  // categories from the backend, auto-fetch more pages until we fill the gap or run out.
+  // Clamp currentPage when search/filter changes
   useEffect(() => {
-    const have = categoryEntries.length;
-    const need = desiredCategoryCount;
-    if (!initialLoading && have < need && hasMore && !loading) {
-      setPage((p) => p + 1); // pull another backend page of posts
+    if (totalPages === 0) {
+      setCurrentPage(1);
+    } else if (currentPage > totalPages) {
+      setCurrentPage(totalPages);
     }
-  }, [categoryEntries.length, desiredCategoryCount, hasMore, loading, initialLoading]);
+  }, [totalPages, currentPage]);
 
-  // Observe the last *visible* category block to advance uiPage
-  const lastCategoryRef = useCallback(
-    (node) => {
-      if (initialLoading || loading) return;
-      if (observer.current) observer.current.disconnect();
+  const pageStart = (Math.max(currentPage, 1) - 1) * CATS_PER_PAGE;
+  const pageCategories = filteredCategories.slice(pageStart, pageStart + CATS_PER_PAGE);
 
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0]?.isIntersecting) {
-          // Ask UI to show 6 more categories
-          setUiPage((u) => u + 1);
-        }
-      });
-
-      if (node) observer.current.observe(node);
-    },
-    [initialLoading, loading]
-  );
-
-  // Reset when searching
+  // ---------- Fetch posts for categories visible on the current page ----------
   useEffect(() => {
-    setPosts([]);
-    setPage(1);
-    setHasMore(true);
-    setUiPage(1);
-    setShowError(false);
-    setInitialLoading(true);
-    clearTimeout(errorTimeoutRef.current);
-  }, [searchTerm]);
+    let cancelled = false;
 
+    async function fetchCategoryPosts(category) {
+      // skip if cached or already loading
+      if (catPostsCache[category] || catFetchState[category] === "loading") return;
+
+      setCatFetchState((s) => ({ ...s, [category]: "loading" }));
+      try {
+        const res = await axios.get(`${API_URL}/api/posts`, {
+          params: { category, limit: POSTS_PER_CATEGORY },
+          timeout: 10000,
+        });
+
+        if (!cancelled) {
+          const posts = Array.isArray(res.data?.posts) ? res.data.posts : [];
+          setCatPostsCache((cache) => ({ ...cache, [category]: posts }));
+          setCatFetchState((s) => ({ ...s, [category]: "idle" }));
+        }
+      } catch (err) {
+        console.error(`Failed to load posts for category "${category}"`, err);
+        if (!cancelled) {
+          setCatFetchState((s) => ({ ...s, [category]: "error" }));
+        }
+      }
+    }
+
+    // fetch missing categories in parallel
+    pageCategories.forEach((cat) => fetchCategoryPosts(cat));
+
+    return () => {
+      cancelled = true;
+    };
+  }, [pageCategories, catPostsCache, catFetchState]);
+
+  // ---------- Pagination controls ----------
+  const goToPage = (n) => {
+    if (n < 1 || n > totalPages) return;
+    setCurrentPage(n);
+    // (optional) scroll to top
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const PaginationBar = () => {
+    if (totalPages <= 1) return null;
+
+    const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+
+    return (
+      <div className="pagination">
+        <button
+          className="pg-btn"
+          disabled={currentPage === 1}
+          onClick={() => goToPage(currentPage - 1)}
+        >
+          ← Prev
+        </button>
+
+        <div className="pg-pages">
+          {pages.map((p) => (
+            <button
+              key={p}
+              onClick={() => goToPage(p)}
+              className={`pg-num ${p === currentPage ? "active" : ""}`}
+            >
+              {p}
+            </button>
+          ))}
+        </div>
+
+        <button
+          className="pg-btn"
+          disabled={currentPage === totalPages}
+          onClick={() => goToPage(currentPage + 1)}
+        >
+          Next →
+        </button>
+      </div>
+    );
+  };
+
+  // ---------- Render ----------
   return (
     <div className="all-categories-page">
       <div className="category-searchbar-wrapper">
@@ -178,159 +206,184 @@ function AllCategories() {
 
         <input
           type="text"
-          placeholder="Search categories or titles…"
+          placeholder="Search categories…"
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setCurrentPage(1); // reset to first page on new search
+          }}
           className="category-search-bar"
         />
       </div>
 
       {searchTerm && (
         <div className="search-results-heading">
-          Showing {filteredPosts.length} result
-          {filteredPosts.length !== 1 ? "s" : ""} for: <strong>"{searchTerm}"</strong>
+          Showing {filteredCategories.length} categor
+          {filteredCategories.length === 1 ? "y" : "ies"} for: <strong>"{searchTerm}"</strong>
         </div>
       )}
 
-      {/* First-load spinner */}
-      {initialLoading && posts.length === 0 ? (
+      {/* Categories list loader / error */}
+      {catsLoading ? (
         <div className="full-page-spinner">
           <span className="spinner1" />
         </div>
-      ) : visibleCategories.length === 0 ? (
+      ) : catsError ? (
+        <div className="error-message">
+          {catsError}
+          <button onClick={() => {
+            // simple retry: re-run mount effect by toggling a local key (or just reload)
+            window.location.reload();
+          }}>Retry</button>
+        </div>
+      ) : filteredCategories.length === 0 ? (
         <div className="no-posts-message">
-          <p>No posts available for your search.</p>
+          <p>No categories found.</p>
         </div>
       ) : (
-        visibleCategories.map(([category, postsInCat], index) => {
-          const isLastVisible = index === visibleCategories.length - 1;
+        <>
+          {/* Top pager */}
+          <PaginationBar />
 
-          return (
-            <React.Fragment key={category}>
-              <section
-                className="category-block"
-                ref={isLastVisible ? lastCategoryRef : null}
-              >
-                <h2 className="category-title">#{category}</h2>
+          {/* Category blocks for current page */}
+          {pageCategories.map((category, index) => {
+            const postsInCat = catPostsCache[category] || [];
+            const state = catFetchState[category] || "idle";
+            const isLoading = state === "loading";
+            const isError = state === "error";
 
-                <div className="category-slider">
-                  {postsInCat.slice(0, 5).map((post) => {
-                    const isLocked = post.isPremium && (!user || !user.isSubscriber);
-                    const target = isLocked ? "/subscribe" : `/post/${post._id}`;
+            return (
+              <React.Fragment key={category}>
+                <section className="category-block">
+                  <h2 className="category-title">#{category}</h2>
 
-                    return (
-                      <div className="slider-post-card" key={post._id}>
-                        <Link to={target} className="slider-post-card-link">
-                          <div className="slider-post-card-inner">
-                            {/* Image */}
-                            {post.image && (
-                              <div
-                                className={`fixed-image-wrapper1 ${isLocked ? "premium-locked" : ""}`}
-                              >
-                                <img
-                                  src={
-                                    post.image.startsWith("http")
-                                      ? post.image
-                                      : `${API_URL}/${post.image}`
-                                  }
-                                  alt={post.title}
-                                  className={`fixed-image1 ${isLocked ? "blurred-content" : ""}`}
-                                />
-                                {isLocked && (
-                                  <div className="locked-banner small">
-                                    <Lock size={14} style={{ marginRight: "6px" }} />
-                                    Subscribe to view
+                  {/* Posts list or small loader per category */}
+                  {isLoading ? (
+                    <div className="category-inline-spinner">
+                      <span className="spinner" />
+                    </div>
+                  ) : isError ? (
+                    <div className="error-message">
+                      Failed to load posts for #{category}.
+                      <button
+                        onClick={async () => {
+                          // force refetch on this category
+                          setCatPostsCache((cache) => {
+                            const copy = { ...cache };
+                            delete copy[category];
+                            return copy;
+                          });
+                          setCatFetchState((s) => ({ ...s, [category]: "idle" }));
+                        }}
+                      >
+                        Retry
+                      </button>
+                    </div>
+                  ) : postsInCat.length === 0 ? (
+                    <p className="empty-category">No posts in this category yet.</p>
+                  ) : (
+                    <div className="category-slider">
+                      {postsInCat.slice(0, POSTS_PER_CATEGORY).map((post) => {
+                        const isLocked = post.isPremium && (!user || !user.isSubscriber);
+                        const target = isLocked ? "/subscribe" : `/post/${post._id}`;
+
+                        return (
+                          <div className="slider-post-card" key={post._id}>
+                            <Link to={target} className="slider-post-card-link">
+                              <div className="slider-post-card-inner">
+                                {/* Image */}
+                                {post.image && (
+                                  <div
+                                    className={`fixed-image-wrapper1 ${isLocked ? "premium-locked" : ""}`}
+                                  >
+                                    <img
+                                      src={
+                                        post.image.startsWith("http")
+                                          ? post.image
+                                          : `${API_URL}/${post.image}`
+                                      }
+                                      alt={post.title}
+                                      className={`fixed-image1 ${isLocked ? "blurred-content" : ""}`}
+                                    />
+                                    {isLocked && (
+                                      <div className="locked-banner small">
+                                        {/* icon size tiny for consistency */}
+                                        <Lock size={14} style={{ marginRight: "6px" }} />
+                                        Subscribe to view
+                                      </div>
+                                    )}
                                   </div>
                                 )}
-                              </div>
-                            )}
 
-                            {/* Text */}
-                            <div className="slider-post-card-content">
-                              <div className="profile-link verified-user">
-                                <span className="slider-post-card-author">
-                                  @{post.author?.username}
-                                </span>
-                                {post.author?.isSubscriber && (
-                                  <span className="verified-circle">
-                                    <Check size={12} strokeWidth={3} />
-                                  </span>
-                                )}
+                                {/* Text */}
+                                <div className="slider-post-card-content">
+                                  <div className="profile-link verified-user">
+                                    <span className="slider-post-card-author">
+                                      @{post.author?.username}
+                                    </span>
+                                    {post.author?.isSubscriber && (
+                                      <span className="verified-circle">
+                                        <Check size={12} strokeWidth={3} />
+                                      </span>
+                                    )}
+                                  </div>
+                                  <h3 className="slider-post-card-title">#{post.title}</h3>
+                                  <p className="slider-post-card-snippet">
+                                    {post.content?.substring(0, 80)}...
+                                  </p>
+                                  <p>
+                                    <strong>Category:</strong> {post.category || "Uncategorized"}
+                                  </p>
+                                  <p>
+                                    <strong>Published:</strong>{" "}
+                                    {new Date(post.createdAt).toLocaleString()}
+                                  </p>
+                                </div>
                               </div>
-                              <h3 className="slider-post-card-title">#{post.title}</h3>
-                              <p className="slider-post-card-snippet">
-                                {post.content?.substring(0, 80)}...
-                              </p>
-                              <p>
-                                <strong>Category:</strong> {post.category || "Uncategorized"}
-                              </p>
-                              <p>
-                                <strong>Published:</strong>{" "}
-                                {new Date(post.createdAt).toLocaleString()}
-                              </p>
-                            </div>
+                            </Link>
                           </div>
-                        </Link>
-                      </div>
-                    );
-                  })}
-                </div>
+                        );
+                      })}
+                    </div>
+                  )}
 
-                <Link
-                  to={`/category/${encodeURIComponent(category)}`}
-                  className="view-all-premium-btn"
-                >
-                  View All Posts →
-                </Link>
+                  <Link
+                    to={`/category/${encodeURIComponent(category)}`}
+                    className="view-all-premium-btn"
+                  >
+                    View All Posts →
+                  </Link>
 
-                <hr className="category-divider" />
-              </section>
+                  <hr className="category-divider" />
+                </section>
 
-              {index === 1 && (
-                <div className="trending-categories-section">
-                  <h3 className="premium-heading">Trending Posts</h3>
-                  {trendingPosts.map((post) => (
-                    <Link to={`/post/${post._id}`} key={post._id} className="premium-item">
-                      <div className="premium-text">
-                        <small className="premium-meta">
-                          {post.category || "General"} · Trending
-                        </small>
-                        <span className="item-title">#{post.title}</span>
-                        <small className="premium-meta">
-                          {post.views ? `${post.views.toLocaleString()} views` : "Popular post"}
-                        </small>
-                      </div>
-                      <MoreHorizontal size={18} />
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </React.Fragment>
-          );
-        })
-      )}
+                {/* Keep Trending after the second block as before */}
+                {index === 1 && (
+                  <div className="trending-categories-section">
+                    <h3 className="premium-heading">Trending Posts</h3>
+                    {trendingPosts.map((post) => (
+                      <Link to={`/post/${post._id}`} key={post._id} className="premium-item">
+                        <div className="premium-text">
+                          <small className="premium-meta">
+                            {post.category || "General"} · Trending
+                          </small>
+                          <span className="item-title">#{post.title}</span>
+                          <small className="premium-meta">
+                            {post.views ? `${post.views.toLocaleString()} views` : "Popular post"}
+                          </small>
+                        </div>
+                        <MoreHorizontal size={18} />
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </React.Fragment>
+            );
+          })}
 
-      {/* Bottom spinner: never show on the very first load */}
-      {!initialLoading && loading && (
-        <div className="infinite-spinner">
-          <span className="spinner" />
-        </div>
-      )}
-
-      {/* 10s fail + Retry */}
-      {showError && error && (
-        <div className="error-message">
-          Failed to load more posts. Please check your connection.
-          <button
-            onClick={() => {
-              setError(false);
-              setShowError(false);
-              fetchPosts(); // retry current 'page'
-            }}
-          >
-            Retry
-          </button>
-        </div>
+          {/* Bottom pager */}
+          <PaginationBar />
+        </>
       )}
 
       <BottomNav />
