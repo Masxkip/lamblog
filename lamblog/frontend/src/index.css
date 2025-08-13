@@ -4182,3 +4182,80 @@ select:focus {
   text-align: center;
   margin: 2rem auto;
 }
+
+
+
+
+
+
+
+
+
+
+/* Pagination container */
+.pager {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin: 20px 0;
+}
+
+/* Numbered page buttons */
+.pager-btn {
+  background-color: #222; /* dark background */
+  border: 1px solid #444;
+  color: #ccc;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.pager-btn:hover {
+  background-color: #333;
+  color: #fff;
+  border-color: #666;
+}
+
+/* Active page - larger with glow */
+.pager-btn.active {
+  background-color: #6c63ff; /* highlight color */
+  color: white;
+  font-weight: bold;
+  border-color: #6c63ff;
+  cursor: default;
+  transform: scale(1.1); /* slightly larger */
+  box-shadow: 0 0 8px rgba(108, 99, 255, 0.7); /* subtle glow */
+}
+
+/* Prev/Next buttons */
+.pager-nav {
+  background-color: #111;
+  border: 1px solid #444;
+  color: #aaa;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease-in-out;
+}
+
+.pager-nav:hover:not(:disabled) {
+  background-color: #333;
+  color: #fff;
+  border-color: #666;
+}
+
+.pager-nav:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Ellipsis (...) */
+.pager-ellipsis {
+  color: #666;
+  padding: 0 4px;
+  user-select: none;
+}
