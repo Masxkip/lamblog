@@ -1,4 +1,4 @@
-// CategoryPosts.jsx — indexed pagination (numbered), progressive loading
+// CategoryPosts.jsx — indexed pagination (numbered) with ellipsis, progressive loading
 
 import React, { useEffect, useState, useContext, useRef, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
@@ -23,11 +23,11 @@ function CategoryPosts() {
     .replace(/\b\w/g, (c) => c.toUpperCase());
 
   // ---- pagination + network state ----
-  const limit = 3; // posts per page (UI shows 9 per “index” page)
+  const limit = 3; // posts per backend page
 
   // Progressive pagination state
-  const [pagesData, setPagesData] = useState([]); // array of arrays; pagesData[0] = page 1 posts, etc.
-  const [currentPage, setCurrentPage] = useState(1); // 1-based index into pagesData
+  const [pagesData, setPagesData] = useState([]); // pagesData[0] = page 1 posts
+  const [currentPage, setCurrentPage] = useState(1); // 1-based
   const [hasMore, setHasMore] = useState(true);
 
   const [loadingInitial, setLoadingInitial] = useState(true);
@@ -78,10 +78,8 @@ function CategoryPosts() {
         setHasMore(Boolean(res.data?.hasMore));
 
         setPagesData(prev => {
-          // If loading page 1, reset; otherwise append (ensure no gaps)
           if (pageToLoad === 1) return [list];
           const next = prev.slice();
-          // if user skipped (shouldn’t happen through UI), pad
           while (next.length < pageToLoad - 1) next.push([]);
           next[pageToLoad - 1] = list;
           return next;
@@ -104,7 +102,7 @@ function CategoryPosts() {
         else setLoadingMore(false);
       }
     },
-    [normalizedCategory, isOffline] // (intentionally excluding API_URL to avoid ESLint warning)
+    [normalizedCategory, isOffline] // (intentionally excluding API_URL)
   );
 
   // ---- (re)load first page when category changes ----
@@ -129,37 +127,69 @@ function CategoryPosts() {
 
   // ---- pagination control handlers ----
   const totalLoadedPages = pagesData.length;
+  const totalPages = hasMore ? totalLoadedPages + 1 : totalLoadedPages; // unknown final total; expose next index if hasMore
   const canPrev = currentPage > 1;
-  const canNext = currentPage < totalLoadedPages || hasMore;
+  const canNext = currentPage < totalPages;
 
   const goToPage = (n) => {
-    // If page already loaded, just switch
-    if (n >= 1 && n <= totalLoadedPages) {
+    if (n < 1) return;
+    // If already loaded, just switch
+    if (n <= totalLoadedPages) {
       setCurrentPage(n);
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
-    // If n is exactly the “next” page and we still have more, fetch it
+    // If n is the “next” index and backend has more, fetch it
     if (n === totalLoadedPages + 1 && hasMore && !loadingMore && !loadingInitial) {
       fetchPage(n, false);
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
-  const handlePrev = () => {
-    if (!canPrev) return;
-    goToPage(currentPage - 1);
-  };
-
-  const handleNext = () => {
-    if (!canNext) return;
-    // If there’s a loaded next page, go there; else fetch the next page
-    if (currentPage < totalLoadedPages) goToPage(currentPage + 1);
-    else goToPage(totalLoadedPages + 1);
-  };
+  const handlePrev = () => canPrev && goToPage(currentPage - 1);
+  const handleNext = () => canNext && goToPage(currentPage + 1);
 
   // current page posts
   const currentPosts = pagesData[currentPage - 1] || [];
+
+  // ---- Compact pager with ellipsis (same as Premium) ----
+  const Pagination = () => {
+    if (totalPages <= 1) return null;
+
+    const pushBtn = (n) => (
+      <button
+        key={n}
+        className={`pager-btn ${n === currentPage ? "active" : ""}`}
+        onClick={() => goToPage(n)}
+        disabled={n === currentPage}
+      >
+        {n}
+      </button>
+    );
+
+    const ellipsis = (key) => <span key={key} className="pager-ellipsis">…</span>;
+
+    const buttons = [];
+    buttons.push(pushBtn(1));
+
+    if (currentPage > 3) buttons.push(ellipsis("l"));
+
+    for (let n = Math.max(2, currentPage - 1); n <= Math.min(totalPages - 1, currentPage + 1); n++) {
+      if (n > 1 && n < totalPages) buttons.push(pushBtn(n));
+    }
+
+    if (currentPage < totalPages - 2) buttons.push(ellipsis("r"));
+
+    if (totalPages > 1) buttons.push(pushBtn(totalPages));
+
+    return (
+      <div className="pager">
+        <button className="pager-nav" onClick={handlePrev} disabled={!canPrev}>← Prev</button>
+        {buttons}
+        <button className="pager-nav" onClick={handleNext} disabled={!canNext}>Next →</button>
+      </div>
+    );
+  };
 
   return (
     <div className="category-posts-page">
@@ -193,39 +223,7 @@ function CategoryPosts() {
       ) : (
         <>
           {/* Pager (top) */}
-          <div className="pager">
-            <button className="pager-nav" onClick={handlePrev} disabled={!canPrev}>← Prev</button>
-
-            {/* number buttons for loaded pages */}
-            {Array.from({ length: totalLoadedPages }, (_, i) => {
-              const n = i + 1;
-              return (
-                <button
-                  key={n}
-                  className={`pager-btn ${n === currentPage ? "active" : ""}`}
-                  onClick={() => goToPage(n)}
-                  disabled={n === currentPage}
-                >
-                  {n}
-                </button>
-              );
-            })}
-
-            {/* show the next page index if more pages exist */}
-            {hasMore && (
-              <button
-                className={`pager-btn ${currentPage === totalLoadedPages + 1 ? "active" : ""}`}
-                onClick={() => goToPage(totalLoadedPages + 1)}
-                disabled={loadingMore}
-              >
-                {totalLoadedPages + 1}
-              </button>
-            )}
-
-            <button className="pager-nav" onClick={handleNext} disabled={!canNext}>
-              Next →
-            </button>
-          </div>
+          <Pagination />
 
           {/* Posts grid for current page */}
           <div className="category-posts-container">
@@ -280,40 +278,15 @@ function CategoryPosts() {
             })}
           </div>
 
-        
+          {/* Inline “loading next page” indicator (optional) */}
+          {loadingMore && (
+            <div className="infinite-spinner" style={{ marginTop: 12 }}>
+              <span className="spinner" />
+            </div>
+          )}
 
           {/* Pager (bottom) */}
-          <div className="pager" style={{ marginTop: 16 }}>
-            <button className="pager-nav" onClick={handlePrev} disabled={!canPrev}>← Prev</button>
-
-            {Array.from({ length: totalLoadedPages }, (_, i) => {
-              const n = i + 1;
-              return (
-                <button
-                  key={n}
-                  className={`pager-btn ${n === currentPage ? "active" : ""}`}
-                  onClick={() => goToPage(n)}
-                  disabled={n === currentPage}
-                >
-                  {n}
-                </button>
-              );
-            })}
-
-            {hasMore && (
-              <button
-                className={`pager-btn ${currentPage === totalLoadedPages + 1 ? "active" : ""}`}
-                onClick={() => goToPage(totalLoadedPages + 1)}
-                disabled={loadingMore}
-              >
-                {totalLoadedPages + 1}
-              </button>
-            )}
-
-            <button className="pager-nav" onClick={handleNext} disabled={!canNext}>
-              Next →
-            </button>
-          </div>
+          <Pagination />
         </>
       )}
 
