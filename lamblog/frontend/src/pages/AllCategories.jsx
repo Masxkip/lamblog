@@ -10,7 +10,7 @@ import AuthContext from "../context/AuthContext";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
-const CATS_PER_PAGE = 6;
+const CATS_PER_PAGE = 3;
 const LIMIT = 30; // backend page size for posts fetch
 
 function AllCategories() {
