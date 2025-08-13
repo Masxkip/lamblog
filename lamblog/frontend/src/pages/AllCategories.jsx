@@ -1,3 +1,5 @@
+// AllCategories.jsx — indexed pagination (6 categories per page)
+
 import React, { useEffect, useState, useContext, useRef, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -8,45 +10,43 @@ import AuthContext from "../context/AuthContext";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
+const CATS_PER_PAGE = 6;
+const LIMIT = 30; // backend page size for posts fetch
+
 function AllCategories() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // Network-driven pagination state (same pattern as Home)
+  // Network-driven state
   const [posts, setPosts] = useState([]);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
-  const [loading, setLoading] = useState(false);
+  const [netPage, setNetPage] = useState(1);      // backend page pointer
+  const [hasMore, setHasMore] = useState(true);   // from backend
+  const [loading, setLoading] = useState(false);  // first-load or on-demand prefetch
   const [error, setError] = useState(false);
   const [showError, setShowError] = useState(false);
 
-  // Local search (client-side filter for category/title)
+  // UI state
   const [searchTerm, setSearchTerm] = useState("");
   const [trendingPosts, setTrendingPosts] = useState([]);
+  const [catPage, setCatPage] = useState(1);      // <-- indexed pagination by category
 
-  const observer = useRef();
   const errorTimeoutRef = useRef(null);
-  const LIMIT = 30; // fetch enough to reveal multiple category blocks at once
 
   const fetchPosts = useCallback(async () => {
     if (!hasMore) return;
-
     setLoading(true);
     setError(false);
-
     try {
       const res = await axios.get(`${API_URL}/api/posts`, {
-        params: { page, limit: LIMIT },
-        timeout: 10000, // 10s real timeout like Home's behavior
+        params: { page: netPage, limit: LIMIT },
+        timeout: 10000,
       });
 
       const newPosts = Array.isArray(res.data?.posts) ? res.data.posts : [];
-
-      // ✅ De-duplicate across pages by _id
-      setPosts((prev) => {
+      setPosts(prev => {
         const map = new Map();
-        prev.forEach((p) => map.set(p._id, p));
-        newPosts.forEach((p) => map.set(p._id, p));
+        prev.forEach(p => map.set(p._id, p));
+        newPosts.forEach(p => map.set(p._id, p));
         return Array.from(map.values());
       });
 
@@ -55,45 +55,43 @@ function AllCategories() {
       setShowError(false);
       clearTimeout(errorTimeoutRef.current);
     } catch (err) {
-      // Step back the page pointer so we can retry the same page
       setError(true);
-      setPage((prev) => Math.max(prev - 1, 1));
-
-      // After 10s, show the error UI + Retry
+      // step back so we can retry same backend page on next attempt
+      setNetPage(prev => Math.max(prev - 1, 1));
       clearTimeout(errorTimeoutRef.current);
       errorTimeoutRef.current = setTimeout(() => {
         setShowError(true);
         setLoading(false);
       }, 10000);
-
       console.error("Failed to fetch posts (AllCategories):", err);
     }
-  }, [page, hasMore]);
+  }, [netPage, hasMore]); // (intentionally excluding API_URL to avoid ESLint noise)
 
+  // Cleanup timer
   useEffect(() => {
     return () => clearTimeout(errorTimeoutRef.current);
   }, []);
 
-  // Initial load + subsequent page loads
+  // Initial fetch
   useEffect(() => {
     fetchPosts();
   }, [fetchPosts]);
 
   // Trending (unchanged)
-useEffect(() => {
-  const fetchTrending = async () => {
-    try {
-      const res = await axios.get(`${API_URL}/api/posts/trending/posts`);
-      setTrendingPosts(Array.isArray(res.data) ? res.data : []);
-    } catch (err) {
-      console.error("Failed to fetch trending posts", err);
-      setTrendingPosts([]);
-    }
-  };
-  fetchTrending();
-}, []);
+  useEffect(() => {
+    const fetchTrending = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/api/posts/trending/posts`);
+        setTrendingPosts(Array.isArray(res.data) ? res.data : []);
+      } catch (err) {
+        console.error("Failed to fetch trending posts", err);
+        setTrendingPosts([]);
+      }
+    };
+    fetchTrending();
+  }, []);
 
-  // Filter & group by category with current posts
+  // Filter, sort, group by category
   const filteredPosts = (Array.isArray(posts) ? posts : []).filter(
     (post) =>
       post?.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -117,33 +115,102 @@ useEffect(() => {
   });
 
   const categoryEntries = Object.entries(postsByCategory);
+  const totalCatPages = Math.max(1, Math.ceil(categoryEntries.length / CATS_PER_PAGE));
 
-  // IntersectionObserver: request NEXT PAGE from backend when the last category block is visible
-  const lastCategoryRef = useCallback(
-    (node) => {
-      if (loading || error || !hasMore) return;
-      if (observer.current) observer.current.disconnect();
-
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          setPage((prev) => prev + 1);
-        }
-      });
-
-      if (node) observer.current.observe(node);
-    },
-    [loading, error, hasMore]
-  );
-
-  // When search changes, reset to page 1 and clear posts (client-side search)
-  // If you prefer server-side search here, wire ?search= to the backend and include it in fetchPosts.
+  // When searching, reset to first category page
   useEffect(() => {
-    setPosts([]);
-    setPage(1);
-    setHasMore(true);
+    setCatPage(1);
     setShowError(false);
     clearTimeout(errorTimeoutRef.current);
   }, [searchTerm]);
+
+  // On-demand prefetch: if user navigates near the end of available categories, fetch next backend page
+  useEffect(() => {
+    const catCount = categoryEntries.length;
+    const lastIndexNeeded = catPage * CATS_PER_PAGE;
+
+    // If we're about to show beyond what's loaded and backend has more, prefetch next netPage
+    if (lastIndexNeeded > catCount - 2 && hasMore && !loading) {
+      setNetPage((p) => p + 1);
+    }
+  }, [catPage, categoryEntries.length, hasMore, loading]);
+
+  // Trigger fetch when netPage increments due to prefetch logic
+  useEffect(() => {
+    if (netPage > 1) fetchPosts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [netPage]);
+
+  // Current slice of categories to render
+  const startIdx = (catPage - 1) * CATS_PER_PAGE;
+  const endIdx = startIdx + CATS_PER_PAGE;
+  const visibleCategoryEntries = categoryEntries.slice(startIdx, endIdx);
+
+  // Pagination UI component
+  const Pagination = () => {
+    if (totalCatPages <= 1) return null;
+
+    const go = (n) => setCatPage(n);
+
+    // Build a compact pager (1 … active±1 … last)
+    const pages = [];
+    const push = (n, key = n) =>
+      pages.push(
+        <button
+          key={key}
+          className={`pager-btn ${n === catPage ? "active" : ""}`}
+          onClick={() => go(n)}
+          disabled={n === catPage}
+        >
+          {n}
+        </button>
+      );
+
+    const addEllipsis = (key) =>
+      pages.push(
+        <span key={key} className="pager-ellipsis">…</span>
+      );
+
+    const first = 1;
+    const last = totalCatPages;
+
+    // Always show first
+    push(first);
+
+    // Left gap
+    if (catPage > 3) addEllipsis("l");
+
+    // Middle neighbors
+    for (let n = Math.max(2, catPage - 1); n <= Math.min(last - 1, catPage + 1); n++) {
+      if (n !== first && n !== last) push(n);
+    }
+
+    // Right gap
+    if (catPage < last - 2) addEllipsis("r");
+
+    // Always show last if > 1
+    if (last > 1) push(last);
+
+    return (
+      <div className="pager">
+        <button
+          className="pager-nav"
+          onClick={() => go(Math.max(1, catPage - 1))}
+          disabled={catPage === 1}
+        >
+          ← Prev
+        </button>
+        {pages}
+        <button
+          className="pager-nav"
+          onClick={() => go(Math.min(last, catPage + 1))}
+          disabled={catPage === last}
+        >
+          Next →
+        </button>
+      </div>
+    );
+  };
 
   return (
     <div className="all-categories-page">
@@ -163,42 +230,41 @@ useEffect(() => {
 
       {searchTerm && (
         <div className="search-results-heading">
-          Showing {filteredPosts.length} result
-          {filteredPosts.length !== 1 ? "s" : ""} for: <strong>"{searchTerm}"</strong>
+          Showing {filteredPosts.length} result{filteredPosts.length !== 1 ? "s" : ""} for: <strong>"{searchTerm}"</strong>
         </div>
       )}
 
+      {/* First-load spinner only */}
       {posts.length === 0 && loading ? (
         <div className="full-page-spinner">
           <span className="spinner1" />
         </div>
-      ) : categoryEntries.length === 0 ? (
+      ) : visibleCategoryEntries.length === 0 ? (
         <div className="no-posts-message">
-          <p>No posts available for your search.</p>
+          <p>No posts available{searchTerm ? " for your search." : "."}</p>
         </div>
       ) : (
-        categoryEntries.map(([category, postsInCat], index) => {
-          const isLast = index === categoryEntries.length - 1;
+        <>
+          {/* Top pager */}
+          <Pagination />
 
-          return (
+          {/* 6 categories per page */}
+          {visibleCategoryEntries.map(([category, postsInCat], indexOnPage) => (
             <React.Fragment key={category}>
-              <section className="category-block" ref={isLast ? lastCategoryRef : null}>
+              <section className="category-block">
                 <h2 className="category-title">#{category}</h2>
 
                 <div className="category-slider">
                   {postsInCat.slice(0, 5).map((post) => {
                     const isLocked = post.isPremium && (!user || !user.isSubscriber);
                     const target = isLocked ? "/subscribe" : `/post/${post._id}`;
-
                     return (
                       <div className="slider-post-card" key={post._id}>
                         <Link to={target} className="slider-post-card-link">
                           <div className="slider-post-card-inner">
                             {/* Image */}
                             {post.image && (
-                              <div
-                                className={`fixed-image-wrapper1 ${isLocked ? "premium-locked" : ""}`}
-                              >
+                              <div className={`fixed-image-wrapper1 ${isLocked ? "premium-locked" : ""}`}>
                                 <img
                                   src={
                                     post.image.startsWith("http")
@@ -258,7 +324,8 @@ useEffect(() => {
                 <hr className="category-divider" />
               </section>
 
-              {index === 1 && (
+              {/* Keep Trending after the 2nd category on the current page */}
+              {indexOnPage === 1 && (
                 <div className="trending-categories-section">
                   <h3 className="premium-heading">Trending Posts</h3>
                   {trendingPosts.map((post) => (
@@ -278,18 +345,14 @@ useEffect(() => {
                 </div>
               )}
             </React.Fragment>
-          );
-        })
+          ))}
+
+          {/* Bottom pager */}
+          <Pagination />
+        </>
       )}
 
-      {/* Real network-driven spinner */}
-      {loading && (
-        <div className="infinite-spinner">
-          <span className="spinner" />
-        </div>
-      )}
-
-      {/* 10s fail + Retry (mirrors Home) */}
+      {/* Error (retry fetch of backend page) */}
       {showError && error && (
         <div className="error-message">
           Failed to load more posts. Please check your connection.
@@ -298,7 +361,6 @@ useEffect(() => {
               setError(false);
               setShowError(false);
               setLoading(false);
-              // Retry the same page
               fetchPosts();
             }}
           >
