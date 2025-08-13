@@ -8,7 +8,7 @@ import BackArrow from "../components/BackArrow";
 import { Check } from "lucide-react";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
-const PER_PAGE = 6;
+const PER_PAGE = 3;
 
 function Premium() {
   const { user } = useContext(AuthContext);
