@@ -23,7 +23,7 @@ function CategoryPosts() {
     .replace(/\b\w/g, (c) => c.toUpperCase());
 
   // ---- pagination + network state ----
-  const limit = 6; // posts per page (UI shows 9 per “index” page)
+  const limit = 3; // posts per page (UI shows 9 per “index” page)
 
   // Progressive pagination state
   const [pagesData, setPagesData] = useState([]); // array of arrays; pagesData[0] = page 1 posts, etc.
