@@ -175,60 +175,62 @@ function CategoryPosts() {
   const currentPosts = pagesData[currentPage - 1] || [];
 
   // ---- Compact pager with ellipsis (matches Premium) ----
-  const Pagination = () => {
-    if (effectiveTotalPages <= 1) return null;
+// ---- Compact pager with ellipsis (always show, even for 1 page) ----
+const Pagination = () => {
+  // effectiveTotalPages is already computed above
+  if (effectiveTotalPages < 1) return null; // safety
 
-    const pushBtn = (n) => (
-      <button
-        key={n}
-        className={`pager-btn ${n === currentPage ? "active" : ""}`}
-        onClick={() => goToPage(n)}
-        disabled={n === currentPage}
-      >
-        {n}
-      </button>
-    );
-
-    const dots = (key) => (
-      <span key={key} className="pager-ellipsis">
-        …
-      </span>
-    );
-
-    const btns = [];
-    // Always show first
-    btns.push(pushBtn(1));
-
-    // Left dots
-    if (currentPage > 3) btns.push(dots("l"));
-
-    // Middle neighbors
-    for (
-      let n = Math.max(2, currentPage - 1);
-      n <= Math.min(effectiveTotalPages - 1, currentPage + 1);
-      n++
-    ) {
-      if (n > 1 && n < effectiveTotalPages) btns.push(pushBtn(n));
-    }
-
-    // Right dots
-    if (currentPage < effectiveTotalPages - 2) btns.push(dots("r"));
-
-    // Always show last
-    if (effectiveTotalPages > 1) btns.push(pushBtn(effectiveTotalPages));
-
+  // Single-page case: show disabled prev/next and active "1"
+  if (effectiveTotalPages === 1) {
     return (
       <div className="pager">
-        <button className="pager-nav" onClick={handlePrev} disabled={!canPrev}>
-          ← Prev
-        </button>
-        {btns}
-        <button className="pager-nav" onClick={handleNext} disabled={!canNext}>
-          Next →
-        </button>
+        <button className="pager-nav" disabled>← Prev</button>
+        <button className="pager-btn active" disabled>1</button>
+        <button className="pager-nav" disabled>Next →</button>
       </div>
     );
-  };
+  }
+
+  const pushBtn = (n) => (
+    <button
+      key={n}
+      className={`pager-btn ${n === currentPage ? "active" : ""}`}
+      onClick={() => goToPage(n)}
+      disabled={n === currentPage}
+    >
+      {n}
+    </button>
+  );
+
+  const dots = (key) => <span key={key} className="pager-ellipsis">…</span>;
+
+  const btns = [];
+  // Always show first
+  btns.push(pushBtn(1));
+
+  // Left dots
+  if (currentPage > 3) btns.push(dots("l"));
+
+  // Middle neighbors
+  for (let n = Math.max(2, currentPage - 1); n <= Math.min(effectiveTotalPages - 1, currentPage + 1); n++) {
+    if (n > 1 && n < effectiveTotalPages) btns.push(pushBtn(n));
+  }
+
+  // Right dots
+  if (currentPage < effectiveTotalPages - 2) btns.push(dots("r"));
+
+  // Always show last
+  btns.push(pushBtn(effectiveTotalPages));
+
+  return (
+    <div className="pager">
+      <button className="pager-nav" onClick={handlePrev} disabled={currentPage === 1}>← Prev</button>
+      {btns}
+      <button className="pager-nav" onClick={handleNext} disabled={currentPage === effectiveTotalPages}>Next →</button>
+    </div>
+  );
+};
+
 
   return (
     <div className="category-posts-page">
