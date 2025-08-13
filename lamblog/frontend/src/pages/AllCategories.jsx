@@ -29,48 +29,88 @@ function AllCategories() {
   const [searchTerm, setSearchTerm] = useState("");
   const [trendingPosts, setTrendingPosts] = useState([]);
   const [catPage, setCatPage] = useState(1);      // <-- indexed pagination by category
+  // UI / network state
+  const [isOffline, setIsOffline] = useState(!navigator.onLine);
+  const abortRef = useRef(null);
+
 
   const errorTimeoutRef = useRef(null);
 
-  const fetchPosts = useCallback(async () => {
-    if (!hasMore) return;
-    setLoading(true);
-    setError(false);
-    try {
-      const res = await axios.get(`${API_URL}/api/posts`, {
-        params: { page: netPage, limit: LIMIT },
-        timeout: 10000,
-      });
-
-      const newPosts = Array.isArray(res.data?.posts) ? res.data.posts : [];
-      setPosts(prev => {
-        const map = new Map();
-        prev.forEach(p => map.set(p._id, p));
-        newPosts.forEach(p => map.set(p._id, p));
-        return Array.from(map.values());
-      });
-
-      setHasMore(Boolean(res.data?.hasMore));
-      setLoading(false);
-      setShowError(false);
-      clearTimeout(errorTimeoutRef.current);
-    } catch (err) {
+const fetchPosts = useCallback(async () => {
+  // bail out if no more pages or offline
+  if (!hasMore || isOffline) {
+    if (isOffline) {
       setError(true);
-      // step back so we can retry same backend page on next attempt
-      setNetPage(prev => Math.max(prev - 1, 1));
-      clearTimeout(errorTimeoutRef.current);
-      errorTimeoutRef.current = setTimeout(() => {
-        setShowError(true);
-        setLoading(false);
-      }, 10000);
-      console.error("Failed to fetch posts (AllCategories):", err);
+      setShowError(true);
+      setLoading(false);
     }
-  }, [netPage, hasMore]); // (intentionally excluding API_URL to avoid ESLint noise)
+    return;
+  }
+
+  // cancel any in-flight request
+  if (abortRef.current) abortRef.current.abort();
+  const controller = new AbortController();
+  abortRef.current = controller;
+
+  setLoading(true);
+  setError(false);
+
+  try {
+    const res = await axios.get(`${API_URL}/api/posts`, {
+      params: { page: netPage, limit: LIMIT, _: Date.now() }, // cache-buster
+      headers: { "Cache-Control": "no-cache" },               // revalidate
+      signal: controller.signal,
+      timeout: 10000,
+    });
+
+    const newPosts = Array.isArray(res.data?.posts) ? res.data.posts : [];
+    setPosts((prev) => {
+      const map = new Map();
+      prev.forEach((p) => map.set(p._id, p));
+      newPosts.forEach((p) => map.set(p._id, p));
+      return Array.from(map.values());
+    });
+
+    setHasMore(Boolean(res.data?.hasMore));
+    setLoading(false);
+    setShowError(false);
+    clearTimeout(errorTimeoutRef.current);
+  } catch (err) {
+    if (axios.isCancel(err)) return; // ignore aborts
+
+    setError(true);
+    setNetPage((prev) => Math.max(prev - 1, 1));
+    clearTimeout(errorTimeoutRef.current);
+    errorTimeoutRef.current = setTimeout(() => {
+      setShowError(true);
+      setLoading(false);
+    }, 10000);
+    console.error("Failed to fetch posts (AllCategories):", err);
+  }
+}, [netPage, hasMore, isOffline]);
+
+
+// listner for offline network
+  useEffect(() => {
+  const on = () => setIsOffline(false);
+  const off = () => setIsOffline(true);
+  window.addEventListener("online", on);
+  window.addEventListener("offline", off);
+  return () => {
+    window.removeEventListener("online", on);
+    window.removeEventListener("offline", off);
+  };
+}, []);
+
 
   // Cleanup timer
-  useEffect(() => {
-    return () => clearTimeout(errorTimeoutRef.current);
-  }, []);
+useEffect(() => {
+  return () => {
+    clearTimeout(errorTimeoutRef.current);
+    if (abortRef.current) abortRef.current.abort();
+  };
+}, []);
+
 
   // Initial fetch
   useEffect(() => {
@@ -78,18 +118,27 @@ function AllCategories() {
   }, [fetchPosts]);
 
   // Trending (unchanged)
-  useEffect(() => {
-    const fetchTrending = async () => {
-      try {
-        const res = await axios.get(`${API_URL}/api/posts/trending/posts`);
-        setTrendingPosts(Array.isArray(res.data) ? res.data : []);
-      } catch (err) {
-        console.error("Failed to fetch trending posts", err);
-        setTrendingPosts([]);
-      }
-    };
-    fetchTrending();
-  }, []);
+useEffect(() => {
+  const fetchTrending = async () => {
+    if (isOffline) {
+      setTrendingPosts([]);
+      return;
+    }
+    try {
+      const res = await axios.get(`${API_URL}/api/posts/trending/posts`, {
+        params: { _: Date.now() },
+        headers: { "Cache-Control": "no-cache" },
+        timeout: 10000,
+      });
+      setTrendingPosts(Array.isArray(res.data) ? res.data : []);
+    } catch (err) {
+      console.error("Failed to fetch trending posts", err);
+      setTrendingPosts([]);
+    }
+  };
+  fetchTrending();
+}, [isOffline]);
+
 
   // Filter, sort, group by category
   const filteredPosts = (Array.isArray(posts) ? posts : []).filter(
@@ -125,15 +174,32 @@ function AllCategories() {
   }, [searchTerm]);
 
   // On-demand prefetch: if user navigates near the end of available categories, fetch next backend page
-  useEffect(() => {
-    const catCount = categoryEntries.length;
-    const lastIndexNeeded = catPage * CATS_PER_PAGE;
+ useEffect(() => {
+  const catCount = categoryEntries.length;
+  const lastIndexNeeded = catPage * CATS_PER_PAGE;
+  if (!isOffline && lastIndexNeeded > catCount - 2 && hasMore && !loading) {
+    setNetPage((p) => p + 1);
+  }
+}, [catPage, categoryEntries.length, hasMore, loading, isOffline]);
 
-    // If we're about to show beyond what's loaded and backend has more, prefetch next netPage
-    if (lastIndexNeeded > catCount - 2 && hasMore && !loading) {
-      setNetPage((p) => p + 1);
+
+useEffect(() => {
+  if (isOffline) {
+    // clear stale data so nothing "sticks" while offline
+    setPosts([]);
+    setNetPage(1);
+    setHasMore(true);
+    setLoading(false);
+    setShowError(true);
+  } else {
+    // back online → if empty, fetch the first page
+    if (posts.length === 0) {
+      fetchPosts();
     }
-  }, [catPage, categoryEntries.length, hasMore, loading]);
+  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [isOffline]);
+
 
   // Trigger fetch when netPage increments due to prefetch logic
   useEffect(() => {
@@ -351,6 +417,13 @@ function AllCategories() {
           <Pagination />
         </>
       )}
+
+      {isOffline && (
+  <div className="network-banner offline">
+    You’re offline. We’ll load categories when you’re back online.
+  </div>
+)}
+
 
       {/* Error (retry fetch of backend page) */}
       {showError && error && (
