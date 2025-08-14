@@ -4096,7 +4096,7 @@ select:focus {
 /* ==== SPINNER CSS FOR LOADING DISPLAYS ===== */
 
 
-
+/* ==== SUCCESS MSG FOR LOGIN & HOME ===== */
 .auth-container {
   width: 100%;
   max-width: 900px;
@@ -4126,13 +4126,13 @@ select:focus {
     margin-top: 60px;
   }
 }
+/* ==== SUCCESS MSG FOR LOGIN & HOME ===== */
 
 
 
 
 
-
-
+/* ==== PAGINATION SPINNER & ERROR MSG ===== */
 /* Spinner (centered, animated circle) */
 .infinite-spinner,
 .full-page-spinner {
@@ -4182,16 +4182,13 @@ select:focus {
   text-align: center;
   margin: 2rem auto;
 }
+/* ==== PAGINATION SPINNER & ERROR MSG ===== */
 
 
 
 
 
-
-
-
-
-
+/* ==== BUTTON PAGINATION CSS ===== */
 /* Pagination container */
 .pager {
   display: flex;
@@ -4259,3 +4256,4 @@ select:focus {
   padding: 0 4px;
   user-select: none;
 }
+/* ==== BUTTON PAGINATION CSS ===== */
